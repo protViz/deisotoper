@@ -1,0 +1,42 @@
+---
+title: "primer deisotoper"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Getting the data
+
+```{r}
+load("~/Downloads/386248.RData")
+library(protViz)
+
+S <- as.psmSet(F225712)
+```
+
+
+```{r fig.retina=3}
+
+plot.psm(S[[1]])
+idx <- 1
+S[[idx]]$mZ
+S[[idx]]$intensity
+```
+
+
+```{r}
+my <- function(mZ, intensity){
+  sum(intensity)
+}
+
+myPlot <- function(mZ, intensity){
+  plot(mZ, intensity, type = 'h')
+}
+
+myPlot(mZ = S[[idx]]$mZ, intensity = S[[idx]]$intensity)
+```
