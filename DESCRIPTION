@@ -1,18 +1,18 @@
 Package: deisotoper
 Type: Package
-Title: xxxx
+Title:  Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement.
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
-	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut"),
-	person("Simon", "Barkow-Oesterreicher", role = "ctb"))
+	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = "aut"),
+	person("Witold E.", "Wolski", role = "ctb"))
 Author: Christian Panse [aut, cre],
-	Jonas Grossmann [aut],
-	Simon Barkow-Oesterreicher [ctb]
+	Lucas Schmidt [ctb, aut],
+	Witold E. Wolski [ctb, aut]
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	methods
-Imports: rJava (>= 0.9.8)
-SystemRequirements: Java JDK 1.2 or higher (for JRI/REngine JDK 1.4 or higher), GNU make
+Imports: rJava (>= 0.9)
+SystemRequirements: Java (>= 6.0)
 Suggests: testthat
 Description: bla bla
 License: GPL-3
