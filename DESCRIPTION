@@ -18,6 +18,7 @@ Description: bla bla
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
 BugReports: https://github.com/protViz/deisotoper/issues
+  deisotoper.R, 
   zzz.R
 LazyData: true
 NeedsCompilation: yes
