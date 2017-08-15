@@ -13,8 +13,13 @@ vignette: >
 # Getting the data
 
 ```{r}
-load("~/Downloads/386248.RData")
+
 library(protViz)
+
+url386248 <- "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+con <- url(url386248)
+load(con)
+ls()
 
 S <- as.psmSet(F225712)
 ```
@@ -30,6 +35,9 @@ S[[idx]]$intensity
 
 
 ```{r}
+
+class(S[[1]])
+
 my <- function(mZ, intensity){
   sum(intensity)
 }
