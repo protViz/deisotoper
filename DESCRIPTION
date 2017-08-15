@@ -10,9 +10,9 @@ Author: Christian Panse [aut, cre],
 	Witold E. Wolski [ctb, aut]
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
+	rJava (>= 0.9),
 	methods,
 	protViz (>= 0.2.31)
-Imports: rJava (>= 0.9)
 SystemRequirements: Java (>= 6.0)
 Suggests: testthat
 Description: bla bla
