@@ -1,20 +1,20 @@
 Package: deisotoper
 Type: Package
-Title: xxxx
+Title: Deisotoper
 Version: 0.0.1
-Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
-	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut"),
-	person("Simon", "Barkow-Oesterreicher", role = "ctb"))
-Author: Christian Panse [aut, cre],
-	Jonas Grossmann [aut],
-	Simon Barkow-Oesterreicher [ctb]
+Authors@R: c(person("Lucas", "Schmidt", email = "lucas.schmidt@uzh.ch", role = c("aut", "cre")),
+	person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "ctb")),
+	person("Witold", "Wolski", email = "witold.wolski@fgcz.uzh.ch", role = c("aut", "ctb"))
+Author: Lucas Schmidt [aut, cre],
+	Christian Panse [aut, ctb],
+	Witold Wolski [aut, ctb]
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	methods
 Imports: rJava (>= 0.9.8)
 SystemRequirements: Java JDK 1.2 or higher (for JRI/REngine JDK 1.4 or higher), GNU make
 Suggests: testthat
-Description: bla bla
+Description: bla bla bl
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
 BugReports: https://github.com/protViz/deisotoper/issues
