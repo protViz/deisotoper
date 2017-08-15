@@ -1,15 +1,5 @@
 Package: deisotoper
 Type: Package
-<<<<<<< HEAD
-Title: Deisotoper
-Version: 0.0.1
-Authors@R: c(person("Lucas", "Schmidt", email = "lucas.schmidt@uzh.ch", role = c("aut", "cre")),
-	person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "ctb")),
-	person("Witold", "Wolski", email = "witold.wolski@fgcz.uzh.ch", role = c("aut", "ctb"))
-Author: Lucas Schmidt [aut, cre],
-	Christian Panse [aut, ctb],
-	Witold Wolski [aut, ctb]
-=======
 Title:  Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement.
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
@@ -18,7 +8,6 @@ Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("a
 Author: Christian Panse [aut, cre],
 	Lucas Schmidt [ctb, aut],
 	Witold E. Wolski [ctb, aut]
->>>>>>> 545fbcae85cc034c9b016cb2076bae1e056e369f
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	methods,
@@ -26,7 +15,7 @@ Depends: R (>= 3.3),
 Imports: rJava (>= 0.9)
 SystemRequirements: Java (>= 6.0)
 Suggests: testthat
-Description: bla bla bl
+Description: bla bla
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
 BugReports: https://github.com/protViz/deisotoper/issues
