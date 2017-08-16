@@ -35,7 +35,7 @@ public class FindPatternBinarySearch {
             index.addAll(found);
         }
 
-        // Collections.sort(index);
+        Collections.sort(index);
 
         double[] idx = index.stream().mapToDouble(Double::doubleValue).toArray();
 
