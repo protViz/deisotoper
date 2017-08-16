@@ -25,6 +25,7 @@ public class FindPatternLinear {
     }
 
     private static double[] findPattern(double[] mZ, double[] pattern, double eps) {
+        // long time1 = System.currentTimeMillis();
         List<Double> index = new ArrayList<Double>();
         for (int i = 0; i < mZ.length; i++) {
             for (int j = 0; j < pattern.length; j++) {
@@ -35,6 +36,10 @@ public class FindPatternLinear {
         }
 
         double[] idx = index.stream().mapToDouble(Double::doubleValue).toArray();
+
+        // long time2 = System.currentTimeMillis();
+
+        // System.out.println("Time needed: " + (time2 - time1) + "ms");
 
         if (idx.length == 0) {
             return null;
