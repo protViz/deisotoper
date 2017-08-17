@@ -1,10 +1,13 @@
-import static org.junit.Assert.*;
+/**
+ * @author Lucas Schmidt
+ * @since 2017-08-16
+ */
 
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 import org.junit.Test;
 
 public class UnitTest {
