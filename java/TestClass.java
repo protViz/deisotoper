@@ -10,6 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 public class TestClass {
+    private static double[] mZmain2;
+
     private static void setAll() {
         List<Double> mZmain = new ArrayList<Double>();
         List<Double> patternmain = new ArrayList<Double>();
@@ -27,7 +29,7 @@ public class TestClass {
         Collections.sort(mZmain);
         Collections.sort(patternmain);
 
-        double[] mZmain2 = mZmain.stream().mapToDouble(Double::doubleValue).toArray();
+        mZmain2 = mZmain.stream().mapToDouble(Double::doubleValue).toArray();
         double[] patternmain2 = patternmain.stream().mapToDouble(Double::doubleValue).toArray();
 
         System.out.print("mZ: ");
@@ -60,10 +62,10 @@ public class TestClass {
 
         if (linear.length == binary.length) {
             for (int i = 0; i < linear.length; i++) {
-                if (linear[i] == binary[i]) {
-                    System.out.println("linear: " + (int) linear[i] + ", binary: " + (int) binary[i] + ", true");
+                if (linear[i] == binary[i] && mZmain2[(int) linear[i]] == mZmain2[(int) binary[i]]) {
+                    System.out.println("linear: " + (int) linear[i] + " (" + mZmain2[(int) linear[i]] + ") -- binary: " + (int) binary[i] + " (" + mZmain2[(int) binary[i]] + "), true");
                 } else {
-                    System.out.println("linear: " + (int) linear[i] + ", binary: " + (int) binary[i] + ", false");
+                    System.out.println("linear: " + (int) linear[i] + " (" + mZmain2[(int) linear[i]] + ") -- binary: " + (int) binary[i] + " (" + mZmain2[(int) binary[i]] + "), false");
                     return false;
                 }
             }
