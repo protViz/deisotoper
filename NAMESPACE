@@ -3,3 +3,4 @@
 export(findNN)
 export(find_mZpattern)
 export(summary_psm)
+import(rJava)

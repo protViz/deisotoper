@@ -24,6 +24,8 @@ summary_psm <- function(mZ, intensity){
 #' @param eps 
 #'
 #' @return
+#' 
+#' @import rJava
 #' @export find_mZpattern
 #'
 #' @examples
