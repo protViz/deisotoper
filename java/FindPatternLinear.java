@@ -1,4 +1,3 @@
-
 /**
  * @author Lucas Schmidt
  * @since 2017-08-15
@@ -53,7 +52,7 @@ public class FindPatternLinear {
     }
 
     // For Testing only
-    private static void setAll() {
+    public static void setAll() {
         double[] mZmain = { 1, 3, 4, 5, 7, 9, 11, 13, 14, 15, 17.5, 18, 20, 22 };
         double[] patternmain = { 0.6, 1, 5, 6, 23 };
         double epsmain = 1;
