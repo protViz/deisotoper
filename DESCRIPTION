@@ -1,6 +1,6 @@
 Package: deisotoper
 Type: Package
-Title:  Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement.
+Title: Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement.
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
 	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = c("aut", "cre")),
