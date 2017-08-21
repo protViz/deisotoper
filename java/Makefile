@@ -3,7 +3,7 @@
 
 .SUFFIXES: .java .class
 
-CLASSES = $(shell ls *.java)
+CLASSES = $(shell ls *.java | grep -v UnitTest)
 
 jar: clean $(CLASSES:.java=.class)
 	jar cf ../inst/java/deisotoper.jar ./*

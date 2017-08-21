@@ -84,6 +84,16 @@ find_mZpattern <- function(mZ = c(5.5,6.5,7.7,8.8,9.9,10.29), pattern = c(6,8.3)
 #' }
 #' 
 findNN <- function (q, vec, check = FALSE) {
-  message("TO BE IMPLEMENTED.")
-  return (-1)
+  .jinit()
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+
+  jFindNN <- .jnew("FindNN")
+  
+   # Running Java-Programm with data
+  .jcall("jFindNN", "V", "setVec", as.double(vec))
+  
+  .jcall("jFindNN", "V", "setQ", as.double(q))
+  
+  idx <- .jcall("jFindNN", "[D", "getIndex")
 }
