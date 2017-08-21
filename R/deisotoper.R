@@ -36,13 +36,13 @@ find_mZpattern <- function(mZ = c(5.5,6.5,7.7,8.8,9.9,10.29), pattern = c(6,8.3)
   FindPatternLinear <- .jnew("FindPatternLinear")
   
    # Running Java-Programm with data
-  .jcall("FindPatternLinear", "V", "setMz", as.double(mZ))
+  .jcall(FindPatternLinear, "V", "setMz", as.double(mZ))
   
-  .jcall("FindPatternLinear", "V", "setPattern", as.double(pattern))
+  .jcall(FindPatternLinear, "V", "setPattern", as.double(pattern))
   
-  .jcall("FindPatternLinear", "V", "setEps", eps)
+  .jcall(FindPatternLinear, "V", "setEps", eps)
   
-  idx <- .jcall("FindPatternLinear", "[D", "getIndex")
+  idx <- .jcall(FindPatternLinear, "[D", "getIndex")
 
   idx
 }
