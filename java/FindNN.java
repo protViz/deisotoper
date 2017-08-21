@@ -1,7 +1,7 @@
 
 /**
  * @author Lucas Schmidt
- * @since 2017-08-16
+ * @since 2017-08-21
  */
 
 import java.util.Arrays;
@@ -65,9 +65,9 @@ public class FindNN {
         for (double i : findNN(qtest1, vectest1)) {
             System.out.println("Test1: " + (int) i);
         }
-        
+
         System.out.println("______________");
-        
+
         int j = 0;
         int sum = 0;
         int sumj = 0;
@@ -78,10 +78,9 @@ public class FindNN {
             j++;
         }
         System.out.println("SUM: " + (sum == sumj));
-        
+
         System.out.println("______________");
 
-        
         for (double i : findNN(qtest3, vectest3)) {
             System.out.println("Test3: " + (int) i);
         }

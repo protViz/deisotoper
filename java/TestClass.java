@@ -1,3 +1,4 @@
+
 /**
  * @author Lucas Schmidt
  * @since 2017-08-16
@@ -6,9 +7,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
 
 public class TestClass {
     private static double[] mZmain2;
