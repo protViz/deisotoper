@@ -1,11 +1,15 @@
 # Christian Panse <cp@fgcz.ethz.ch>
 # 2017-08-15
 
-jar: javac
+.SUFFIXES: .java .class
+
+CLASSES = $(shell ls *.java)
+
+jar: clean $(CLASSES:.java=.class)
 	jar cf ../inst/java/deisotoper.jar ./*
 
-javac: clean
-	javac FindPatternBinarySearch.java  FindPatternLinear.java
+.java.class:
+	javac $<
 
 clean:
 	$(RM) ../inst/java/deisotoper.jar *.class
