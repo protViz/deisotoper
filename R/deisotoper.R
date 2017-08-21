@@ -88,12 +88,10 @@ findNN <- function (q, vec, check = FALSE) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
 
-  jFindNN <- .jnew("FindNN")
+   jFindNN <- .jnew("FindNN")
+   
+  .jcall(jFindNN, "V", "setVec", as.double(vec))
+  .jcall(jFindNN, "V", "setQ", as.double(q))
   
-   # Running Java-Programm with data
-  .jcall("jFindNN", "V", "setVec", as.double(vec))
-  
-  .jcall("jFindNN", "V", "setQ", as.double(q))
-  
-  idx <- .jcall("jFindNN", "[D", "getIndex")
+  idx <- .jcall(jFindNN, "[D", "getIndex")
 }

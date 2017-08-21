@@ -5,6 +5,9 @@
 
 CLASSES = $(shell ls *.java | grep -v UnitTest)
 
+test: jar
+	jar tf ../inst/java/deisotoper.jar
+
 jar: clean $(CLASSES:.java=.class)
 	jar cf ../inst/java/deisotoper.jar ./*
 
