@@ -3,7 +3,7 @@
 
 library(testthat)
 
-suppressPackageStartupMessages(library(recmap))
+suppressPackageStartupMessages(library(deisotoper))
 
-test_check("recmap")
+test_check("deisotoper")
 
