@@ -2,7 +2,7 @@
 /**
  * @author Lucas Schmidt
  * @since 2017-08-22
- * @url https://www.mkyong.com/java/how-to-convert-java-object-to-from-json-jackson/
+ * @url https://www.mkyong.com/java/how-to-convert-java-object-to-from-json-jackson/ and https://community.hortonworks.com/questions/81337/could-not-initialize-class-netsfjsonjsonconfig.html
  * @packages: jackson-all-1.9.0.jar, jackson-core-2.4.1.1.jar, jackson-databind-2.4.1.1.jar, commons-beanutils-1.7.jar, commons-collections.jar, commons-lang.jar, commons-logging-1.1.1.jar, ezmorph.jar and json-lib-2.4-jdk15.jar 
  */
 
