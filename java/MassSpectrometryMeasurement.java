@@ -18,38 +18,66 @@ public class MassSpectrometryMeasurement {
     private int chargestate;
 
     public static List<MassSpectrometryMeasurement> getMSMlist() {
-        return MSMlist;
+        return MassSpectrometryMeasurement.MSMlist;
     }
 
     public static void setMSMlist(List<MassSpectrometryMeasurement> list) {
         MSMlist = list;
     }
 
-    private void setTyp(String typ) {
+    public String getTyp() {
+        return typ;
+    }
+
+    public void setTyp(String typ) {
         this.typ = typ;
     }
 
-    private void setSearchEngine(String searchengine) {
+    public String getSearchEngine() {
+        return searchengine;
+    }
+
+    public void setSearchEngine(String searchengine) {
         this.searchengine = searchengine;
     }
 
-    private void setMz(double[] mz) {
+    public double[] getMz() {
+        return mz;
+    }
+
+    public void setMz(double[] mz) {
         this.mz = mz;
     }
 
-    private void setIntensity(double[] intensity) {
+    public double[] getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(double[] intensity) {
         this.intensity = intensity;
     }
 
-    private void setPeptidMass(double peptidmass) {
+    public double getPeptidMass() {
+        return peptidmass;
+    }
+
+    public void setPeptidMass(double peptidmass) {
         this.peptidmass = peptidmass;
     }
 
-    private void setRt(double rt) {
+    public double getRt() {
+        return rt;
+    }
+
+    public void setRt(double rt) {
         this.rt = rt;
     }
 
-    private void setChargeState(int chargestate) {
+    public int getChargeState() {
+        return chargestate;
+    }
+
+    public void setChargeState(int chargestate) {
         this.chargestate = chargestate;
     }
 
@@ -110,5 +138,7 @@ public class MassSpectrometryMeasurement {
             System.out.print(element.typ + " " + element.searchengine + " " + element.rt + " " + element.peptidmass + " " + element.chargestate);
             System.out.println();
         }
+
+        SerializeMSM.serializeMSM();
     }
 }
