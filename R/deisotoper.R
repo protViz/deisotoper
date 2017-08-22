@@ -95,3 +95,28 @@ findNN <- function (q, vec, check = FALSE) {
   
   idx <- (.jcall(jFindNN, "[D", "getIndex") + 1)
 }
+
+#' Serialize a set of data
+#'
+#' @param filename
+#' @param mZ
+#' @param intensity
+#' @param charge
+#'
+#' @return json in String
+#' 
+#' @import rJava
+#' @export serialize
+serialize <- function (filename, mZ, intensity, charge) {
+  .jinit()
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jaddClassPath("inst/java/jackson-all-1.9.0.jar")
+  .jclassPath()
+  serialize <- .jnew("Serialize")
+  deserialize <- .jnew("Deserialize")
+  
+  .jcall(serialize, "S", "serializeIt", filename, mZ, intensity, as.integer(charge))
+  jsonInString <- .jcall(deserialize, "S", "deserializeIt", filename)
+  
+  jsonInString
+}
