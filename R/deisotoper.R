@@ -75,7 +75,7 @@ find_mZpattern <- function(mZ = c(5.5,6.5,7.7,8.8,9.9,10.29), pattern = c(6,8.3)
 #' 
 #' @examples
 #' 
-#' \dont{
+#' \dontrun{
 #' (NNidx <- findNN(q<-c(1, 1.0001, 1.24, 1.26), DB<-seq(1,5,by=0.25)))
 #' (NNidx == c(1,1,2,2))
 #' 
@@ -88,8 +88,8 @@ findNN <- function (q, vec, check = FALSE) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
 
-   jFindNN <- .jnew("FindNN")
-   
+  jFindNN <- .jnew("FindNN")
+  
   .jcall(jFindNN, "V", "setVec", as.double(vec))
   .jcall(jFindNN, "V", "setQ", as.double(q))
   

@@ -7,7 +7,7 @@
 #'
 #' @return
 #' @export
-#' @importMethodsFrom packageVersion utils
+#' 
 #'
 #' @examples
 .onAttach <- function(lib, pkg){
