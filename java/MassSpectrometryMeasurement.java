@@ -25,59 +25,31 @@ public class MassSpectrometryMeasurement {
         MSMlist = list;
     }
 
-    public String getTyp() {
-        return typ;
-    }
-
-    public void setTyp(String typ) {
+    private void setTyp(String typ) {
         this.typ = typ;
     }
 
-    public String getSearchEngine() {
-        return searchengine;
-    }
-
-    public void setSearchEngine(String searchengine) {
+    private void setSearchEngine(String searchengine) {
         this.searchengine = searchengine;
     }
 
-    public double[] getMz() {
-        return mz;
-    }
-
-    public void setMz(double[] mz) {
+    private void setMz(double[] mz) {
         this.mz = mz;
     }
 
-    public double[] getIntensity() {
-        return intensity;
-    }
-
-    public void setIntensity(double[] intensity) {
+    private void setIntensity(double[] intensity) {
         this.intensity = intensity;
     }
 
-    public double getPeptidMass() {
-        return peptidmass;
-    }
-
-    public void setPeptidMass(double peptidmass) {
+    private void setPeptidMass(double peptidmass) {
         this.peptidmass = peptidmass;
     }
 
-    public double getRt() {
-        return rt;
-    }
-
-    public void setRt(double rt) {
+    private void setRt(double rt) {
         this.rt = rt;
     }
 
-    public int getChargeState() {
-        return chargestate;
-    }
-
-    public void setChargeState(int chargestate) {
+    private void setChargeState(int chargestate) {
         this.chargestate = chargestate;
     }
 
