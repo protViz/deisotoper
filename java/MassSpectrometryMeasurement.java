@@ -16,7 +16,7 @@ public class MassSpectrometryMeasurement {
     private double peptidmass;
     private double rt;
     private int chargestate;
-    
+
     public static List<MassSpectrometryMeasurement> getMSMlist() {
         return MSMlist;
     }
@@ -97,17 +97,6 @@ public class MassSpectrometryMeasurement {
         return MSMlist;
     }
 
-    public static List<MassSpectrometryMeasurement> removeMSM(int index) {
-        MSMlist.remove(index);
-        return MSMlist;
-    }
-
-    public static MassSpectrometryMeasurement getMSM(int index) {
-        MassSpectrometryMeasurement MSM = MSMlist.get(index);
-
-        return MSM;
-    }
-
     // For testing
     public static void main(String[] args) {
         String typ = "MS1 Spectrum";
@@ -133,7 +122,7 @@ public class MassSpectrometryMeasurement {
         chargestate2 = 3;
         addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2);
 
-        removeMSM(2);
+        MSMlist.remove(2);
 
         String typ3 = "MS2 Spectrum";
         String searchengine3 = "mascot";
@@ -149,7 +138,5 @@ public class MassSpectrometryMeasurement {
             System.out.print(element.typ + " " + element.searchengine + " " + element.rt + " " + element.peptidmass + " " + element.chargestate);
             System.out.println();
         }
-
-        System.out.println(getMSM(2).chargestate);
     }
 }
