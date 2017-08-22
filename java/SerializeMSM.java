@@ -42,7 +42,7 @@ public class SerializeMSM {
         }
 
         try {
-            mapper.writeValue(new File("/srv/lucas1/eclipse-workspace/deisotoper/MSMlist.json"), jObject);
+            mapper.writeValue(new File("../MSMlist.json"), jObject);
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();

@@ -18,7 +18,7 @@ public class MassSpectrometryMeasurement {
     private int chargestate;
 
     public static List<MassSpectrometryMeasurement> getMSMlist() {
-        return MassSpectrometryMeasurement.MSMlist;
+        return MSMlist;
     }
 
     public static void setMSMlist(List<MassSpectrometryMeasurement> list) {
