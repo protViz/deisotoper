@@ -93,5 +93,5 @@ findNN <- function (q, vec, check = FALSE) {
   .jcall(jFindNN, "V", "setVec", as.double(vec))
   .jcall(jFindNN, "V", "setQ", as.double(q))
   
-  idx <- .jcall(jFindNN, "[D", "getIndex")
+  idx <- (.jcall(jFindNN, "[D", "getIndex") + 1)
 }
