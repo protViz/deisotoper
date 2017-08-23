@@ -150,7 +150,7 @@ jCreateMSM <- function (obj) {
           x$mZ, x$intensity,
           x$pepmass,
           x$rtinseconds,
-          as.integer(charge))
+          as.integer(x$charge))
     })
   rv <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
   # class(rv) <- "jMSM"
@@ -166,7 +166,17 @@ jCreateMSM <- function (obj) {
 #'
 #' @examples
 jXICMSM <- function(jobj){
+  .jinit()
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  XIC <- .jnew("XICMSM")
   
+  sresult <- .jcall(XIC, "Ljava/util/List;", "xicMSM", jobj)
+  
+  
+  val <- .jstrVal(sresult)
+
+  val
 }
 
 

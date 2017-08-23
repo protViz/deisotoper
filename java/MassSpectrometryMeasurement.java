@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
-    private static List<MassSpectrometryMeasurement> MSMlist = new ArrayList<MassSpectrometryMeasurement>();
+    public static List<MassSpectrometryMeasurement> MSMlist = new ArrayList<MassSpectrometryMeasurement>();
     private String typ;
     private String searchengine;
     private double[] mz;
