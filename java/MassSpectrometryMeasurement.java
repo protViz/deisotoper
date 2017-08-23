@@ -139,6 +139,6 @@ public class MassSpectrometryMeasurement {
             System.out.println();
         }
 
-        SerializeMSM.serializeMSM();
+        // SerializeMSM.serializeMSM();
     }
 }

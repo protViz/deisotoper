@@ -120,3 +120,40 @@ serialize <- function (filename, mZ, intensity, charge) {
   
   jsonInString
 }
+
+#' Serialize a set of data
+#'
+#' @param urlrdata
+#'
+#' @return List<MassSpecrtometryMeasurement>
+#' 
+#' @import rJava
+#' @import protViz
+#' @export addMSM
+addMSM <- function (urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData") {
+  .jinit()
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  MSM <- .jnew("MassSpectrometryMeasurement")
+  
+  con <- url(urlrdata)
+  load(con)
+  S <- as.psmSet(F225712)
+  
+  for(i in 1:length(S)) {
+    typ <- "MS Spectrum"
+    searchengine <- S[[i]]$searchEngine
+    mZ <- S[[i]]$mZ
+    intensity <- S[[i]]$intensity
+    peptidmass <- S[[i]]$pepmass
+    rt <- S[[i]]$rtinseconds
+    charge <- S[[i]]$charge
+    
+    .jcall(MSM, "Ljava/util/List;", "addMSM", typ, searchengine, mZ, intensity, peptidmass, rt, as.integer(charge))
+  }
+  
+  list <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
+
+  list
+}
+
