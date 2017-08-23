@@ -5,7 +5,9 @@
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class XICMSM {
     public static List<String> xicMSM(List<MassSpectrometryMeasurement> list) {
@@ -29,41 +31,33 @@ public class XICMSM {
     }
 
     public static void main(String[] args) {
-        String typ = "MS1 Spectrum";
-        String searchengine = "mascot";
-        double[] mz = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-        double[] intensity = { 4, 4, 5, 6, 6, 7, 7, 7, 8, 8 };
-        double peptidmass = 309.22;
-        double rt = 38383.34;
-        int chargestate = 2;
+        for (int i = 0; i < 8000; i++) {
+            String typ = "MS Spectrum";
+            String searchengine = "mascot";
+            List<Double> mz2 = new ArrayList<Double>();
+            List<Double> intensity2 = new ArrayList<Double>();
 
-        MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate);
+            for (int j = 0; j < 350; j++) {
+                double random = ThreadLocalRandom.current().nextDouble(50, 500);
+                mz2.add(random);
+                intensity2.add(random * 2.34);
 
-        String typ2 = "MS2 Spectrum";
-        String searchengine2 = "mascot";
-        double[] mz2 = { 2, 2, 4, 4, 5, 6, 8, 8, 10, 11, 15 };
-        double[] intensity2 = { 2, 3, 4, 6, 7, 7, 7, 8, 9, 9 };
-        double peptidmass2 = 203.23;
-        double rt2 = 7473.32;
-        int chargestate2 = 2;
+            }
+            double peptidmass = ThreadLocalRandom.current().nextDouble(50, 500);
+            double rt = ThreadLocalRandom.current().nextDouble(50, 500);
+            int chargestate = 2;
+            Collections.sort(mz2);
+            Collections.sort(intensity2);
 
-        MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2);
+            double[] mz = mz2.stream().mapToDouble(Double::doubleValue).toArray();
+            double[] intensity = intensity2.stream().mapToDouble(Double::doubleValue).toArray();
 
-        chargestate2 = 3;
-        MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2);
+            MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate);
 
-        String typ3 = "MS2 Spectrum";
-        String searchengine3 = "mascot";
-        double[] mz3 = { 2, 2, 4, 4, 5, 5, 5, 5, 10, 11, 15 };
-        double[] intensity3 = { 5, 5, 4, 5, 7, 7, 7, 8, 9, 9 };
-        double peptidmass3 = 2303.23;
-        double rt3 = 74733.32;
-        int chargestate3 = 4;
+        }
 
-        MassSpectrometryMeasurement.addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3);
-        
         List<String> r = xicMSM(MassSpectrometryMeasurement.getMSMlist());
-        
+
         for (String s : r) {
             System.out.println(s);
         }

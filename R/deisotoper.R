@@ -189,8 +189,12 @@ jXICMSM <- function(jobj){
 #'
 #' @examples
 jSummaryMSM <- function(jobj){
-  # Java method returns a string
-  #.jcall(jobj,....)
+  .jinit()
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  SummaryMSM <- .jnew("SummaryMSM")
+  
+  summarystring <- .jcall(SummaryMSM, "S", "summaryMSM", jobj)
 }
 
 #'
