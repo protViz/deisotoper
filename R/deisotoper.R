@@ -125,35 +125,69 @@ serialize <- function (filename, mZ, intensity, charge) {
 #'
 #' @param urlrdata
 #'
-#' @return List<MassSpecrtometryMeasurement>
+#' @return returns a jcall object reference
 #' 
 #' @import rJava
-#' @import protViz
-#' @export addMSM
-addMSM <- function (urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData") {
+#' @export jCreateMSM
+#' @examples 
+#' \dontrun{
+#' urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+#' con <- url(urlrdata)
+#' load(con)
+#' S <- as.psmSet(F225712)
+#' jo <- jcreateMSM(S)
+#' 
+jCreateMSM <- function (obj) {
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
+
   MSM <- .jnew("MassSpectrometryMeasurement")
   
-  con <- url(urlrdata)
-  load(con)
-  S <- as.psmSet(F225712)
-  
-  for(i in 1:length(S)) {
-    typ <- "MS Spectrum"
-    searchengine <- S[[i]]$searchEngine
-    mZ <- S[[i]]$mZ
-    intensity <- S[[i]]$intensity
-    peptidmass <- S[[i]]$pepmass
-    rt <- S[[i]]$rtinseconds
-    charge <- S[[i]]$charge
-    
-    .jcall(MSM, "Ljava/util/List;", "addMSM", typ, searchengine, mZ, intensity, peptidmass, rt, as.integer(charge))
-  }
-  
-  list <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
-
-  list
+  lapply(obj, function(x){
+    .jcall(MSM, "Ljava/util/List;", "addMSM", "MS2",
+          x$searchEngine,
+          x$mZ, x$intensity,
+          x$pepmass,
+          x$rtinseconds,
+          as.integer(charge))
+    })
+  rv <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
+  # class(rv) <- "jMSM"
 }
 
+
+#' compute a XIC table
+#'
+#' @param jobj 
+#'
+#' @return a data frame containing a tuple for each MS (sum(intensity), rtinseconds)
+#' @export
+#'
+#' @examples
+jXICMSM <- function(jobj){
+  
+}
+
+
+#' compute MSM summary
+#'
+#' @param jobj 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+jSummaryMSM <- function(jobj){
+  # Java method returns a string
+  #.jcall(jobj,....)
+}
+
+#'
+#'
+#'
+#' 
+#'
+jWriteMSM2JSON <- function(jobj, filename='test.json'){
+  
+}
