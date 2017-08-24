@@ -15,7 +15,7 @@ import com.google.gson.reflect.TypeToken;
  */
 
 public class GsonMSM {
-    public static String serializeMSMtoJson(String filename, List<MassSpectrometryMeasurement.MassSpectrum> list) {
+    public static String serializeMSMToJson(String filename, List<MassSpectrometryMeasurement.MassSpectrum> list) {
         Gson gson = new Gson();
 
         String jsonMSMlist = gson.toJson(list);
@@ -29,7 +29,7 @@ public class GsonMSM {
         return jsonMSMlist;
     }
 
-    public static List<MassSpectrometryMeasurement.MassSpectrum> deserializeMSMtoJson(String file) {
+    public static List<MassSpectrometryMeasurement.MassSpectrum> deserializeJsonToMSM(String file) {
         Gson gson = new Gson();
 
         String data = null;
