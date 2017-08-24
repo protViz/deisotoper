@@ -13,8 +13,7 @@ jar: clean $(CLASSES:.java=.class)
 	jar cf ../inst/java/deisotoper.jar ./* 
 
 .java.class:
-	javac $< -cp .:../inst/java/
-	javac -classpath ../inst/java/gson-2.8.1.jar MassSpectrometryMeasurement.java GsonMSM.java
+	javac $< -cp .:../inst/java/:../inst/java/gson-2.8.1.jar
 
 clean:
 	$(RM) $(JAR) *.class
