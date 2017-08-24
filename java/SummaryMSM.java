@@ -1,20 +1,21 @@
-import java.util.List;
 
 /**
  * @author Lucas Schmidt
  * @since 2017-08-23
  */
 
+import java.util.List;
+
 public class SummaryMSM {
 
-    public static String summaryMSM(List<MassSpectrometryMeasurement> list) {
+    public static String summaryMSM(List<MassSpectrometryMeasurement.MassSpectrum> list) {
         double meanintensity = 0;
         double meanmz = 0;
         double rtsum = 0;
         double peptidmasssum = 0;
         double meanchargestate = 0;
 
-        for (MassSpectrometryMeasurement e : list) {
+        for (MassSpectrometryMeasurement.MassSpectrum e : list) {
             double intensitysum = 0;
             double mzsum = 0;
 
@@ -43,8 +44,8 @@ public class SummaryMSM {
     }
 
     public static void main(String[] args) {
-        
-        for(int i = 0; i < 5000; i++) {
+
+        for (int i = 0; i < 5000; i++) {
             String typ = "MS1 Spectrum";
             String searchengine = "mascot";
             double[] mz = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };

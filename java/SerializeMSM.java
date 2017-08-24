@@ -21,12 +21,13 @@ import net.sf.json.JSONObject;
 public class SerializeMSM {
     public static void serializeMSM() {
         final ObjectMapper mapper = new ObjectMapper();
-        List<MassSpectrometryMeasurement> list = MassSpectrometryMeasurement.getMSMlist();
+        List<MassSpectrometryMeasurement.MassSpectrum> list = MassSpectrometryMeasurement.getMSMlist();
 
         JSONObject jObject = new JSONObject();
+
         try {
             JSONArray jArray = new JSONArray();
-            for (MassSpectrometryMeasurement e : list) {
+            for (MassSpectrometryMeasurement.MassSpectrum e : list) {
                 JSONObject massSpectrometryMeasurementJSON = new JSONObject();
                 massSpectrometryMeasurementJSON.put("typ", e.getTyp());
                 massSpectrometryMeasurementJSON.put("searchengine", e.getSearchEngine());
@@ -43,7 +44,7 @@ public class SerializeMSM {
         }
 
         try {
-            mapper.writeValue(new File("../MSMlist.json"), jObject);
+            mapper.writeValue(new File("MSMlist.json"), jObject);
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();

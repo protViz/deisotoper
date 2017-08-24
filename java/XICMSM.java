@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class XICMSM {
-    public static List<String> xicMSM(List<MassSpectrometryMeasurement> list) {
+    public static List<String> xicMSM(List<MassSpectrometryMeasurement.MassSpectrum> list) {
         List<String> slist = new ArrayList<String>();
 
-        for (MassSpectrometryMeasurement e : list) {
+        for (MassSpectrometryMeasurement.MassSpectrum e : list) {
             String summary = null;
             double intensitysum = 0;
             double rt = 0;
