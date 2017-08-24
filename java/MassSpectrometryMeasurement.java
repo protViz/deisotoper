@@ -142,6 +142,13 @@ public class MassSpectrometryMeasurement {
             System.out.println();
         }
 
-        // SerializeMSM.serializeMSM();
+        System.out.println(GsonMSM.serializeMSMtoJson("tes2t.json", getMSMlist()));
+
+        List<MassSpectrometryMeasurement.MassSpectrum> list = GsonMSM.deserializeMSMtoJson("/srv/lucas1/eclipse-workspace/deisotoper/test.json");
+
+        for (MassSpectrum element : list) {
+            System.out.print(element.typ + " " + element.searchengine + " " + element.rt + " " + element.peptidmass + " " + element.chargestate);
+            System.out.println();
+        }
     }
 }
