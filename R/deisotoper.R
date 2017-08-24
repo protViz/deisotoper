@@ -9,7 +9,7 @@
 #' @param intensity 
 #'
 #' @return
-#' @export summary_psm
+#' @export 
 #'
 #' @examples
 summary_psm <- function(mZ, intensity){
@@ -26,7 +26,7 @@ summary_psm <- function(mZ, intensity){
 #' @return
 #' 
 #' @import rJava
-#' @export find_mZpattern
+#' @export 
 #'
 #' @examples
 find_mZpattern <- function(mZ = c(5.5,6.5,7.7,8.8,9.9,10.29), pattern = c(6,8.3), eps = 1){
@@ -106,7 +106,7 @@ findNN <- function (q, vec, check = FALSE) {
 #' @return json in String
 #' 
 #' @import rJava
-#' @export serialize
+#' @export 
 serialize <- function (filename, mZ, intensity, charge) {
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -121,22 +121,25 @@ serialize <- function (filename, mZ, intensity, charge) {
   jsonInString
 }
 
-#' Serialize a set of data
+#' Constructor for a Java object of type \code{MassSpectrometryMeasurement}
 #'
-#' @param urlrdata
+#' @param obj a \code{\link{psmSet}} object
 #'
-#' @return returns a jcall object reference
+#' @return returns a jcall object reference for a MSM
 #' 
 #' @import rJava
 #' @export jCreateMSM
+#' @author Lucas Schmidt
+#' 
 #' @examples 
 #' \dontrun{
-#' urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
-#' con <- url(urlrdata)
-#' load(con)
-#' S <- as.psmSet(F225712)
-#' jo <- jcreateMSM(S)
-#' 
+#'  urlrdata <- "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+#'  con <- url(urlrdata)
+#'  load(con)
+#'  # library(protViz)
+#'  S <- as.psmSet(F225712)
+#'  jo <- jCreateMSM(S)
+#' }
 jCreateMSM <- function (obj) {
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -197,11 +200,26 @@ jSummaryMSM <- function(jobj){
   summarystring <- .jcall(SummaryMSM, "S", "summaryMSM", jobj)
 }
 
+
+#' writes a MSM java object into a json file
 #'
+#' @param jobj a \code{\link{jCreateMSM}} generated object reference.
+#' @param filename of the json file
 #'
+#' @return NULL jWriteMSM2JSON
+#' @export jWriteMSM2JSON
+#' @author Lucas Schmidt
 #'
-#' 
-#'
+#' @examples
+#' \dontrun{
+#'  urlrdata <- "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+#'  con <- url(urlrdata)
+#'  load(con)
+#'  # library(protViz)
+#'  S <- as.psmSet(F225712)
+#'  jo <- jCreateMSM(S)
+#'  jWriteMSM2JSON(jo, filename)
+#' }
 jWriteMSM2JSON <- function(jobj, filename='test.json'){
   
 }
