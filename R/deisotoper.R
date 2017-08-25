@@ -16,7 +16,7 @@ jSummaryMSM <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("Sunmmary")
+  sum <- .jnew("Summary")
   
   summary <- .jcall(sum, "S", "makeSummary", jobj)
   
