@@ -12,7 +12,15 @@
 #'
 #' @examples
 jSummaryMSM <- function(jobj){
+  .jinit()
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
   
+  sum <- .jnew("Sunmmary")
+  
+  summary <- .jcall(sum), "Ljava/util/List;", "makeSummary", jobj)
+  
+  summary
 }
 
 #' find index of nearest neighbor 
