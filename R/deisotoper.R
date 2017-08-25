@@ -73,20 +73,21 @@ findNN <- function (q, vec, check = FALSE) {
 
 #' Serialize a set of data
 #'
-#' @param urlrdata
+#' @param obj \code{\link{psmSet}} object
 #'
 #' @return returns a jcall object reference
 #' 
 #' @import rJava
 #' @export jCreateMSM
+#' 
 #' @examples 
 #' \dontrun{
-#' urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
-#' con <- url(urlrdata)
-#' load(con)
-#' S <- as.psmSet(F225712)
-#' jo <- jcreateMSM(S)
-#' 
+#'  urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+#'  con <- url(urlrdata)
+#'  load(con)
+#'  S <- as.psmSet(F225712)
+#'  jo <- jCreateMSM(S)
+#' }
 jCreateMSM <- function (obj) {
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -97,15 +98,18 @@ jCreateMSM <- function (obj) {
   lapply(obj, function(x){
     .jcall(MSM, "Ljava/util/List;", "addMSM", "MS2",
           x$searchEngine,
-          x$mZ, x$intensity,
+          x$mZ, 
+          x$intensity,
           x$pepmass,
           x$rtinseconds,
           as.integer(x$charge),
           as.integer(x$id),
-          x$scans, x$title))
+          x$scans, 
+          x$title)
     })
   rv <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
   # class(rv) <- "jMSM"
+  rv
 }
 
 jGetMSM <- function(jobj) {
