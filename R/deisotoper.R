@@ -18,7 +18,7 @@ jSummaryMSM <- function(jobj){
   
   sum <- .jnew("Sunmmary")
   
-  summary <- .jcall(sum), "Ljava/util/List;", "makeSummary", jobj)
+  summary <- .jcall(sum, "S", "makeSummary", jobj)
   
   summary
 }
