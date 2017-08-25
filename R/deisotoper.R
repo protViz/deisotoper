@@ -3,14 +3,31 @@
 # author:
 # date:
 
-#' Title blas blas 
+#' Summary of a MSM object
 #'
 #' @param jobj
 #'
 #' @return a \code{\link{data.frame}}
 #' @export jSummaryMSM
-#'
+#' @author Lucas Schmidt, Witold E. Wolski, Christian Panse
+#' 
 #' @examples
+#' 
+#' \dontrun{
+#' urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+#' con <- url(urlrdata)
+#' load(con)
+#' S <- as.psmSet(F225712)
+#' jo <- jCreateMSM(S)
+#' X <- jSummaryMSM(jo)
+#' 
+#' library(lattice)
+#' 
+#' xyplot(Value ~ SpectrumID | Attribute,
+#'  data=X, 
+#'  scales = list(y=list(log=TRUE)),
+#'  pch='.')
+#' }
 jSummaryMSM <- function(jobj){
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -19,8 +36,8 @@ jSummaryMSM <- function(jobj){
   sum <- .jnew("Summary")
   
   summary <- .jcall(sum, "S", "makeSummary", jobj)
-  
-  summary
+  con <- textConnection(summary)
+  read.csv(con, sep=',', header = TRUE)
 }
 
 #' find index of nearest neighbor 

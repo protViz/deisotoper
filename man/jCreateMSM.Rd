@@ -2,29 +2,25 @@
 % Please edit documentation in R/deisotoper.R
 \name{jCreateMSM}
 \alias{jCreateMSM}
-\title{Constructor for a Java object of type \code{MassSpectrometryMeasurement}}
+\title{Serialize a set of data}
 \usage{
 jCreateMSM(obj)
 }
 \arguments{
-\item{obj}{a \code{\link{psmSet}} object}
+\item{obj}{\code{\link{psmSet}} object}
 }
 \value{
-returns a jcall object reference for a MSM
+returns a jcall object reference
 }
 \description{
-Constructor for a Java object of type \code{MassSpectrometryMeasurement}
+Serialize a set of data
 }
 \examples{
 \dontrun{
- urlrdata <- "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
+ urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
  con <- url(urlrdata)
  load(con)
- # library(protViz)
  S <- as.psmSet(F225712)
  jo <- jCreateMSM(S)
 }
-}
-\author{
-Lucas Schmidt
 }
