@@ -5,48 +5,15 @@
 
 #' Title blas blas 
 #'
-#' @param mZ 
-#' @param intensity 
+#' @param jobj
 #'
-#' @return
-#' @export summary_psm
-#'
-#' @examples
-summary_psm <- function(mZ, intensity){
-  
-  
-}
-
-#' Title
-#'
-#' @param mZ 
-#' @param pattern 
-#' @param eps 
-#'
-#' @return
-#' 
-#' @import rJava
-#' @export find_mZpattern
+#' @return a \code{\link{data.frame}}
+#' @export jSummaryMSM
 #'
 #' @examples
-find_mZpattern <- function(mZ = c(5.5,6.5,7.7,8.8,9.9,10.29), pattern = c(6,8.3), eps = 1){
-  .jinit()
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jclassPath()
-  FindPatternLinear <- .jnew("FindPatternLinear")
+jSummaryMSM <- function(jobj){
   
-   # Running Java-Programm with data
-  .jcall(FindPatternLinear, "V", "setMz", as.double(mZ))
-  
-  .jcall(FindPatternLinear, "V", "setPattern", as.double(pattern))
-  
-  .jcall(FindPatternLinear, "V", "setEps", eps)
-  
-  idx <- .jcall(FindPatternLinear, "[D", "getIndex")
-
-  idx
 }
-
 
 #' find index of nearest neighbor 
 #'
@@ -98,31 +65,6 @@ findNN <- function (q, vec, check = FALSE) {
 
 #' Serialize a set of data
 #'
-#' @param filename
-#' @param mZ
-#' @param intensity
-#' @param charge
-#'
-#' @return json in String
-#' 
-#' @import rJava
-#' @export serialize
-serialize <- function (filename, mZ, intensity, charge) {
-  .jinit()
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jaddClassPath("inst/java/jackson-all-1.9.0.jar")
-  .jclassPath()
-  serialize <- .jnew("Serialize")
-  deserialize <- .jnew("Deserialize")
-  
-  .jcall(serialize, "S", "serializeIt", filename, mZ, intensity, as.integer(charge))
-  jsonInString <- .jcall(deserialize, "S", "deserializeIt", filename)
-  
-  jsonInString
-}
-
-#' Serialize a set of data
-#'
 #' @param urlrdata
 #'
 #' @return returns a jcall object reference
@@ -156,45 +98,8 @@ jCreateMSM <- function (obj) {
   # class(rv) <- "jMSM"
 }
 
-
-#' compute a XIC table
-#'
-#' @param jobj 
-#'
-#' @return a data frame containing a tuple for each MS (sum(intensity), rtinseconds)
-#' @export
-#'
-#' @examples
-jXICMSM <- function(jobj){
-  .jinit()
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jclassPath()
-  XIC <- .jnew("XICMSM")
+jGetMSM <- function(jobj) {
   
-  sresult <- .jcall(XIC, "Ljava/util/List;", "xicMSM", jobj)
-  
-  
-  val <- .jstrVal(sresult)
-
-  val
-}
-
-
-#' compute MSM summary
-#'
-#' @param jobj 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-jSummaryMSM <- function(jobj){
-  .jinit()
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jclassPath()
-  SummaryMSM <- .jnew("SummaryMSM")
-  
-  summarystring <- .jcall(SummaryMSM, "S", "summaryMSM", jobj)
 }
 
 #'
