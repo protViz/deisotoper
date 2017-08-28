@@ -27,6 +27,8 @@
 #'  data=X, 
 #'  scales = list(y=list(log=TRUE)),
 #'  pch='.')
+#
+#   xyplot(Value ~ SpectrumID | Attribute, data=X,   scales = list(relation="sliced", y=list(log=TRUE)), pch='.')
 #' }
 jSummaryMSM <- function(jobj){
   .jinit()
