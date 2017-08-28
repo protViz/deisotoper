@@ -1,18 +1,18 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Lucas Schmidt
  * @since 2017-08-24
  * @url https://github.com/google/gson and https://mvnrepository.com/artifact/com.google.code.gson/gson/2.8.1
  */
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class GsonMSM {
     public static String serializeMSMToJson(String filename, List<MassSpectrometryMeasurement.MassSpectrum> list) {
@@ -29,12 +29,12 @@ public class GsonMSM {
         return jsonMSMlist;
     }
 
-    public static List<MassSpectrometryMeasurement.MassSpectrum> deserializeJsonToMSM(String file) {
+    public static List<MassSpectrometryMeasurement.MassSpectrum> deserializeJsonToMSM(String filename) {
         Gson gson = new Gson();
 
         String data = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
