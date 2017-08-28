@@ -24,6 +24,7 @@ public class FindNN {
      * @param pattern
      * @param data
      * @return index array
+     * @see MassSpectrometryMeasurement
      */
     public static double[] findNN(double[] pattern, double[] data) {
         double[] index = new double[pattern.length];

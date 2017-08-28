@@ -21,6 +21,7 @@ public class GsonMSM {
      * @param filename
      * @param list
      * @return JSON-formatted string
+     * @see MassSpectrometryMeasurement
      */
     public static String serializeMSMToJson(String filename, List<MassSpectrometryMeasurement.MassSpectrum> list) {
         Gson gson = new Gson();

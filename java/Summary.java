@@ -15,6 +15,7 @@ public class Summary {
      * 
      * @param list
      * @return CSV-formatted string
+     * @see MassSpectrometryMeasurement
      */
     public static String makeSummary(List<MassSpectrometryMeasurement.MassSpectrum> list) {
         StringBuilder summary = new StringBuilder();
