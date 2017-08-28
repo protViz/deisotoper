@@ -112,6 +112,8 @@ public class MassSpectrometryMeasurement {
     }
 
     /**
+     * Adds a MassSpectrum to a List of MassSpectrum.
+     * 
      * @param typ
      * @param searchengine
      * @param mz
@@ -122,7 +124,7 @@ public class MassSpectrometryMeasurement {
      * @param id
      * @param scans
      * @param title
-     * @return List<MassSpectrum>
+     * @return List of MassSpectrum
      */
     public static List<MassSpectrum> addMSM(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id, String scans, String title) {
         MassSpectrum MS = new MassSpectrum();

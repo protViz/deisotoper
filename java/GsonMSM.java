@@ -16,9 +16,11 @@ import com.google.gson.reflect.TypeToken;
 
 public class GsonMSM {
     /**
+     * Serializes a List of MassSpectrum to a JSON-file.
+     * 
      * @param filename
      * @param list
-     * @return json
+     * @return JSON-formatted string
      */
     public static String serializeMSMToJson(String filename, List<MassSpectrometryMeasurement.MassSpectrum> list) {
         Gson gson = new Gson();
@@ -35,6 +37,8 @@ public class GsonMSM {
     }
 
     /**
+     * Deserializes a JSON-file to a List of MassSpectrum.
+     * 
      * @param filename
      * @return List<MassSpectrum>
      */

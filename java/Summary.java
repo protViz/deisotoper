@@ -11,8 +11,10 @@ import java.util.List;
 
 public class Summary {
     /**
+     * Creates a summary of a List of MassSpectrum and returns it in a CSV-formatted string.
+     * 
      * @param list
-     * @return summary
+     * @return CSV-formatted string
      */
     public static String makeSummary(List<MassSpectrometryMeasurement.MassSpectrum> list) {
         StringBuilder summary = new StringBuilder();
