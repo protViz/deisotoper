@@ -1,5 +1,4 @@
 
-
 /**
  * @author Lucas Schmidt
  * @since 2017-08-21
@@ -19,25 +18,33 @@ public class FindNN {
         FindNN.vec = x;
     }
 
-    public static double[] findNN(double[] q, double[] vec) {
-        double[] index = new double[q.length];
+    /**
+     * @param pattern
+     * @param data
+     * @return index array of nearest neighbor
+     */
+    public static double[] findNN(double[] pattern, double[] data) {
+        double[] index = new double[pattern.length];
 
-        for (int i = 0; i < q.length; i++) {
-            index[i] = ((double) Arrays.binarySearch(vec, q[i]));
+        for (int i = 0; i < pattern.length; i++) {
+            index[i] = ((double) Arrays.binarySearch(data, pattern[i]));
             if (index[i] < 0)
                 index[i] = -(index[i]) - 1;
 
             if (index[i] == 0) {
-            } else if (index[i] >= vec.length) {
+            } else if (index[i] >= data.length) {
                 index[i] = index[i] - 1;
             } else {
-                index[i] = (((Math.abs(vec[(int) (index[i] - 1)] - q[i])) < (Math.abs(vec[(int) index[i]] - q[i]))) ? index[i] - 1 : index[i]);
+                index[i] = (((Math.abs(data[(int) (index[i] - 1)] - pattern[i])) < (Math.abs(data[(int) index[i]] - pattern[i]))) ? index[i] - 1 : index[i]);
             }
         }
 
         return index;
     }
 
+    /**
+     * @return index array of nearest neighbor
+     */
     public static double[] getIndex() {
         return FindNN.findNN(FindNN.q, FindNN.vec);
     }

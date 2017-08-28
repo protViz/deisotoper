@@ -111,6 +111,19 @@ public class MassSpectrometryMeasurement {
         }
     }
 
+    /**
+     * @param typ
+     * @param searchengine
+     * @param mz
+     * @param intensity
+     * @param peptidmass
+     * @param rt
+     * @param chargestate
+     * @param id
+     * @param scans
+     * @param title
+     * @return List<MassSpectrum>
+     */
     public static List<MassSpectrum> addMSM(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id, String scans, String title) {
         MassSpectrum MS = new MassSpectrum();
 
@@ -175,7 +188,7 @@ public class MassSpectrometryMeasurement {
             System.out.println();
         }
 
-        System.out.println(GsonMSM.serializeMSMToJson("test.json", getMSMlist()));
+        System.out.println(GsonMSM.serializeMSMToJson("testforjson2summary.json", getMSMlist()));
 
         List<MassSpectrometryMeasurement.MassSpectrum> list = GsonMSM.deserializeJsonToMSM("/srv/lucas1/eclipse-workspace/deisotoper/test.json");
 

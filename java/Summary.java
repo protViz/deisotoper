@@ -10,6 +10,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Summary {
+    /**
+     * @param list
+     * @return summary
+     */
     public static String makeSummary(List<MassSpectrometryMeasurement.MassSpectrum> list) {
         StringBuilder summary = new StringBuilder();
         summary.append("SpectrumID, Attribute, Value").append(System.getProperty("line.separator"));
