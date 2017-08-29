@@ -26,33 +26,6 @@ public class MassSpectrometryMeasurement {
         private double peptidmass;
         private double rt;
         private int chargestate;
-        private int id;
-        private String scans;
-        private String title;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getScans() {
-            return scans;
-        }
-
-        public void setScans(String scans) {
-            this.scans = scans;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
 
         public String getTyp() {
             return typ;
@@ -136,9 +109,6 @@ public class MassSpectrometryMeasurement {
         MS.setPeptidMass(peptidmass);
         MS.setRt(rt);
         MS.setChargeState(chargestate);
-        MS.setId(id);
-        MS.setScans(scans);
-        MS.setTitle(title);
 
         MSMlist.add(MS);
 
