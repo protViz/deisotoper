@@ -2,11 +2,7 @@
 
 export(.onAttach)
 export(findNN)
-export(find_mZpattern)
 export(jCreateMSM)
 export(jSummaryMSM)
 export(jWriteMSM2JSON)
-export(jXICMSM)
-export(serialize)
-export(summary_psm)
 import(rJava)

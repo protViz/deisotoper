@@ -121,7 +121,7 @@ jCreateMSM <- function (obj) {
           x$intensity,
           x$pepmass,
           x$rtinseconds,
-          as.integer(x$charge),
+          as.integer(x$charge)
           )
     })
   rv <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
