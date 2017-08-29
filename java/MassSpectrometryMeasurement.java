@@ -26,33 +26,6 @@ public class MassSpectrometryMeasurement {
         private double peptidmass;
         private double rt;
         private int chargestate;
-        private int id;
-        private String scans;
-        private String title;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getScans() {
-            return scans;
-        }
-
-        public void setScans(String scans) {
-            this.scans = scans;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
 
         public String getTyp() {
             return typ;
@@ -136,67 +109,9 @@ public class MassSpectrometryMeasurement {
         MS.setPeptidMass(peptidmass);
         MS.setRt(rt);
         MS.setChargeState(chargestate);
-        MS.setId(id);
-        MS.setScans(scans);
-        MS.setTitle(title);
 
         MSMlist.add(MS);
 
         return MSMlist;
-    }
-
-    // For testing
-    public static void main(String[] args) {
-        String typ = "MS1 Spectrum";
-        String searchengine = "mascot";
-        double[] mz = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-        double[] intensity = { 4, 4, 5, 6, 6, 7, 7, 7, 8, 8 };
-        double peptidmass = 309.22;
-        double rt = 38383.34;
-        int chargestate = 2;
-        int id = 10;
-        String scans = "2727";
-        String title = "rdom";
-
-        addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, scans, title);
-
-        String typ2 = "MS2 Spectrum";
-        String searchengine2 = "mascot";
-        double[] mz2 = { 2, 2, 4, 4, 5, 6, 8, 8, 10, 11, 15 };
-        double[] intensity2 = { 2, 3, 4, 6, 7, 7, 7, 8, 9, 9 };
-        double peptidmass2 = 203.23;
-        double rt2 = 7473.32;
-        int chargestate2 = 2;
-
-        addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id, scans, title);
-
-        chargestate2 = 3;
-        addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id, scans, title);
-
-        MSMlist.remove(2);
-
-        String typ3 = "MS2 Spectrum";
-        String searchengine3 = "mascot";
-        double[] mz3 = { 2, 2, 4, 4, 5, 5, 5, 5, 10, 11, 15 };
-        double[] intensity3 = { 5, 5, 4, 5, 7, 7, 7, 8, 9, 9 };
-        double peptidmass3 = 2303.23;
-        double rt3 = 74733.32;
-        int chargestate3 = 4;
-
-        addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id, scans, title);
-
-        for (MassSpectrum element : MSMlist) {
-            System.out.print(element.typ + " " + element.searchengine + " " + element.rt + " " + element.peptidmass + " " + element.chargestate);
-            System.out.println();
-        }
-
-        System.out.println(GsonMSM.serializeMSMToJson("testforjson2summary.json", getMSMlist()));
-
-        List<MassSpectrometryMeasurement.MassSpectrum> list = GsonMSM.deserializeJsonToMSM("/srv/lucas1/eclipse-workspace/deisotoper/test.json");
-
-        for (MassSpectrum element : list) {
-            System.out.print(element.typ + " " + element.searchengine + " " + element.rt + " " + element.peptidmass + " " + element.chargestate);
-            System.out.println();
-        }
     }
 }
