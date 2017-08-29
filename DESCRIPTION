@@ -11,11 +11,11 @@ Author: Christian Panse [aut, cre],
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	methods,
-	protViz (>= 0.2.31),
 	rJava (>= 0.9),
-	msdata,
 	mzR
 Suggests: roxygen2,
+  protViz (>= 0.2.31),
+  msdata,
 	testthat
 SystemRequirements: Java (>= 6.0), GNU make
 Description: implements a deisotoper algorithm.

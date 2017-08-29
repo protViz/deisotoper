@@ -8,21 +8,26 @@
 #' @param x a mzXML object
 #'
 #' @return a psmSet object
-#' 
-#' @import mzR
-#' @import msdata
+#'
 #' @export as.psmSet.mzXML
 #'
 #'
 #' @examples
 #' 
 #' \dontrun{
-#'  library(msdata); library(mzR)
-#'   mzXML <- openMSfile("~/data/20161010_04_TP_HeLa_200ng.mzXML")
+#'  library(mzR)
+#'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile("~/data/20161010_04_TP_HeLa_200ng.mzXML")))
+#'  
+#'  library(lattice)
+#'  xyplot(Value ~ SpectrumID | Attribute, 
+#'    data = jSummaryMSM(jo), 
+#'    scales = list(relation="sliced", 
+#'       y=list(log=TRUE)), 
+#'    pch='.')
 #' }
 
 as.psmSet.mzXML <- function(obj){
-  idx<-which(sapply(1:length(obj), function(x){header(obj, x)$msLevel}) == 2)
+  idx <- which(sapply(1:length(obj), function(x){header(obj, x)$msLevel}) == 2)
   
   rv <- lapply(idx, function(id){
     
@@ -33,15 +38,18 @@ as.psmSet.mzXML <- function(obj){
          intensity = p[,2],
          pepmass = as.double(h$precursorMZ),
          charge=as.integer(h$msLevel),   
-         title = "",
+         title = "xx",
          rtinseconds = as.double(h$retentionTime),
          scans = id,
-         proteinInformation = "",
-         peptideSequence = "",
-         title = "")
+         id = id,
+         proteinInformation = "xx",
+         peptideSequence = "xx",
+         title = "xx",
+         searchEngine = "xx")
     
     class(rv) <- c("psm", class(rv))
     rv
+    
   })
   
   class(rv) <- c("psmSet", class(rv))

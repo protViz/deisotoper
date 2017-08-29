@@ -9,7 +9,7 @@ JAR=../inst/java/deisotoper.jar
 test: jar
 	jar tf $(JAR)
 
-jar: clean $(CLASSES:.java=.class)
+jar: clean $(CLASSES:.java=.class) md
 	jar cf ../inst/java/deisotoper.jar ./* 
 
 .java.class:
@@ -17,3 +17,6 @@ jar: clean $(CLASSES:.java=.class)
 
 clean:
 	$(RM) $(JAR) *.class
+
+md:
+	mkdir -p ../inst/java/

@@ -18,7 +18,14 @@ convert mzXML into psmSet object
 \examples{
 
 \dontrun{
- library(msdata); library(mzR)
-  mzXML <- openMSfile("~/data/20161010_04_TP_HeLa_200ng.mzXML")
+ library(mzR)
+ jo <- jCreateMSM(as.psmSet.mzXML(openMSfile("~/data/20161010_04_TP_HeLa_200ng.mzXML")))
+ 
+ library(lattice)
+ xyplot(Value ~ SpectrumID | Attribute, 
+   data = jSummaryMSM(jo), 
+   scales = list(relation="sliced", 
+      y=list(log=TRUE)), 
+   pch='.')
 }
 }
