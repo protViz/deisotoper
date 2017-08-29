@@ -5,10 +5,6 @@ export(as.psmSet.mzXML)
 export(findNN)
 export(jCreateMSM)
 export(jSummaryMSM)
-<<<<<<< HEAD
-export(jWriteMSM2JSON)
-=======
 import(msdata)
 import(mzR)
->>>>>>> 6952396999e2c6a91d2c9bb87d446ce6006bceb3
 import(rJava)
