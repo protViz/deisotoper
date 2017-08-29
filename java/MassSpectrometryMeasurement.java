@@ -1,3 +1,4 @@
+package main.java;
 
 /**
  * @author Lucas Schmidt
@@ -99,7 +100,7 @@ public class MassSpectrometryMeasurement {
      * @param title
      * @return List of MassSpectrum
      */
-    public static List<MassSpectrum> addMSM(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id, String scans, String title) {
+    public static List<MassSpectrum> addMSM(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate) {
         MassSpectrum MS = new MassSpectrum();
 
         MS.setTyp(typ);
