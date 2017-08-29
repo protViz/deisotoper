@@ -1,9 +1,9 @@
 Package: deisotoper
 Type: Package
-Title: Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement.
+Title: Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
-	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = c("aut", "cre")),
+	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = c("aut", "ctb")),
 	person("Witold E.", "Wolski", role = "ctb"))
 Author: Christian Panse [aut, cre],
 	Lucas Schmidt [ctb, aut],
@@ -12,7 +12,9 @@ Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	methods,
 	protViz (>= 0.2.31),
-	rJava (>= 0.9)
+	rJava (>= 0.9),
+	msdata,
+	mzR
 Suggests: roxygen2,
 	testthat
 SystemRequirements: Java (>= 6.0), GNU make
