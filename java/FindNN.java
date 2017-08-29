@@ -95,6 +95,6 @@ public class FindNN {
 
         for (double i : findNN(qtest3, vectest3)) {
             System.out.println("Test3: " + (int) i);
-		}
-	}
+        }
+    }
 }
