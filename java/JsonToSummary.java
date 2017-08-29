@@ -1,3 +1,4 @@
+package main.java;
 
 /**
  * @author Lucas Schmidt
@@ -5,7 +6,7 @@
  */
 
 public class JsonToSummary {
-    public static void main(String[] args) {
-        System.out.println((Summary.makeSummary(GsonMSM.deserializeJsonToMSM(args[0]))));
-    }
+	public static void main(String[] args) {
+		System.out.println((Summary.makeSummary(GsonMSM.deserializeJsonToMSM(args[0]))));
+	}
 }
