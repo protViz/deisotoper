@@ -7,7 +7,7 @@
 \method{as.psmSet}{mzXML}(obj)
 }
 \arguments{
-\item{x}{a mzXML object}
+\item{obj}{a mzXML object}
 }
 \value{
 a psmSet object

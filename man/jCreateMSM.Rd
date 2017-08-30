@@ -2,18 +2,18 @@
 % Please edit documentation in R/deisotoper.R
 \name{jCreateMSM}
 \alias{jCreateMSM}
-\title{Serialize a set of data}
+\title{creates Mass Spectrometry Measurement (MSM) Java object}
 \usage{
 jCreateMSM(obj)
 }
 \arguments{
-\item{obj}{\code{\link{psmSet}} object}
+\item{obj}{\code{protViz""psmSet} object}
 }
 \value{
 returns a jcall object reference
 }
 \description{
-Serialize a set of data
+creates Mass Spectrometry Measurement (MSM) Java object
 }
 \examples{
 \dontrun{
@@ -23,4 +23,7 @@ Serialize a set of data
  S <- as.psmSet(F225712)
  jo <- jCreateMSM(S)
 }
+}
+\author{
+Lucas Schmidt, Witold E. Wolski, Christian Panse
 }

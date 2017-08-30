@@ -5,6 +5,7 @@
 #' @param lib 
 #' @param pkg 
 #'
+#' @importFrom utils packageVersion
 #' @return
 #' @export
 #' 

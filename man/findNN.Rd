@@ -14,7 +14,7 @@ findNN(q, vec, check = FALSE)
 \item{check}{boolean enables test if \code{vec} is sorted. default is \code{FALSE}}
 }
 \value{
-a integer vector
+an integer vector
 }
 \description{
 Given a vector of sorted double values \code{vec} of size
@@ -33,15 +33,18 @@ the nearest neighbor index \code{o} so that the following remains true:
 }
 \examples{
 
-\dontrun{
+
 (NNidx <- findNN(q<-c(1, 1.0001, 1.24, 1.26), DB<-seq(1,5,by=0.25)))
 (NNidx == c(1,1,2,2))
 
 # should be 0
 unique(DB[findNN(DB,DB)] - DB)
-}
+
 
 }
 \seealso{
-\code{link{protViz::findNN}}
+\code{protViz::findNN}'s cpluplus implementation.
+}
+\author{
+Christian Panse
 }

@@ -5,10 +5,12 @@
 
 #' convert mzXML into psmSet object
 #'
-#' @param x a mzXML object
+#' @param obj a mzXML object
 #'
 #' @return a psmSet object
 #'
+#' 
+#' @importMethodsFrom mzR header peaks
 #' @export as.psmSet.mzXML
 #'
 #'
