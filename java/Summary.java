@@ -18,7 +18,6 @@ public class Summary {
      * @return CSV-formatted string
      * @see MassSpectrometryMeasurement
      */
-    // TODO LS: use spectrum id from MassSpectrum
     public static String makeSummary(List<MassSpectrum> list) {
 
         StringBuilder summary = new StringBuilder();
