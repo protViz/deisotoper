@@ -23,11 +23,8 @@ public class TestSerializieAndDeserialize {
         double peptidmass = 309.22;
         double rt = 38383.34;
         int chargestate = 2;
-        int id = 10;
-        String scans = "2727";
-        String title = "rdom";
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, scans, title);
+        main.java.MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate);
 
         main.java.GsonMSM.serializeMSMToJson("unittest.json", main.java.MassSpectrometryMeasurement.getMSMlist());
 

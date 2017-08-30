@@ -18,11 +18,8 @@ public class TestSummary {
         double peptidmass = 309.22;
         double rt = 38383.34;
         int chargestate = 2;
-        int id = 10;
-        String scans = "2727";
-        String title = "rdom";
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, scans, title);
+        main.java.MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate);
 
         String typ2 = "MS2 Spectrum";
         String searchengine2 = "mascot";
@@ -32,7 +29,7 @@ public class TestSummary {
         double rt2 = 7473.32;
         int chargestate2 = 2;
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id, scans, title);
+        main.java.MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2);
 
         String typ3 = "MS2 Spectrum";
         String searchengine3 = "mascot";
@@ -42,7 +39,7 @@ public class TestSummary {
         double rt3 = 74733.32;
         int chargestate3 = 4;
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id, scans, title);
+        main.java.MassSpectrometryMeasurement.addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3);
 
         String result = "SpectrumID, Attribute, Value\n" + "1,nr_of_peaks,11\n" + "1,min_intensity,4.0\n" + "1,max_intensity,8.0\n" + "1,sum_intensity,62.0\n" + "1,min_mass,1.0\n"
                 + "1,max_mass,11.0\n" + "1,min_peak_distance,1.0\n" + "1,max_peak_distance,1.0\n" + "1,precursor_charge,2\n" + "1,precursor_mass,309.22\n" + "1,rt_in_seconds,38383.34\n"
