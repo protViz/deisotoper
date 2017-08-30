@@ -124,7 +124,7 @@ jCreateMSM <- function (obj) {
           )
     })
   rv <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
-  class(rv) <- "jMSM"
+  #class(rv) <- "jMSM"
   rv
 }
 
