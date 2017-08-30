@@ -18,33 +18,31 @@ public class Summary {
      * @return CSV-formatted string
      * @see MassSpectrometryMeasurement
      */
-    // TODO (LS): use spectrum id from MassSpectrum
-    public static String makeSummary(List<MassSpectrometryMeasurement.MassSpectrum> list) {
+    // TODO LS: use spectrum id from MassSpectrum
+    public static String makeSummary(List<MassSpectrum> list) {
 
         StringBuilder summary = new StringBuilder();
         String linesep = System.getProperty("line.separator");
         summary.append("SpectrumID, Attribute, Value").append(linesep);
-        int spectrumID = 1;
 
-        for (MassSpectrometryMeasurement.MassSpectrum spectrum : list) {
+        for (MassSpectrum spectrum : list) {
             List<Double> dist = new ArrayList<>();
 
             for (int i = 1; i < spectrum.getMz().length; i++) {
                 dist.add(spectrum.getMz()[i] - spectrum.getMz()[i - 1]);
             }
 
-            summary.append(spectrumID).append(",nr_of_peaks,").append(spectrum.getMz().length).append(linesep);
-            summary.append(spectrumID).append(",min_intensity,").append(Arrays.stream(spectrum.getIntensity()).min().getAsDouble()).append(linesep);
-            summary.append(spectrumID).append(",max_intensity,").append(Arrays.stream(spectrum.getIntensity()).max().getAsDouble()).append(linesep);
-            summary.append(spectrumID).append(",sum_intensity,").append(DoubleStream.of(spectrum.getIntensity()).sum()).append(linesep);
-            summary.append(spectrumID).append(",min_mass,").append(Arrays.stream(spectrum.getMz()).min().getAsDouble()).append(linesep);
-            summary.append(spectrumID).append(",max_mass,").append(Arrays.stream(spectrum.getMz()).max().getAsDouble()).append(linesep);
-            summary.append(spectrumID).append(",min_peak_distance,").append(Collections.min(dist)).append(linesep);
-            summary.append(spectrumID).append(",max_peak_distance,").append(Collections.max(dist)).append(linesep);
-            summary.append(spectrumID).append(",precursor_charge,").append(spectrum.getChargeState()).append(linesep);
-            summary.append(spectrumID).append(",precursor_mass,").append(spectrum.getPeptidMass()).append(linesep);
-            summary.append(spectrumID).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
-            spectrumID++;
+            summary.append(spectrum.getId()).append(",nr_of_peaks,").append(spectrum.getMz().length).append(linesep);
+            summary.append(spectrum.getId()).append(",min_intensity,").append(Arrays.stream(spectrum.getIntensity()).min().getAsDouble()).append(linesep);
+            summary.append(spectrum.getId()).append(",max_intensity,").append(Arrays.stream(spectrum.getIntensity()).max().getAsDouble()).append(linesep);
+            summary.append(spectrum.getId()).append(",sum_intensity,").append(DoubleStream.of(spectrum.getIntensity()).sum()).append(linesep);
+            summary.append(spectrum.getId()).append(",min_mass,").append(Arrays.stream(spectrum.getMz()).min().getAsDouble()).append(linesep);
+            summary.append(spectrum.getId()).append(",max_mass,").append(Arrays.stream(spectrum.getMz()).max().getAsDouble()).append(linesep);
+            summary.append(spectrum.getId()).append(",min_peak_distance,").append(Collections.min(dist)).append(linesep);
+            summary.append(spectrum.getId()).append(",max_peak_distance,").append(Collections.max(dist)).append(linesep);
+            summary.append(spectrum.getId()).append(",precursor_charge,").append(spectrum.getChargeState()).append(linesep);
+            summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptidMass()).append(linesep);
+            summary.append(spectrum.getId()).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
         }
 
         return summary.toString();

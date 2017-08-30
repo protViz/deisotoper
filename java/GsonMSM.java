@@ -24,7 +24,7 @@ public class GsonMSM {
      * @return JSON-formatted string
      * @see MassSpectrometryMeasurement
      */
-    public static String serializeMSMToJson(String filename, List<MassSpectrometryMeasurement.MassSpectrum> list) {
+    public static String serializeMSMToJson(String filename, List<MassSpectrum> list) {
         Gson gson = new Gson();
 
         String jsonMSMlist = gson.toJson(list);
@@ -44,7 +44,7 @@ public class GsonMSM {
      * @param filename
      * @return List<MassSpectrum>
      */
-    public static List<MassSpectrometryMeasurement.MassSpectrum> deserializeJsonToMSM(String filename) {
+    public static List<MassSpectrum> deserializeJsonToMSM(String filename) {
         Gson gson = new Gson();
 
         String data = null;
@@ -65,10 +65,10 @@ public class GsonMSM {
             e.printStackTrace();
         }
 
-        java.lang.reflect.Type type = new TypeToken<List<MassSpectrometryMeasurement.MassSpectrum>>() {
+        java.lang.reflect.Type type = new TypeToken<List<MassSpectrum>>() {
         }.getType();
 
-        List<MassSpectrometryMeasurement.MassSpectrum> list = gson.fromJson(data, type);
+        List<MassSpectrum> list = gson.fromJson(data, type);
 
         return list;
     }

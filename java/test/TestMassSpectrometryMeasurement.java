@@ -11,6 +11,7 @@ import org.junit.Test;
 public class TestMassSpectrometryMeasurement {
     @Test
     public void test() {
+        int id = 122;
         String typ = "MS1 Spectrum";
         String searchengine = "mascot";
         double[] mz = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -19,7 +20,7 @@ public class TestMassSpectrometryMeasurement {
         double rt = 38383.34;
         int chargestate = 2;
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate);
+        main.java.MassSpectrometryMeasurement.addMSM(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
 
         String typ2 = "MS2 Spectrum";
         String searchengine2 = "mascot";
@@ -29,8 +30,8 @@ public class TestMassSpectrometryMeasurement {
         double rt2 = 7473.32;
         int chargestate2 = 2;
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2);
-        main.java.MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2);
+        main.java.MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id);
+        main.java.MassSpectrometryMeasurement.addMSM(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id);
 
         main.java.MassSpectrometryMeasurement.getMSMlist().remove(2);
 
@@ -42,7 +43,7 @@ public class TestMassSpectrometryMeasurement {
         double rt3 = 74733.32;
         int chargestate3 = 4;
 
-        main.java.MassSpectrometryMeasurement.addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3);
+        main.java.MassSpectrometryMeasurement.addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id);
 
         assertEquals("Length of List<MassSpectrum> must be 3!", main.java.MassSpectrometryMeasurement.getMSMlist().size(), 3);
         assertEquals("Mz must be correct!", mz, main.java.MassSpectrometryMeasurement.getMSMlist().get(0).getMz());
