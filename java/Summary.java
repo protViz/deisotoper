@@ -17,7 +17,9 @@ public class Summary {
      * @return CSV-formatted string
      * @see MassSpectrometryMeasurement
      */
+    // TODO LS: use spectrum id from MassSpectrum
     public static String makeSummary(List<MassSpectrometryMeasurement.MassSpectrum> list) {
+
         StringBuilder summary = new StringBuilder();
         String linesep = System.getProperty("line.separator");
         summary.append("SpectrumID, Attribute, Value").append(linesep);
@@ -30,6 +32,7 @@ public class Summary {
                 dist.add(spectrum.getMz()[i] - spectrum.getMz()[i - 1]);
             }
 
+            // TODO (LS): int sum = IntStream.of(a).sum();
             for (double i : spectrum.getIntensity()) {
                 intensity += i;
             }

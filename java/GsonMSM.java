@@ -14,6 +14,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+// TODO (LS) : Serialize entire MassSpectrometryMeasurement not only a List of MassSpectra.
 public class GsonMSM {
     /**
      * Serializes a List of MassSpectrum to a JSON-file.

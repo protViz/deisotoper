@@ -7,6 +7,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO (LS) : Add source file name to MassSpectrumMeasurement
 public class MassSpectrometryMeasurement {
     public static List<MassSpectrum> MSMlist = new ArrayList<MassSpectrum>();
 
@@ -18,6 +19,8 @@ public class MassSpectrometryMeasurement {
         MSMlist = list;
     }
 
+    // TODO (LS) : Add SpectrumID field.
+    // TODO (LS) : Mass Spectrum does not need to be an innter class.
     public static class MassSpectrum {
         private String typ;
         private String searchengine;
