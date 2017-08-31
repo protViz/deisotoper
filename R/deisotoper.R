@@ -111,16 +111,17 @@ jCreateMSM <- function (obj) {
   .jclassPath()
   
   MSM <- .jnew("MassSpectrometryMeasurement")
+  rMSM <- .jnew("RJavaMassSpectrometryMeasurement")
   
   src <- deparse(substitute(obj))
   
   lapply(obj, function(x) {
-    list <- .jcall(MSM, "Ljava/util/List;", "putArgsIntoList", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
-    .jcall(MSM, "Ljava/util/List;", "putListIntoList", list)
+    list <- .jcall(rMSM, "Ljava/util/List;", "putArgsIntoList", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
+    .jcall(rMSM, "Ljava/util/List;", "putListIntoList", list)
   }
   )
   
-  listlist <- .jcall(MSM, "Ljava/util/List;", "getListlist")
+  listlist <- .jcall(rMSM, "Ljava/util/List;", "getListlist")
   
   M <- .jcall(MSM, "LMassSpectrometryMeasurement;", "createMSM", src, listlist)
   #class(rv) <- "jMSM"
