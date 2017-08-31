@@ -109,23 +109,22 @@ jCreateMSM <- function (obj) {
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
-
+  
   MSM <- .jnew("MassSpectrometryMeasurement")
   
-  lapply(obj, function(x){
-    .jcall(MSM, "Ljava/util/List;", "addMSM", "MS2",
-          x$searchEngine,
-          x$mZ, 
-          x$intensity,
-          x$pepmass,
-          x$rtinseconds,
-          as.integer(x$charge),
-          as.integer(x$id)
-          )
-    })
-  rv <- .jcall(MSM, "Ljava/util/List;", "getMSMlist")
+  src <- deparse(substitute(obj))
+  
+  lapply(obj, function(x) {
+    list <- .jcall(MSM, "Ljava/util/List;", "putArgsIntoList", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
+    .jcall(MSM, "Ljava/util/List;", "putListIntoList", list)
+  }
+  )
+  
+  listlist <- .jcall(MSM, "Ljava/util/List;", "getListlist")
+  
+  M <- .jcall(MSM, "LMassSpectrometryMeasurement;", "createMSM", src, listlist)
   #class(rv) <- "jMSM"
-  rv
+  M
 }
 
 jGetMSM <- function(jobj) {
@@ -139,9 +138,9 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  GsonMSM <- .jnew("GsonMSM")
+  SerializeMSM <- .jnew("SerializeMSM")
   
-  json <- .jcall(GsonMSM, "S", "serializeMSMToJson", filename, jobj)
+  json <- .jcall(SerializeMSM, "S", "serializeMSMToJson", filename, jobj)
   
   json
 }
@@ -151,9 +150,9 @@ jReadJSON2MSM <- function(filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  GsonMSM <- .jnew("GsonMSM")
+  SerializeMSM <- .jnew("SerializeMSM")
   
-  MSM <- .jcall(GsonMSM, "Ljava/util/List;", "deserializeJsonToMSM", filename)
+  MSM <- .jcall(SerializeMSM, "LMassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
   
   MSM
 }
