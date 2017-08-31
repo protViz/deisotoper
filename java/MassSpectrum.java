@@ -81,7 +81,8 @@ public class MassSpectrum {
         for (int i = 0; i < mz.length && i < intensity.length; i++) {
             plist.add(Peak.addPeak(mz[i], intensity[i]));
         }
-
+        // TODO(LS): check if peakplist is sorted acc. mZ
+        // if not sort it.
         MS.setPeaklist(plist);
         MS.setTyp(typ);
         MS.setSearchEngine(searchengine);
