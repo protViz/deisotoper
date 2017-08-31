@@ -24,13 +24,9 @@ public class Peak {
         this.intensity = intensity;
     }
 
-    public static Peak addPeak(double m, double i) {
-        Peak P = new Peak();
-
-        P.setMz(m);
-        P.setIntensity(i);
-
-        return P;
+    public Peak(double mz, double intensity) {
+        this.mz = mz;
+        this.intensity = intensity;
     }
 
 }
