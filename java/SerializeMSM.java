@@ -10,24 +10,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-// TODO (LS) : Serialize entire MassSpectrometryMeasurement not only a List of MassSpectra.
-public class GsonMSM {
+public class SerializeMSM {
     /**
-     * Serializes a List of MassSpectrum to a JSON-file.
+     * Serializes a MassSpectrometryMeasurement to a JSON-file.
      * 
      * @param filename
-     * @param list
+     * @param m
      * @return JSON-formatted string
      * @see MassSpectrometryMeasurement
      */
-    public static String serializeMSMToJson(String filename, List<MassSpectrum> list) {
+    public static String serializeMSMToJson(String filename, MassSpectrometryMeasurement m) {
         Gson gson = new Gson();
 
-        String jsonMSMlist = gson.toJson(list);
+        String jsonMSMlist = gson.toJson(m);
 
         try (PrintWriter out = new PrintWriter(filename)) {
             out.println(jsonMSMlist);
@@ -39,12 +37,12 @@ public class GsonMSM {
     }
 
     /**
-     * Deserializes a JSON-file to a List of MassSpectrum.
+     * Deserializes a JSON-file to a MassSpectrometryMeasurement.
      * 
      * @param filename
-     * @return List<MassSpectrum>
+     * @return MassSpectrometryMeasurement
      */
-    public static List<MassSpectrum> deserializeJsonToMSM(String filename) {
+    public static MassSpectrometryMeasurement deserializeJsonToMSM(String filename) {
         Gson gson = new Gson();
 
         String data = null;
@@ -65,11 +63,11 @@ public class GsonMSM {
             e.printStackTrace();
         }
 
-        java.lang.reflect.Type type = new TypeToken<List<MassSpectrum>>() {
+        java.lang.reflect.Type type = new TypeToken<MassSpectrometryMeasurement>() {
         }.getType();
 
-        List<MassSpectrum> list = gson.fromJson(data, type);
+        MassSpectrometryMeasurement m = gson.fromJson(data, type);
 
-        return list;
+        return m;
     }
 }
