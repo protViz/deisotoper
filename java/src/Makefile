@@ -4,16 +4,16 @@
 .SUFFIXES: .java .class
 
 CLASSES = $(shell ls *.java | grep -v UnitTest)
-JAR=../inst/java/deisotoper.jar
+JAR=../../inst/java/deisotoper.jar
 
 test: jar
 	jar tf $(JAR)
 
 jar: clean $(CLASSES:.java=.class) md
-	jar cf ../inst/java/deisotoper.jar ./* 
+	jar cf $(JAR) ./* 
 
 .java.class:
-	javac $< -cp .:../inst/java/:../inst/java/gson-2.8.1.jar
+	javac $< -cp .:../../inst/java/:../../inst/java/gson-2.8.1.jar
 
 clean:
 	$(RM) $(JAR) *.class
