@@ -9,16 +9,7 @@ import java.util.List;
 
 public class MassSpectrometryMeasurement {
     private List<MassSpectrum> MSlist = new ArrayList<MassSpectrum>();
-    private static List<List<Object>> listlist = new ArrayList<>();
     private String source;
-
-    public static List<List<Object>> getListlist() {
-        return listlist;
-    }
-
-    public static void setListlist(List<List<Object>> listlist) {
-        MassSpectrometryMeasurement.listlist = listlist;
-    }
 
     public String getSource() {
         return source;
@@ -35,7 +26,7 @@ public class MassSpectrometryMeasurement {
     public void setMSlist(List<MassSpectrum> list) {
         this.MSlist = list;
     }
-   // Move to class RJavaMassSpectrometryMeasurement
+
     public static MassSpectrometryMeasurement createMSM(String src, List<List<Object>> data) {
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement();
 
@@ -50,36 +41,13 @@ public class MassSpectrometryMeasurement {
             double rt = (double) l.get(5);
             int chargestate = (int) l.get(6);
             int id = (int) l.get(7);
-            msmlist.add(MassSpectrum.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
+            msmlist.add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
         }
 
         MSM.setSource(src);
         MSM.setMSlist(msmlist);
 
         return MSM;
-    }
-    // Move to class RJavaMassSpectrometryMeasurement
-    public static List<Object> putArgsIntoList(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
-        List<Object> list = new ArrayList<>();
-
-        list.add(typ);
-        list.add(searchengine);
-        list.add(mz);
-        list.add(intensity);
-        list.add(peptidmass);
-        list.add(rt);
-        list.add(chargestate);
-        list.add(id);
-
-        return list;
-    }
-
-    public static List<List<Object>> putListIntoList(List<Object> list) {
-        List<List<Object>> ll = getListlist();
-        ll.add(list);
-        setListlist(ll);
-
-        return getListlist();
     }
 
     public static void main(String[] args) {
@@ -103,13 +71,13 @@ public class MassSpectrometryMeasurement {
         int chargestate2 = 2;
         int id2 = 124;
 
-        List<Object> l1 = putArgsIntoList(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        List<Object> l2 = putArgsIntoList(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
+        List<Object> l1 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+        List<Object> l2 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
 
-        putListIntoList(l1);
-        putListIntoList(l2);
+        RJavaMassSpectrometryMeasurement.putListIntoList(l1);
+        RJavaMassSpectrometryMeasurement.putListIntoList(l2);
 
-        MassSpectrometryMeasurement test = createMSM(s, listlist);
+        MassSpectrometryMeasurement test = createMSM(s, RJavaMassSpectrometryMeasurement.getListlist());
 
         System.out.println(mz.length + " " + (test.getMSlist().get(0).getPeaklist().size() + 1));
 

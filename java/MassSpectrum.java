@@ -1,11 +1,11 @@
 
-
 /**
  * @author Lucas Schmidt
  * @since 2017-08-30
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MassSpectrum {
@@ -73,24 +73,21 @@ public class MassSpectrum {
         this.chargestate = chargestate;
     }
 
-    public static MassSpectrum addMS(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
-        MassSpectrum MS = new MassSpectrum();
-
+    public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
         List<Peak> plist = new ArrayList<>();
 
         for (int i = 0; i < mz.length && i < intensity.length; i++) {
-            plist.add(Peak.addPeak(mz[i], intensity[i]));
+            plist.add(new Peak(mz[i], intensity[i]));
         }
-        // TODO(LS): check if peakplist is sorted acc. mZ
-        // if not sort it.
-        MS.setPeaklist(plist);
-        MS.setTyp(typ);
-        MS.setSearchEngine(searchengine);
-        MS.setPeptidMass(peptidmass);
-        MS.setRt(rt);
-        MS.setChargeState(chargestate);
-        MS.setId(id);
 
-        return MS;
+        Collections.sort(plist, (a, b) -> a.getMz() < b.getMz() ? -1 : a.getMz() == b.getMz() ? 0 : 1);
+
+        this.setPeaklist(plist);
+        this.setTyp(typ);
+        this.setSearchEngine(searchengine);
+        this.setPeptidMass(peptidmass);
+        this.setRt(rt);
+        this.setChargeState(chargestate);
+        this.setId(id);
     }
 }

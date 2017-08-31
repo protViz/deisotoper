@@ -25,8 +25,7 @@ public class Peak {
     }
 
     public Peak(double mz, double intensity) {
-        this.mz = mz;
-        this.intensity = intensity;
+        this.setMz(mz);
+        this.setIntensity(intensity);
     }
-
 }
