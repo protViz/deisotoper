@@ -31,6 +31,7 @@ public class Summary {
                 dist.add(spectrum.getMz()[i] - spectrum.getMz()[i - 1]);
             }
 
+            summary.append(spectrum.getId()).append(",spectrum_type,").append(spectrum.getTyp()).append(linesep);
             summary.append(spectrum.getId()).append(",nr_of_peaks,").append(spectrum.getMz().length).append(linesep);
             summary.append(spectrum.getId()).append(",min_intensity,").append(Arrays.stream(spectrum.getIntensity()).min().getAsDouble()).append(linesep);
             summary.append(spectrum.getId()).append(",max_intensity,").append(Arrays.stream(spectrum.getIntensity()).max().getAsDouble()).append(linesep);
