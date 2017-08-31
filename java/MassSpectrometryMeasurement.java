@@ -35,7 +35,7 @@ public class MassSpectrometryMeasurement {
     public void setMSlist(List<MassSpectrum> list) {
         this.MSlist = list;
     }
-
+   // Move to class RJavaMassSpectrometryMeasurement
     public static MassSpectrometryMeasurement createMSM(String src, List<List<Object>> data) {
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement();
 
@@ -58,7 +58,7 @@ public class MassSpectrometryMeasurement {
 
         return MSM;
     }
-
+    // Move to class RJavaMassSpectrometryMeasurement
     public static List<Object> putArgsIntoList(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
         List<Object> list = new ArrayList<>();
 
