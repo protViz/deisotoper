@@ -42,7 +42,6 @@ public class TestSummary {
 
         main.java.MassSpectrometryMeasurement.addMSM(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id);
 
-        System.out.println(main.java.Summary.makeSummary(main.java.MassSpectrometryMeasurement.getMSMlist()));
         String result = "SpectrumID, Attribute, Value\n" + "12,spectrum_type,MS1 Spectrum\n" + "12,nr_of_peaks,11\n" + "12,min_intensity,4.0\n" + "12,max_intensity,8.0\n" + "12,sum_intensity,62.0\n"
                 + "12,min_mass,1.0\n" + "12,max_mass,11.0\n" + "12,min_peak_distance,1.0\n" + "12,max_peak_distance,1.0\n" + "12,precursor_charge,2\n" + "12,precursor_mass,309.22\n"
                 + "12,rt_in_seconds,38383.34\n" + "12,spectrum_type,MS2 Spectrum\n" + "12,nr_of_peaks,11\n" + "12,min_intensity,2.0\n" + "12,max_intensity,9.0\n" + "12,sum_intensity,62.0\n"
