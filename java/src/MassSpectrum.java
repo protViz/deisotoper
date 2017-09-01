@@ -5,7 +5,6 @@
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,7 +91,7 @@ public class MassSpectrum {
             intensitylist.add(intensity[i]);
         }
 
-        if (!isSorted(mzlist) && mz.length != intensity.length) {
+        if (!isSorted(mzlist) || mz.length != intensity.length) {
             throw new Exception();
         }
 
