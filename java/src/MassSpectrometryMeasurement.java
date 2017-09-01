@@ -33,11 +33,6 @@ public class MassSpectrometryMeasurement {
         this.setMSlist(list);
     }
 
-    // public static MassSpectrometryMeasurement createMSM(String src) {
-    // MassSpectrometryMeasurement msm = new MassSpectrometryMeasurement(src);
-    // return msm;
-    // }
-
     public void addMS(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
         this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
     }
