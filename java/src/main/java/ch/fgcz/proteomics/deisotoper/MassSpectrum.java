@@ -83,6 +83,25 @@ public class MassSpectrum {
         this.chargestate = chargestate;
     }
 
+    /**
+     * Constructs a MassSpectrum Object.
+     * 
+     * 
+     * Why did we use two List<Double> instead of a Map<Double, Double> or a List<Peak>?
+     * 
+     * Firstly the Map<Double, Double> hasn't index operations and then it's hard to work with it in the future and also there would be problems if a key occurs more than one time. Secondly the
+     * List<Peak> would be a very big performance leak. The List<Peak> contains Peaks and each of these Peaks is a Object. Therefore, assumed we have for example 30000 MassSpectrum Objects and 300
+     * Peak Objects in one average List<Peak>, there would be 9000000 Objects. In some tests with that structure we got many Java out of memory Errors.
+     * 
+     * @param typ
+     * @param searchengine
+     * @param mz
+     * @param intensity
+     * @param peptidmass
+     * @param rt
+     * @param chargestate
+     * @param id
+     */
     public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
         List<Double> mzlist = new ArrayList<>();
         List<Double> intensitylist = new ArrayList<>();
@@ -106,6 +125,12 @@ public class MassSpectrum {
         this.setId(id);
     }
 
+    /**
+     * Checks whether a list is sorted or not.
+     * 
+     * @param list
+     * @return boolean
+     */
     private static boolean isSorted(List<Double> list) {
         return list.stream().sorted().collect(Collectors.toList()).equals(list);
     }

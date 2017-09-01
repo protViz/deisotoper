@@ -15,11 +15,11 @@ import com.google.gson.reflect.TypeToken;
 
 public class SerializeMSM {
     /**
-     * Serializes a MassSpectrometryMeasurement to a JSON-file.
+     * Serializes a MassSpectrometryMeasurement Object to a JSON-file.
      * 
      * @param filename
      * @param m
-     * @return JSON-formatted string
+     * @return String
      * @see MassSpectrometryMeasurement
      */
     public static String serializeMSMToJson(String filename, MassSpectrometryMeasurement m) {
@@ -37,7 +37,7 @@ public class SerializeMSM {
     }
 
     /**
-     * Deserializes a JSON-file to a MassSpectrometryMeasurement.
+     * Deserializes a JSON-file to a MassSpectrometryMeasurement Object.
      * 
      * @param filename
      * @return MassSpectrometryMeasurement

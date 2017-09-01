@@ -27,12 +27,29 @@ public class MassSpectrometryMeasurement {
         this.MSlist = list;
     }
 
+    /**
+     * Constructs a MassSpectrometryMeasurement object.
+     * 
+     * @param src
+     */
     public MassSpectrometryMeasurement(String src) {
         List<MassSpectrum> list = new ArrayList<>();
         this.setSource(src);
         this.setMSlist(list);
     }
 
+    /**
+     * Fills the generated List<MassSpectrum> with input data.
+     * 
+     * @param typ
+     * @param searchengine
+     * @param mz
+     * @param intensity
+     * @param peptidmass
+     * @param rt
+     * @param chargestate
+     * @param id
+     */
     public void addMS(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
         this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
     }

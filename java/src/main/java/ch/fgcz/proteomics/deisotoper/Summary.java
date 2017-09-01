@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Summary {
     /**
-     * Creates a summary of a MassSpectrometryMeasurement and returns it in a CSV-formatted string.
+     * Creates a summary of a MassSpectrometryMeasurement Object and returns it in a CSV-formatted String.
      * 
      * @param MassSpectrometryMeasurement
-     * @return CSV-formatted string
+     * @return String
      * @see MassSpectrometryMeasurement
      */
     public static String makeSummary(MassSpectrometryMeasurement m) {

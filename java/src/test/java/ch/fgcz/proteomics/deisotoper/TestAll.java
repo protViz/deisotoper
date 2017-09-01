@@ -11,6 +11,7 @@ import org.junit.Test;
 public class TestAll {
     @Test
     public void test() {
+        //Literally the same as in the main of MassSpectrometryMeasurement
         String s = "TesterinoData.RData";
 
         String typ = "MS2 Spectrum";
