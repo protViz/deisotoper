@@ -5,6 +5,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,7 +83,7 @@ public class MassSpectrum {
         this.chargestate = chargestate;
     }
 
-    public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) throws Exception {
+    public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
         List<Double> mzlist = new ArrayList<>();
         List<Double> intensitylist = new ArrayList<>();
 
@@ -91,8 +92,8 @@ public class MassSpectrum {
             intensitylist.add(intensity[i]);
         }
 
-        if (!isSorted(mzlist) || mz.length != intensity.length) {
-            throw new Exception();
+        if (!isSorted(mzlist)) {
+            Collections.sort(mzlist);
         }
 
         this.setMz(mzlist);

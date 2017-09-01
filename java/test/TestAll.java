@@ -6,8 +6,6 @@
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
 import org.junit.Test;
 
 public class TestAll {
@@ -33,13 +31,9 @@ public class TestAll {
         int chargestate2 = 2;
         int id2 = 124;
 
-        List<Object> l1 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        List<Object> l2 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
-
-        RJavaMassSpectrometryMeasurement.putListIntoList(l1);
-        RJavaMassSpectrometryMeasurement.putListIntoList(l2);
-
-        MassSpectrometryMeasurement test = MassSpectrometryMeasurement.createMSM(s, RJavaMassSpectrometryMeasurement.getListlist());
+        MassSpectrometryMeasurement test = new MassSpectrometryMeasurement(s);
+        test.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+        test.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
 
         assertEquals("Source must be right!", test.getSource(), "TesterinoData.RData");
 

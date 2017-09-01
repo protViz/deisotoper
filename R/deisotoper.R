@@ -106,26 +106,19 @@ findNN <- function (q, vec, check = FALSE) {
 #'  jo <- jCreateMSM(S)
 #' }
 jCreateMSM <- function (obj) {
-  .jinit()
+  src <- deparse(substitute(obj))
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("MassSpectrometryMeasurement")
-  rMSM <- .jnew("RJavaMassSpectrometryMeasurement")
-  
-  src <- deparse(substitute(obj))
+  MSM <- .jnew("MassSpectrometryMeasurement", src)
   
   lapply(obj, function(x) {
-    list <- .jcall(rMSM, "Ljava/util/List;", "putArgsIntoList", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
-    .jcall(rMSM, "Ljava/util/List;", "putListIntoList", list)
-  }
-  )
+    Sys.sleep(0.001)
+    .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
+  })
   
-  listlist <- .jcall(rMSM, "Ljava/util/List;", "getListlist")
-  
-  M <- .jcall(MSM, "LMassSpectrometryMeasurement;", "createMSM", src, listlist)
-  #class(rv) <- "jMSM"
-  M
+  MSM
 }
 
 jGetMSM <- function(jobj) {
