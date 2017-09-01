@@ -51,6 +51,9 @@ public class MassSpectrometryMeasurement {
         MSM.setSource(src);
         MSM.setMSlist(msmlist);
 
+        System.gc();
+        Runtime.getRuntime().freeMemory();
+
         return MSM;
     }
 
@@ -69,7 +72,7 @@ public class MassSpectrometryMeasurement {
         String typ2 = "MS2 Spectrum";
         String searchengine2 = "mascot";
         double[] mz2 = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
-        double[] intensity2 = { 1.2, 2.3, 5.5, 6.5, 6.8, 8.1, 8.2, 9, 10, 11 };
+        double[] intensity2 = { 65, 44, 23, 88, 666, 451, 44, 22, 111, 1000 };
         double peptidmass2 = 203.23;
         double rt2 = 58333.35;
         int chargestate2 = 2;
@@ -89,7 +92,7 @@ public class MassSpectrometryMeasurement {
             System.out.println("Type: " + i.getTyp() + ", SearchEngine: " + i.getSearchEngine() + ", PeptidMass " + i.getPeptidMass() + ", Rt: " + i.getRt() + ", ChargeState: " + i.getChargeState()
                     + ", SpectrumId: " + i.getId());
             for (int j = 0; j < i.getMz().size() && j < i.getIntensity().size(); j++) {
-                System.out.println("Intensity: " + i.getIntensity().get(j) + ", Mz: " + i.getMz().get(j));
+                System.out.println("Mz: " + i.getMz().get(j) + ", Intensity: " + i.getIntensity().get(j));
             }
             System.out.println();
         }
@@ -105,7 +108,7 @@ public class MassSpectrometryMeasurement {
             System.out.println("Type: " + i.getTyp() + ", SearchEngine: " + i.getSearchEngine() + ", PeptidMass " + i.getPeptidMass() + ", Rt: " + i.getRt() + ", ChargeState: " + i.getChargeState()
                     + ", SpectrumId: " + i.getId());
             for (int j = 0; j < i.getMz().size() && j < i.getIntensity().size(); j++) {
-                System.out.println("Intensity: " + i.getIntensity().get(j) + ", Mz: " + i.getMz().get(j));
+                System.out.println("Mz: " + i.getMz().get(j) + ", Intensity: " + i.getIntensity().get(j));
             }
             System.out.println();
         }

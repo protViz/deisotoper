@@ -30,6 +30,7 @@ public class RJavaMassSpectrometryMeasurement {
         list.add(chargestate);
         list.add(id);
 
+        System.gc();
         return list;
     }
 
