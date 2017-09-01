@@ -72,21 +72,20 @@ public class MassSpectrometryMeasurement {
         int id2 = 124;
 
         List<Object> l1 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        List<Object> l2 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
-
         RJavaMassSpectrometryMeasurement.putListIntoList(l1);
+        List<Object> l2 = RJavaMassSpectrometryMeasurement.putArgsIntoList(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
         RJavaMassSpectrometryMeasurement.putListIntoList(l2);
 
         MassSpectrometryMeasurement test = createMSM(s, RJavaMassSpectrometryMeasurement.getListlist());
 
-        System.out.println(mz.length + " " + (test.getMSlist().get(0).getPeaklist().size() + 1));
+        System.out.println(mz.length + " " + test.getMSlist().get(0).getMz());
 
         System.out.println("Source: " + test.getSource());
         for (MassSpectrum i : test.getMSlist()) {
             System.out.println("Type: " + i.getTyp() + ", SearchEngine: " + i.getSearchEngine() + ", PeptidMass " + i.getPeptidMass() + ", Rt: " + i.getRt() + ", ChargeState: " + i.getChargeState()
                     + ", SpectrumId: " + i.getId());
-            for (Peak j : i.getPeaklist()) {
-                System.out.println("Intensity: " + j.getIntensity() + ", Mz: " + j.getMz());
+            for (int j = 0; j < i.getMz().size() && j < i.getIntensity().size(); j++) {
+                System.out.println("Intensity: " + i.getIntensity().get(j) + ", Mz: " + i.getMz().get(j));
             }
             System.out.println();
         }
@@ -101,8 +100,8 @@ public class MassSpectrometryMeasurement {
         for (MassSpectrum i : m.getMSlist()) {
             System.out.println("Type: " + i.getTyp() + ", SearchEngine: " + i.getSearchEngine() + ", PeptidMass " + i.getPeptidMass() + ", Rt: " + i.getRt() + ", ChargeState: " + i.getChargeState()
                     + ", SpectrumId: " + i.getId());
-            for (Peak j : i.getPeaklist()) {
-                System.out.println("Intensity: " + j.getIntensity() + ", Mz: " + j.getMz());
+            for (int j = 0; j < i.getMz().size() && j < i.getIntensity().size(); j++) {
+                System.out.println("Intensity: " + i.getIntensity().get(j) + ", Mz: " + i.getMz().get(j));
             }
             System.out.println();
         }

@@ -42,10 +42,10 @@ public class TestAll {
         MassSpectrometryMeasurement test = MassSpectrometryMeasurement.createMSM(s, RJavaMassSpectrometryMeasurement.getListlist());
 
         assertEquals("Source must be right!", test.getSource(), "TesterinoData.RData");
-        assertEquals("Length of List<Peak> must be correct", test.getMSlist().get(0).getPeaklist().size(), 10);
 
         for (MassSpectrum i : test.getMSlist()) {
-            assertEquals("Length of List<Peak> must be correct", i.getPeaklist().size(), 10);
+            assertEquals("Length of List must be correct", i.getMz().size(), 10);
+            assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
         }
 
         Summary.makeSummary(test);
@@ -54,8 +54,6 @@ public class TestAll {
 
         int n = 0;
         for (MassSpectrum i : m.getMSlist()) {
-            System.out.println("Type: " + i.getTyp() + ", SearchEngine: " + i.getSearchEngine() + ", PeptidMass " + i.getPeptidMass() + ", Rt: " + i.getRt() + ", ChargeState: " + i.getChargeState()
-                    + ", SpectrumId: " + i.getId());
             assertEquals("MSM must be same!", (String) i.getTyp(), (String) test.getMSlist().get(n).getTyp());
             assertEquals("MSM must be same!", (String) i.getSearchEngine(), (String) test.getMSlist().get(n).getSearchEngine());
             n++;

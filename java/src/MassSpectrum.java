@@ -11,18 +11,27 @@ import java.util.List;
 public class MassSpectrum {
     private String typ;
     private String searchengine;
-    private List<Peak> peaklist;
+    private List<Double> mz = new ArrayList<>();
+    private List<Double> intensity = new ArrayList<>();
     private double peptidmass;
     private double rt;
     private int chargestate;
     private int id;
 
-    public List<Peak> getPeaklist() {
-        return peaklist;
+    public List<Double> getMz() {
+        return mz;
     }
 
-    public void setPeaklist(List<Peak> peaklist) {
-        this.peaklist = peaklist;
+    public void setMz(List<Double> mz) {
+        this.mz = mz;
+    }
+
+    public List<Double> getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(List<Double> intensity) {
+        this.intensity = intensity;
     }
 
     public int getId() {
@@ -74,15 +83,19 @@ public class MassSpectrum {
     }
 
     public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
-        List<Peak> plist = new ArrayList<>();
+        List<Double> mzlist = new ArrayList<>();
+        List<Double> intensitylist = new ArrayList<>();
 
         for (int i = 0; i < mz.length && i < intensity.length; i++) {
-            plist.add(new Peak(mz[i], intensity[i]));
+            mzlist.add(mz[i]);
+            intensitylist.add(intensity[i]);
         }
 
-        Collections.sort(plist, (a, b) -> a.getMz() < b.getMz() ? -1 : a.getMz() == b.getMz() ? 0 : 1);
+        Collections.sort(mzlist);
+        Collections.sort(intensitylist);
 
-        this.setPeaklist(plist);
+        this.setMz(mzlist);
+        this.setIntensity(intensitylist);
         this.setTyp(typ);
         this.setSearchEngine(searchengine);
         this.setPeptidMass(peptidmass);
