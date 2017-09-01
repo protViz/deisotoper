@@ -4,9 +4,9 @@
 .SUFFIXES: .java .class
 
 MKDIR = mkdir -p
-CLASSES = $(shell ls *.java | grep -v UnitTest)
-CLASSPATH = .:../../inst/java/:../../inst/java/gson-2.8.1.jar
-JAR=../../inst/java/deisotoper.jar
+CLASSES = $(shell ls *.java | grep -v Test)
+CLASSPATH = .:../../../../../inst/java/:../../../../../inst/java/gson-2.8.1.jar
+JAR=../../../../../inst/java/deisotoper.jar
 
 test: jar
 	jar tf $(JAR)
