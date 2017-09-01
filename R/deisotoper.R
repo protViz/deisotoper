@@ -29,7 +29,7 @@
 #   xyplot(Value ~ SpectrumID | Attribute, data=X,   scales = list(relation="sliced", y=list(log=TRUE)), pch='.')
 #' }
 jSummaryMSM <- function(jobj){
-  .jinit()
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
@@ -127,7 +127,7 @@ jGetMSM <- function(jobj) {
 
 
 jWriteMSM2JSON <- function(jobj, filename='test.json'){
-  .jinit()
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
@@ -139,7 +139,7 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
 }
 
 jReadJSON2MSM <- function(filename='test.json'){
-  .jinit(parameters = "-XX:-UseGCOverheadLimit" )
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
