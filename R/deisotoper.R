@@ -114,7 +114,6 @@ jCreateMSM <- function (obj) {
   MSM <- .jnew("MassSpectrometryMeasurement", src)
   
   lapply(obj, function(x) {
-    Sys.sleep(0.001)
     .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
   })
   
@@ -140,7 +139,7 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
 }
 
 jReadJSON2MSM <- function(filename='test.json'){
-  .jinit()
+  .jinit(parameters = "-XX:-UseGCOverheadLimit" )
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
