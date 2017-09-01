@@ -41,7 +41,11 @@ public class MassSpectrometryMeasurement {
             double rt = (double) l.get(5);
             int chargestate = (int) l.get(6);
             int id = (int) l.get(7);
-            msmlist.add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
+            try {
+                msmlist.add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         MSM.setSource(src);

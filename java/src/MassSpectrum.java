@@ -7,6 +7,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MassSpectrum {
     private String typ;
@@ -82,7 +83,7 @@ public class MassSpectrum {
         this.chargestate = chargestate;
     }
 
-    public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
+    public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) throws Exception {
         List<Double> mzlist = new ArrayList<>();
         List<Double> intensitylist = new ArrayList<>();
 
@@ -91,8 +92,9 @@ public class MassSpectrum {
             intensitylist.add(intensity[i]);
         }
 
-        Collections.sort(mzlist);
-        Collections.sort(intensitylist);
+        if (!isSorted(mzlist)) {
+            throw new Exception();
+        }
 
         this.setMz(mzlist);
         this.setIntensity(intensitylist);
@@ -102,5 +104,9 @@ public class MassSpectrum {
         this.setRt(rt);
         this.setChargeState(chargestate);
         this.setId(id);
+    }
+
+    private static boolean isSorted(List<Double> list) {
+        return list.stream().sorted().collect(Collectors.toList()).equals(list);
     }
 }
