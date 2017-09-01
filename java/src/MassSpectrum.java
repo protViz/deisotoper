@@ -92,7 +92,7 @@ public class MassSpectrum {
             intensitylist.add(intensity[i]);
         }
 
-        if (!isSorted(mzlist)) {
+        if (!isSorted(mzlist) && mz.length != intensity.length) {
             throw new Exception();
         }
 
