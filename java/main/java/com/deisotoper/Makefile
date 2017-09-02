@@ -21,5 +21,5 @@ clean:
 	$(RM) $(JAR) *.class
 
 md:
-	$(MKDIR) ../../inst/java/
+	$(MKDIR) $(JARDIR)
 

@@ -11,23 +11,20 @@
 #' 
 #' @examples
 #' 
-#' \dontrun{
-#' urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
-#' con <- url(urlrdata)
-#' load(con)
-#' S <- as.psmSet(F225712)
-#' jo <- jCreateMSM(S)
-#' X <- jSummaryMSM(jo)
-#' 
+#'  mzXMLfilename <- system.file("extdata",
+#'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
+#'       
+#'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
+#'  X <- jSummaryMSM(jo)
+#'  
 #' library(lattice)
 #' 
 #' xyplot(Value ~ SpectrumID | Attribute,
 #'  data=X, 
-#'  scales = list(y=list(log=TRUE)),
 #'  pch='.')
 #
-#   xyplot(Value ~ SpectrumID | Attribute, data=X,   scales = list(relation="sliced", y=list(log=TRUE)), pch='.')
-#' }
+#   xyplot(Value ~ SpectrumID | Attribute, data=X)
+
 jSummaryMSM <- function(jobj){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -98,13 +95,11 @@ findNN <- function (q, vec, check = FALSE) {
 #' @export jCreateMSM
 #' @author Lucas Schmidt, Witold E. Wolski, Christian Panse
 #' @examples 
-#' \dontrun{
-#'  urlrdata = "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
-#'  con <- url(urlrdata)
-#'  load(con)
-#'  S <- as.psmSet(F225712)
-#'  jo <- jCreateMSM(S)
-#' }
+#'  mzXMLfilename <- system.file("extdata",
+#'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
+#'       
+#'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
+#'  
 jCreateMSM <- function (obj) {
   src <- deparse(substitute(obj))
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
