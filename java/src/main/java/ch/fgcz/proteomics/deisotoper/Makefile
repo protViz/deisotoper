@@ -5,8 +5,10 @@
 
 MKDIR = mkdir -p
 CLASSES = $(shell ls *.java | grep -v Test)
-CLASSPATH = .:../../../../../../../../inst/java/:../../../../../../../../inst/java/gson-2.8.1.jar
-JAR=../../../../../../../../inst/java/deisotoper.jar
+
+CLASSPATH = .:$(JARDIR):$(JARDIR)/gson-2.8.1.jar
+
+JAR=$(JARDIR)/deisotoper.jar
 
 test: jar
 	jar tf $(JAR)
@@ -21,5 +23,5 @@ clean:
 	$(RM) $(JAR) *.class
 
 md:
-	$(MKDIR) ../../inst/java/
+	$(MKDIR) $(JARDIR)
 
