@@ -102,21 +102,13 @@ public class MassSpectrum {
      * @param chargestate
      * @param id
      */
-    public MassSpectrum(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
-        List<Double> mzlist = new ArrayList<>();
-        List<Double> intensitylist = new ArrayList<>();
-
-        for (int i = 0; i < mz.length && i < intensity.length; i++) {
-            mzlist.add(mz[i]);
-            intensitylist.add(intensity[i]);
+    public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
+        if (!isSorted(mz)) {
+            Collections.sort(mz);
         }
 
-        if (!isSorted(mzlist)) {
-            Collections.sort(mzlist);
-        }
-
-        this.setMz(mzlist);
-        this.setIntensity(intensitylist);
+        this.setMz(mz);
+        this.setIntensity(intensity);
         this.setTyp(typ);
         this.setSearchEngine(searchengine);
         this.setPeptidMass(peptidmass);

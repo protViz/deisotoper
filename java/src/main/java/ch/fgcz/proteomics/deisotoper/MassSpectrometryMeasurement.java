@@ -5,6 +5,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
@@ -50,7 +51,7 @@ public class MassSpectrometryMeasurement {
      * @param chargestate
      * @param id
      */
-    public void addMS(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
+    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
         this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
     }
 
@@ -59,8 +60,8 @@ public class MassSpectrometryMeasurement {
 
         String typ = "MS2 Spectrum";
         String searchengine = "mascot";
-        double[] mz = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        double[] intensity = { 4, 4, 5, 6, 6, 7, 7, 7, 8, 8 };
+        List<Double> mz = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
+        List<Double> intensity = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0);
         double peptidmass = 309.22;
         double rt = 38383.34;
         int chargestate = 2;
@@ -68,8 +69,8 @@ public class MassSpectrometryMeasurement {
 
         String typ2 = "MS2 Spectrum";
         String searchengine2 = "mascot";
-        double[] mz2 = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
-        double[] intensity2 = { 65, 44, 23, 88, 666, 451, 44, 22, 111, 1000 };
+        List<Double> mz2 = Arrays.asList(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0);
+        List<Double> intensity2 = Arrays.asList(65.0, 44.0, 23.0, 88.0, 666.0, 451.0, 44.0, 22.0, 111.0, 1000.0);
         double peptidmass2 = 203.23;
         double rt2 = 58333.35;
         int chargestate2 = 2;
@@ -79,7 +80,7 @@ public class MassSpectrometryMeasurement {
         test.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
         test.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
 
-        System.out.println(mz.length + " " + test.getMSlist().get(0).getMz());
+        System.out.println(mz.size() + " " + test.getMSlist().get(0).getMz());
 
         System.out.println("Source: " + test.getSource());
         for (MassSpectrum i : test.getMSlist()) {

@@ -6,18 +6,21 @@
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 public class TestAll {
     @Test
     public void test() {
-        //Literally the same as in the main of MassSpectrometryMeasurement
+        // Literally the same as in the main of MassSpectrometryMeasurement
         String s = "TesterinoData.RData";
 
         String typ = "MS2 Spectrum";
         String searchengine = "mascot";
-        double[] mz = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        double[] intensity = { 4, 4, 5, 6, 6, 7, 7, 7, 8, 8 };
+        List<Double> mz = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
+        List<Double> intensity = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0);
         double peptidmass = 309.22;
         double rt = 38383.34;
         int chargestate = 2;
@@ -25,8 +28,8 @@ public class TestAll {
 
         String typ2 = "MS2 Spectrum";
         String searchengine2 = "mascot";
-        double[] mz2 = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
-        double[] intensity2 = { 1.2, 2.3, 5.5, 6.5, 6.8, 8.1, 8.2, 9, 10, 11 };
+        List<Double> mz2 = Arrays.asList(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0);
+        List<Double> intensity2 = Arrays.asList(65.0, 44.0, 23.0, 88.0, 666.0, 451.0, 44.0, 22.0, 111.0, 1000.0);
         double peptidmass2 = 203.23;
         double rt2 = 58333.35;
         int chargestate2 = 2;
