@@ -9,16 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsotopicSets {
-    private List<List<Double>> isotopicsets = new ArrayList<>();
+    private List<List<Peak>> isotopicsets = new ArrayList<>();
 
-    public List<List<Double>> getIsotopicsets() {
+    public List<List<Peak>> getIsotopicsets() {
         return isotopicsets;
     }
 
-    public void setIsotopicsets(List<List<Double>> isotopicsets) {
+    public void setIsotopicsets(List<List<Peak>> isotopicsets) {
         this.isotopicsets = isotopicsets;
     }
 
+    public IsotopicSets(Peaklist peaklist, double errortolerance) {
+        // TODO: Auto-generated constructor stub
+    }
+
+    // OLD
     private static int indexisotopicset = 1;
     private static int oldindexisotopicset = 1;
 
@@ -63,9 +68,5 @@ public class IsotopicSets {
         }
 
         return isotopicset;
-    }
-
-    public IsotopicSets(Peaklist peaklist, double errortolerance) {
-        // TODO Auto-generated constructor stub
     }
 }

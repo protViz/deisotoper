@@ -9,16 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsotopicClusters {
-    private List<List<Double>> isotopicclusters = new ArrayList<>();
+    private List<List<Peak>> isotopicclusters = new ArrayList<>();
 
-    public List<List<Double>> getIsotopicclusters() {
+    public List<List<Peak>> getIsotopicclusters() {
         return isotopicclusters;
     }
 
-    public void setIsotopicclusters(List<List<Double>> isotopicclusters) {
+    public void setIsotopicclusters(List<List<Peak>> isotopicclusters) {
         this.isotopicclusters = isotopicclusters;
     }
 
+    public IsotopicClusters(List<Peak> isotopicclusters, double errortolerance) {
+        // TODO: Auto-generated constructor stub
+    }
+
+    // OLD
     // TODO: Make it work with IsotopicSets class and change this function to a constructor
     public static List<List<Double>> createIsotopicClusters(List<Double> isotopicset, double errortolerance) {
         List<List<Double>> isotopicclusters = new ArrayList<>();

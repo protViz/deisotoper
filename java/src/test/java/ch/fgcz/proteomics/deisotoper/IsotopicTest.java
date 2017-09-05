@@ -7,7 +7,6 @@
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,12 +43,13 @@ public class IsotopicTest {
         MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
 
         // Create IsotopicSets for this MSM (Expected results)
-        List<List<Double>> resultlist1 = new ArrayList<>();
-        List<Double> resultresultlist1 = Arrays.asList(1.33, 1.66, 2.0, 2.5, 3.5, 4.0, 5.0, 6.0);
-        resultlist1.add(resultresultlist1);
-        List<List<Double>> resultlist2 = new ArrayList<>();
-        List<Double> resultresultlist2 = Arrays.asList(1.0, 2.0, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0, 6.5, 7.0);
-        resultlist2.add(resultresultlist2);
+        List<Double> resultmz1 = Arrays.asList(1.33, 1.66, 2.0, 2.5, 3.5, 4.0, 5.0, 6.0);
+        List<Double> resultintensity1 = Arrays.asList(5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0);
+        Peaklist resultpeaklist1 = new Peaklist(resultmz1, resultintensity1);
+
+        List<Double> resultmz2 = Arrays.asList(1.0, 2.0, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0, 6.5, 7.0);
+        List<Double> resultintensity2 = Arrays.asList(8.0, 3.0, 5.0, 6.0, 1.0, 4.0, 2.0, 1.0, 4.0, 1.0);
+        Peaklist resultpeaklist2 = new Peaklist(resultmz2, resultintensity2);
 
         // Create Peaklist of the two MS
         double errortolerance = 0.01;
@@ -58,10 +58,10 @@ public class IsotopicTest {
 
         // Calculate IsotopicSet
         IsotopicSets IS1 = new IsotopicSets(peaklist1, errortolerance);
-        assertEquals("Calculated IsotopicSet must be same size as defined Result!", IS1.getIsotopicsets().size(), resultlist1.size());
+        assertEquals("Calculated IsotopicSet must be same size as defined Result!", IS1.getIsotopicsets().get(0).size(), resultpeaklist1.getPeaklist().size());
 
         IsotopicSets IS2 = new IsotopicSets(peaklist2, errortolerance);
-        assertEquals("Calculated IsotopicSet must be same size as defined Result!", IS2.getIsotopicsets().size(), resultlist2.size());
+        assertEquals("Calculated IsotopicSet must be same size as defined Result!", IS2.getIsotopicsets().get(0).size(), resultpeaklist2.getPeaklist().size());
 
     }
 

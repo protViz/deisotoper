@@ -18,11 +18,23 @@ public class Peaklist {
         this.peaklist = peaklist;
     }
 
+    // Convert from MassSpectrum
     public Peaklist(MassSpectrum ms) {
         List<Peak> plist = new ArrayList<>();
 
         for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
             plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i)));
+        }
+
+        this.peaklist = plist;
+    }
+
+    // Convert from two Lists (mZ Values and Intensity Values)
+    public Peaklist(List<Double> mz, List<Double> intensity) {
+        List<Peak> plist = new ArrayList<>();
+
+        for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
+            plist.add(new Peak(mz.get(i), intensity.get(i)));
         }
 
         this.peaklist = plist;
