@@ -2,6 +2,7 @@
 /**
  * @author Lucas Schmidt
  * @since 2017-09-05
+ * THIS CODE IS UNDER CONSTRUCTION
  */
 
 import java.util.ArrayList;
@@ -62,5 +63,9 @@ public class IsotopicSets {
         }
 
         return isotopicset;
+    }
+
+    public IsotopicSets(Peaklist peaklist, double errortolerance) {
+        // TODO Auto-generated constructor stub
     }
 }
