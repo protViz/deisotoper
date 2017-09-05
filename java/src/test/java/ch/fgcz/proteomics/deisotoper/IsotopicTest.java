@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class IsotopicTest {
@@ -19,6 +20,7 @@ public class IsotopicTest {
     Peaklist peaklist2;
     MassSpectrometryMeasurement MSM;
 
+    @Before
     public void setUp() {
         String source = "IsotopicSetTestData";
 
@@ -64,7 +66,7 @@ public class IsotopicTest {
 
     @Test
     public void testIsotopeSet() {
-        setUp();
+        // setUp();
         double errortolerance = 0.01;
 
         // Calculate IsotopicSet
