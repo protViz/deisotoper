@@ -18,7 +18,11 @@ public class Peaklist {
         this.peaklist = peaklist;
     }
 
-    // Convert from MassSpectrum
+    /**
+     * Converts from a MassSpectrum to a Peaklist
+     * 
+     * @param ms
+     */
     public Peaklist(MassSpectrum ms) {
         List<Peak> plist = new ArrayList<>();
 
@@ -29,7 +33,12 @@ public class Peaklist {
         this.peaklist = plist;
     }
 
-    // Convert from two Lists (mZ Values and Intensity Values)
+    /**
+     * Converts from two lists (mZ Values and Intensity Values) to a Peaklist.
+     * 
+     * @param mz
+     * @param intensity
+     */
     public Peaklist(List<Double> mz, List<Double> intensity) {
         List<Peak> plist = new ArrayList<>();
 

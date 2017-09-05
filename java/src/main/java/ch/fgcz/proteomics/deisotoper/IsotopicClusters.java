@@ -19,6 +19,12 @@ public class IsotopicClusters {
         this.isotopicclusters = isotopicclusters;
     }
 
+    /**
+     * Constructs the IsotopicClusters as a List of Lists of Peaks from one IsotopicSet which is a List of Peaks with a given error tolerance.
+     * 
+     * @param isotopicset
+     * @param errortolerance
+     */
     public IsotopicClusters(List<Peak> isotopicset, double errortolerance) {
         for (int i = 0; i < isotopicset.size(); i++) {
             List<Peak> isotopiccluster = new ArrayList<>();

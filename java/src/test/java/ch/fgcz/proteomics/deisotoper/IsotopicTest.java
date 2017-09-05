@@ -20,6 +20,13 @@ public class IsotopicTest {
     IsotopicSets IS1;
     IsotopicSets IS2;
 
+    /**
+     * Sets up the starting parameters.
+     * 
+     * The examples are constructed as Peaklist Objects. From those Peaklist Objects you can construct the IsotopicSets with a given error tolerance.
+     * 
+     * Also there is a result-pattern for each example, to compare the output (IsotopicSets) with the result-pattern.
+     */
     @Before
     public void setUp() {
         // Example 1
@@ -48,6 +55,9 @@ public class IsotopicTest {
         IS2 = new IsotopicSets(peaklist2, errortolerance);
     }
 
+    /**
+     * Checks if the calculated IsotopicSets are not empty and if they match the result-pattern.
+     */
     @Test
     public void testIsotopeSetConstruction() {
         // Assert
@@ -60,20 +70,33 @@ public class IsotopicTest {
         assertPeaklistEquals(IS2.getIsotopicsets().get(0), resultpeaklist2.getPeaklist());
     }
 
+    /**
+     * Checks if the calculated IsotopicClusters not empty and if there is the correct number of IsotopicCluster.
+     */
     @Test
     public void testIsotopeClustersConstruction() {
         // Assert
         for (List<Peak> set : IS1.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(set, 0.01);
+            assertNotNull(IC);
             assertEquals("Calculated IC must be size 9!", IC.getIsotopicclusters().size(), 9);
         }
 
         for (List<Peak> set : IS2.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(set, 0.01);
+            assertNotNull(IC);
             assertEquals("Calculated IC must be size 14!", IC.getIsotopicclusters().size(), 14);
         }
     }
 
+    /**
+     * Compares two lists of Peaks with each other.
+     * 
+     * The function is a additional function to the existing assert functions from the JUnit package.
+     * 
+     * @param list
+     * @param list2
+     */
     private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
         for (int i = 0; i < list.size() || i < list2.size(); i++) {
             boolean b = false;

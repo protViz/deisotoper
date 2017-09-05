@@ -19,6 +19,12 @@ public class IsotopicSets {
     }
 
     // TODO: Code review and refactoring
+    /**
+     * Constructs the IsotopicSets as a List of Lists of Peaks from one Peaklist Object with a given error tolerance.
+     * 
+     * @param peaklist
+     * @param errortolerance
+     */
     public IsotopicSets(Peaklist peaklist, double errortolerance) {
         int indexisotopicset = 1;
         int oldindexisotopicset = 1;

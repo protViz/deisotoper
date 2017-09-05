@@ -24,6 +24,12 @@ public class Peak {
         this.intensity = intensity;
     }
 
+    /**
+     * Constructs the Peak Object.
+     * 
+     * @param mz
+     * @param intensity
+     */
     public Peak(double mz, double intensity) {
         this.mz = mz;
         this.intensity = intensity;
