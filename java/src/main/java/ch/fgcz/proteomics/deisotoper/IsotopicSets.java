@@ -26,39 +26,41 @@ public class IsotopicSets {
      * @param errortolerance
      */
     public IsotopicSets(Peaklist peaklist, double errortolerance) {
-        int i = 1;
-        int o = 1;
-        for (int n = 1; n < peaklist.getPeaklist().size(); n++) {
+        int index = 1;
+        int oldindex = 1;
+        for (int outterindex = 1; outterindex < peaklist.getPeaklist().size(); outterindex++) {
             List<Peak> isotopicset = new ArrayList<>();
 
-            for (int m = i; m < peaklist.getPeaklist().size(); m++) {
-                double distance = peaklist.getPeaklist().get(m).getMz() - peaklist.getPeaklist().get(m - 1).getMz();
-                boolean rightdistance = false;
+            for (int innerindex = index; innerindex < peaklist.getPeaklist().size(); innerindex++) {
+                double distance = peaklist.getPeaklist().get(innerindex).getMz() - peaklist.getPeaklist().get(innerindex - 1).getMz();
+                boolean trigger = false;
+
                 for (int charge = 1; charge <= 3; charge++) {
                     if ((1.003 / charge) - errortolerance < distance && distance < (1.003 / charge) + errortolerance) {
                         if (isotopicset.size() == 0) {
-                            isotopicset.add((peaklist.getPeaklist().get(m - 1)));
+                            isotopicset.add((peaklist.getPeaklist().get(innerindex - 1)));
                         }
-                        isotopicset.add((peaklist.getPeaklist().get(m)));
-                        rightdistance = true;
+
+                        isotopicset.add((peaklist.getPeaklist().get(innerindex)));
+                        trigger = true;
                     }
                 }
 
-                if (rightdistance == false) {
-                    o = m;
+                if (trigger == false) {
+                    oldindex = innerindex;
                     break;
                 }
             }
 
-            if (isotopicset.size() > 1) {
+            if (1 < isotopicset.size()) {
                 this.isotopicsets.add(isotopicset);
             }
 
-            if (i == o + 1) {
+            if (index == oldindex + 1) {
                 break;
             }
 
-            i = o + 1;
+            index = oldindex + 1;
         }
     }
 }

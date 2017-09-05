@@ -27,14 +27,13 @@ public class IsotopicClusters {
      */
     public IsotopicClusters(List<Peak> isotopicset, double errortolerance) {
         for (int i = 0; i < isotopicset.size(); i++) {
-            List<Peak> isotopiccluster = new ArrayList<>();
+            List<Peak> isotopiccluster1 = new ArrayList<>();
             List<Peak> isotopiccluster2 = new ArrayList<>();
-
-            double distance = 0;
+            double distance1 = 0;
             double distance2 = 0;
 
             if (i + 1 < isotopicset.size()) {
-                distance = isotopicset.get(i + 1).getMz() - isotopicset.get(i).getMz();
+                distance1 = isotopicset.get(i + 1).getMz() - isotopicset.get(i).getMz();
             }
 
             if (i + 2 < isotopicset.size()) {
@@ -42,21 +41,23 @@ public class IsotopicClusters {
             }
 
             for (int charge = 1; charge <= 3; charge++) {
-                if ((1.003 / charge) - errortolerance < distance && distance < (1.003 / charge) + errortolerance) {
-                    isotopiccluster.add(isotopicset.get(i));
-                    isotopiccluster.add(isotopicset.get(i + 1));
+                if ((1.003 / charge) - errortolerance < distance1 && distance1 < (1.003 / charge) + errortolerance) {
+                    isotopiccluster1.add(isotopicset.get(i));
+                    isotopiccluster1.add(isotopicset.get(i + 1));
+                    
                     if ((1.003 / charge) - errortolerance < distance2 && distance2 < (1.003 / charge) + errortolerance) {
-                        isotopiccluster.add(isotopicset.get(i + 2));
+                        isotopiccluster1.add(isotopicset.get(i + 2));
                     }
+                    
                     break;
                 }
             }
 
-            if (2 == isotopiccluster.size()) {
-                this.isotopicclusters.add(isotopiccluster);
-            } else if (3 == isotopiccluster.size()) {
-                this.isotopicclusters.add(isotopiccluster);
-                isotopiccluster2.addAll(isotopiccluster);
+            if (2 == isotopiccluster1.size()) {
+                this.isotopicclusters.add(isotopiccluster1);
+            } else if (3 == isotopiccluster1.size()) {
+                this.isotopicclusters.add(isotopiccluster1);
+                isotopiccluster2.addAll(isotopiccluster1);
                 isotopiccluster2.remove(2);
                 this.isotopicclusters.add(isotopiccluster2);
             }
