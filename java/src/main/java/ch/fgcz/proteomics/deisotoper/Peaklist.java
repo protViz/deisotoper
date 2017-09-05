@@ -18,6 +18,9 @@ public class Peaklist {
         this.peaklist = peaklist;
     }
 
+    public Peaklist() {
+    }
+
     // Convert from MassSpectrum
     public Peaklist(MassSpectrum ms) {
         List<Peak> plist = new ArrayList<>();

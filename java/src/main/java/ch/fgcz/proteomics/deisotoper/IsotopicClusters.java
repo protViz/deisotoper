@@ -19,28 +19,20 @@ public class IsotopicClusters {
         this.isotopicclusters = isotopicclusters;
     }
 
-    public IsotopicClusters(List<Peak> isotopicclusters, double errortolerance) {
-        // TODO: Auto-generated constructor stub
-    }
-
-    // OLD
-    // TODO: Make it work with IsotopicSets class and change this function to a constructor
-    public static List<List<Double>> createIsotopicClusters(List<Double> isotopicset, double errortolerance) {
-        List<List<Double>> isotopicclusters = new ArrayList<>();
-
+    public IsotopicClusters(List<Peak> isotopicset, double errortolerance) {
         for (int i = 0; i < isotopicset.size(); i++) {
-            List<Double> isotopiccluster = new ArrayList<>();
-            List<Double> isotopiccluster2 = new ArrayList<>();
+            List<Peak> isotopiccluster = new ArrayList<>();
+            List<Peak> isotopiccluster2 = new ArrayList<>();
 
             double distance = 0;
             double distance2 = 0;
 
             if (i + 1 < isotopicset.size()) {
-                distance = isotopicset.get(i + 1) - isotopicset.get(i);
+                distance = isotopicset.get(i + 1).getMz() - isotopicset.get(i).getMz();
             }
 
             if (i + 2 < isotopicset.size()) {
-                distance2 = isotopicset.get(i + 2) - isotopicset.get(i + 1);
+                distance2 = isotopicset.get(i + 2).getMz() - isotopicset.get(i + 1).getMz();
             }
 
             for (int charge = 1; charge <= 3; charge++) {
@@ -55,15 +47,13 @@ public class IsotopicClusters {
             }
 
             if (2 == isotopiccluster.size()) {
-                isotopicclusters.add(isotopiccluster);
+                this.isotopicclusters.add(isotopiccluster);
             } else if (3 == isotopiccluster.size()) {
-                isotopicclusters.add(isotopiccluster);
+                this.isotopicclusters.add(isotopiccluster);
                 isotopiccluster2.addAll(isotopiccluster);
                 isotopiccluster2.remove(2);
-                isotopicclusters.add(isotopiccluster2);
+                this.isotopicclusters.add(isotopiccluster2);
             }
         }
-
-        return isotopicclusters;
     }
 }
