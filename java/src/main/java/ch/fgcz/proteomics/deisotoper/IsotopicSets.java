@@ -31,18 +31,15 @@ public class IsotopicSets {
         for (int n = 1; n < peaklist.getPeaklist().size(); n++) {
             List<Peak> isotopicset = new ArrayList<>();
 
-            int j = 0;
             for (int m = i; m < peaklist.getPeaklist().size(); m++) {
                 double distance = peaklist.getPeaklist().get(m).getMz() - peaklist.getPeaklist().get(m - 1).getMz();
                 boolean rightdistance = false;
                 for (int charge = 1; charge <= 3; charge++) {
                     if ((1.003 / charge) - errortolerance < distance && distance < (1.003 / charge) + errortolerance) {
-                        if (j == 0) {
+                        if (isotopicset.size() == 0) {
                             isotopicset.add((peaklist.getPeaklist().get(m - 1)));
-                            j++;
                         }
                         isotopicset.add((peaklist.getPeaklist().get(m)));
-                        j++;
                         rightdistance = true;
                     }
                 }
