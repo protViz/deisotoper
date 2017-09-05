@@ -49,7 +49,7 @@ public class IsotopicTest {
     }
 
     @Test
-    public void testIsotopeSet() {
+    public void testIsotopeSetConstruction() {
         // Assert
         assertNotNull(IS1);
         assertEquals("Calculated IS1 must be same size as defined result (resultpreaklist1)!", IS1.getIsotopicsets().get(0).size(), resultpeaklist1.getPeaklist().size());
@@ -61,7 +61,7 @@ public class IsotopicTest {
     }
 
     @Test
-    public void testSpectrumToIsotopeClusters() {
+    public void testIsotopeClustersConstruction() {
         // Assert
         for (List<Peak> set : IS1.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(set, 0.01);
