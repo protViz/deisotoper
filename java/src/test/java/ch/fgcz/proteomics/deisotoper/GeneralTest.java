@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class TestAll {
+public class GeneralTest {
     @Test
     public void test() {
         // Literally the same as in the main of MassSpectrometryMeasurement
