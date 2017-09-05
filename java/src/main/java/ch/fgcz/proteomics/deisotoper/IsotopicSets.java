@@ -26,30 +26,29 @@ public class IsotopicSets {
      * @param errortolerance
      */
     public IsotopicSets(Peaklist peaklist, double errortolerance) {
-        int indexisotopicset = 1;
-        int oldindexisotopicset = 1;
-
+        int i = 1;
+        int o = 1;
         for (int n = 1; n < peaklist.getPeaklist().size(); n++) {
             List<Peak> isotopicset = new ArrayList<>();
 
             int j = 0;
-            for (int i = indexisotopicset; i < peaklist.getPeaklist().size(); i++) {
-                double distance = peaklist.getPeaklist().get(i).getMz() - peaklist.getPeaklist().get(i - 1).getMz();
+            for (int m = i; m < peaklist.getPeaklist().size(); m++) {
+                double distance = peaklist.getPeaklist().get(m).getMz() - peaklist.getPeaklist().get(m - 1).getMz();
                 boolean rightdistance = false;
                 for (int charge = 1; charge <= 3; charge++) {
                     if ((1.003 / charge) - errortolerance < distance && distance < (1.003 / charge) + errortolerance) {
                         if (j == 0) {
-                            isotopicset.add((peaklist.getPeaklist().get(i - 1)));
+                            isotopicset.add((peaklist.getPeaklist().get(m - 1)));
                             j++;
                         }
-                        isotopicset.add((peaklist.getPeaklist().get(i)));
+                        isotopicset.add((peaklist.getPeaklist().get(m)));
                         j++;
                         rightdistance = true;
                     }
                 }
 
                 if (rightdistance == false) {
-                    oldindexisotopicset = i;
+                    o = m;
                     break;
                 }
             }
@@ -58,11 +57,11 @@ public class IsotopicSets {
                 this.isotopicsets.add(isotopicset);
             }
 
-            if (indexisotopicset == oldindexisotopicset + 1) {
+            if (i == o + 1) {
                 break;
             }
 
-            indexisotopicset = oldindexisotopicset + 1;
+            i = o + 1;
         }
     }
 }
