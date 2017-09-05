@@ -79,6 +79,7 @@ public class IsotopicTest {
         for (List<Peak> set : IS1.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(set, 0.01);
             assertNotNull(IC);
+            // TODO: assertPeaklistEquals with all clusters
             assertEquals("Calculated IC must be size 9!", IC.getIsotopicclusters().size(), 9);
         }
 
@@ -88,6 +89,12 @@ public class IsotopicTest {
             assertEquals("Calculated IC must be size 14!", IC.getIsotopicclusters().size(), 14);
         }
     }
+
+    // TODO: more unittests for arcs functions (2.2) (DDT)
+    // TODO: UML diagram of IS, IC, etc...
+    // TODO: IsotopicClusters to IsotopicSet (overthink whats the best choice)
+    // TODO: Write down Javadoc why IsotopicClusters and not IsotopicSet
+    // TODO: Find ways to implement graph structure in java
 
     /**
      * Compares two lists of Peaks with each other.
