@@ -53,9 +53,11 @@ public class IsotopicTest {
         // Assert
         assertNotNull(IS1);
         assertEquals("Calculated IS1 must be same size as defined result (resultpreaklist1)!", IS1.getIsotopicsets().get(0).size(), resultpeaklist1.getPeaklist().size());
+        assertPeaklistEquals(IS1.getIsotopicsets().get(0), resultpeaklist1.getPeaklist());
 
         assertNotNull(IS2);
         assertEquals("Calculated IS2 must be same size as defined result (resultpreaklist2)!", IS2.getIsotopicsets().get(0).size(), resultpeaklist2.getPeaklist().size());
+        assertPeaklistEquals(IS2.getIsotopicsets().get(0), resultpeaklist2.getPeaklist());
     }
 
     @Test
@@ -69,6 +71,18 @@ public class IsotopicTest {
         for (List<Peak> set : IS2.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(set, 0.01);
             assertEquals("Calculated IC must be size 14!", IC.getIsotopicclusters().size(), 14);
+        }
+    }
+
+    private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
+        for (int i = 0; i < list.size() || i < list2.size(); i++) {
+            boolean b = false;
+
+            if (list.get(i).getMz() == list2.get(i).getMz() && list.get(i).getIntensity() == list2.get(i).getIntensity()) {
+                b = true;
+            }
+
+            assertTrue(b);
         }
     }
 }
