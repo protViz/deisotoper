@@ -1,4 +1,3 @@
-package main.java;
 
 /**
  * @author Lucas Schmidt
@@ -10,8 +9,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import main.java.Peaklist.Peak;
-
 public class Deisotope {
     public static final double ISOTOPE_DISTANCE = 1.00287;
     public static final double ELECTRON_MASS = 0.00054857990924;
@@ -20,7 +17,7 @@ public class Deisotope {
     public static List<Peaklist.Peak> deisotope(List<Peaklist.Peak> peaklist, int maxcharge, double mztolerance, double inttolerance, double isotopeshift) {
         List<Integer> charges = new ArrayList<>();
 
-        for (Peaklist.Peak p : Peaklist.peaklist) {
+        for (Peaklist.Peak p : peaklist) {
             p.setCharge(0);
             p.setIsotope(0);
         }
@@ -36,16 +33,16 @@ public class Deisotope {
         }
         Collections.reverse(charges);
 
-        int maxindex = peaklist.size() - 1;
+        int maxindex = peaklist.size();
 
         int x = 0;
-        for (Peak parent : peaklist) {
+        for (Peaklist.Peak parent : peaklist) {
             if (parent.getIsotope() != 0) {
                 continue;
             }
 
             for (int z : charges) {
-                List<Peak> cluster = new ArrayList<>();
+                List<Peaklist.Peak> cluster = new ArrayList<>();
                 cluster.add(parent); // NOT CLEAR
 
                 double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
@@ -61,11 +58,11 @@ public class Deisotope {
                     y++;
                 }
 
-                if (cluster.size() - 1 == 1) {
+                if (cluster.size() == 1) {
                     continue;
                 }
 
-                int mass = Math.min(15000, (int) calculateCharge(parent.getMz(), 0, z)) / 200; // NOT CLEAR
+                int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
 
                 List<Double> pattern = initPattern(mass);
 
@@ -83,7 +80,7 @@ public class Deisotope {
 
                 boolean valid = true;
                 int isotope = 1;
-                int limit = Math.min(pattern.size() - 1, cluster.size() - 1);
+                int limit = Math.min(pattern.size(), cluster.size());
 
                 while (isotope < limit) {
                     double inttheoretical = (cluster.get(isotope - 1).getIntensity() / pattern.get(isotope - 1)) * pattern.get(isotope);
@@ -104,39 +101,44 @@ public class Deisotope {
                     parent.setIsotope(0);
                     parent.setCharge(z);
                 }
+
+                // for (Peak i : cluster) {
+                // System.out.println(x + ". " + i.toString());
+                // }
             }
+            x++;
         }
 
         return peaklist;
     }
 
-    private static double calculateCharge(double mass, int c, int cc) { // NOT CLEAR
+    private static double calculateMass(double mass, int charge, int currentcharge) { // NOT CLEAR
         int agentcharge = 1;
         double agentmass = H_MASS;
 
-        double agentcount1 = cc / agentcharge;
+        double agentcount1 = currentcharge / agentcharge;
         agentmass = agentmass - agentcharge * ELECTRON_MASS;
         // System.out.println(agentmass);
 
-        if (cc != 0) {
-            mass = mass * Math.abs(cc) - agentmass * agentcount1;
+        if (currentcharge != 0) {
+            mass = mass * Math.abs(currentcharge) - agentmass * agentcount1;
         }
 
-        if (c == 0) {
+        if (charge == 0) {
             // System.out.println(" MASS" + mass);
             return mass;
         }
 
-        double agentcount2 = c / agentcharge;
+        double agentcount2 = charge / agentcharge;
         // System.out.println((mass + agentmass * agentcount2) / Math.abs(c));
-        return (mass + agentmass * agentcount2) / Math.abs(c);
+        return (mass + agentmass * agentcount2) / Math.abs(charge);
     }
 
     public static void main(String[] args) {
         int c = 2;
         double iso = 0;
 
-        int spectrum = 1;
+        int spectrum = 2;
 
         switch (spectrum) {
         case 1:
@@ -260,13 +262,16 @@ public class Deisotope {
             break;
         }
 
-        List<Peak> cluster = deisotope(Peaklist.peaklist, 1, 0.15, 0.5, 0.0);
+        List<Peaklist.Peak> plist = deisotope(Peaklist.peaklist, 2, 0.15, 0.5, 0.0);
 
-        for (Peak p : cluster) {
+        int size = 0;
+        for (Peaklist.Peak p : plist) {
             if (p.getIsotope() != 0) {
                 System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", ISOTOPE:" + p.getIsotope());
+                size++;
             }
         }
+        System.out.println(size + " " + Peaklist.peaklist.size());
     }
 
     private static List<Double> initPattern(int mass) {
