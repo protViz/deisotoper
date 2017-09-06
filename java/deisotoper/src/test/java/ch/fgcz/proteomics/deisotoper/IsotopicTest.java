@@ -150,8 +150,8 @@ public class IsotopicTest {
         clusters2.add(cluster214.getPeaklist());
 
         // Edge Color List 1
-        edgecolorlist1 = Arrays.asList("red", "red", "black", "black", "black", "black", "black", "red", "black", "black", "black", "black", "black", "black", "red", "black", "black", "black",
-                "black", "black", "red", "black", "black", "black", "black", "red", "black", "black", "black", "red", "red", "black", "red", "red");
+        edgecolorlist1 = Arrays.asList("black", "black", "red", "red", "black", "black", "black", "black", "black", "red", "black", "black", "black", "black", "black", "black", "red", "black",
+                "black", "black", "black", "black", "red", "black", "black", "black", "black", "red", "black", "black", "black", "red", "red", "black", "red", "red", "black");
 
         // Isotopic Sets
         double errortolerance = 0.01;
@@ -214,7 +214,15 @@ public class IsotopicTest {
 
         graph.createGraph(IC);
 
-        System.out.println(IsotopicClustersGraph.prettyPrint(graph));
+        int j = 0;
+        for (Node n : graph.getAdjacencylist()) {
+            for (Edge e : n.getEdges()) {
+                assertEquals(e.getColor(), edgecolorlist1.get(j));
+                j++;
+            }
+        }
+
+        // System.out.println(IsotopicClustersGraph.prettyPrint(graph));
     }
 
     // TODO: UML diagram of IS, IC, etc...
