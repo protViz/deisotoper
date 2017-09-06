@@ -1,4 +1,5 @@
 package ch.fgcz.proteomics.deisotoper;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-06
@@ -12,8 +13,6 @@ import java.util.Optional;
 public class Node {
     private List<Peak> cluster = new ArrayList<>();
     private List<Edge> edges;
-    private Node parent;
-    private double score;
     private boolean start;
     private boolean end;
 
@@ -31,22 +30,6 @@ public class Node {
 
     public void setEdges(List<Edge> edges) {
         this.edges = edges;
-    }
-
-    public Node getParent() {
-        return parent;
-    }
-
-    public void setParent(Node parent) {
-        this.parent = parent;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
     }
 
     public boolean isStart() {
