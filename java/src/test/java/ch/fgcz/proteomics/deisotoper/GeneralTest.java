@@ -18,7 +18,7 @@ public class GeneralTest {
         String s = "TesterinoData.RData";
 
         String typ = "MS2 Spectrum";
-        String searchengine = "mascot";
+        String searchengine = "XX";
         List<Double> mz = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
         List<Double> intensity = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0);
         double peptidmass = 309.22;
@@ -27,7 +27,7 @@ public class GeneralTest {
         int id = 123;
 
         String typ2 = "MS2 Spectrum";
-        String searchengine2 = "mascot";
+        String searchengine2 = "XX";
         List<Double> mz2 = Arrays.asList(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0);
         List<Double> intensity2 = Arrays.asList(65.0, 44.0, 23.0, 88.0, 666.0, 451.0, 44.0, 22.0, 111.0, 1000.0);
         double peptidmass2 = 203.23;
