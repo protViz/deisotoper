@@ -2,7 +2,6 @@
 /**
  * @author Lucas Schmidt
  * @since 2017-09-05
- * THIS CODE IS UNDER CONSTRUCTION
  */
 
 import java.util.ArrayList;
