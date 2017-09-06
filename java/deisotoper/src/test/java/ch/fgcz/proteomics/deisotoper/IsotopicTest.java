@@ -22,6 +22,7 @@ public class IsotopicTest {
     IsotopicSets IS2;
     List<List<Peak>> clusters1 = new ArrayList<>();
     List<List<Peak>> clusters2 = new ArrayList<>();
+    List<String> edgecolorlist1 = new ArrayList<>();
 
     /**
      * Sets up the starting parameters.
@@ -148,6 +149,10 @@ public class IsotopicTest {
         Peaklist cluster214 = new Peaklist(clustermz214, clusterintensity214);
         clusters2.add(cluster214.getPeaklist());
 
+        // Edge Color List 1
+        edgecolorlist1 = Arrays.asList("red", "red", "black", "black", "black", "black", "black", "red", "black", "black", "black", "black", "black", "black", "red", "black", "black", "black",
+                "black", "black", "red", "black", "black", "black", "black", "red", "black", "black", "black", "red", "red", "black", "red", "red");
+
         // Isotopic Sets
         double errortolerance = 0.01;
         IS1 = new IsotopicSets(peaklist1, errortolerance);
@@ -194,6 +199,41 @@ public class IsotopicTest {
                 i++;
             }
             assertEquals("Calculated IC must be size 14!", IC.getIsotopicclusters().size(), 14);
+        }
+    }
+
+    /**
+     * Test the construction of a Edge between two clusters
+     */
+    @Test
+    // UNDER CONSTRUCTION
+    public void testEdgeConstruction() {
+        IsotopicClusters IC = new IsotopicClusters(IS1.getIsotopicsets().get(0), 0.01);
+
+        int t = 0;
+        for (int i = 0; i < IC.getIsotopicclusters().size(); i++) {
+            for (int j = 0; j < IC.getIsotopicclusters().size(); j++) {
+                Node n1 = IsotopicClustersGraph.createNode(IC.getIsotopicclusters().get(i));
+                Node n2 = IsotopicClustersGraph.createNode(IC.getIsotopicclusters().get(j));
+                Edge e = IsotopicClustersGraph.createEdge(n1, n2);
+                if (e != null) {
+                    assertEquals(e.getColor(), edgecolorlist1.get(t));
+                    System.out.print("[");
+                    for (Peak n : n1.getCluster()) {
+                        System.out.print(" " + n.getMz() + " ");
+                    }
+                    System.out.print("]");
+                    System.out.print("--" + e.getColor() + "--");
+                    System.out.print("[");
+                    for (Peak n : n2.getCluster()) {
+                        System.out.print(" " + n.getMz() + " ");
+                    }
+                    System.out.print("]");
+
+                    System.out.println();
+                    t++;
+                }
+            }
         }
     }
 
