@@ -228,7 +228,7 @@ public class IsotopicClustersGraph {
                 int i = 0;
                 for (Peak y : IS.getIsotopicsets().get(i)) {
                     for (Peak x : n.getCluster()) {
-                        double scorenow = 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error)
+                        double scorenow = 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error, IS)
                                 + 0.1 * thirdNonintensityFeature(x, y, error + 0.1 * fifthIntensityFeature(x, y)) + 0.1 * fourthNonintensityFeature(x, y, error);
                         score = score + scorenow;
                     }
@@ -303,8 +303,17 @@ public class IsotopicClustersGraph {
     }
 
     // NOT IMPLEMENTED YET
-    private int secondNonintensityFeature(Peak x, Peak y, double e) {
+    private int secondNonintensityFeature(Peak x, Peak y, double e, IsotopicSets IS) {
         List<Peak> F2 = new ArrayList<>();
+
+        // double M = 0;
+        // for (int i = 0; i < IS.getIsotopicsets().size(); i++) {
+        // for (int j = 1; j < IS.getIsotopicsets().get(i).size(); j++) {
+        // if (IS.getIsotopicsets().get(i).get(j).getMz() == x.getMz()) {
+        // M = IS.getIsotopicsets().get(i).get(j - 1).getMz();
+        // }
+        // }
+        // }
 
         if (-e < sum1(x, y) && sum1(x, y) < +e) {
             F2.add(y);
@@ -403,7 +412,8 @@ public class IsotopicClustersGraph {
 
     // NOT IMPLEMENTED YET
     private int fifthIntensityFeature(Peak x, Peak y) {
+        List<Peak> F5 = new ArrayList<>();
 
-        return 0;
+        return F5.size();
     }
 }
