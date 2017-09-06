@@ -222,9 +222,9 @@ public class IsotopicClustersGraph {
 
     public void scoreGraph(IsotopicSets IS) {
         double error = 0.3;
-        double score = 0;
         for (Node n : this.adjacencylist) {
             for (Edge e : n.getEdges()) {
+                double score = 0;
                 int i = 0;
                 for (Peak y : IS.getIsotopicsets().get(i)) {
                     for (Peak x : n.getCluster()) {
