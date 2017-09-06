@@ -207,39 +207,17 @@ public class IsotopicTest {
      */
     @Test
     // UNDER CONSTRUCTION
-    public void testEdgeConstruction() {
+    public void testGraphConstruction() {
         IsotopicClusters IC = new IsotopicClusters(IS1.getIsotopicsets().get(0), 0.01);
 
-        int t = 0;
-        for (int i = 0; i < IC.getIsotopicclusters().size(); i++) {
-            for (int j = 0; j < IC.getIsotopicclusters().size(); j++) {
-                Node n1 = IsotopicClustersGraph.createNode(IC.getIsotopicclusters().get(i));
-                Node n2 = IsotopicClustersGraph.createNode(IC.getIsotopicclusters().get(j));
-                Edge e = IsotopicClustersGraph.createEdge(n1, n2);
-                if (e != null) {
-                    assertEquals(e.getColor(), edgecolorlist1.get(t));
-                    System.out.print("[");
-                    for (Peak n : n1.getCluster()) {
-                        System.out.print(" " + n.getMz() + " ");
-                    }
-                    System.out.print("]");
-                    System.out.print("--" + e.getColor() + "--");
-                    System.out.print("[");
-                    for (Peak n : n2.getCluster()) {
-                        System.out.print(" " + n.getMz() + " ");
-                    }
-                    System.out.print("]");
+        IsotopicClustersGraph graph = new IsotopicClustersGraph();
 
-                    System.out.println();
-                    t++;
-                }
-            }
-        }
+        graph.createGraph(IC);
+
+        System.out.println(IsotopicClustersGraph.prettyPrint(graph));
     }
 
-    // TODO: more unittests for arcs functions (2.2) (DDT)
     // TODO: UML diagram of IS, IC, etc...
-    // TODO: Find ways to implement graph structure in java
 
     /**
      * Compares two lists of Peaks with each other.
