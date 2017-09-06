@@ -1,4 +1,4 @@
-
+package ch.fgcz.proteomics.mspy;
 /**
  * @author Lucas Schmidt
  * @since 2017-08-29
