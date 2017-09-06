@@ -264,7 +264,7 @@ public class IsotopicTest {
 
         IsotopicSets IS = new IsotopicSets(peaklist, 0.01);
 
-        for (List<Peak> s : IS1.getIsotopicsets()) {
+        for (List<Peak> s : IS.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(s, 0.01);
 
             IsotopicClustersGraph graph = new IsotopicClustersGraph();

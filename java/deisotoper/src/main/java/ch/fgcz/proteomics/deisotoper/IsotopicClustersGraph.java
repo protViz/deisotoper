@@ -19,7 +19,7 @@ public class IsotopicClustersGraph {
     private final double H2O_MASS = 18.01528;
     private final double NH_MASS = 15.01464;
     private final double CO_MASS = 28.0101;
-    private double min;
+    private double min = 0;
 
     public List<Node> getAdjacencylist() {
         return adjacencylist;
@@ -27,7 +27,6 @@ public class IsotopicClustersGraph {
 
     public IsotopicClustersGraph() {
         adjacencylist = new ArrayList<>();
-        addStart();
     }
 
     public boolean addStart() {
@@ -61,16 +60,17 @@ public class IsotopicClustersGraph {
     }
 
     public boolean addNode(List<Peak> cluster) {
-        if (adjacencylist.size() == 2) {
-            min = adjacencylist.get(1).getCluster().get(0).getMz();
-        }
-
         Node n = new Node(cluster);
 
         if (adjacencylist.contains(n)) {
             return false;
         }
+
         adjacencylist.add(n);
+
+        if (adjacencylist.size() == 2) {
+            min = adjacencylist.get(1).getCluster().get(0).getMz();
+        }
         return true;
     }
 
@@ -207,6 +207,8 @@ public class IsotopicClustersGraph {
     }
 
     public void createGraph(IsotopicClusters IC) {
+        this.addStart();
+
         for (int i = 0; i < IC.getIsotopicclusters().size(); i++) {
             this.addNode(IC.getIsotopicclusters().get(i));
         }
