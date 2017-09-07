@@ -8,6 +8,8 @@ package ch.fgcz.proteomics.isotopic;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.fgcz.proteomics.deisotoper.MassSpectrum;
+
 public class Peaklist {
     private List<Peak> peaklist = new ArrayList<>();
 
