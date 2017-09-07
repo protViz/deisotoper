@@ -11,14 +11,14 @@
 #'
 #' 
 #' @importMethodsFrom mzR header peaks
-#' @export as.psmSet.mzXML
 #'
 #'
 #' @examples
-#' 
+#'  \dontrun{
 #'  mzXMLfilename <- system.file("extdata",
 #'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
 #'       
+#'  library(mzR)
 #'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
 #'  
 #'  library(lattice)
@@ -26,7 +26,7 @@
 #'      data = jSummaryMSM(jo), 
 #'      scales = list(relation = "sliced"), 
 #'      pch=22)
-#'      
+#' }     
 as.psmSet.mzXML <- function(obj){
   idx <- which(sapply(1:length(obj), function(x){header(obj, x)$msLevel}) == 2)
   
