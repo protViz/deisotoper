@@ -276,7 +276,7 @@ public class IsotopicTest {
     public void testGraphConstruction() {
         IsotopicClusters IC = new IsotopicClusters(IS1.getIsotopicsets().get(0), 0.01);
 
-        IsotopicClustersGraph graph = new IsotopicClustersGraph();
+        IsotopicClusterGraph graph = new IsotopicClusterGraph();
 
         graph.createGraph(IC);
 
@@ -332,7 +332,7 @@ public class IsotopicTest {
         for (List<Peak> s : IS.getIsotopicsets()) {
             IsotopicClusters IC = new IsotopicClusters(s, 0.01);
 
-            IsotopicClustersGraph graph = new IsotopicClustersGraph();
+            IsotopicClusterGraph graph = new IsotopicClusterGraph();
 
             graph.createGraph(IC);
 
