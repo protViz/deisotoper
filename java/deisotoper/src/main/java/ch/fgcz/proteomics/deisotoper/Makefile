@@ -4,7 +4,7 @@
 .SUFFIXES: .java .class
 
 MKDIR = mkdir -p
-CLASSES = $(shell ls *.java | grep -v Test)
+CLASSES = $(shell ls *.java | grep -v Node Edge Isotopic)
 
 CLASSPATH = .:$(JARDIR):$(JARDIR)/gson-2.8.1.jar
 
