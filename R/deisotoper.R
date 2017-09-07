@@ -10,7 +10,7 @@
 #' @importFrom utils read.csv
 #' 
 #' @examples
-#' 
+#' \dontrun{
 #'  mzXMLfilename <- system.file("extdata",
 #'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
 #'       
@@ -22,8 +22,9 @@
 #' xyplot(Value ~ SpectrumID | Attribute,
 #'  data=X, 
 #'  pch='.')
-#
-#   xyplot(Value ~ SpectrumID | Attribute, data=X)
+#'
+#'   xyplot(Value ~ SpectrumID | Attribute, data=X)
+#' }
 
 jSummaryMSM <- function(jobj){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
@@ -95,11 +96,13 @@ findNN <- function (q, vec, check = FALSE) {
 #' @export jCreateMSM
 #' @author Lucas Schmidt, Witold E. Wolski, Christian Panse
 #' @examples 
+#' 
+#' \dontrun{
 #'  mzXMLfilename <- system.file("extdata",
 #'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
 #'       
 #'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
-#'  
+#' }
 jCreateMSM <- function (obj) {
   src <- deparse(substitute(obj))
   .jinit(parameters = "-XX:-UseGCOverheadLimit")

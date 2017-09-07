@@ -10,7 +10,7 @@
 #' @return a psmSet object
 #'
 #' 
-#' @importMethodsFrom mzR header peaks
+#'
 #'
 #'
 #' @examples

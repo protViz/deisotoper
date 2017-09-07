@@ -16,11 +16,13 @@ returns a jcall object reference
 creates Mass Spectrometry Measurement (MSM) Java object
 }
 \examples{
+
+\dontrun{
  mzXMLfilename <- system.file("extdata",
       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
       
  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
- 
+}
 }
 \author{
 Lucas Schmidt, Witold E. Wolski, Christian Panse

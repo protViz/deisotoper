@@ -16,7 +16,7 @@ a \code{\link{data.frame}}
 Summary of a MSM object
 }
 \examples{
-
+\dontrun{
  mzXMLfilename <- system.file("extdata",
       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
       
@@ -28,6 +28,9 @@ library(lattice)
 xyplot(Value ~ SpectrumID | Attribute,
  data=X, 
  pch='.')
+
+  xyplot(Value ~ SpectrumID | Attribute, data=X)
+}
 }
 \author{
 Lucas Schmidt, Witold E. Wolski, Christian Panse

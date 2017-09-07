@@ -16,10 +16,11 @@ a psmSet object
 convert mzXML into psmSet object
 }
 \examples{
-
+ \dontrun{
  mzXMLfilename <- system.file("extdata",
       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
       
+ library(mzR)
  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
  
  library(lattice)
@@ -27,5 +28,5 @@ convert mzXML into psmSet object
      data = jSummaryMSM(jo), 
      scales = list(relation = "sliced"), 
      pch=22)
-     
+}     
 }
