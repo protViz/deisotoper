@@ -252,12 +252,12 @@ public class IsotopicTest {
             IsotopicClusters IC = new IsotopicClusters(set, 0.01);
             assertNotNull(IC);
 
-            // for (List<Peak> c : IC.getIsotopicclusters()) {
-            // for (Peak cc : c) {
-            // System.out.println(cc.getMz());
-            // }
-            // System.out.println();
-            // }
+            for (List<Peak> c : IC.getIsotopicclusters()) {
+                for (Peak cc : c) {
+                    System.out.println(cc.getMz());
+                }
+                System.out.println();
+            }
 
             int i = 0;
             for (List<Peak> c : IC.getIsotopicclusters()) {
