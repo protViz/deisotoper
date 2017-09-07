@@ -98,7 +98,7 @@ findNN <- function (q, vec, check = FALSE) {
 #' @examples 
 #' load(system.file("extdata",
 #'    name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
-#'
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 #' \dontrun{
 #'  mzXMLfilename <- system.file("extdata",
 #'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
@@ -114,7 +114,17 @@ jCreateMSM <- function (obj) {
   MSM <- .jnew("ch.fgcz.proteomics.deisotoper.MassSpectrometryMeasurement", src)
   
   lapply(obj, function(x) {
-    .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
+    
+    if(!'id' %in% names(x)){
+      x$id <- -1
+    }
+    
+    if (!'searchEngine' %in% names(x)){
+      x$searchEngine <- "NA"
+    }
+    
+    .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity,
+           x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
   })
   
   MSM
@@ -123,8 +133,6 @@ jCreateMSM <- function (obj) {
 jGetMSM <- function(jobj) {
   
 }
-
-
 
 jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
