@@ -17,12 +17,16 @@ import org.junit.Test;
 public class IsotopicTest {
     Peaklist resultpeaklist1;
     Peaklist resultpeaklist2;
+    Peaklist resultpeaklist3;
     Peaklist peaklist1;
     Peaklist peaklist2;
+    Peaklist peaklist3;
     IsotopicSets IS1;
     IsotopicSets IS2;
+    IsotopicSets IS3;
     List<List<Peak>> clusters1 = new ArrayList<>();
     List<List<Peak>> clusters2 = new ArrayList<>();
+    List<List<Peak>> clusters3 = new ArrayList<>();
     List<String> edgecolorlist1 = new ArrayList<>();
 
     /**
@@ -44,6 +48,11 @@ public class IsotopicTest {
         List<Double> intensity2 = Arrays.asList(10.0, 8.0, 3.0, 5.0, 6.0, 1.0, 4.0, 2.0, 1.0, 4.0, 1.0, 2.0, 4.0);
         peaklist2 = new Peaklist(mz2, intensity2);
 
+        // Example 3
+        List<Double> mz3 = Arrays.asList(0.2, 1.0, 2.0, 2.5, 3.0, 10.0);
+        List<Double> intensity3 = Arrays.asList(0.5, 2.0, 1.0, 1.0, 1.0, 3.0);
+        peaklist3 = new Peaklist(mz3, intensity3);
+
         // Example 1 Result
         List<Double> resultmz1 = Arrays.asList(1.33, 1.66, 2.0, 2.5, 3.5, 4.0, 5.0, 6.0);
         List<Double> resultintensity1 = Arrays.asList(5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0);
@@ -53,6 +62,11 @@ public class IsotopicTest {
         List<Double> resultmz2 = Arrays.asList(1.0, 2.0, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0, 6.5, 7.0);
         List<Double> resultintensity2 = Arrays.asList(8.0, 3.0, 5.0, 6.0, 1.0, 4.0, 2.0, 1.0, 4.0, 1.0);
         resultpeaklist2 = new Peaklist(resultmz2, resultintensity2);
+
+        // Example 3 Result
+        List<Double> resultmz3 = Arrays.asList(1.0, 2.0, 2.5, 3.0);
+        List<Double> resultintensity3 = Arrays.asList(2.0, 1.0, 1.0, 1.0);
+        resultpeaklist3 = new Peaklist(resultmz3, resultintensity3);
 
         // Clusters 1 Result
         List<Double> clustermz1 = Arrays.asList(1.33, 1.66, 2.0);
@@ -150,6 +164,32 @@ public class IsotopicTest {
         Peaklist cluster214 = new Peaklist(clustermz214, clusterintensity214);
         clusters2.add(cluster214.getPeaklist());
 
+        // Clusters 3 Result List<Double> resultintensity3 = Arrays.asList(2.0, 1.0, 1.0, 1.0);
+        List<Double> clustermz31 = Arrays.asList(1.0, 2.0, 3.0);
+        List<Double> clusterintensity31 = Arrays.asList(2.0, 1.0, 1.0);
+        Peaklist cluster31 = new Peaklist(clustermz31, clusterintensity31);
+        clusters3.add(cluster31.getPeaklist());
+        List<Double> clustermz32 = Arrays.asList(1.0, 2.0);
+        List<Double> clusterintensity32 = Arrays.asList(2.0, 1.0);
+        Peaklist cluster32 = new Peaklist(clustermz32, clusterintensity32);
+        clusters3.add(cluster32.getPeaklist());
+        List<Double> clustermz33 = Arrays.asList(2.0, 3.0);
+        List<Double> clusterintensity33 = Arrays.asList(1.0, 1.0);
+        Peaklist cluster33 = new Peaklist(clustermz33, clusterintensity33);
+        clusters3.add(cluster33.getPeaklist());
+        List<Double> clustermz34 = Arrays.asList(2.0, 2.5, 3.0);
+        List<Double> clusterintensity34 = Arrays.asList(1.0, 1.0, 1.0);
+        Peaklist cluster34 = new Peaklist(clustermz34, clusterintensity34);
+        clusters3.add(cluster34.getPeaklist());
+        List<Double> clustermz35 = Arrays.asList(2.0, 2.5);
+        List<Double> clusterintensity35 = Arrays.asList(1.0, 1.0);
+        Peaklist cluster35 = new Peaklist(clustermz35, clusterintensity35);
+        clusters3.add(cluster35.getPeaklist());
+        List<Double> clustermz36 = Arrays.asList(2.5, 3.0);
+        List<Double> clusterintensity36 = Arrays.asList(1.0, 1.0);
+        Peaklist cluster36 = new Peaklist(clustermz36, clusterintensity36);
+        clusters3.add(cluster36.getPeaklist());
+
         // Edge Color List 1
         edgecolorlist1 = Arrays.asList("black", "black", "red", "red", "black", "black", "black", "black", "black", "red", "black", "black", "black", "black", "black", "black", "red", "black",
                 "black", "black", "black", "black", "red", "black", "black", "black", "black", "red", "black", "black", "black", "red", "red", "black", "red", "red", "black");
@@ -158,6 +198,7 @@ public class IsotopicTest {
         double errortolerance = 0.01;
         IS1 = new IsotopicSets(peaklist1, errortolerance);
         IS2 = new IsotopicSets(peaklist2, errortolerance);
+        IS3 = new IsotopicSets(peaklist3, errortolerance);
     }
 
     /**
@@ -173,6 +214,10 @@ public class IsotopicTest {
         assertNotNull(IS2);
         assertEquals("Calculated IS2 must be same size as defined result (resultpreaklist2)!", IS2.getIsotopicsets().get(0).size(), resultpeaklist2.getPeaklist().size());
         assertPeaklistEquals(IS2.getIsotopicsets().get(0), resultpeaklist2.getPeaklist());
+
+        assertNotNull(IS3);
+        assertEquals("Calculated IS3 must be same size as defined result (resultpreaklist3)!", IS3.getIsotopicsets().get(0).size(), resultpeaklist3.getPeaklist().size());
+        assertPeaklistEquals(IS3.getIsotopicsets().get(0), resultpeaklist3.getPeaklist());
     }
 
     /**
@@ -200,6 +245,26 @@ public class IsotopicTest {
                 i++;
             }
             assertEquals("Calculated IC must be size 14!", IC.getIsotopicclusters().size(), 14);
+        }
+
+        // TODO: Fix bug in IsotopicClusters at cluster creation
+        for (List<Peak> set : IS3.getIsotopicsets()) {
+            IsotopicClusters IC = new IsotopicClusters(set, 0.01);
+            assertNotNull(IC);
+
+            // for (List<Peak> c : IC.getIsotopicclusters()) {
+            // for (Peak cc : c) {
+            // System.out.println(cc.getMz());
+            // }
+            // System.out.println();
+            // }
+
+            int i = 0;
+            for (List<Peak> c : IC.getIsotopicclusters()) {
+                assertPeaklistEquals(c, clusters3.get(i)); // Compare each calculated cluster with predefined cluster
+                i++;
+            }
+            assertEquals("Calculated IC must be size 6!", IC.getIsotopicclusters().size(), 6);
         }
     }
 
@@ -273,7 +338,7 @@ public class IsotopicTest {
 
             graph.scoreGraph(IS);
 
-            System.out.println(IsotopicClustersGraph.prettyPrint(graph));
+            // System.out.println(IsotopicClustersGraph.prettyPrint(graph));
         }
     }
 

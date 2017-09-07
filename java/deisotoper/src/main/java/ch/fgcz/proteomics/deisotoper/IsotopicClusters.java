@@ -1,4 +1,5 @@
 package ch.fgcz.proteomics.deisotoper;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-05
@@ -39,6 +40,7 @@ public class IsotopicClusters {
      * @param isotopicset
      * @param errortolerance
      */
+    // BUGFIX NEEDED, DOESN'T WORK PROPERLY
     public IsotopicClusters(List<Peak> isotopicset, double errortolerance) {
         for (int i = 0; i < isotopicset.size(); i++) {
             List<Peak> isotopiccluster1 = new ArrayList<>();
