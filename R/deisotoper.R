@@ -31,7 +31,7 @@ jSummaryMSM <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("Summary")
+  sum <- .jnew("ch.fgcz.proteomics.deisotoper.Summary")
   
   summary <- .jcall(sum, "S", "makeSummary", jobj)
   con <- textConnection(summary)
@@ -78,7 +78,7 @@ findNN <- function (q, vec, check = FALSE) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
 
-  jFindNN <- .jnew("FindNN")
+  jFindNN <- .jnew("ch.fgcz.proteomics.deisotoper.FindNN")
   
   .jcall(jFindNN, "V", "setVec", as.double(vec))
   .jcall(jFindNN, "V", "setQ", as.double(q))
@@ -96,7 +96,9 @@ findNN <- function (q, vec, check = FALSE) {
 #' @export jCreateMSM
 #' @author Lucas Schmidt, Witold E. Wolski, Christian Panse
 #' @examples 
-#' 
+#' load(system.file("extdata",
+#'    name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#'
 #' \dontrun{
 #'  mzXMLfilename <- system.file("extdata",
 #'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
@@ -109,7 +111,7 @@ jCreateMSM <- function (obj) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("MassSpectrometryMeasurement", src)
+  MSM <- .jnew("ch.fgcz.proteomics.deisotoper.MassSpectrometryMeasurement", src)
   
   lapply(obj, function(x) {
     .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity, x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
@@ -129,7 +131,7 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  SerializeMSM <- .jnew("SerializeMSM")
+  SerializeMSM <- .jnew("ch.fgcz.proteomics.deisotoper.SerializeMSM")
   
   json <- .jcall(SerializeMSM, "S", "serializeMSMToJson", filename, jobj)
   
@@ -141,7 +143,7 @@ jReadJSON2MSM <- function(filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  SerializeMSM <- .jnew("SerializeMSM")
+  SerializeMSM <- .jnew("ch.fgcz.proteomics.deisotoper.SerializeMSM")
   
   MSM <- .jcall(SerializeMSM, "LMassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
   
