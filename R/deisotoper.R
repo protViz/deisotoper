@@ -153,7 +153,7 @@ jReadJSON2MSM <- function(filename='test.json'){
   .jclassPath()
   Serialize <- .jnew("ch.fgcz.proteomics.dto.Serialize")
   
-  MSM <- .jcall(Serialize, "Lch.fgcz.proteomics.dto.MassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
+  MSM <- .jcall(Serialize, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
   
   MSM
 }
