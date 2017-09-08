@@ -86,6 +86,39 @@ findNN <- function (q, vec, check = FALSE) {
   idx <- (.jcall(jFindNN, "[D", "getIndex") + 1)
 }
 
+
+is.MS <- function(x){
+  
+  if (sum(c("title","rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
+    return (FALSE)
+  }
+  
+  if (!is.vector(x$mZ) || !is.numeric(x$mZ) || is.unsorted(x$mZ)){
+    return(FALSE)
+  }
+    
+  if (!is.vector(x$intensity) || !is.numeric(x$intensity)){
+    return(FALSE)
+  }
+  
+  if (!is.numeric(x$pepmass) || !is.numeric(x$rtinseconds) || !is.numeric(x$charge) || !is.numeric(x$id)){
+    return (FALSE)
+  }
+  
+  TRUE
+}
+
+
+is.MSM <- function(x){
+  rv <- sapply(x, function(y){
+    if (!is.MS(y)){
+      return (FALSE)
+    }
+    TRUE
+  })
+  sum(rv) ==  length(rv)
+
+}
 #' creates Mass Spectrometry Measurement (MSM) Java object 
 #'
 #' @param obj \code{protViz""psmSet} object
@@ -116,7 +149,7 @@ jCreateMSM <- function (obj) {
   lapply(obj, function(x) {
     
     if(!'id' %in% names(x)){
-      x$id <- -1
+      x$id <- 0
     }
     
     if (!'title' %in% names(x)){
