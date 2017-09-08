@@ -31,7 +31,7 @@ jSummaryMSM <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("ch.fgcz.proteomics.deisotoper.Summary")
+  sum <- .jnew("ch.fgcz.proteomics.dto.Summary")
   
   summary <- .jcall(sum, "S", "makeSummary", jobj)
   con <- textConnection(summary)
@@ -78,7 +78,7 @@ findNN <- function (q, vec, check = FALSE) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
 
-  jFindNN <- .jnew("ch.fgcz.proteomics.deisotoper.FindNN")
+  jFindNN <- .jnew("ch.fgcz.proteomics.utilities.FindNN")
   
   .jcall(jFindNN, "V", "setVec", as.double(vec))
   .jcall(jFindNN, "V", "setQ", as.double(q))
@@ -111,7 +111,7 @@ jCreateMSM <- function (obj) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("ch.fgcz.proteomics.deisotoper.MassSpectrometryMeasurement", src)
+  MSM <- .jnew("ch.fgcz.proteomics.dto.MassSpectrometryMeasurement", src)
   
   lapply(obj, function(x) {
     
@@ -139,9 +139,9 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  SerializeMSM <- .jnew("ch.fgcz.proteomics.deisotoper.SerializeMSM")
+  Serialize<- .jnew("ch.fgcz.proteomics.dto.Serialize")
   
-  json <- .jcall(SerializeMSM, "S", "serializeMSMToJson", filename, jobj)
+  json <- .jcall(Serialize, "S", "serializeMSMToJson", filename, jobj)
   
   json
 }
@@ -151,9 +151,9 @@ jReadJSON2MSM <- function(filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  SerializeMSM <- .jnew("ch.fgcz.proteomics.deisotoper.SerializeMSM")
+  Serialize <- .jnew("ch.fgcz.proteomics.dto.Serialize")
   
-  MSM <- .jcall(SerializeMSM, "LMassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
+  MSM <- .jcall(Serialize, "LMassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
   
   MSM
 }
@@ -163,7 +163,7 @@ jVersionMSM <- function() {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("ch.fgcz.proteomics.deisotoper.MassSpectrometryMeasurement", " ")
+  MSM <- .jnew("ch.fgcz.proteomics.dto.MassSpectrometryMeasurement", " ")
   
   version <- .jcall(MSM, "S", "version")
   

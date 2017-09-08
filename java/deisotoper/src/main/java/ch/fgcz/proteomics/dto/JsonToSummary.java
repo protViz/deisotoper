@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.deisotoper;
+package ch.fgcz.proteomics.dto;
 
 /**
  * @author Lucas Schmidt
@@ -7,6 +7,6 @@ package ch.fgcz.proteomics.deisotoper;
 
 public class JsonToSummary {
     public static void main(String[] args) {
-        System.out.println((Summary.makeSummary(SerializeMSM.deserializeJsonToMSM(args[0]))));
+        System.out.println((Summary.makeSummary(Serialize.deserializeJsonToMSM(args[0]))));
     }
 }

@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.deisotoper;
+package ch.fgcz.proteomics.dto;
 
 /**
  * @author Lucas Schmidt
@@ -6,9 +6,6 @@ package ch.fgcz.proteomics.deisotoper;
  */
 
 import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -48,8 +45,8 @@ public class GeneralTest {
         }
 
         Summary.makeSummary(test);
-        SerializeMSM.serializeMSMToJson("TestMSM.json", test);
-        MassSpectrometryMeasurement m = SerializeMSM.deserializeJsonToMSM("TestMSM.json");
+        Serialize.serializeMSMToJson("TestMSM.json", test);
+        MassSpectrometryMeasurement m = Serialize.deserializeJsonToMSM("TestMSM.json");
 
         int n = 0;
         for (MassSpectrum i : m.getMSlist()) {

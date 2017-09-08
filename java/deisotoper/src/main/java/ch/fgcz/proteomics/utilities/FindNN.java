@@ -1,10 +1,13 @@
-package ch.fgcz.proteomics.deisotoper;
+package ch.fgcz.proteomics.utilities;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-08-21
  */
 
 import java.util.Arrays;
+
+import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class FindNN {
     private static double[] q;

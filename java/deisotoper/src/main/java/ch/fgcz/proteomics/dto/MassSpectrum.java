@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.deisotoper;
+package ch.fgcz.proteomics.dto;
 
 /**
  * @author Lucas Schmidt

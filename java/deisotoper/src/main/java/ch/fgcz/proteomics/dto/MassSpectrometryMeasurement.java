@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.deisotoper;
+package ch.fgcz.proteomics.dto;
 
 /**
  * @author Lucas Schmidt
@@ -106,9 +106,9 @@ public class MassSpectrometryMeasurement {
 
         System.out.println(Summary.makeSummary(test));
         System.out.println();
-        System.out.println(SerializeMSM.serializeMSMToJson("TestMSM.json", test));
+        System.out.println(Serialize.serializeMSMToJson("TestMSM.json", test));
         System.out.println();
-        MassSpectrometryMeasurement m = SerializeMSM.deserializeJsonToMSM("TestMSM.json");
+        MassSpectrometryMeasurement m = Serialize.deserializeJsonToMSM("TestMSM.json");
 
         System.out.println("Source: " + m.getSource());
         for (MassSpectrum i : m.getMSlist()) {

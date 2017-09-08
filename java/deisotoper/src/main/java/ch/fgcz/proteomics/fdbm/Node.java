@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.isotopic;
+package ch.fgcz.proteomics.fdbm;
 
 /**
  * @author Lucas Schmidt

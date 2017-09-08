@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.deisotoper;
+package ch.fgcz.proteomics.dto;
 
 /**
  * @author Lucas Schmidt
@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class SerializeMSM {
+public class Serialize {
     /**
      * Serializes a MassSpectrometryMeasurement Object to a JSON-file.
      * 

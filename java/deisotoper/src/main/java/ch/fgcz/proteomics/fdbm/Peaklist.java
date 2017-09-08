@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.isotopic;
+package ch.fgcz.proteomics.fdbm;
 
 /**
  * @author Lucas Schmidt
@@ -8,7 +8,7 @@ package ch.fgcz.proteomics.isotopic;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.fgcz.proteomics.deisotoper.MassSpectrum;
+import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class Peaklist {
     private List<Peak> peaklist = new ArrayList<>();
