@@ -157,3 +157,15 @@ jReadJSON2MSM <- function(filename='test.json'){
   
   MSM
 }
+
+jVersionMSM <- function() {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  MSM <- .jnew("ch.fgcz.proteomics.deisotoper.MassSpectrometryMeasurement", " ")
+  
+  version <- .jcall(MSM, "S", "version")
+  
+  version
+}

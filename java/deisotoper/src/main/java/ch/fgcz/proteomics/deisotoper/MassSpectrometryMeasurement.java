@@ -6,7 +6,6 @@ package ch.fgcz.proteomics.deisotoper;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
@@ -62,6 +61,10 @@ public class MassSpectrometryMeasurement {
         }
 
         this.getMSlist().add(new MassSpectrum(typ, searchengine, mzlist, intlist, peptidmass, rt, chargestate, id));
+    }
+
+    public String version() {
+        return "Version: 0.1";
     }
 
     public static void main(String[] args) {
