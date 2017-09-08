@@ -119,11 +119,11 @@ jCreateMSM <- function (obj) {
       x$id <- -1
     }
     
-    if (!'searchEngine' %in% names(x)){
-      x$searchEngine <- "NA"
+    if (!'title' %in% names(x)){
+      x$title <- "xx"
     }
     
-    .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$searchEngine, x$mZ, x$intensity,
+    .jcall(MSM, "V", "addMS", "MS2 Spectrum", x$title, x$mZ, x$intensity,
            x$pepmass, x$rtinseconds, as.integer(x$charge), as.integer(x$id))
   })
   

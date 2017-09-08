@@ -1,6 +1,6 @@
 ---
 title: "primer deisotoper"
-author: "Vignette Author"
+author: "Christian Panse"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -10,77 +10,23 @@ vignette: >
 ---
 
 
-# Getting the data
+# Create Java MSM object
 
 ```{r}
-
-library(protViz)
-
-url386248 <- "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
-con <- url(url386248)
-load(con)
-ls()
-
-S <- as.psmSet(F225712)
+library(deisotoper)
+load(system.file("extdata",
+   name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 ```
 
 
-```{r fig.retina=3}
+# MSM Summary
 
-plot.psm(S[[1]])
-idx <- 1
-S[[idx]]$mZ
-S[[idx]]$intensity
+```{r fig.retina=3, fig.height=6, fig.width=7}
+library(lattice)
+
+bwplot(Value ~ Attribute, 
+       data=jSummaryMSM(joMSM),
+       scales = list(y = list(log = TRUE), x = list(rot = 45)))
 ```
 
-
-```{r}
-
-class(S[[1]])
-
-my <- function(mZ, intensity){
-  sum(intensity)
-}
-
-myPlot <- function(mZ, intensity){
-  plot(mZ, intensity, type = 'h')
-}
-
-myPlot(mZ = S[[idx]]$mZ, intensity = S[[idx]]$intensity)
-```
-
-# Hello world using rJava
-
-```{r}
-#R
-
-# author: Lucas Schmidt
-# date: 2017-08-15
-
-library(rJava)
-library(protViz)
-.jinit()
-.jaddClassPath("/srv/lucas1/eclipse-workspace/deisotoper/bin")
-.jclassPath()
-findpattern <- .jnew("findpattern")
-
-# Loading Data
-url386248 <- "http://fgcz-ms.uzh.ch/~cpanse/data/386248.RData"
-con <- url(url386248)
-load(con)
-S <- as.psmSet(F225712)
-
-# Data
-mZ <- S[[1]]$mZ
-pattern <- c(124.3, 149.5, 251.4)
-eps <- 0.5
-
-# Running Java-Programm with data
-.jcall(findpattern, "V", "setmZ", mZ)
-.jcall(findpattern, "V", "setpattern", pattern)
-.jcall(findpattern, "V", "seteps", eps)
-index <- .jcall(findpattern, "[D", "getIndex")
-
-# Print result
-print(index)
-```	
