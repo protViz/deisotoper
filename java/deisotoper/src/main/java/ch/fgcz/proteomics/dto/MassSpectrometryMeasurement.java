@@ -119,5 +119,7 @@ public class MassSpectrometryMeasurement {
             }
             System.out.println();
         }
+        
+        System.out.println(Summary.makeSummary(m));
     }
 }
