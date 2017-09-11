@@ -1,4 +1,5 @@
 package ch.fgcz.proteomics.mspy;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-08-29
@@ -7,59 +8,47 @@ package ch.fgcz.proteomics.mspy;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.fgcz.proteomics.dto.MassSpectrum;
+
 public class Peaklist {
-    public static List<Peak> peaklist = new ArrayList<Peak>();
+    private List<Peak> peaklist = new ArrayList<Peak>();
 
-    public static class Peak {
-        private double mz;
-        private double intensity;
-        private int charge;
-        private double isotope;
-
-        public double getIsotope() {
-            return isotope;
-        }
-
-        public void setIsotope(double isotope) {
-            this.isotope = isotope;
-        }
-
-        public double getMz() {
-            return mz;
-        }
-
-        public void setMz(double mz) {
-            this.mz = mz;
-        }
-
-        public double getIntensity() {
-            return intensity;
-        }
-
-        public void setIntensity(double intensity) {
-            this.intensity = intensity;
-        }
-
-        public int getCharge() {
-            return charge;
-        }
-
-        public void setCharge(int charge) {
-            this.charge = charge;
-        }
-
+    public List<Peak> getPeaklist() {
+        return peaklist;
     }
 
-    public static List<Peak> createPeak(double mz, double intensity, int charge, double isotope) {
-        Peak p = new Peak();
+    public void setPeaklist(List<Peak> peaklist) {
+        this.peaklist = peaklist;
+    }
 
-        p.setIntensity(intensity);
-        p.setCharge(charge);
-        p.setIsotope(isotope);
-        p.setMz(mz);
+    /**
+     * Converts from a MassSpectrum to a Peaklist
+     * 
+     * @param ms
+     */
+    public Peaklist(MassSpectrum ms) {
+        List<Peak> plist = new ArrayList<>();
 
-        peaklist.add(p);
+        for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
+            plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i)));
+        }
 
-        return peaklist;
+        this.peaklist = plist;
+    }
+
+    /**
+     * Converts from two lists (mZ Values and Intensity Values) to a Peaklist.
+     * 
+     * @param mz
+     * @param intensity
+     */
+    public Peaklist(List<Double> mz, List<Double> intensity) {
+        List<Peak> plist = new ArrayList<>();
+
+        for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
+            plist.add(new Peak(mz.get(i), intensity.get(i)));
+        }
+
+        this.peaklist = plist;
     }
 }
