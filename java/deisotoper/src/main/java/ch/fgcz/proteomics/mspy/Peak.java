@@ -43,16 +43,17 @@ public class Peak {
         this.charge = charge;
     }
 
-    /**
-     * Constructs the Peak Object.
-     * 
-     * @param mz
-     * @param intensity
-     */
     public Peak(double mz, double intensity) {
         this.mz = mz;
         this.intensity = intensity;
         this.isotope = 0;
-        this.charge = 1;
+        this.charge = 0;
+    }
+
+    public Peak(double mz, double intensity, double isotope, int charge) {
+        this.mz = mz;
+        this.intensity = intensity;
+        this.isotope = isotope;
+        this.charge = charge;
     }
 }
