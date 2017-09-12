@@ -4,7 +4,7 @@
 \alias{jCreateMSM}
 \title{creates Mass Spectrometry Measurement (MSM) Java object}
 \usage{
-jCreateMSM(obj)
+jCreateMSM(obj, check = TRUE)
 }
 \arguments{
 \item{obj}{\code{protViz""psmSet} object}
@@ -19,12 +19,18 @@ creates Mass Spectrometry Measurement (MSM) Java object
 load(system.file("extdata",
    name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+
+
 \dontrun{
  mzXMLfilename <- system.file("extdata",
       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
       
  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
 }
+
+}
+\seealso{
+\code{\link{jSummaryMSM}}
 }
 \author{
 Lucas Schmidt, Witold E. Wolski, Christian Panse

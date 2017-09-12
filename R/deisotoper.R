@@ -9,13 +9,14 @@
 #' @author Lucas Schmidt, Witold E. Wolski, Christian Panse
 #' @importFrom utils read.csv
 #' 
+#' @seealso \code{\link{jCreateMSM}}
+#' 
 #' @examples
-#' \dontrun{
-#'  mzXMLfilename <- system.file("extdata",
-#'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
-#'       
-#'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
-#'  X <- jSummaryMSM(jo)
+#' load(system.file("extdata",
+#'    name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#'  joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#'  X <- jSummaryMSM(joMSM)
+#'  
 #'  
 #' library(lattice)
 #' 
@@ -23,8 +24,14 @@
 #'  data=X, 
 #'  pch='.')
 #'
-#'   xyplot(Value ~ SpectrumID | Attribute, data=X)
-#' }
+#'  xyplot(Value ~ SpectrumID | Attribute, data=X, scales = list(y=list(log=TRUE)))
+#'    
+#'    
+#'  histogram(~Value | Attribute, data=X)
+#'  histogram(~Value|Attribute, data=X, scales = list(x=list(log=TRUE)))
+#'  histogram(~Value|Attribute, data=X, scales = list(x=list(log=TRUE)), type='count')
+#' 
+#'  bwplot(~Value | Attribute, data=X, scales = list(x = list(log = TRUE)))
 
 jSummaryMSM <- function(jobj){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
@@ -125,6 +132,7 @@ is.MSM <- function(x){
 #'
 #' @return returns a jcall object reference
 #' 
+#' @seealso \code{\link{jSummaryMSM}}
 #' @import rJava
 #' @export jCreateMSM
 #' @author Lucas Schmidt, Witold E. Wolski, Christian Panse
@@ -132,13 +140,19 @@ is.MSM <- function(x){
 #' load(system.file("extdata",
 #'    name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 #' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#' 
+#' 
 #' \dontrun{
 #'  mzXMLfilename <- system.file("extdata",
 #'       name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
 #'       
 #'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
 #' }
-jCreateMSM <- function (obj) {
+#' 
+jCreateMSM <- function (obj, check = TRUE) {
+  
+  if(check){stopifnot(is.MSM(obj))}
+  
   src <- deparse(substitute(obj))
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -191,6 +205,12 @@ jReadJSON2MSM <- function(filename='test.json'){
   MSM
 }
 
+#' Returns Java version string
+#'
+#' @return
+#' @export jVersionMSM
+#'
+#' @examples
 jVersionMSM <- function() {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")

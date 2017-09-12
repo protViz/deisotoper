@@ -16,12 +16,11 @@ a \code{\link{data.frame}}
 Summary of a MSM object
 }
 \examples{
-\dontrun{
- mzXMLfilename <- system.file("extdata",
-      name='20161010_04_TP_HeLa_200ng.mzXML', package = "deisotoper")
-      
- jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
- X <- jSummaryMSM(jo)
+load(system.file("extdata",
+   name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+ joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+ X <- jSummaryMSM(joMSM)
+ 
  
 library(lattice)
 
@@ -29,8 +28,17 @@ xyplot(Value ~ SpectrumID | Attribute,
  data=X, 
  pch='.')
 
-  xyplot(Value ~ SpectrumID | Attribute, data=X)
+ xyplot(Value ~ SpectrumID | Attribute, data=X, scales = list(y=list(log=TRUE)))
+   
+   
+ histogram(~Value | Attribute, data=X)
+ histogram(~Value|Attribute, data=X, scales = list(x=list(log=TRUE)))
+ histogram(~Value|Attribute, data=X, scales = list(x=list(log=TRUE)), type='count')
+
+ bwplot(~Value | Attribute, data=X, scales = list(x = list(log = TRUE)))
 }
+\seealso{
+\code{\link{jCreateMSM}}
 }
 \author{
 Lucas Schmidt, Witold E. Wolski, Christian Panse
