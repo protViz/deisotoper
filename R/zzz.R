@@ -15,7 +15,7 @@
 	if(interactive()){
 		version <- packageVersion('deisotoper')
 		packageStartupMessage("Package 'deisotoper' version ",
-		                      version, " (Java ", deisotoper:::jVersionMSM(), ")")
+		                      version, " (Java ", jVersionMSM(), ")")
 	  invisible()
 	}
 }

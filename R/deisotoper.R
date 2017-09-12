@@ -94,28 +94,45 @@ findNN <- function (q, vec, check = FALSE) {
 }
 
 
+#' Coerce to MS
+#'
+#' @param x 
+#' @description Functions to check if an object is a MS, or coerce it if possible.
+#' @return \code{TRUE} or \code{FALSE}
+#' @export is.MS 
 is.MS <- function(x){
   
-  if (sum(c("title","rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
+  if (sum(c("title", "rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
+    warning('attributed check failed.')
     return (FALSE)
   }
   
   if (!is.vector(x$mZ) || !is.numeric(x$mZ) || is.unsorted(x$mZ)){
+    warning('mZ value check failed.')
+    warning(x$mZ)
     return(FALSE)
   }
     
   if (!is.vector(x$intensity) || !is.numeric(x$intensity)){
+    warning('intensity check failed.')
     return(FALSE)
   }
   
   if (!is.numeric(x$pepmass) || !is.numeric(x$rtinseconds) || !is.numeric(x$charge) || !is.numeric(x$id)){
-    return (FALSE)
+     warning('pepmass, rtinseconds, ... check failed.')
+     return (FALSE)
   }
   
   TRUE
 }
 
 
+#' Coerce to MSM
+#'
+#' @param x 
+#' @description Functions to check if an object is a MSM, or coerce it if possible.
+#' @return \code{TRUE} or \code{FALSE}
+#' @export is.MSM
 is.MSM <- function(x){
   rv <- sapply(x, function(y){
     if (!is.MS(y)){
@@ -124,8 +141,8 @@ is.MSM <- function(x){
     TRUE
   })
   sum(rv) ==  length(rv)
-
 }
+
 #' creates Mass Spectrometry Measurement (MSM) Java object 
 #'
 #' @param obj \code{protViz""psmSet} object
@@ -149,11 +166,15 @@ is.MSM <- function(x){
 #'  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
 #' }
 #' 
-jCreateMSM <- function (obj, check = TRUE) {
+jCreateMSM <- function (obj) {
   
-  if(check){stopifnot(is.MSM(obj))}
   
   src <- deparse(substitute(obj))
+  
+ 
+    obj <- as.MSM(obj)
+ 
+  
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
@@ -161,7 +182,8 @@ jCreateMSM <- function (obj, check = TRUE) {
   MSM <- .jnew("ch.fgcz.proteomics.dto.MassSpectrometryMeasurement", src)
   
   lapply(obj, function(x) {
-    
+    if (is.null(x))
+      {return (x)}
     if(!'id' %in% names(x)){
       x$id <- 0
     }
@@ -176,6 +198,64 @@ jCreateMSM <- function (obj, check = TRUE) {
   
   MSM
 }
+
+#' Coerce to MS
+#'
+#' @param x 
+#' @description Functions to check if an object is a MSM, or coerce it if possible.
+#' @return \code{TRUE} or \code{FALSE}
+#' @export as.MS
+as.MS<- function(x){
+  
+  
+  if ('mZ' %in% names(x) && length(x$mZ) < 2){
+    return (NULL)
+  }
+  if (!('pepmass' %in% names(x)) || is.na(x$pepmass)){
+    x$pepmass <- 100.0
+  }
+  
+  if (!('title' %in% names(x)) || is.na(x$title) ){
+    x$title <- "no title"
+  }
+  
+  if (!('rtinseconds' %in% names(x)) || is.na(x$rtinseconds) ){
+    x$rtinseconds <- 1
+  }
+  
+  if ( !('charge' %in% names(x)) || is.na(x$charge) ){
+    x$charge <- 1
+  }
+  
+  if ( !('id' %in% names(x)) || is.na(x$id)){
+    x$id <- 1
+  }
+  
+  
+  if(is.unsorted(x$mZ)){
+    idx<-order(x$mZ)
+    x$mZ <- x$mZ[idx]
+    x$intensity <- x$intensity[idx]
+  }
+  
+  stopifnot(is.MS(x))
+  
+  x
+}
+
+#' Coerce to MSM
+#'
+#' @param x 
+#' @description Functions to check if an object is a MSM, or coerce it if possible.
+#' @return \code{TRUE} or \code{FALSE}
+#' @export as.MSM
+as.MSM <-function(x){
+  filter <- sapply(x, function(y){length(y$mZ) > 1})
+  x <- lapply(x[filter], as.MS)
+  stopifnot(is.MSM(x))
+  x
+}
+  
 
 jGetMSM <- function(jobj) {
   
