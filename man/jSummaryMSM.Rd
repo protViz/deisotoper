@@ -21,8 +21,13 @@ load(system.file("extdata",
  joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
  X <- jSummaryMSM(joMSM)
  
- 
-library(lattice)
+par(mfrow=c(3,4)); 
+rv <- lapply(unique(X$Attribute), 
+ function(a){
+   hist(X[X$Attribute == a, 3],xlab=a, main='Histgram')
+   })
+
+if(require(lattice)){
 
 xyplot(Value ~ SpectrumID | Attribute,
  data=X, 
@@ -36,6 +41,7 @@ xyplot(Value ~ SpectrumID | Attribute,
  histogram(~Value|Attribute, data=X, scales = list(x=list(log=TRUE)), type='count')
 
  bwplot(~Value | Attribute, data=X, scales = list(x = list(log = TRUE)))
+ }
 }
 \seealso{
 \code{\link{jCreateMSM}}

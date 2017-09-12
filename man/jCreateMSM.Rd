@@ -4,7 +4,7 @@
 \alias{jCreateMSM}
 \title{creates Mass Spectrometry Measurement (MSM) Java object}
 \usage{
-jCreateMSM(obj, check = TRUE)
+jCreateMSM(obj)
 }
 \arguments{
 \item{obj}{\code{protViz""psmSet} object}
