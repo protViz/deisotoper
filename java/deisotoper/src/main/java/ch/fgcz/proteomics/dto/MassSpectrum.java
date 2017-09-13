@@ -15,10 +15,28 @@ public class MassSpectrum {
     private String searchengine;
     private List<Double> mz = new ArrayList<>();
     private List<Double> intensity = new ArrayList<>();
+    private List<Double> charge = new ArrayList<>();
+    private List<Double> isotope = new ArrayList<>();
     private double peptidmass;
     private double rt;
     private int chargestate;
     private int id;
+
+    public List<Double> getCharge() {
+        return charge;
+    }
+
+    public void setCharge(List<Double> charge) {
+        this.charge = charge;
+    }
+
+    public List<Double> getIsotope() {
+        return isotope;
+    }
+
+    public void setIsotope(List<Double> isotope) {
+        this.isotope = isotope;
+    }
 
     public List<Double> getMz() {
         return mz;
