@@ -49,7 +49,7 @@ public class Deisotope {
 
             for (int z : charges) {
                 List<Peak> cluster = new ArrayList<>();
-                cluster.add(parent); // NOT CLEAR
+                cluster.add(parent);
 
                 double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
                 System.out.println("deisotope|for|for| difference: " + difference + " = " + (ISOTOPE_DISTANCE + isotopeshift) + " / " + Math.abs(z));
@@ -91,14 +91,14 @@ public class Deisotope {
                 boolean valid = true;
                 int isotope = 1;
                 int limit = Math.min(pattern.size(), cluster.size());
-                System.out.println("deisotope|for|for| limit: " + limit + " = " + Math.min(pattern.size(), cluster.size()));
+                System.out.println("deisotope|for|for| limit: " + limit + " = " + pattern.size() + ", " + cluster.size());
 
                 while (isotope < limit) {
                     double inttheoretical = (cluster.get(isotope - 1).getIntensity() / pattern.get(isotope - 1)) * pattern.get(isotope);
                     double interror = cluster.get(isotope).getIntensity() - inttheoretical;
                     System.out.println("deisotope|for|for|while| inttheoretical: " + inttheoretical + " = " + cluster.get(isotope - 1).getIntensity() + " / " + pattern.get(isotope - 1) + "*"
                             + pattern.get(isotope));
-                    System.out.println("deisotope|for|for|while| interror: " + cluster.get(isotope).getIntensity() + " - " + inttheoretical);
+                    System.out.println("deisotope|for|for|while| interror: " + interror + " = " + cluster.get(isotope).getIntensity() + " - " + inttheoretical);
 
                     if (Math.abs(interror) <= (inttheoretical * inttolerance)) {
                         cluster.get(isotope).setIsotope(isotope);
@@ -124,13 +124,14 @@ public class Deisotope {
                 }
             }
             x++;
+            System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
         }
 
         System.out.println();
         return peaklist;
     }
 
-    private static double calculateMass(double mass, int charge, int currentcharge) { // NOT CLEAR
+    private static double calculateMass(double mass, int charge, int currentcharge) {
         int agentcharge = 1;
         double agentmass = H_MASS;
         double agentcount = currentcharge / agentcharge;
@@ -144,7 +145,6 @@ public class Deisotope {
             mass = mass * Math.abs(currentcharge) - agentmass * agentcount;
         }
 
-        // System.out.println(" MASS" + mass);
         return mass;
     }
 

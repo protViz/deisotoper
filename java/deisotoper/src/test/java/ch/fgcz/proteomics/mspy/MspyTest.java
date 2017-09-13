@@ -44,17 +44,17 @@ public class MspyTest {
         peaklistout.getPeaklist().get(2).setCharge(1);
         peaklistout.getPeaklist().get(2).setIsotope(0);
 
-        peaklistout.getPeaklist().get(19).setCharge(1);
-        peaklistout.getPeaklist().get(19).setIsotope(0);
+        peaklistout.getPeaklist().get(18).setCharge(1);
+        peaklistout.getPeaklist().get(18).setIsotope(0);
+
+        peaklistout.getPeaklist().get(20).setCharge(2);
+        peaklistout.getPeaklist().get(20).setIsotope(0);
 
         peaklistout.getPeaklist().get(21).setCharge(2);
-        peaklistout.getPeaklist().get(21).setIsotope(0);
+        peaklistout.getPeaklist().get(21).setIsotope(1);
 
-        peaklistout.getPeaklist().get(22).setCharge(2);
-        peaklistout.getPeaklist().get(22).setIsotope(1);
-
-        peaklistout.getPeaklist().get(26).setCharge(2);
-        peaklistout.getPeaklist().get(26).setIsotope(0);
+        peaklistout.getPeaklist().get(25).setCharge(2);
+        peaklistout.getPeaklist().get(25).setIsotope(0);
 
         peaklistout.getPeaklist().get(31).setCharge(1);
         peaklistout.getPeaklist().get(31).setIsotope(0);
@@ -98,7 +98,7 @@ public class MspyTest {
 
     @Test
     public void test() {
-        List<Peak> out = Deisotope.deisotope(peaklistin.getPeaklist(), 3, 0.15, 0.5, 0.0);
+        List<Peak> out = Deisotope.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
 
         System.out.println("Out output:");
         int a = 0;
