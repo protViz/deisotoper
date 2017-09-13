@@ -360,7 +360,7 @@ public class IsotopicTest {
                 b = true;
             }
 
-            assertTrue(b);
+            assertTrue("Values should be same. (Index: " + i + ")", b);
         }
     }
 }
