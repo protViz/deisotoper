@@ -42,6 +42,25 @@ public class Summary {
             summary.append(spectrum.getId()).append(",precursor_charge,").append(spectrum.getChargeState()).append(linesep);
             summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptidMass()).append(linesep);
             summary.append(spectrum.getId()).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
+            if (!spectrum.getCharge().isEmpty() && !spectrum.getIsotope().isEmpty()) {
+                double sumcharge = 0;
+                double sumisotope = 0;
+                int i = 0;
+                for (int c : spectrum.getCharge()) {
+                    if (c != -1) {
+                        sumcharge += c;
+                        i++;
+                    }
+                }
+                for (double iso : spectrum.getIsotope()) {
+                    if (iso != -1) {
+                        sumisotope += iso;
+                        i++;
+                    }
+                }
+                summary.append(spectrum.getId()).append(",average_charge,").append(sumcharge / i).append(linesep);
+                summary.append(spectrum.getId()).append(",average_isotope,").append(sumisotope / i).append(linesep);
+            }
         }
 
         return summary.toString();
