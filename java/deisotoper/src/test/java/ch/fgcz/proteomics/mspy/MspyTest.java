@@ -13,6 +13,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
+
 public class MspyTest {
     Peaklist peaklistin;
     Peaklist peaklistout;
@@ -42,71 +44,110 @@ public class MspyTest {
         peaklistout.getPeaklist().get(2).setCharge(1);
         peaklistout.getPeaklist().get(2).setIsotope(0);
 
-        peaklistout.getPeaklist().get(17).setCharge(1);
-        peaklistout.getPeaklist().get(17).setIsotope(0);
-
-        peaklistout.getPeaklist().get(19).setCharge(2);
+        peaklistout.getPeaklist().get(19).setCharge(1);
         peaklistout.getPeaklist().get(19).setIsotope(0);
 
-        peaklistout.getPeaklist().get(20).setCharge(2);
-        peaklistout.getPeaklist().get(20).setIsotope(1);
+        peaklistout.getPeaklist().get(21).setCharge(2);
+        peaklistout.getPeaklist().get(21).setIsotope(0);
 
-        peaklistout.getPeaklist().get(24).setCharge(2);
-        peaklistout.getPeaklist().get(24).setIsotope(0);
+        peaklistout.getPeaklist().get(22).setCharge(2);
+        peaklistout.getPeaklist().get(22).setIsotope(1);
 
-        peaklistout.getPeaklist().get(30).setCharge(1);
-        peaklistout.getPeaklist().get(30).setIsotope(0);
+        peaklistout.getPeaklist().get(26).setCharge(2);
+        peaklistout.getPeaklist().get(26).setIsotope(0);
 
         peaklistout.getPeaklist().get(31).setCharge(1);
-        peaklistout.getPeaklist().get(31).setIsotope(1);
+        peaklistout.getPeaklist().get(31).setIsotope(0);
 
         peaklistout.getPeaklist().get(32).setCharge(1);
-        peaklistout.getPeaklist().get(32).setIsotope(0);
+        peaklistout.getPeaklist().get(32).setIsotope(1);
 
-        peaklistout.getPeaklist().get(35).setCharge(1);
-        peaklistout.getPeaklist().get(35).setIsotope(0);
+        peaklistout.getPeaklist().get(33).setCharge(1);
+        peaklistout.getPeaklist().get(33).setIsotope(0);
 
-        peaklistout.getPeaklist().get(39).setCharge(1);
-        peaklistout.getPeaklist().get(39).setIsotope(0);
+        peaklistout.getPeaklist().get(36).setCharge(1);
+        peaklistout.getPeaklist().get(36).setIsotope(0);
 
         peaklistout.getPeaklist().get(40).setCharge(1);
-        peaklistout.getPeaklist().get(40).setIsotope(1);
+        peaklistout.getPeaklist().get(40).setIsotope(0);
 
         peaklistout.getPeaklist().get(41).setCharge(1);
-        peaklistout.getPeaklist().get(41).setIsotope(2);
+        peaklistout.getPeaklist().get(41).setIsotope(1);
 
-        peaklistout.getPeaklist().get(43).setCharge(1);
-        peaklistout.getPeaklist().get(43).setIsotope(0);
+        peaklistout.getPeaklist().get(42).setCharge(1);
+        peaklistout.getPeaklist().get(42).setIsotope(2);
 
         peaklistout.getPeaklist().get(44).setCharge(1);
-        peaklistout.getPeaklist().get(44).setIsotope(1);
+        peaklistout.getPeaklist().get(44).setIsotope(0);
 
         peaklistout.getPeaklist().get(45).setCharge(1);
-        peaklistout.getPeaklist().get(45).setIsotope(0);
+        peaklistout.getPeaklist().get(45).setIsotope(1);
 
         peaklistout.getPeaklist().get(46).setCharge(1);
-        peaklistout.getPeaklist().get(46).setIsotope(1);
+        peaklistout.getPeaklist().get(46).setIsotope(0);
 
         peaklistout.getPeaklist().get(47).setCharge(1);
-        peaklistout.getPeaklist().get(47).setIsotope(0);
+        peaklistout.getPeaklist().get(47).setIsotope(1);
 
         peaklistout.getPeaklist().get(48).setCharge(1);
-        peaklistout.getPeaklist().get(48).setIsotope(1);
+        peaklistout.getPeaklist().get(48).setIsotope(0);
 
+        peaklistout.getPeaklist().get(49).setCharge(1);
+        peaklistout.getPeaklist().get(49).setIsotope(1);
     }
 
     @Test
     public void test() {
         List<Peak> out = Deisotope.deisotope(peaklistin.getPeaklist(), 3, 0.15, 0.5, 0.0);
 
+        System.out.println("Out output:");
+        int a = 0;
+        int index1 = 0;
         for (Peak p : out) {
-            System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+            if (p.getCharge() != 0) {
+                System.out.println("test| Index: " + index1 + ", MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+                a++;
+            }
+            index1++;
         }
-        System.out.println(out.size());
+        System.out.println("test| Size: " + out.size() + ", charge != 0: " + a);
+        System.out.println();
+
+        System.out.println("Their output:");
+        int b = 0;
+        int index2 = 0;
         for (Peak p : peaklistout.getPeaklist()) {
-            System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+            if (p.getCharge() != 0) {
+                System.out.println("test| Index: " + index2 + ", MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+                b++;
+            }
+            index2++;
         }
-        System.out.println(peaklistout.getPeaklist().size());
+        System.out.println("test| Size: " + peaklistout.getPeaklist().size() + ", charge != 0: " + b);
+
+        System.out.println();
+        for (int i = 0; i < out.size() || i < peaklistout.getPeaklist().size(); i++) {
+            // if (out.get(i).getCharge() != 0 && peaklistout.getPeaklist().get(i).getCharge() != 0) {
+            if (out.get(i).getMz() == peaklistout.getPeaklist().get(i).getMz() && out.get(i).getIntensity() == peaklistout.getPeaklist().get(i).getIntensity()
+                    && out.get(i).getCharge() == peaklistout.getPeaklist().get(i).getCharge() && out.get(i).getIsotope() == peaklistout.getPeaklist().get(i).getIsotope()) {
+                System.out.println("Correct: ");
+                System.out.println("test| Index: " + i + ", MZ: " + out.get(i).getMz() + ", INTENSITY:" + out.get(i).getIntensity() + ", CHARGE:" + out.get(i).getCharge() + ", ISOTOPE:"
+                        + out.get(i).getIsotope());
+                System.out.println("test| Index: " + i + ", MZ: " + peaklistout.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout.getPeaklist().get(i).getIntensity() + ", CHARGE:"
+                        + peaklistout.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout.getPeaklist().get(i).getIsotope());
+                System.out.println();
+                // }
+            } else {
+                // if (out.get(i).getCharge() != 0 && peaklistout.getPeaklist().get(i).getCharge() != 0) {
+                System.out.println("Incorrect: ");
+                System.out.println("test| Index: " + i + ", MZ: " + out.get(i).getMz() + ", INTENSITY:" + out.get(i).getIntensity() + ", CHARGE:" + out.get(i).getCharge() + ", ISOTOPE:"
+                        + out.get(i).getIsotope());
+                System.out.println("test| Index: " + i + ", MZ: " + peaklistout.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout.getPeaklist().get(i).getIntensity() + ", CHARGE:"
+                        + peaklistout.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout.getPeaklist().get(i).getIsotope());
+                System.out.println();
+                // }
+            }
+        }
 
         assertPeaklistEquals(out, peaklistout.getPeaklist());
     }
@@ -119,13 +160,8 @@ public class MspyTest {
                     && list.get(i).getIsotope() == list2.get(i).getIsotope()) {
                 b = true;
             }
-            if (b == false) {
-                System.out.println("Error at:");
-                System.out.println("MZ: " + list.get(i).getMz() + ", INTENSITY:" + list.get(i).getIntensity() + ", CHARGE:" + list.get(i).getCharge() + ", ISOTOPE:" + list.get(i).getIsotope());
-                System.out.println("MZ: " + list2.get(i).getMz() + ", INTENSITY:" + list2.get(i).getIntensity() + ", CHARGE:" + list2.get(i).getCharge() + ", ISOTOPE:" + list2.get(i).getIsotope());
-            }
 
-            assertTrue(b);
+            assertTrue("Values should be same. (Index: " + i + ")", b);
         }
     }
 }
