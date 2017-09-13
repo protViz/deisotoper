@@ -309,6 +309,16 @@ jVersionMSM <- function() {
   version
 }
 
+
+#' \dontrun{
+#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#'
+#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
+#'
+#' joMSMsummary <- jSummary(joMSM)
+#' joMSMdeisotopedsummary <- jSummary(joMSMdeisotoped)
+#' }
 jDeisotopeMSM <- function(jobj) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
