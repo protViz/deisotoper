@@ -18,6 +18,8 @@ import junit.framework.Assert;
 public class MspyTest {
     Peaklist peaklistin;
     Peaklist peaklistout;
+    Peaklist peaklistin2;
+    Peaklist peaklistout2;
 
     @Before
     public void setUp() {
@@ -94,11 +96,17 @@ public class MspyTest {
 
         peaklistout.getPeaklist().get(49).setCharge(1);
         peaklistout.getPeaklist().get(49).setIsotope(1);
+
+        peaklistin2 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
+
+        peaklistout2 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6].msd");
+
     }
 
     @Test
     public void test() {
         List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        List<Peak> out2 = Mspy.deisotope(peaklistin2.getPeaklist(), 3, 0.05, 0.5, 0.0);
 
         // System.out.println("Out output:");
         // int a = 0;
@@ -151,6 +159,28 @@ public class MspyTest {
         // }
 
         assertPeaklistEquals(out, peaklistout.getPeaklist());
+
+        System.out.println("Correctness check: ");
+        for (int i = 0; i < out2.size() || i < peaklistout2.getPeaklist().size(); i++) {
+            if (out2.get(i).getMz() == peaklistout2.getPeaklist().get(i).getMz() && out2.get(i).getIntensity() == peaklistout2.getPeaklist().get(i).getIntensity()
+                    && out2.get(i).getCharge() == peaklistout2.getPeaklist().get(i).getCharge() && out2.get(i).getIsotope() == peaklistout2.getPeaklist().get(i).getIsotope()) {
+                System.out.println("Correct: ");
+                System.out.println("test| Index: " + i + ", MZ: " + out2.get(i).getMz() + ", INTENSITY:" + out2.get(i).getIntensity() + ", CHARGE:" + out2.get(i).getCharge() + ", ISOTOPE:"
+                        + out2.get(i).getIsotope());
+                System.out.println("test| Index: " + i + ", MZ: " + peaklistout2.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout2.getPeaklist().get(i).getIntensity() + ", CHARGE:"
+                        + peaklistout2.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout2.getPeaklist().get(i).getIsotope());
+                System.out.println();
+            } else {
+                System.out.println("Incorrect: ");
+                System.out.println("test| Index: " + i + ", MZ: " + out2.get(i).getMz() + ", INTENSITY:" + out2.get(i).getIntensity() + ", CHARGE:" + out2.get(i).getCharge() + ", ISOTOPE:"
+                        + out2.get(i).getIsotope());
+                System.out.println("test| Index: " + i + ", MZ: " + peaklistout2.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout2.getPeaklist().get(i).getIntensity() + ", CHARGE:"
+                        + peaklistout2.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout2.getPeaklist().get(i).getIsotope());
+                System.out.println();
+            }
+        }
+
+        assertPeaklistEquals(out2, peaklistout2.getPeaklist());
     }
 
     private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
