@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MSDToPeaklist {
+public class Convert {
     public static ch.fgcz.proteomics.mspy.Peaklist msdToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
