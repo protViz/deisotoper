@@ -136,22 +136,22 @@ public class MassSpectrum {
         this.setId(id);
     }
 
-    public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Double> charge, List<Double> isotope) {
-        if (!isSorted(mz)) {
-            Collections.sort(mz);
-        }
-
-        this.setMz(mz);
-        this.setIntensity(intensity);
-        this.setCharge(charge);
-        this.setIsotope(isotope);
-        this.setTyp(typ);
-        this.setSearchEngine(searchengine);
-        this.setPeptidMass(peptidmass);
-        this.setRt(rt);
-        this.setChargeState(chargestate);
-        this.setId(id);
-    }
+    // public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Double> charge, List<Double> isotope) {
+    // if (!isSorted(mz)) {
+    // Collections.sort(mz);
+    // }
+    //
+    // this.setMz(mz);
+    // this.setIntensity(intensity);
+    // this.setCharge(charge);
+    // this.setIsotope(isotope);
+    // this.setTyp(typ);
+    // this.setSearchEngine(searchengine);
+    // this.setPeptidMass(peptidmass);
+    // this.setRt(rt);
+    // this.setChargeState(chargestate);
+    // this.setId(id);
+    // }
 
     /**
      * Checks whether a list is sorted or not.
