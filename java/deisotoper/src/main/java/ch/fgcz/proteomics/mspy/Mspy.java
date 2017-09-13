@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Deisotope {
+public class Mspy {
     public static final double ISOTOPE_DISTANCE = 1.00287;
     public static final double ELECTRON_MASS = 0.00054857990924;
     public static final double H_MASS = 1.008;

@@ -98,7 +98,7 @@ public class MspyTest {
 
     @Test
     public void test() {
-        List<Peak> out = Deisotope.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
 
         // System.out.println("Out output:");
         // int a = 0;

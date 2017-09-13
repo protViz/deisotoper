@@ -26,7 +26,7 @@ public class Main {
         for (ch.fgcz.proteomics.dto.MassSpectrum ms : TP_HeLa_200ng_filtered_pd21_MSM.getMSlist()) {
             Peaklist input = new Peaklist(ms);
 
-            List<Peak> output = Deisotope.deisotope(input.getPeaklist(), 3, 0.05, 0.5, 0.0);
+            List<Peak> output = Mspy.deisotope(input.getPeaklist(), 3, 0.05, 0.5, 0.0);
 
             List<Integer> chargelist = new ArrayList<>();
             List<Double> isotopelist = new ArrayList<>();
