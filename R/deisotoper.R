@@ -310,14 +310,20 @@ jVersionMSM <- function() {
 }
 
 
+#' Deisotopes a MSM.
+#'
+#' @return
+#' @export jDeisotopeMSM
+#'
+#' @examples
 #' \dontrun{
 #' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 #' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 #'
 #' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
 #'
-#' joMSMsummary <- jSummary(joMSM)
-#' joMSMdeisotopedsummary <- jSummary(joMSMdeisotoped)
+#' joMSMsummary <- jSummaryMSM(joMSM)
+#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' }
 jDeisotopeMSM <- function(jobj) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
