@@ -3,3 +3,4 @@
 ^.*git.*
 ^java.*
 LICENSE
+^.*vignettes/cmp.Rmd$

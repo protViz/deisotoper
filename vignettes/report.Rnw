@@ -1,0 +1,19 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement}
+\author{Lucas Schmidt}
+\maketitle
+\section{Intro}
+\section{Implementation}
+\section{Conc}
+
+<<>>=
+library(deisotoper)
+@
+
+
+
+\end{document}

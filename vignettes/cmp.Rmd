@@ -1,0 +1,48 @@
+---
+title: "deisotoper cmp test data"
+author: "Christian Panse"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Create Java MSM object
+
+```{r}
+library(deisotoper)
+#library(parallel)
+
+input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_pd21.RData",
+           "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData",
+           "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_msdeconv.RData")
+
+
+S <- lapply(input, function(u){ 
+  objN<-load(con<-url(u)); 
+  jo<-jCreateMSM(get(objN)); 
+  S<-jSummaryMSM(jo); 
+  S$file <- objN;S
+  })
+
+
+S <- do.call('rbind',S)
+
+```
+
+# summary plots
+
+```{r fig.retina=3, fig.width=8}
+library(lattice)
+filter <- (S$Attribute == "nr_of_peaks")
+histogram(~Value | file, data=S[filter,], scales = list(x=list(log=TRUE)), type='count')
+```
+
+```{r fig.retina=3, fig.width=8}
+filter <- (S$Attribute == "min_peak_distance")
+library(lattice)
+histogram(~Value | file,  data=S[filter, ], scales = list(x=list(log=TRUE)), type='count')
+```
