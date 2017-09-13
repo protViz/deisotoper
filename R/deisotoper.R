@@ -308,3 +308,15 @@ jVersionMSM <- function() {
   
   version
 }
+
+jDeisotopeMSM <- function(jobj) {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  d <- .jnew("ch.fgcz.proteomics.mspy.Deisotope")
+  
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj)
+  
+  output
+}
