@@ -63,6 +63,10 @@ public class MassSpectrometryMeasurement {
         this.getMSlist().add(new MassSpectrum(typ, searchengine, mzlist, intlist, peptidmass, rt, chargestate, id));
     }
 
+    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
+        this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, charge, isotope));
+    }
+
     public String version() {
         return "MassSpectrometryMeasurement.java 2017-09-13 Lucas Schmidt";
     }
@@ -119,7 +123,7 @@ public class MassSpectrometryMeasurement {
             }
             System.out.println();
         }
-        
+
         System.out.println(Summary.makeSummary(m));
     }
 }

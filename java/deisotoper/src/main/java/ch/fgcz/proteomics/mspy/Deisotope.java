@@ -33,17 +33,17 @@ public class Deisotope {
             }
         }
         Collections.reverse(charges);
-        System.out.println("deisotope| Charge List: " + charges.toString());
+        // System.out.println("deisotope| Charge List: " + charges.toString());
 
         int maxindex = peaklist.size();
 
         int x = 0;
         for (Peak parent : peaklist) {
-            System.out.println();
-            System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
+            // System.out.println();
+            // System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
 
             if (parent.getIsotope() != -1) {
-                System.out.println("deisotope|for|if| continue because isotope != 0");
+                // System.out.println("deisotope|for|if| continue because isotope != 0");
                 continue;
             }
 
@@ -52,11 +52,12 @@ public class Deisotope {
                 cluster.add(parent);
 
                 double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
-                System.out.println("deisotope|for|for| difference: " + difference + " = " + (ISOTOPE_DISTANCE + isotopeshift) + " / " + Math.abs(z));
+                // System.out.println("deisotope|for|for| difference: " + difference + " = " + (ISOTOPE_DISTANCE + isotopeshift) + " / " + Math.abs(z));
                 int y = 1;
                 while (x + y < maxindex) {
                     double mzerror = (peaklist.get(x + y).getMz() - cluster.get(cluster.size() - 1).getMz() - difference);
-                    System.out.println("deisotope|for|for|while| mzerror: " + mzerror + " = " + (peaklist.get(x + y).getMz() + " - " + cluster.get(cluster.size() - 1).getMz() + " - " + difference));
+                    // System.out.println("deisotope|for|for|while| mzerror: " + mzerror + " = " + (peaklist.get(x + y).getMz() + " - " + cluster.get(cluster.size() - 1).getMz() + " - " +
+                    // difference));
                     if (Math.abs(mzerror) <= mztolerance) {
                         cluster.add(peaklist.get(x + y));
                     } else if (mzerror > mztolerance) {
@@ -66,12 +67,12 @@ public class Deisotope {
                 }
 
                 if (cluster.size() == 1) {
-                    System.out.println("deisotope|for|for|if| continue because cluster.size() == 1");
+                    // System.out.println("deisotope|for|for|if| continue because cluster.size() == 1");
                     continue;
                 }
 
                 int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
-                System.out.println("deisotope|for|for| mass: " + mass + " = " + Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) + " / " + 200);
+                // System.out.println("deisotope|for|for| mass: " + mass + " = " + Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) + " / " + 200);
 
                 List<Double> pattern = initPattern(mass);
 
@@ -84,30 +85,30 @@ public class Deisotope {
                 }
 
                 if (cluster.size() < lim && Math.abs(z) > 1) {
-                    System.out.println("deisotope|for|for|if| continue because cluster.size() < lim && z > 1");
+                    // System.out.println("deisotope|for|for|if| continue because cluster.size() < lim && z > 1");
                     continue;
                 }
 
                 boolean valid = true;
                 int isotope = 1;
                 int limit = Math.min(pattern.size(), cluster.size());
-                System.out.println("deisotope|for|for| limit: " + limit + " = " + pattern.size() + ", " + cluster.size());
+                // System.out.println("deisotope|for|for| limit: " + limit + " = " + pattern.size() + ", " + cluster.size());
 
                 while (isotope < limit) {
                     double inttheoretical = (cluster.get(isotope - 1).getIntensity() / pattern.get(isotope - 1)) * pattern.get(isotope);
                     double interror = cluster.get(isotope).getIntensity() - inttheoretical;
-                    System.out.println("deisotope|for|for|while| inttheoretical: " + inttheoretical + " = " + cluster.get(isotope - 1).getIntensity() + " / " + pattern.get(isotope - 1) + "*"
-                            + pattern.get(isotope));
-                    System.out.println("deisotope|for|for|while| interror: " + interror + " = " + cluster.get(isotope).getIntensity() + " - " + inttheoretical);
+                    // System.out.println("deisotope|for|for|while| inttheoretical: " + inttheoretical + " = " + cluster.get(isotope - 1).getIntensity() + " / " + pattern.get(isotope - 1) + "*" +
+                    // pattern.get(isotope));
+                    // System.out.println("deisotope|for|for|while| interror: " + interror + " = " + cluster.get(isotope).getIntensity() + " - " + inttheoretical);
 
                     if (Math.abs(interror) <= (inttheoretical * inttolerance)) {
                         cluster.get(isotope).setIsotope(isotope);
                         cluster.get(isotope).setCharge(z);
-                        System.out.println("deisotope|for|for|while|if| Cluster Isotope settet to: " + isotope);
-                        System.out.println("deisotope|for|for|while|if| Cluster Charge settet to: " + z);
+                        // System.out.println("deisotope|for|for|while|if| Cluster Isotope settet to: " + isotope);
+                        // System.out.println("deisotope|for|for|while|if| Cluster Charge settet to: " + z);
                     } else if (interror < 0 && isotope == 1) {
                         valid = false;
-                        System.out.println("deisotope|for|for|while|if| valid: " + valid);
+                        // System.out.println("deisotope|for|for|while|if| valid: " + valid);
                         break;
                     } else if (interror > 0) {
                     }
@@ -118,16 +119,16 @@ public class Deisotope {
                 if (valid) {
                     parent.setIsotope(0);
                     parent.setCharge(z);
-                    System.out.println("deisotope|for|for|if| Parent Isotope settet to: " + 0 + " IMPORTANT CHANGES");
-                    System.out.println("deisotope|for|for|if| Parent Charge settet to: " + z + " IMPORTANT CHANGES");
+                    // System.out.println("deisotope|for|for|if| Parent Isotope settet to: " + 0 + " IMPORTANT CHANGES");
+                    // System.out.println("deisotope|for|for|if| Parent Charge settet to: " + z + " IMPORTANT CHANGES");
                     break;
                 }
             }
             x++;
-            System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
+            // System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
         }
 
-        System.out.println();
+        // System.out.println();
         return peaklist;
     }
 
@@ -136,12 +137,12 @@ public class Deisotope {
         double agentmass = H_MASS;
         double agentcount = currentcharge / agentcharge;
         agentmass = agentmass - agentcharge * ELECTRON_MASS;
-        System.out.println("calculateMass| agentcount: " + agentcount);
-        System.out.println("calculateMass| agentmass: " + agentmass);
+        // System.out.println("calculateMass| agentcount: " + agentcount);
+        // System.out.println("calculateMass| agentmass: " + agentmass);
 
         if (currentcharge != 0) {
-            System.out.println(
-                    "calculateMass|if| mass: " + (mass * Math.abs(currentcharge) - agentmass * agentcount) + " = " + mass + " * " + Math.abs(currentcharge) + " - " + agentmass + " * " + agentcount);
+            // System.out.println("calculateMass|if| mass: " + (mass * Math.abs(currentcharge) - agentmass * agentcount) + " = " + mass + " * " + Math.abs(currentcharge) + " - " + agentmass + " * " +
+            // agentcount);
             mass = mass * Math.abs(currentcharge) - agentmass * agentcount;
         }
 

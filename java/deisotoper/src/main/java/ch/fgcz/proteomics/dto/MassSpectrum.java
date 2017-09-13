@@ -15,18 +15,18 @@ public class MassSpectrum {
     private String searchengine;
     private List<Double> mz = new ArrayList<>();
     private List<Double> intensity = new ArrayList<>();
-    private List<Double> charge = new ArrayList<>();
+    private List<Integer> charge = new ArrayList<>();
     private List<Double> isotope = new ArrayList<>();
     private double peptidmass;
     private double rt;
     private int chargestate;
     private int id;
 
-    public List<Double> getCharge() {
+    public List<Integer> getCharge() {
         return charge;
     }
 
-    public void setCharge(List<Double> charge) {
+    public void setCharge(List<Integer> charge) {
         this.charge = charge;
     }
 
@@ -136,22 +136,22 @@ public class MassSpectrum {
         this.setId(id);
     }
 
-    // public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Double> charge, List<Double> isotope) {
-    // if (!isSorted(mz)) {
-    // Collections.sort(mz);
-    // }
-    //
-    // this.setMz(mz);
-    // this.setIntensity(intensity);
-    // this.setCharge(charge);
-    // this.setIsotope(isotope);
-    // this.setTyp(typ);
-    // this.setSearchEngine(searchengine);
-    // this.setPeptidMass(peptidmass);
-    // this.setRt(rt);
-    // this.setChargeState(chargestate);
-    // this.setId(id);
-    // }
+    public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
+        if (!isSorted(mz)) {
+            Collections.sort(mz);
+        }
+
+        this.setMz(mz);
+        this.setIntensity(intensity);
+        this.setCharge(charge);
+        this.setIsotope(isotope);
+        this.setTyp(typ);
+        this.setSearchEngine(searchengine);
+        this.setPeptidMass(peptidmass);
+        this.setRt(rt);
+        this.setChargeState(chargestate);
+        this.setId(id);
+    }
 
     /**
      * Checks whether a list is sorted or not.
