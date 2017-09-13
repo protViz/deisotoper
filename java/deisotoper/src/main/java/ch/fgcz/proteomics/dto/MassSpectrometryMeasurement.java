@@ -64,7 +64,7 @@ public class MassSpectrometryMeasurement {
     }
 
     public String version() {
-        return "Version: 0.1";
+        return "MassSpectrometryMeasurement.java 2017-09-13 Lucas Schmidt";
     }
 
     public static void main(String[] args) {
