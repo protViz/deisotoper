@@ -19,8 +19,8 @@ public class Deisotope {
         List<Integer> charges = new ArrayList<>();
 
         for (Peak p : peaklist) {
-            p.setCharge(0);
-            p.setIsotope(0);
+            p.setCharge(-1); // -1 = None
+            p.setIsotope(-1); // -1 = None
         }
 
         if (maxcharge < 0) {
@@ -42,7 +42,7 @@ public class Deisotope {
             System.out.println();
             System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
 
-            if (parent.getIsotope() != 0) {
+            if (parent.getIsotope() != -1) {
                 System.out.println("deisotope|for|if| continue because isotope != 0");
                 continue;
             }

@@ -46,8 +46,8 @@ public class Peak {
     public Peak(double mz, double intensity) {
         this.mz = mz;
         this.intensity = intensity;
-        this.isotope = 0;
-        this.charge = 0;
+        this.isotope = -1;
+        this.charge = -1;
     }
 
     public Peak(double mz, double intensity, double isotope, int charge) {

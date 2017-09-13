@@ -104,7 +104,7 @@ public class MspyTest {
         int a = 0;
         int index1 = 0;
         for (Peak p : out) {
-            if (p.getCharge() != 0) {
+            if (p.getCharge() != -1) {
                 System.out.println("test| Index: " + index1 + ", MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
                 a++;
             }
@@ -117,7 +117,7 @@ public class MspyTest {
         int b = 0;
         int index2 = 0;
         for (Peak p : peaklistout.getPeaklist()) {
-            if (p.getCharge() != 0) {
+            if (p.getCharge() != -1) {
                 System.out.println("test| Index: " + index2 + ", MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
                 b++;
             }
@@ -126,8 +126,9 @@ public class MspyTest {
         System.out.println("test| Size: " + peaklistout.getPeaklist().size() + ", charge != 0: " + b);
 
         System.out.println();
+        System.out.println("Correctness check: ");
         for (int i = 0; i < out.size() || i < peaklistout.getPeaklist().size(); i++) {
-            // if (out.get(i).getCharge() != 0 && peaklistout.getPeaklist().get(i).getCharge() != 0) {
+            // if (out.get(i).getCharge() != -1 && peaklistout.getPeaklist().get(i).getCharge() != -1) {
             if (out.get(i).getMz() == peaklistout.getPeaklist().get(i).getMz() && out.get(i).getIntensity() == peaklistout.getPeaklist().get(i).getIntensity()
                     && out.get(i).getCharge() == peaklistout.getPeaklist().get(i).getCharge() && out.get(i).getIsotope() == peaklistout.getPeaklist().get(i).getIsotope()) {
                 System.out.println("Correct: ");
@@ -138,7 +139,7 @@ public class MspyTest {
                 System.out.println();
                 // }
             } else {
-                // if (out.get(i).getCharge() != 0 && peaklistout.getPeaklist().get(i).getCharge() != 0) {
+                // if (out.get(i).getCharge() != -1 && peaklistout.getPeaklist().get(i).getCharge() != -1) {
                 System.out.println("Incorrect: ");
                 System.out.println("test| Index: " + i + ", MZ: " + out.get(i).getMz() + ", INTENSITY:" + out.get(i).getIntensity() + ", CHARGE:" + out.get(i).getCharge() + ", ISOTOPE:"
                         + out.get(i).getIsotope());
