@@ -1,5 +1,10 @@
 package ch.fgcz.proteomics.mspy;
 
+/**
+ * @author Lucas Schmidt
+ * @since 2017-09-13
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
