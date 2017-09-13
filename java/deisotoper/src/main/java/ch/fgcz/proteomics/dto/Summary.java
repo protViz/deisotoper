@@ -43,23 +43,30 @@ public class Summary {
             summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptidMass()).append(linesep);
             summary.append(spectrum.getId()).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
             if (!spectrum.getCharge().isEmpty() && !spectrum.getIsotope().isEmpty()) {
-                double sumcharge = 0;
-                double sumisotope = 0;
+                double chargesum = 0;
+                double isotopesum = 0;
+                int deisotopesum = 0;
                 int i = 0;
                 for (int c : spectrum.getCharge()) {
                     if (c != -1) {
-                        sumcharge += c;
+                        chargesum += c;
                         i++;
                     }
                 }
                 for (double iso : spectrum.getIsotope()) {
                     if (iso != -1) {
-                        sumisotope += iso;
+                        if (iso == 0) {
+                            deisotopesum++;
+                        }
+                        isotopesum += iso;
                         i++;
                     }
                 }
-                summary.append(spectrum.getId()).append(",average_charge,").append(sumcharge / i).append(linesep);
-                summary.append(spectrum.getId()).append(",average_isotope,").append(sumisotope / i).append(linesep);
+                summary.append(spectrum.getId()).append(",average_charge,").append(chargesum / i).append(linesep);
+                summary.append(spectrum.getId()).append(",average_isotope,").append(isotopesum / i).append(linesep);
+                summary.append(spectrum.getId()).append(",sum_isotope,").append(deisotopesum).append(linesep);
+                summary.append(spectrum.getId()).append(",max_charge,").append(Collections.max(spectrum.getCharge())).append(linesep);
+                summary.append(spectrum.getId()).append(",max_isotope,").append(Collections.max(spectrum.getIsotope())).append(linesep);
             }
         }
 
