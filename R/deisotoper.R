@@ -261,10 +261,30 @@ as.MSM <-function(x){
   stopifnot(is.MSM(x))
   x
 }
-  
 
 jGetMSM <- function(jobj) {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
   
+  source <- .jcall(jobj, "S", "getSource")
+  
+  MSlist <- .jcall(jobj, "Ljava/util/List;", "getMSlist")
+  
+  MSlistR <- rJava:::as.list.jobjRef(MSlist)
+  
+  for (i in 1: length(MSlistR)) {
+    typ <- .jcall(MSlistR[[i]], "S", "getTyp")
+    searchengine <- .jcall(MSlistR[[i]], "S", "getSearchEngine")
+    pepmass <- .jcall(MSlistR[[i]], "D", "getPeptidMass")
+    rt <- .jcall(MSlistR[[i]], "D", "getRt")
+    chargestate <- .jcall(MSlistR[[i]], "I", "getChargeState")
+    id <- .jcall(MSlistR[[i]], "I", "getId")
+    charge <- .jcall(MSlistR[[i]], "[I", "getChargeArray")
+    isotope <- .jcall(MSlistR[[i]], "[D", "getIsotopeArray")
+    intensity <-.jcall(MSlistR[[i]], "[D", "getIntensityArray")
+    mz <-.jcall(MSlistR[[i]], "[D", "getMzArray")
+  }
 }
 
 jWriteMSM2JSON <- function(jobj, filename='test.json'){
