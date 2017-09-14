@@ -160,25 +160,51 @@ public class MspyTest {
 
         assertPeaklistEquals(out, peaklistout.getPeaklist());
 
-        System.out.println("Correctness check: ");
-        for (int i = 0; i < out2.size() || i < peaklistout2.getPeaklist().size(); i++) {
-            if (out2.get(i).getMz() == peaklistout2.getPeaklist().get(i).getMz() && out2.get(i).getIntensity() == peaklistout2.getPeaklist().get(i).getIntensity()
-                    && out2.get(i).getCharge() == peaklistout2.getPeaklist().get(i).getCharge() && out2.get(i).getIsotope() == peaklistout2.getPeaklist().get(i).getIsotope()) {
-                System.out.println("Correct: ");
-                System.out.println("test| Index: " + i + ", MZ: " + out2.get(i).getMz() + ", INTENSITY:" + out2.get(i).getIntensity() + ", CHARGE:" + out2.get(i).getCharge() + ", ISOTOPE:"
-                        + out2.get(i).getIsotope());
-                System.out.println("test| Index: " + i + ", MZ: " + peaklistout2.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout2.getPeaklist().get(i).getIntensity() + ", CHARGE:"
-                        + peaklistout2.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout2.getPeaklist().get(i).getIsotope());
-                System.out.println();
-            } else {
-                System.out.println("Incorrect: ");
-                System.out.println("test| Index: " + i + ", MZ: " + out2.get(i).getMz() + ", INTENSITY:" + out2.get(i).getIntensity() + ", CHARGE:" + out2.get(i).getCharge() + ", ISOTOPE:"
-                        + out2.get(i).getIsotope());
-                System.out.println("test| Index: " + i + ", MZ: " + peaklistout2.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout2.getPeaklist().get(i).getIntensity() + ", CHARGE:"
-                        + peaklistout2.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout2.getPeaklist().get(i).getIsotope());
-                System.out.println();
-            }
-        }
+        // System.out.println("Out output:");
+        // int a = 0;
+        // int index1 = 0;
+        // for (Peak p : out2) {
+        // if (p.getCharge() != -1) {
+        // System.out.println("test| Index: " + index1 + ", MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+        // a++;
+        // }
+        // index1++;
+        // }
+        // System.out.println("test| Size: " + out2.size() + ", charge != 0: " + a);
+        // System.out.println();
+        //
+        // System.out.println("Their output:");
+        // int b = 0;
+        // int index2 = 0;
+        // for (Peak p : peaklistout2.getPeaklist()) {
+        // if (p.getCharge() != -1) {
+        // System.out.println("test| Index: " + index2 + ", MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+        // b++;
+        // }
+        // index2++;
+        // }
+        // System.out.println("test| Size: " + peaklistout2.getPeaklist().size() + ", charge != 0: " + b);
+        //
+        // System.out.println();
+        // System.out.println("Correctness check: ");
+        // for (int i = 0; i < out2.size() || i < peaklistout2.getPeaklist().size(); i++) {
+        // if (out2.get(i).getMz() == peaklistout2.getPeaklist().get(i).getMz() && out2.get(i).getIntensity() == peaklistout2.getPeaklist().get(i).getIntensity()
+        // && out2.get(i).getCharge() == peaklistout2.getPeaklist().get(i).getCharge() && out2.get(i).getIsotope() == peaklistout2.getPeaklist().get(i).getIsotope()) {
+        // System.out.println("Correct: ");
+        // System.out.println("test| Index: " + i + ", MZ: " + out2.get(i).getMz() + ", INTENSITY:" + out2.get(i).getIntensity() + ", CHARGE:" + out2.get(i).getCharge() + ", ISOTOPE:"
+        // + out2.get(i).getIsotope());
+        // System.out.println("test| Index: " + i + ", MZ: " + peaklistout2.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout2.getPeaklist().get(i).getIntensity() + ", CHARGE:"
+        // + peaklistout2.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout2.getPeaklist().get(i).getIsotope());
+        // System.out.println();
+        // } else {
+        // System.out.println("Incorrect: ");
+        // System.out.println("test| Index: " + i + ", MZ: " + out2.get(i).getMz() + ", INTENSITY:" + out2.get(i).getIntensity() + ", CHARGE:" + out2.get(i).getCharge() + ", ISOTOPE:"
+        // + out2.get(i).getIsotope());
+        // System.out.println("test| Index: " + i + ", MZ: " + peaklistout2.getPeaklist().get(i).getMz() + ", INTENSITY:" + peaklistout2.getPeaklist().get(i).getIntensity() + ", CHARGE:"
+        // + peaklistout2.getPeaklist().get(i).getCharge() + ", ISOTOPE:" + peaklistout2.getPeaklist().get(i).getIsotope());
+        // System.out.println();
+        // }
+        // }
 
         assertPeaklistEquals(out2, peaklistout2.getPeaklist());
     }

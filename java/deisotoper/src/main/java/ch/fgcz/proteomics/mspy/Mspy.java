@@ -1,5 +1,9 @@
 package ch.fgcz.proteomics.mspy;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-08-29
@@ -16,6 +20,12 @@ public class Mspy {
     public static final double H_MASS = 1.008;
 
     public static List<Peak> deisotope(List<Peak> peaklist, int maxcharge, double mztolerance, double inttolerance, double isotopeshift) {
+        // try {
+        // System.setOut(new PrintStream(new File("mspydebugoutput.txt")));
+        // } catch (FileNotFoundException e) {
+        // e.printStackTrace();
+        // }
+
         List<Integer> charges = new ArrayList<>();
 
         for (Peak p : peaklist) {
@@ -117,11 +127,13 @@ public class Mspy {
                 }
 
                 if (valid) {
-                    parent.setIsotope(0);
-                    parent.setCharge(z);
-                    // System.out.println("deisotope|for|for|if| Parent Isotope settet to: " + 0 + " IMPORTANT CHANGES");
-                    // System.out.println("deisotope|for|for|if| Parent Charge settet to: " + z + " IMPORTANT CHANGES");
-                    break;
+                    if (z < 4) { // BUGFIX BUT NOT REALLY A FIX (ONLY KILLS THE PROBLEM AND DOES NOT FIX IT REALLY)
+                        parent.setIsotope(0);
+                        parent.setCharge(z);
+                        // System.out.println("deisotope|for|for|if| Parent Isotope settet to: " + 0 + " IMPORTANT CHANGES");
+                        // System.out.println("deisotope|for|for|if| Parent Charge settet to: " + z + " IMPORTANT CHANGES");
+                        break;
+                    }
                 }
             }
             x++;
