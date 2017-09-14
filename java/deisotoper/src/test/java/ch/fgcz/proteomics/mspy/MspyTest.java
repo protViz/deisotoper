@@ -18,6 +18,8 @@ public class MspyTest {
     Peaklist peaklistout;
     Peaklist peaklistin2;
     Peaklist peaklistout2;
+    Peaklist peaklistin3;
+    Peaklist peaklistout3;
 
     @Before
     public void setUp() {
@@ -99,12 +101,18 @@ public class MspyTest {
         peaklistin2 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
         // HeLa filtered ID 6 mMass output
         peaklistout2 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6].msd");
+
+        // HeLa filtered ID X input
+        peaklistin3 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
+        // HeLa filtered ID X mMass output
+        peaklistout3 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
     }
 
     @Test
     public void test() {
         List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
         List<Peak> out2 = Mspy.deisotope(peaklistin2.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        List<Peak> out3 = Mspy.deisotope(peaklistin3.getPeaklist(), 3, 0.05, 0.5, 0.0);
 
         // System.out.println("Out output:");
         // int a = 0;
@@ -205,6 +213,8 @@ public class MspyTest {
         // }
 
         assertPeaklistEquals(out2, peaklistout2.getPeaklist());
+
+        assertPeaklistEquals(out3, peaklistout3.getPeaklist());
     }
 
     private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
