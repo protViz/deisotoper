@@ -140,7 +140,11 @@ public class Mspy {
         }
 
         // System.out.println();
-        return peaklist;
+
+        // REMOVE EMTPY PEAKS
+        List<Peak> list = removeEmptyPeaks(peaklist);
+
+        return list;
     }
 
     private static double calculateMass(double mass, int charge, int currentcharge) {
@@ -158,6 +162,18 @@ public class Mspy {
         }
 
         return mass;
+    }
+
+    private static List<Peak> removeEmptyPeaks(List<Peak> in) {
+        List<Peak> out = new ArrayList<>();
+
+        for (int i = 0; i < in.size(); i++) {
+            if (in.get(i).getIsotope() != -1.0 && in.get(i).getCharge() != -1) {
+                out.add(in.get(i));
+            }
+        }
+
+        return out;
     }
 
     private static List<Double> initPattern(int mass) {
@@ -281,10 +297,8 @@ public class Mspy {
 
         int size = 0;
         for (Peak p : pres) {
-            if (p.getIsotope() != 0) {
-                System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE: " + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
-                size++;
-            }
+            System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE: " + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+            size++;
         }
         System.out.println(size + " " + plist.getPeaklist().size());
     }
