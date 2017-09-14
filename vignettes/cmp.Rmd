@@ -29,10 +29,11 @@ S <- lapply(input, function(u){
   S$file <- objN;
   S$status <- 'input'
   
-  Sd <- jSummaryMSM(jDeisotopeMSM(jo))
+  Sd <- jSummaryMSM(jD <- jDeisotopeMSM(jo))
   Sd$file <- objN;
   Sd$status <- 'mspy'
   
+  mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
   rbind(S, Sd)
   })
 

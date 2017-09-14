@@ -299,8 +299,8 @@ jGetMSM <- function(jobj) {
          pepmass = .jcall(MSlistR[[i]], "D", "getPeptidMass"),
          id =  .jcall(MSlistR[[i]], "I", "getId"),
          charge = .jcall(MSlistR[[i]], "I", "getChargeState"),
-         scan = .jcall(MSlistR[[i]], "I", "getId"),
-         title = paste('deisotoped', .jcall(MSlistR[[i]], "I", "getId")))
+         scans = .jcall(MSlistR[[i]], "I", "getId"),
+         title = paste('deisotoped', i))
   }
   )
   
