@@ -262,6 +262,16 @@ as.MSM <-function(x){
   x
 }
 
+#' Title
+#'
+#' @param jobj 
+#'
+#' @return
+#' @export jGetMSM
+#' @examples 
+#' load(system.file("extdata",
+#' name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 jGetMSM <- function(jobj) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -273,18 +283,28 @@ jGetMSM <- function(jobj) {
   
   MSlistR <- rJava:::as.list.jobjRef(MSlist)
   
-  for (i in 1: length(MSlistR)) {
+  MSM <- lapply(1: length(MSlistR), function(i){
+    
     typ <- .jcall(MSlistR[[i]], "S", "getTyp")
     searchengine <- .jcall(MSlistR[[i]], "S", "getSearchEngine")
-    pepmass <- .jcall(MSlistR[[i]], "D", "getPeptidMass")
-    rt <- .jcall(MSlistR[[i]], "D", "getRt")
-    chargestate <- .jcall(MSlistR[[i]], "I", "getChargeState")
     id <- .jcall(MSlistR[[i]], "I", "getId")
     charge <- .jcall(MSlistR[[i]], "[I", "getChargeArray")
     isotope <- .jcall(MSlistR[[i]], "[D", "getIsotopeArray")
-    intensity <-.jcall(MSlistR[[i]], "[D", "getIntensityArray")
-    mz <-.jcall(MSlistR[[i]], "[D", "getMzArray")
+   
+    
+    
+    list(mZ =.jcall(MSlistR[[i]], "[D", "getMzArray"),
+         intensity = .jcall(MSlistR[[i]], "[D", "getIntensityArray"),
+         rtinseconds = .jcall(MSlistR[[i]], "D", "getRt"),
+         pepmass = .jcall(MSlistR[[i]], "D", "getPeptidMass"),
+         id =  .jcall(MSlistR[[i]], "I", "getId"),
+         charge = .jcall(MSlistR[[i]], "I", "getChargeState"),
+         scan = .jcall(MSlistR[[i]], "I", "getId"),
+         title = paste('deisotoped', .jcall(MSlistR[[i]], "I", "getId")))
   }
+  )
+  
+  as.MSM(MSM)
 }
 
 jWriteMSM2JSON <- function(jobj, filename='test.json'){

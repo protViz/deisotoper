@@ -12,9 +12,9 @@ vignette: >
 
 # Create Java MSM object
 
-```{r}
+```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
-#library(parallel)
+library(parallel)
 
 input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData",
   "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_pd21.RData",
@@ -22,7 +22,7 @@ input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData",
 
 
 S <- lapply(input, function(u){ 
-  objN <- load(con<-url(u)); 
+  objN <- load(con <- url(u)); 
   jo <- jCreateMSM(get(objN)); 
   
   S <- jSummaryMSM(jo); 
@@ -45,29 +45,33 @@ S <- do.call('rbind', S)
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 library(lattice)
 filter <- (S$Attribute == "nr_of_peaks")
-histogram(~Value | file * status, data=S[filter,], scales = list(x=list(log=TRUE)), type='count')
+histogram(~Value | file * status, data=S[filter, ],
+          scales = list(x=list(log=TRUE)), type='count')
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "min_peak_distance")
-histogram(~Value | file * status,  data=S[filter, ], scales = list(x=list(log=TRUE)), type='count')
+histogram(~Value | file * status,  data=S[filter, ], 
+          scales = list(x=list(log=TRUE)), type='count')
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "max_peak_distance")
-histogram(~Value | file * status,  data=S[filter, ], scales = list(x=list(log=TRUE)), type='count')
+histogram(~Value | file * status,  data=S[filter, ],
+          scales = list(x=list(log=TRUE)), type='count')
 ```
-
 
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "sum_intensity")
-histogram(~Value | file* status,  data=S[filter, ], scales = list(x=list(log=TRUE)), type='count')
+histogram(~Value | file* status,  data=S[filter, ],
+          scales = list(x=list(log=TRUE)), type='count')
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "min_intensity")
-histogram(~Value | file * status ,  data=S[filter, ], scales = list(x=list(log=TRUE)), type='count')
+histogram(~Value | file * status ,  data=S[filter, ],
+          scales = list(x=list(log=TRUE)), type='count')
 ```
 
 
