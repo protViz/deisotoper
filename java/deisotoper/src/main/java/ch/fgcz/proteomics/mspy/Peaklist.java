@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.mspy;
+  package ch.fgcz.proteomics.mspy;
 
 /**
  * @author Lucas Schmidt
