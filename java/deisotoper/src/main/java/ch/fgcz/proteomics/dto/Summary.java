@@ -32,13 +32,28 @@ public class Summary {
 
             // summary.append(spectrum.getId()).append(",spectrum_type,").append(spectrum.getTyp()).append(linesep);
             summary.append(spectrum.getId()).append(",nr_of_peaks,").append(spectrum.getMz().size()).append(linesep);
-            summary.append(spectrum.getId()).append(",min_intensity,").append(Collections.min(spectrum.getIntensity())).append(linesep);
-            summary.append(spectrum.getId()).append(",max_intensity,").append(Collections.max(spectrum.getIntensity())).append(linesep);
+            if (spectrum.getIntensity().size() != 0) {
+                summary.append(spectrum.getId()).append(",min_intensity,").append(Collections.min(spectrum.getIntensity())).append(linesep);
+                summary.append(spectrum.getId()).append(",max_intensity,").append(Collections.max(spectrum.getIntensity())).append(linesep);
+            } else {
+                summary.append(spectrum.getId()).append(",min_intensity,").append("0").append(linesep);
+                summary.append(spectrum.getId()).append(",max_intensity,").append("0").append(linesep);
+            }
             summary.append(spectrum.getId()).append(",sum_intensity,").append(spectrum.getIntensity().stream().mapToDouble(f -> f.doubleValue()).sum()).append(linesep);
-            summary.append(spectrum.getId()).append(",min_mass,").append(Collections.min(spectrum.getMz())).append(linesep);
-            summary.append(spectrum.getId()).append(",max_mass,").append(Collections.max(spectrum.getMz())).append(linesep);
-            summary.append(spectrum.getId()).append(",min_peak_distance,").append(Collections.min(dist)).append(linesep);
-            summary.append(spectrum.getId()).append(",max_peak_distance,").append(Collections.max(dist)).append(linesep);
+            if (spectrum.getMz().size() != 0) {
+                summary.append(spectrum.getId()).append(",min_mass,").append(Collections.min(spectrum.getMz())).append(linesep);
+                summary.append(spectrum.getId()).append(",max_mass,").append(Collections.max(spectrum.getMz())).append(linesep);
+            } else {
+                summary.append(spectrum.getId()).append(",min_mass,").append("0").append(linesep);
+                summary.append(spectrum.getId()).append(",max_mass,").append("0").append(linesep);
+            }
+            if (dist.size() != 0) {
+                summary.append(spectrum.getId()).append(",min_peak_distance,").append(Collections.min(dist)).append(linesep);
+                summary.append(spectrum.getId()).append(",max_peak_distance,").append(Collections.max(dist)).append(linesep);
+            } else {
+                summary.append(spectrum.getId()).append(",min_peak_distance,").append("0").append(linesep);
+                summary.append(spectrum.getId()).append(",max_peak_distance,").append("0").append(linesep);
+            }
             summary.append(spectrum.getId()).append(",precursor_charge,").append(spectrum.getChargeState()).append(linesep);
             summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptidMass()).append(linesep);
             summary.append(spectrum.getId()).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
