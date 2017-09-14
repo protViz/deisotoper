@@ -308,8 +308,10 @@ public class Mspy {
 
         MassSpectrometryMeasurement test2 = Deisotope.deisotopeMSM(test);
 
+        System.out.println(test.getMSlist().get(0).getMz().size());
         System.out.println(Summary.makeSummary(test));
 
+        System.out.println(test2.getMSlist().get(0).getMz().size());
         System.out.println(Summary.makeSummary(test2));
     }
 }

@@ -19,13 +19,17 @@ public class Deisotope {
 
             List<Integer> chargelist = new ArrayList<>();
             List<Double> isotopelist = new ArrayList<>();
+            List<Double> mzlist = new ArrayList<>();
+            List<Double> intensitylist = new ArrayList<>();
 
             for (int i = 0; i < outputpeaklist.size(); i++) {
                 chargelist.add(outputpeaklist.get(i).getCharge());
                 isotopelist.add(outputpeaklist.get(i).getIsotope());
+                mzlist.add(outputpeaklist.get(i).getMz());
+                intensitylist.add(outputpeaklist.get(i).getIntensity());
             }
 
-            output.addMS(ms.getTyp(), ms.getSearchEngine(), ms.getMz(), ms.getIntensity(), ms.getPeptidMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
+            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptidMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
         }
 
         return output;
