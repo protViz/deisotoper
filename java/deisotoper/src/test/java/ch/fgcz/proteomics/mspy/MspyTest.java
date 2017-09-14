@@ -13,8 +13,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.Assert;
-
 public class MspyTest {
     Peaklist peaklistin;
     Peaklist peaklistout;
@@ -33,7 +31,7 @@ public class MspyTest {
                 2389.05, 1778.45, 2974.41, 40190.6, 12985.8, 1740.92, 2295.79, 60876.1, 15365.0, 31691.5, 11432.0, 16625.5, 4982.01, 1941.02, 2423.14);
         peaklistin = new Peaklist(mzi, ii);
 
-        // HeLa filtered pd21 ID 10 mMass output #1
+        // HeLa filtered pd21 ID 10 mMass output
         List<Double> mzo1 = Arrays.asList(120.08112, 127.05046, 129.10248, 130.08647, 145.06100, 147.11298, 173.05595, 183.14944, 187.10793, 191.11806, 211.14433, 219.11301, 219.14932, 226.11879,
                 228.17076, 233.12860, 245.12456, 246.18129, 272.12418, 273.15988, 311.17133, 311.67285, 318.18118, 361.21945, 365.21802, 367.71344, 368.21527, 374.20749, 389.25476, 393.24963,
                 417.24994, 464.28693, 465.29050, 473.27631, 474.28079, 478.30136, 488.28372, 489.28659, 491.28381, 506.27274, 524.28314, 525.28650, 526.28674, 563.29309, 563.35559, 564.35809,
@@ -97,10 +95,10 @@ public class MspyTest {
         peaklistout.getPeaklist().get(49).setCharge(1);
         peaklistout.getPeaklist().get(49).setIsotope(1);
 
+        // HeLa filtered ID 6 input
         peaklistin2 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
-
+        // HeLa filtered ID 6 mMass output
         peaklistout2 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6].msd");
-
     }
 
     @Test

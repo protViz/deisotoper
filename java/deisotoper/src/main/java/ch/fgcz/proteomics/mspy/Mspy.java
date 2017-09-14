@@ -1,9 +1,5 @@
 package ch.fgcz.proteomics.mspy;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-08-29
@@ -13,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
 public class Mspy {
     public static final double ISOTOPE_DISTANCE = 1.00287;
