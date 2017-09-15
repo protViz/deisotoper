@@ -73,7 +73,7 @@ public class Mspy {
                     continue;
                 }
 
-                int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
+                int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z, 0)) / 200; // NOT CLEAR
 
                 List<Double> pattern = initPattern(mass);
 
@@ -130,9 +130,10 @@ public class Mspy {
      * @param mass
      * @param charge
      * @param currentcharge
+     * @param masstype
      * @return calculated mass
      */
-    private static double calculateMass(double mass, int charge, int currentcharge) {
+    private static double calculateMass(double mass, int charge, int currentcharge, int masstype) {
         int agentcharge = 1;
         double agentmass = H_MASS;
         double agentcount = currentcharge / agentcharge;
@@ -248,6 +249,43 @@ public class Mspy {
         return patternLookupTable.get(mass);
     }
 
+    /**
+     * TODO: Debug this function
+     * 
+     * @param peaklist
+     * @return deconvoluted peaklist
+     */
+    public static List<Peak> deconvolute(List<Peak> peaklist, int masstype) {
+        List<Peak> buff = new ArrayList<>();
+        List<Peak> peaklistcopy = peaklist;
+
+        for (Peak peak : peaklistcopy) {
+            if (peak.getCharge() != -1) {
+                continue;
+            } else if (Math.abs(peak.getCharge()) == 1) {
+                buff.add(peak);
+            } else {
+                if (peak.getFwhm() != -1) {
+                    peak.setFwhm(Math.abs(peak.getFwhm() * peak.getCharge()));
+                }
+
+                if (peak.getCharge() < 0) {
+                    peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype)); // Debug this
+                    peak.setCharge(-1);
+                } else {
+                    peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype)); // Debug this
+                    peak.setCharge(1);
+                }
+
+                buff.add(peak);
+            }
+        }
+
+        peaklist = buff;
+
+        return peaklist;
+    }
+
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
 
@@ -298,5 +336,11 @@ public class Mspy {
 
         System.out.println(test2.getMSlist().get(0).getMz().size());
         System.out.println(Summary.makeSummary(test2));
+
+        List<Peak> deconvtest = deconvolute(new Peaklist(test.getMSlist().get(0)).getPeaklist(), 1);
+
+        for (Peak p : deconvtest) {
+            System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
+        }
     }
 }

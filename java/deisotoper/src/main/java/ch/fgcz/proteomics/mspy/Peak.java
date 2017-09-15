@@ -10,6 +10,15 @@ public class Peak {
     private double intensity;
     private int charge;
     private double isotope;
+    private double fwhm;
+
+    public double getFwhm() {
+        return fwhm;
+    }
+
+    public void setFwhm(double fwhm) {
+        this.fwhm = fwhm;
+    }
 
     public double getIsotope() {
         return isotope;
@@ -52,6 +61,7 @@ public class Peak {
         this.intensity = intensity;
         this.isotope = -1;
         this.charge = -1;
+        this.fwhm = -1;
     }
 
     /**
@@ -65,5 +75,21 @@ public class Peak {
         this.intensity = intensity;
         this.isotope = isotope;
         this.charge = charge;
+        this.fwhm = -1;
+    }
+
+    /**
+     * @param mz
+     * @param intensity
+     * @param isotope
+     * @param charge
+     * @param fwhm
+     */
+    public Peak(double mz, double intensity, double isotope, int charge, double fwhm) {
+        this.mz = mz;
+        this.intensity = intensity;
+        this.isotope = isotope;
+        this.charge = charge;
+        this.fwhm = fwhm;
     }
 }
