@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deisotope {
+    /**
+     * @param input
+     * @return deisotoped input
+     */
     public static ch.fgcz.proteomics.dto.MassSpectrometryMeasurement deisotopeMSM(ch.fgcz.proteomics.dto.MassSpectrometryMeasurement input) {
-        // Create a new MSM and deisotope the input and fill it in the new MSM
         ch.fgcz.proteomics.dto.MassSpectrometryMeasurement output = new ch.fgcz.proteomics.dto.MassSpectrometryMeasurement(input.getSource() + "_output");
         for (ch.fgcz.proteomics.dto.MassSpectrum ms : input.getMSlist()) {
             Peaklist inputpeaklist = new Peaklist(ms);

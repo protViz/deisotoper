@@ -102,9 +102,9 @@ public class MspyTest {
         // HeLa filtered ID 6 mMass output
         peaklistout2 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6].msd");
 
-        // HeLa filtered ID X input
+        // HeLa filtered ID 13 input
         peaklistin3 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
-        // HeLa filtered ID X mMass output
+        // HeLa filtered ID 13 mMass output
         peaklistout3 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
     }
 

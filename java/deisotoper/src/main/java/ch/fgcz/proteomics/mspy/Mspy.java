@@ -13,22 +13,20 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.Summary;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-
 public class Mspy {
     public static final double ISOTOPE_DISTANCE = 1.00287;
     public static final double ELECTRON_MASS = 0.00054857990924;
     public static final double H_MASS = 1.008;
 
+    /**
+     * @param peaklist
+     * @param maxcharge
+     * @param mztolerance
+     * @param inttolerance
+     * @param isotopeshift
+     * @return deisotoped peaklist
+     */
     public static List<Peak> deisotope(List<Peak> peaklist, int maxcharge, double mztolerance, double inttolerance, double isotopeshift) {
-        // try {
-        // System.setOut(new PrintStream(new File("mspydebugoutput.txt")));
-        // } catch (FileNotFoundException e) {
-        // e.printStackTrace();
-        // }
-
         List<Integer> charges = new ArrayList<>();
 
         for (Peak p : peaklist) {
@@ -46,17 +44,12 @@ public class Mspy {
             }
         }
         Collections.reverse(charges);
-        // System.out.println("deisotope| Charge List: " + charges.toString());
 
         int maxindex = peaklist.size();
 
         int x = 0;
         for (Peak parent : peaklist) {
-            // System.out.println();
-            // System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
-
             if (parent.getIsotope() != -1) {
-                // System.out.println("deisotope|for|if| continue because isotope != 0");
                 continue;
             }
 
@@ -65,12 +58,9 @@ public class Mspy {
                 cluster.add(parent);
 
                 double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
-                // System.out.println("deisotope|for|for| difference: " + difference + " = " + (ISOTOPE_DISTANCE + isotopeshift) + " / " + Math.abs(z));
                 int y = 1;
                 while (x + y < maxindex) {
                     double mzerror = (peaklist.get(x + y).getMz() - cluster.get(cluster.size() - 1).getMz() - difference);
-                    // System.out.println("deisotope|for|for|while| mzerror: " + mzerror + " = " + (peaklist.get(x + y).getMz() + " - " + cluster.get(cluster.size() - 1).getMz() + " - " +
-                    // difference));
                     if (Math.abs(mzerror) <= mztolerance) {
                         cluster.add(peaklist.get(x + y));
                     } else if (mzerror > mztolerance) {
@@ -80,12 +70,10 @@ public class Mspy {
                 }
 
                 if (cluster.size() == 1) {
-                    // System.out.println("deisotope|for|for|if| continue because cluster.size() == 1");
                     continue;
                 }
 
                 int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
-                // System.out.println("deisotope|for|for| mass: " + mass + " = " + Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) + " / " + 200);
 
                 List<Double> pattern = initPattern(mass);
 
@@ -98,30 +86,22 @@ public class Mspy {
                 }
 
                 if (cluster.size() < lim && Math.abs(z) > 1) {
-                    // System.out.println("deisotope|for|for|if| continue because cluster.size() < lim && z > 1");
                     continue;
                 }
 
                 boolean valid = true;
                 int isotope = 1;
                 int limit = Math.min(pattern.size(), cluster.size());
-                // System.out.println("deisotope|for|for| limit: " + limit + " = " + pattern.size() + ", " + cluster.size());
 
                 while (isotope < limit) {
                     double inttheoretical = (cluster.get(isotope - 1).getIntensity() / pattern.get(isotope - 1)) * pattern.get(isotope);
                     double interror = cluster.get(isotope).getIntensity() - inttheoretical;
-                    // System.out.println("deisotope|for|for|while| inttheoretical: " + inttheoretical + " = " + cluster.get(isotope - 1).getIntensity() + " / " + pattern.get(isotope - 1) + "*" +
-                    // pattern.get(isotope));
-                    // System.out.println("deisotope|for|for|while| interror: " + interror + " = " + cluster.get(isotope).getIntensity() + " - " + inttheoretical);
 
                     if (Math.abs(interror) <= (inttheoretical * inttolerance)) {
                         cluster.get(isotope).setIsotope(isotope);
                         cluster.get(isotope).setCharge(z);
-                        // System.out.println("deisotope|for|for|while|if| Cluster Isotope settet to: " + isotope);
-                        // System.out.println("deisotope|for|for|while|if| Cluster Charge settet to: " + z);
                     } else if (interror < 0 && isotope == 1) {
                         valid = false;
-                        // System.out.println("deisotope|for|for|while|if| valid: " + valid);
                         break;
                     } else if (interror > 0) {
                     }
@@ -133,17 +113,12 @@ public class Mspy {
                     if (z < 4) { // BUGFIX BUT NOT REALLY A FIX (ONLY KILLS THE PROBLEM AND DOES NOT FIX IT REALLY)
                         parent.setIsotope(0);
                         parent.setCharge(z);
-                        // System.out.println("deisotope|for|for|if| Parent Isotope settet to: " + 0 + " IMPORTANT CHANGES");
-                        // System.out.println("deisotope|for|for|if| Parent Charge settet to: " + z + " IMPORTANT CHANGES");
                         break;
                     }
                 }
             }
             x++;
-            // System.out.println("deisotope|for| mZ: " + parent.getMz() + ", Intensity:" + parent.getIntensity() + ", Charge: " + parent.getCharge() + ", Isotope: " + parent.getIsotope());
         }
-
-        // System.out.println();
 
         // REMOVE EMTPY PEAKS
         List<Peak> list = removeEmptyPeaks(peaklist);
@@ -151,35 +126,45 @@ public class Mspy {
         return list;
     }
 
+    /**
+     * @param mass
+     * @param charge
+     * @param currentcharge
+     * @return calculated mass
+     */
     private static double calculateMass(double mass, int charge, int currentcharge) {
         int agentcharge = 1;
         double agentmass = H_MASS;
         double agentcount = currentcharge / agentcharge;
         agentmass = agentmass - agentcharge * ELECTRON_MASS;
-        // System.out.println("calculateMass| agentcount: " + agentcount);
-        // System.out.println("calculateMass| agentmass: " + agentmass);
 
         if (currentcharge != 0) {
-            // System.out.println("calculateMass|if| mass: " + (mass * Math.abs(currentcharge) - agentmass * agentcount) + " = " + mass + " * " + Math.abs(currentcharge) + " - " + agentmass + " * " +
-            // agentcount);
             mass = mass * Math.abs(currentcharge) - agentmass * agentcount;
         }
 
         return mass;
     }
 
-    private static List<Peak> removeEmptyPeaks(List<Peak> in) {
-        List<Peak> out = new ArrayList<>();
+    /**
+     * @param peaklist
+     * @return formatted peaklist
+     */
+    private static List<Peak> removeEmptyPeaks(List<Peak> peaklist) {
+        List<Peak> peaklistout = new ArrayList<>();
 
-        for (int i = 0; i < in.size(); i++) {
-            if (in.get(i).getIsotope() != -1.0 && in.get(i).getCharge() != -1) {
-                out.add(in.get(i));
+        for (int i = 0; i < peaklist.size(); i++) {
+            if (peaklist.get(i).getIsotope() != -1.0 && peaklist.get(i).getCharge() != -1) {
+                peaklistout.add(peaklist.get(i));
             }
         }
 
-        return out;
+        return peaklistout;
     }
 
+    /**
+     * @param mass
+     * @return pattern
+     */
     private static List<Double> initPattern(int mass) {
         List<List<Double>> patternLookupTable = new ArrayList<>();
 

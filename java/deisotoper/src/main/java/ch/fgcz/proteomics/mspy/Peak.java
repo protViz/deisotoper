@@ -43,6 +43,10 @@ public class Peak {
         this.charge = charge;
     }
 
+    /**
+     * @param mz
+     * @param intensity
+     */
     public Peak(double mz, double intensity) {
         this.mz = mz;
         this.intensity = intensity;
@@ -50,6 +54,12 @@ public class Peak {
         this.charge = -1;
     }
 
+    /**
+     * @param mz
+     * @param intensity
+     * @param isotope
+     * @param charge
+     */
     public Peak(double mz, double intensity, double isotope, int charge) {
         this.mz = mz;
         this.intensity = intensity;

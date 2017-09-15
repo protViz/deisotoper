@@ -1,4 +1,4 @@
-  package ch.fgcz.proteomics.mspy;
+package ch.fgcz.proteomics.mspy;
 
 /**
  * @author Lucas Schmidt
@@ -22,7 +22,7 @@ public class Peaklist {
     }
 
     /**
-     * Converts from a MassSpectrum to a Peaklist
+     * Converts from a MassSpectrum to a Peaklist.
      * 
      * @param ms
      */
@@ -52,6 +52,14 @@ public class Peaklist {
         this.peaklist = plist;
     }
 
+    /**
+     * Converts from four lists to a Peaklist.
+     * 
+     * @param mz
+     * @param intensity
+     * @param charge
+     * @param isotope
+     */
     public Peaklist(List<Double> mz, List<Double> intensity, List<Integer> charge, List<Double> isotope) {
         List<Peak> plist = new ArrayList<>();
 
