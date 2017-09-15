@@ -37,7 +37,8 @@
 \section{Implementation}
 \section{Conclusion}
 
-%%%%%%
+%%%
+
 \begin{Schunk}
 \begin{Sinput}
 > library(deisotoper)
