@@ -260,28 +260,39 @@ public class Mspy {
         List<Peak> peaklistcopy = peaklist;
 
         for (Peak peak : peaklistcopy) {
-            if (peak.getCharge() != -1) {
+            System.out.println("MZ: " + peak.getMz() + ", INTENSITY:" + peak.getIntensity() + ", CHARGE:" + peak.getCharge() + ", ISOTOPE:" + peak.getIsotope());
+
+            if (peak.getCharge() == -1) {
+                System.out.println("for|if| continue");
                 continue;
-            } else if (Math.abs(peak.getCharge()) == 1) {
+            } else if (peak.getCharge() == 1) {
                 buff.add(peak);
+                System.out.println("for|else if| add peak to buff");
             } else {
                 if (peak.getFwhm() != -1) {
                     peak.setFwhm(Math.abs(peak.getFwhm() * peak.getCharge()));
+                    System.out.println("for|else|if| set fwhm");
                 }
 
                 if (peak.getCharge() < 0) {
                     peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype)); // Debug this
                     peak.setCharge(-1);
+                    System.out.println("for|else|if| set mz to calcMass");
+                    System.out.println("for|else|if| set charge to -1");
                 } else {
                     peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype)); // Debug this
                     peak.setCharge(1);
+                    System.out.println("for|else|else| set mz to calcMass");
+                    System.out.println("for|else|else| set charge to 1");
                 }
 
                 buff.add(peak);
+                System.out.println("for|else| add peak to buff");
             }
         }
 
         peaklist = buff;
+        System.out.println("peaklist = buff");
 
         return peaklist;
     }
@@ -337,10 +348,9 @@ public class Mspy {
         System.out.println(test2.getMSlist().get(0).getMz().size());
         System.out.println(Summary.makeSummary(test2));
 
-        List<Peak> deconvtest = deconvolute(new Peaklist(test.getMSlist().get(0)).getPeaklist(), 1);
+        MassSpectrometryMeasurement test3 = Deconvolute.deconvoluteMSM(test2);
 
-        for (Peak p : deconvtest) {
-            System.out.println("MZ: " + p.getMz() + ", INTENSITY:" + p.getIntensity() + ", CHARGE:" + p.getCharge() + ", ISOTOPE:" + p.getIsotope());
-        }
+        System.out.println("Size: " + test3.getMSlist().get(0).getMz().size());
+        System.out.println(Summary.makeSummary(test3));
     }
 }

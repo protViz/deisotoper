@@ -29,8 +29,14 @@ public class Peaklist {
     public Peaklist(MassSpectrum ms) {
         List<Peak> plist = new ArrayList<>();
 
-        for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
-            plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i)));
+        if (ms.getCharge().size() != 0 && ms.getIsotope().size() != 0) {
+            for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
+                plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i), ms.getIsotope().get(i), ms.getCharge().get(i)));
+            }
+        } else {
+            for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
+                plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i)));
+            }
         }
 
         this.peaklist = plist;
