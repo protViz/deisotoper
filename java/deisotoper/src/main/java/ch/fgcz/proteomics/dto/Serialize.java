@@ -67,8 +67,6 @@ public class Serialize {
         java.lang.reflect.Type type = new TypeToken<MassSpectrometryMeasurement>() {
         }.getType();
 
-        MassSpectrometryMeasurement m = gson.fromJson(data, type);
-
-        return m;
+        return gson.fromJson(data, type);
     }
 }

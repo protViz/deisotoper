@@ -51,7 +51,7 @@ public class MassSpectrum {
 
         return intarray;
     }
-    
+
     public double[] getIsotopeArray() {
         double[] isoarray = new double[isotope.size()];
 
@@ -176,6 +176,20 @@ public class MassSpectrum {
         this.setId(id);
     }
 
+    /**
+     * Constructs a MassSpectrum Object with a List of isotopes and a List of charges.
+     * 
+     * @param typ
+     * @param searchengine
+     * @param mz
+     * @param intensity
+     * @param peptidmass
+     * @param rt
+     * @param chargestate
+     * @param id
+     * @param charge
+     * @param isotope
+     */
     public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
             Collections.sort(mz);
