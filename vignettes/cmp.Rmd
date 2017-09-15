@@ -14,7 +14,7 @@ vignette: >
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
-library(parallel)
+#library(parallel)
 
 input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData",
   "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_pd21.RData",
@@ -33,7 +33,7 @@ S <- lapply(input, function(u){
   Sd$file <- objN;
   Sd$status <- 'mspy'
   
-  mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
+  # mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
   rbind(S, Sd)
   })
 
