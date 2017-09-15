@@ -6,6 +6,11 @@
 \title{Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement}
 \author{Lucas Schmidt}
 \maketitle
+
+\begin{abstract}
+This is an abstract test.
+\end{abstract}
+
 \tableofcontents
 
 %%%
