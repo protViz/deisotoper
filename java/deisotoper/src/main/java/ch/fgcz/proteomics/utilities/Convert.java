@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Convert {
+    /**
+     * This function uses a mMass msd-file to produce a peaklist.
+     * 
+     * @param file
+     * @return Peaklist
+     */
     public static ch.fgcz.proteomics.mspy.Peaklist msdToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
@@ -45,6 +51,30 @@ public class Convert {
         return new ch.fgcz.proteomics.mspy.Peaklist(mz, intensity, charge, isotope);
     }
 
+    /**
+     * This function uses the peak section of one spectrum out of a mgf-file to produce a peaklist.
+     * 
+     * Attention: The input from a file must be in this format:
+     * 
+     * MZ INTENSITY
+     * 
+     * MZ INTENSITY
+     * 
+     * ...
+     * 
+     * For example:
+     * 
+     * 123.43 3823.65
+     * 
+     * 125.23 373.33
+     * 
+     * 127.26 4848.43
+     * 
+     * ...
+     * 
+     * @param file
+     * @return Peaklist
+     */
     public static ch.fgcz.proteomics.mspy.Peaklist mgfToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
@@ -71,8 +101,7 @@ public class Convert {
     }
 
     public static void main(String[] args) {
-        ch.fgcz.proteomics.mspy.Peaklist plist2 = msdToPeaklist("/srv/lucas1/Downloads/output1.msd");
-
+        // ch.fgcz.proteomics.mspy.Peaklist plist2 = msdToPeaklist("/srv/lucas1/Downloads/output1.msd");
         ch.fgcz.proteomics.mspy.Peaklist plist = mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
 
         for (ch.fgcz.proteomics.mspy.Peak e : plist.getPeaklist()) {
