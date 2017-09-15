@@ -60,10 +60,20 @@ public class Summary {
             if (!spectrum.getCharge().isEmpty() && !spectrum.getIsotope().isEmpty()) {
                 double chargesum = 0;
                 double isotopesum = 0;
+                int z1sum = 0;
+                int z2sum = 0;
+                int z3sum = 0;
                 int deisotopesum = 0;
                 int i = 0;
                 for (int c : spectrum.getCharge()) {
                     if (c != -1) {
+                        if (c == 1) {
+                            z1sum++;
+                        } else if (c == 2) {
+                            z2sum++;
+                        } else if (c == 3) {
+                            z3sum++;
+                        }
                         chargesum += c;
                         i++;
                     }
@@ -82,6 +92,10 @@ public class Summary {
                 summary.append(spectrum.getId()).append(",sum_isotope,").append(deisotopesum).append(linesep);
                 summary.append(spectrum.getId()).append(",max_charge,").append(Collections.max(spectrum.getCharge())).append(linesep);
                 summary.append(spectrum.getId()).append(",max_isotope,").append(Collections.max(spectrum.getIsotope())).append(linesep);
+                summary.append(spectrum.getId()).append(",nr_z1,").append(z1sum).append(linesep);
+                summary.append(spectrum.getId()).append(",nr_z2,").append(z2sum).append(linesep);
+                summary.append(spectrum.getId()).append(",nr_z3,").append(z3sum).append(linesep);
+
             }
         }
 
