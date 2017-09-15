@@ -6,13 +6,21 @@
 \title{Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement}
 \author{Lucas Schmidt}
 \maketitle
+\tableofcontents
+
+%%%
 \section{Intro}
+\section{XXXX}
+\subsection{xxx}
+\subsection{xxxx}
 \section{Implementation}
 \section{Conc}
-
-<<>>=
-library(deisotoper)
-@
+%%%%%%
+\begin{Schunk}
+\begin{Sinput}
+> library(deisotoper)
+\end{Sinput}
+\end{Schunk}
 
 
 
