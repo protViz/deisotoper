@@ -1,4 +1,5 @@
 \documentclass{article}
+\renewcommand{\familydefault}{\sfdefault}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
