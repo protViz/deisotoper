@@ -113,10 +113,10 @@ public class MspyTest {
 
     @Test
     public void testDeisotope() {
-        List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
-        List<Peak> out2 = Mspy.deisotope(peaklistin2.getPeaklist(), 3, 0.05, 0.5, 0.0);
-        List<Peak> out3 = Mspy.deisotope(peaklistin3.getPeaklist(), 3, 0.05, 0.5, 0.0);
-
+        // List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        // List<Peak> out2 = Mspy.deisotope(peaklistin2.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        // List<Peak> out3 = Mspy.deisotope(peaklistin3.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        //
         // System.out.println("Out output:");
         // int a = 0;
         // int index1 = 0;
@@ -166,9 +166,9 @@ public class MspyTest {
         // // }
         // }
         // }
-
+        //
         // assertPeaklistEquals(out, peaklistout.getPeaklist()); // Test 1
-
+        //
         // System.out.println("Out output:");
         // int a = 0;
         // int index1 = 0;
@@ -214,12 +214,13 @@ public class MspyTest {
         // System.out.println();
         // }
         // }
-
+        //
         // assertPeaklistEquals(out2, peaklistout2.getPeaklist()); // Test 2
-
+        //
         // assertPeaklistEquals(out3, peaklistout3.getPeaklist()); // Test 3
     }
 
+    @Test
     public void testDeconvolute() {
         List<Peak> deisotoped = Mspy.deisotope(peaklistin2.getPeaklist(), 3, 0.05, 0.5, 0.0);
 

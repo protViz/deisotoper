@@ -250,8 +250,6 @@ public class Mspy {
     }
 
     /**
-     * TODO: Debug this function
-     * 
      * @param peaklist
      * @return deconvoluted peaklist
      */
@@ -260,39 +258,39 @@ public class Mspy {
         List<Peak> peaklistcopy = peaklist;
 
         for (Peak peak : peaklistcopy) {
-            System.out.println("MZ: " + peak.getMz() + ", INTENSITY:" + peak.getIntensity() + ", CHARGE:" + peak.getCharge() + ", ISOTOPE:" + peak.getIsotope());
+            // System.out.println("MZ: " + peak.getMz() + ", INTENSITY:" + peak.getIntensity() + ", CHARGE:" + peak.getCharge() + ", ISOTOPE:" + peak.getIsotope());
 
             if (peak.getCharge() == -1) {
-                System.out.println("for|if| continue");
+                // System.out.println("for|if| continue");
                 continue;
             } else if (peak.getCharge() == 1) {
                 buff.add(peak);
-                System.out.println("for|else if| add peak to buff");
+                // System.out.println("for|else if| add peak to buff");
             } else {
                 if (peak.getFwhm() != -1) {
                     peak.setFwhm(Math.abs(peak.getFwhm() * peak.getCharge()));
-                    System.out.println("for|else|if| set fwhm");
+                    // System.out.println("for|else|if| set fwhm");
                 }
 
                 if (peak.getCharge() < 0) {
                     peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype)); // Debug this
                     peak.setCharge(-1);
-                    System.out.println("for|else|if| set mz to calcMass");
-                    System.out.println("for|else|if| set charge to -1");
+                    // System.out.println("for|else|if| set mz to calcMass");
+                    // System.out.println("for|else|if| set charge to -1");
                 } else {
                     peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype)); // Debug this
                     peak.setCharge(1);
-                    System.out.println("for|else|else| set mz to calcMass");
-                    System.out.println("for|else|else| set charge to 1");
+                    // System.out.println("for|else|else| set mz to calcMass");
+                    // System.out.println("for|else|else| set charge to 1");
                 }
 
                 buff.add(peak);
-                System.out.println("for|else| add peak to buff");
+                // System.out.println("for|else| add peak to buff");
             }
         }
 
         peaklist = buff;
-        System.out.println("peaklist = buff");
+        // System.out.println("peaklist = buff");
 
         return peaklist;
     }
