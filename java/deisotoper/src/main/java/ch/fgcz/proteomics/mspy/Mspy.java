@@ -158,7 +158,7 @@ public class Mspy {
      * @param peaklist
      * @return formatted peaklist
      */
-    private static List<Peak> removeEmptyPeaks(List<Peak> peaklist) {
+    public static List<Peak> removeEmptyPeaks(List<Peak> peaklist) {
         List<Peak> peaklistout = new ArrayList<>();
 
         for (int i = 0; i < peaklist.size(); i++) {

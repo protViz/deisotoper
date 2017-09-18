@@ -14,13 +14,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MspyTest {
-    Peaklist peaklistin;
-    Peaklist peaklistout;
-    Peaklist peaklistin2;
-    Peaklist peaklistout2;
-    Peaklist peaklistout2d;
-    Peaklist peaklistin3;
-    Peaklist peaklistout3;
+    private Peaklist peaklistin;
+    private Peaklist peaklistout;
+    private Peaklist peaklistin2;
+    private Peaklist peaklistout2;
+    private Peaklist peaklistout2d;
+    private Peaklist peaklistin3;
+    private Peaklist peaklistout3;
 
     @Before
     public void setUp() {
@@ -98,6 +98,8 @@ public class MspyTest {
         peaklistout.getPeaklist().get(49).setCharge(1);
         peaklistout.getPeaklist().get(49).setIsotope(1);
 
+        peaklistout.setPeaklist(Mspy.removeEmptyPeaks(peaklistout.getPeaklist()));
+
         // HeLa filtered ID 6 input
         peaklistin2 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
         // HeLa filtered ID 6 mMass output
@@ -113,7 +115,7 @@ public class MspyTest {
 
     @Test
     public void testDeisotope() {
-        // List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
+        List<Peak> out = Mspy.deisotope(peaklistin.getPeaklist(), 3, 0.05, 0.5, 0.0);
         // List<Peak> out2 = Mspy.deisotope(peaklistin2.getPeaklist(), 3, 0.05, 0.5, 0.0);
         // List<Peak> out3 = Mspy.deisotope(peaklistin3.getPeaklist(), 3, 0.05, 0.5, 0.0);
         //
@@ -166,9 +168,9 @@ public class MspyTest {
         // // }
         // }
         // }
-        //
-        // assertPeaklistEquals(out, peaklistout.getPeaklist()); // Test 1
-        //
+
+        assertPeaklistEquals(out, peaklistout.getPeaklist()); // Test 1
+
         // System.out.println("Out output:");
         // int a = 0;
         // int index1 = 0;
