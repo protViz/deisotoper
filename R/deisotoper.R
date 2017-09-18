@@ -376,3 +376,32 @@ jDeisotopeMSM <- function(jobj) {
   
   output
 }
+
+#' Deconvolutes a MSM.
+#'
+#' @return
+#' @export jDeconvoluteMSM
+#'
+#' @examples
+#'
+#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#'
+#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
+#'
+#' joMSMsummary <- jSummaryMSM(joMSM)
+#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
+#' 
+#' joMSMdeconvoluted <- jDeconvoluteMSM(joMSMdeisotoped)
+#' joMSMdeconvolutedsummary <- jSummaryMSM(joMSMdeconvoluted)
+jDeconvoluteMSM <- function(jobj) {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  d <- .jnew("ch.fgcz.proteomics.mspy.Deconvolute")
+  
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deconvoluteMSM", jobj)
+  
+  output
+}
