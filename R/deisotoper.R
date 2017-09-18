@@ -110,7 +110,7 @@ is.MS <- function(x){
   
   if (sum(c("title", "rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
     warning('attributed check failed.')
-    return (FALSE)
+    #return (FALSE)
   }
   
   if (!is.vector(x$mZ) || !is.numeric(x$mZ) || is.unsorted(x$mZ)){
