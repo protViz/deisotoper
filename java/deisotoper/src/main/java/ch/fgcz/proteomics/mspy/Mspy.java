@@ -8,6 +8,7 @@ package ch.fgcz.proteomics.mspy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
@@ -143,7 +144,12 @@ public class Mspy {
             mass = mass * Math.abs(currentcharge) - agentmass * agentcount;
         }
 
-        return mass;
+        if (charge == 0) {
+            return mass;
+        }
+
+        double agentcount2 = charge / agentcharge;
+        return (mass + agentmass * agentcount2) / Math.abs(charge);
     }
 
     /**
@@ -255,7 +261,11 @@ public class Mspy {
      */
     public static List<Peak> deconvolute(List<Peak> peaklist, int masstype) {
         List<Peak> buff = new ArrayList<>();
-        List<Peak> peaklistcopy = peaklist;
+        List<Peak> peaklistcopy = new ArrayList<>();
+
+        for (Peak e : peaklist) {
+            peaklistcopy.add(e);
+        }
 
         for (Peak peak : peaklistcopy) {
             // System.out.println("MZ: " + peak.getMz() + ", INTENSITY:" + peak.getIntensity() + ", CHARGE:" + peak.getCharge() + ", ISOTOPE:" + peak.getIsotope());
@@ -273,14 +283,14 @@ public class Mspy {
                 }
 
                 if (peak.getCharge() < 0) {
-                    peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype)); // Debug this
+                    peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype));
                     peak.setCharge(-1);
-                    // System.out.println("for|else|if| set mz to calcMass");
+                    // System.out.println("for|else|if| set mz to calcMass: " + calculateMass(peak.getMz(), -1, peak.getCharge(), masstype));
                     // System.out.println("for|else|if| set charge to -1");
                 } else {
-                    peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype)); // Debug this
+                    peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype));
                     peak.setCharge(1);
-                    // System.out.println("for|else|else| set mz to calcMass");
+                    // System.out.println("for|else|else| set mz to calcMass: " + calculateMass(peak.getMz(), 1, peak.getCharge(), masstype));
                     // System.out.println("for|else|else| set charge to 1");
                 }
 
@@ -291,6 +301,16 @@ public class Mspy {
 
         peaklist = buff;
         // System.out.println("peaklist = buff");
+        // System.out.println();
+
+        Collections.sort(peaklist, new Comparator<Peak>() {
+            @Override
+            public int compare(Peak o1, Peak o2) {
+                Double mz1 = o1.getMz();
+                Double mz2 = o2.getMz();
+                return mz1.compareTo(mz2);
+            }
+        });
 
         return peaklist;
     }
