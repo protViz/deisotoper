@@ -124,6 +124,8 @@ public class Mspy {
         // REMOVE EMTPY PEAKS
         List<Peak> list = removeEmptyPeaks(peaklist);
 
+        list = sortPeaklist(list);
+
         return list;
     }
 
@@ -303,7 +305,13 @@ public class Mspy {
         // System.out.println("peaklist = buff");
         // System.out.println();
 
-        Collections.sort(peaklist, new Comparator<Peak>() {
+        peaklist = sortPeaklist(peaklist);
+
+        return peaklist;
+    }
+
+    private static List<Peak> sortPeaklist(List<Peak> list) {
+        Collections.sort(list, new Comparator<Peak>() {
             @Override
             public int compare(Peak o1, Peak o2) {
                 Double mz1 = o1.getMz();
@@ -312,7 +320,7 @@ public class Mspy {
             }
         });
 
-        return peaklist;
+        return list;
     }
 
     public static void main(String[] args) {
