@@ -4,7 +4,8 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 
-\title{Practical Semester Report} %Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement%
+\title{Practical Semester Report} 
+%Implementation, development, and evaluation of algorithms for the detection and extraction of isotope pattern of a mass spectrometric measurement%
 
 \author{Lucas Schmidt}
 \maketitle
@@ -26,7 +27,9 @@
 \subsection{Time management}
 
 \section{Functional Genomics Center Zurich}
-\subsection{Enviroment}
+\subsection{Environment}
+\subsubsection{B-Fabric}
+\subsubsection{IT Infrastructure}
 \subsection{Technology used}
 
 \section{Definition of Deisotoping}
