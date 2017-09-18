@@ -228,8 +228,7 @@ public class MspyTest {
 
         List<Peak> deconvoluted = Mspy.deconvolute(deisotoped, 0);
 
-        System.out.println("Size of deconvoluted: " + deconvoluted.size() + ", Size of peaklistout2d: " + peaklistout2d.getPeaklist().size());
-
+        // System.out.println("Size of deconvoluted: " + deconvoluted.size() + ", Size of peaklistout2d: " + peaklistout2d.getPeaklist().size());
         // System.out.println();
         // System.out.println("Correctness check: ");
         // for (int i = 0; i < deconvoluted.size() || i < peaklistout2d.getPeaklist().size(); i++) {
@@ -256,14 +255,10 @@ public class MspyTest {
 
     private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
         for (int i = 0; i < list.size() || i < list2.size(); i++) {
-            boolean b = false;
-
-            if ((double) Math.round(list.get(i).getMz() * 10d) / 10d == (double) Math.round(list2.get(i).getMz() * 10d) / 10d && list.get(i).getIntensity() == list2.get(i).getIntensity()
-                    && list.get(i).getCharge() == list2.get(i).getCharge() && list.get(i).getIsotope() == list2.get(i).getIsotope()) {
-                b = true;
-            }
-
-            assertTrue("Values should be same. (Index: " + i + ")", b);
+            assertEquals("Mz-values should be same! " + list.get(i).getMz() + " - " + list2.get(i).getMz(), list.get(i).getMz(), list2.get(i).getMz(), 0.001);
+            assertEquals("Intensity-values should be same! " + list.get(i).getIntensity() + " - " + list2.get(i).getIntensity(), list.get(i).getIntensity(), list2.get(i).getIntensity(), 0);
+            assertEquals("Isotope-values should be same! " + list.get(i).getIsotope() + " - " + list2.get(i).getIsotope(), list.get(i).getIsotope(), list2.get(i).getIsotope(), 0);
+            assertEquals("Charge-values should be same! " + list.get(i).getCharge() + " - " + list2.get(i).getCharge(), list.get(i).getCharge(), list2.get(i).getCharge());
         }
     }
 }
