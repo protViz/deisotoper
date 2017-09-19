@@ -7,7 +7,6 @@ package ch.fgcz.proteomics.fdbm;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
-// TODO: Next step: Add start and end and then scoring and finally extract from the main a deisotope()-function.
 public class Deisotope {
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
@@ -26,32 +25,32 @@ public class Deisotope {
 
         IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01);
 
-        for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
-            for (IsotopicCluster n : i.getIsotopicSet()) {
-                for (IsotopicCluster m : i.getIsotopicSet()) {
-                    String color = ch.fgcz.proteomics.fdbm.Connection.calculateConnection(n, m);
-
-                    if (color != null) {
-                        n.addConnection(new Connection(n, m, color));
-                    }
-                }
-            }
-        }
-
-        for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
-            for (IsotopicCluster n : i.getIsotopicSet()) {
-                for (Connection c : n.getConnection()) {
-                    System.out.print("[");
-                    for (Peak x : c.getTail().getIsotopicCluster()) {
-                        System.out.print(" " + x.getMz() + " ");
-                    }
-                    System.out.print("] ---" + c.getColor() + "--- [ ");
-                    for (Peak x : c.getHead().getIsotopicCluster()) {
-                        System.out.print(" " + x.getMz() + " ");
-                    }
-                    System.out.println("]");
-                }
-            }
-        }
+        // for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
+        // for (IsotopicCluster n : i.getIsotopicSet()) {
+        // for (IsotopicCluster m : i.getIsotopicSet()) {
+        // String color = ch.fgcz.proteomics.fdbm.Connection.calculateConnection(n, m);
+        //
+        // if (color != null) {
+        // n.addConnection(new Connection(n, m, color));
+        // }
+        // }
+        // }
+        // }
+        //
+        // for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
+        // for (IsotopicCluster n : i.getIsotopicSet()) {
+        // for (Connection c : n.getConnection()) {
+        // System.out.print("[");
+        // for (Peak x : c.getTail().getIsotopicCluster()) {
+        // System.out.print(" " + x.getMz() + " ");
+        // }
+        // System.out.print("] ---" + c.getColor() + "--- [ ");
+        // for (Peak x : c.getHead().getIsotopicCluster()) {
+        // System.out.print(" " + x.getMz() + " ");
+        // }
+        // System.out.println("]");
+        // }
+        // }
+        // }
     }
 }

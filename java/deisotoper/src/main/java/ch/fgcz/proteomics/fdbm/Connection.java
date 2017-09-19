@@ -6,57 +6,6 @@ package ch.fgcz.proteomics.fdbm;
  */
 
 public class Connection {
-    private IsotopicCluster head;
-    private IsotopicCluster tail;
-    private String color;
-    private double weight;
-
-    public IsotopicCluster getHead() {
-        return head;
-    }
-
-    public void setHead(IsotopicCluster head) {
-        this.head = head;
-    }
-
-    public IsotopicCluster getTail() {
-        return tail;
-    }
-
-    public void setTail(IsotopicCluster tail) {
-        this.tail = tail;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public Connection(IsotopicCluster cluster1, IsotopicCluster cluster2, String color) {
-        this.head = cluster1;
-        this.tail = cluster2;
-        this.color = color;
-        this.weight = 0;
-    }
-
-    public Connection(IsotopicCluster cluster1, IsotopicCluster cluster2, String color, double weight) {
-        this.head = cluster1;
-        this.tail = cluster2;
-        this.color = color;
-        this.weight = weight;
-    }
-
     /**
      * Returns the color of the connection between cluster1 and cluster2. If the clusters are not connected it returns null;
      * 
