@@ -10,74 +10,53 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ScoreFunctions {
-    private final List<Double> AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049,
-            147.06841, 97.05276, 87.03203, 101.04768, 186.07931, 163.06333, 99.06841);
-    private final double H_MASS = 1.008;
-    private final double NH3_MASS = 17.03052;
-    private final double H2O_MASS = 18.01528;
-    private final double NH_MASS = 15.01464;
-    private final double CO_MASS = 28.0101;
+    private final static List<Double> AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496,
+            131.04049, 147.06841, 97.05276, 87.03203, 101.04768, 186.07931, 163.06333, 99.06841);
+    private final static double H_MASS = 1.008;
+    private final static double NH3_MASS = 17.03052;
+    private final static double H2O_MASS = 18.01528;
+    private final static double NH_MASS = 15.01464;
+    private final static double CO_MASS = 28.0101;
 
-    // UNDER CONSTRUCTION
-    public void scoreGraph(XXX) {
-        double error = 0.3;
-        for (Node n : this.adjacencylist) {
-            for (Edge e : n.getEdges()) {
-                double score = 0;
-                int i = 0;
-                for (Peak y : IS.getIsotopicsets().get(i)) {
-                    for (Peak x : n.getCluster()) {
-                        score = score + score(x, y, error);
-                    }
-                    i++;
-                }
-                if (!e.getTail().isEnd()) {
-                    e.setScore(score);
-                }
-            }
-        }
-
-    }
-
-    private double score(Peak x, Peak y, double error) {
+    private static double score(Peak x, Peak y, double error) {
         return 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error) + 0.1 * thirdNonintensityFeature(x, y, error + 0.1 * fifthIntensityFeature(x, y))
                 + 0.1 * fourthNonintensityFeature(x, y, error);
 
     }
 
-    private double diff1(Peak x, Peak y) {
+    private static double diff1(Peak x, Peak y) {
         return x.getMz() - y.getMz();
     }
 
-    private double diff2(Peak x, Peak y) {
+    private static double diff2(Peak x, Peak y) {
         return x.getMz() - ((y.getMz() + H_MASS) / 2);
     }
 
-    private double diff3(Peak x, Peak y) {
+    private static double diff3(Peak x, Peak y) {
         return x.getMz() - ((y.getMz() + (2 * H_MASS)) / 3);
     }
 
-    private double diff4(Peak x, Peak y) {
+    private static double diff4(Peak x, Peak y) {
         return x.getMz() - (((y.getMz() * 2) + H_MASS) / 3);
     }
 
-    private double sum1(Peak x, Peak y) {
+    private static double sum1(Peak x, Peak y) {
         return x.getMz() + y.getMz();
     }
 
-    private double sum2(Peak x, Peak y) {
+    private static double sum2(Peak x, Peak y) {
         return x.getMz() + ((y.getMz() + H_MASS) / 2);
     }
 
-    private double sum3(Peak x, Peak y) {
+    private static double sum3(Peak x, Peak y) {
         return x.getMz() + ((y.getMz() + (2 * H_MASS)) / 3);
     }
 
-    private double sum4(Peak x, Peak y) {
+    private static double sum4(Peak x, Peak y) {
         return x.getMz() + (((y.getMz() * 2) + H_MASS) / 3);
     }
 
-    private int firstNonintensityFeature(Peak x, Peak y, double e) {
+    private static int firstNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F1 = new ArrayList<>();
 
         for (Double aa : AA_MASS) {
@@ -106,13 +85,13 @@ public class ScoreFunctions {
     }
 
     // NOT IMPLEMENTED YET
-    private int secondNonintensityFeature(Peak x, Peak y, double e) {
+    private static int secondNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F2 = new ArrayList<>();
 
         return F2.size();
     }
 
-    private int thirdNonintensityFeature(Peak x, Peak y, double e) {
+    private static int thirdNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F3 = new ArrayList<>();
 
         if (H2O_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < H2O_MASS + e) {
@@ -156,7 +135,7 @@ public class ScoreFunctions {
         return F3.size();
     }
 
-    private int fourthNonintensityFeature(Peak x, Peak y, double e) {
+    private static int fourthNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F4 = new ArrayList<>();
 
         if (NH_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH_MASS + e) {
@@ -201,7 +180,7 @@ public class ScoreFunctions {
     }
 
     // NOT IMPLEMENTED YET
-    private int fifthIntensityFeature(Peak x, Peak y) {
+    private static int fifthIntensityFeature(Peak x, Peak y) {
         List<Peak> F5 = new ArrayList<>();
 
         return F5.size();
