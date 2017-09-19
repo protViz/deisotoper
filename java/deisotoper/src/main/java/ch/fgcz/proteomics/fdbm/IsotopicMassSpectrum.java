@@ -44,7 +44,6 @@ public class IsotopicMassSpectrum {
         constructIsotopicMassSpectrum(peaklist, errortolerance);
     }
 
-    // MUST BE TESTED
     private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance) {
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
             List<Peak> isotopicset = new ArrayList<>();
