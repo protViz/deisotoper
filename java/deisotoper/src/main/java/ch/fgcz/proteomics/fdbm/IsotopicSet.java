@@ -46,7 +46,7 @@ public class IsotopicSet {
                     }
 
                     if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic);
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
                         is.add(cluster);
                     }
                 }
@@ -73,7 +73,7 @@ public class IsotopicSet {
                     }
 
                     if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic);
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
                         is.add(cluster);
                     }
                 }
@@ -100,7 +100,7 @@ public class IsotopicSet {
                     }
 
                     if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic);
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
                         is.add(cluster);
                     }
                 }

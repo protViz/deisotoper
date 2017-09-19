@@ -10,7 +10,15 @@ import java.util.List;
 
 public class IsotopicCluster {
     private List<Peak> isotopiccluster = new ArrayList<>();
-    private double distance;
+    private int charge;
+
+    public int getCharge() {
+        return charge;
+    }
+
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
 
     public List<Peak> getIsotopicCluster() {
         return isotopiccluster;
@@ -20,21 +28,13 @@ public class IsotopicCluster {
         this.isotopiccluster = isotopicCluster;
     }
 
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
     public IsotopicCluster(List<Peak> isotopiccluster) {
         this.isotopiccluster = isotopiccluster;
-        this.distance = 0;
+        this.charge = 0;
     }
 
-    public IsotopicCluster(List<Peak> isotopiccluster, double distance) {
+    public IsotopicCluster(List<Peak> isotopiccluster, int charge) {
         this.isotopiccluster = isotopiccluster;
-        this.distance = distance;
+        this.charge = charge;
     }
 }

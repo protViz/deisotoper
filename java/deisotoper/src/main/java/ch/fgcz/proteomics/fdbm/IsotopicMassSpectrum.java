@@ -87,8 +87,8 @@ public class IsotopicMassSpectrum {
 
         String typ = "MS2 Spectrum";
         String searchengine = "mascot";
-        double[] mz = { 1, 1.5, 2, 3, 3.5, 4.5, 5, 6, 6.5, 7, 8, 9, 10 };
-        double[] intensity = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        double[] mz = { 1, 1.5, 2, 3, 3.5, 4.5, 4.83, 5.15, 5.5, 6, 6.5, 7, 8, 9, 10 };
+        double[] intensity = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         double peptidmass = 309.22;
         double rt = 38383.34;
         int chargestate = 2;
@@ -99,17 +99,16 @@ public class IsotopicMassSpectrum {
 
         IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01);
 
-        System.out.println(test.getIsotopicMassSpectrum().size());
         for (IsotopicSet is : test.getIsotopicMassSpectrum()) {
-            System.out.println("|__" + is.getIsotopicSet().size());
             for (IsotopicCluster ic : is.getIsotopicSet()) {
-                System.out.println(" |__" + ic.getIsotopicCluster().size());
+                System.out.print("(" + ic.getCharge() + ") ");
                 for (Peak p : ic.getIsotopicCluster()) {
-                    System.out.println("   |-" + p.getMz());
+                    System.out.print(p.getMz() + " ");
                 }
-                System.out.println("   |-distance: " + ic.getDistance());
+
                 System.out.println();
             }
+            System.out.println();
         }
     }
 }
