@@ -7,7 +7,6 @@ package ch.fgcz.proteomics.fdbm;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
-// TODO: Next step: Add start and end and then scoring and finally extract from the main a deisotope()-function.
 public class Deisotope {
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
