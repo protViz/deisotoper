@@ -1,5 +1,10 @@
-\documentclass{article}
-\renewcommand{\familydefault}{\sfdefault}
+%\documentclass{article}
+\documentclass[a4paper, 12pt, DIV15, twoside, BCOR=10.25mm]{scrreprt}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{rotating}
+%\renewcommand{\familydefault}{\sfdefault}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -11,48 +16,130 @@
 \maketitle
 
 \begin{abstract}
-...
+bla bla
 \end{abstract}
 
 \newpage
 \tableofcontents
-
+\newpage
 %%%
 
-\section{Intro}
 
-\section{Practical semester}
-\subsection{Motivation}
-\subsection{Tasks}
-\subsection{Time management}
+\part{Introduction}
 
-\section{Functional Genomics Center Zurich}
-\subsection{Environment}
-\subsubsection{B-Fabric}
-\subsubsection{IT Infrastructure}
-\subsection{Technology used}
 
-\section{Definition of Deisotoping}
-\subsection{Chemical view - What is an isotope pattern?}
-\subsection{Modeling isotopic pattern}
-\subsection{Deconvoluting isotopic pattern}
-\subsection{General deisotoper algorithm}
+\chapter{The Functional Genomics Center Zurich}
+
+
+\begin{itemize}
+\item founded 2002
+\item task of FGCZ
+\item structure 40 staff members, 6 computer scientists, 10 bioinformatitions
+\end{itemize}
+
+
+\chapter{Environment}
+
+\begin{itemize}
+\item 20 Mass spec devices, 5 sequencer
+\item 1000 active nodes windows linux mac os x
+\item firewallwall uzh
+\item storage size 500TB (TODO(MOS))
+\item data managment system called b-fabric \cite{bfabric} ...
+\item dev on Linux Box using Java 8 ....
+\end{itemize}
+%\subsection{Time management}
+%\subsection{Technology used}
+
+\chapter{My Projetct Tasks}
+
+Implementation of deisotoper .... see next chapter
+%\section{Practical semester}
+%\subsection{Motivation}
+%\subsection{Tasks}
+
+
+in the follwong sections
+
+
+\part{Deisotoping}
+\chapter{Problem Definition} %Definition of Deisotoping}
+
+\section{Chemical view - What is an isotope pattern?}
+
+\section{Modeling isotopic pattern}
+
+\section{Deconvoluting isotopic pattern}
+
+\section{General deisotoper algorithm}
 
 \section{Characteristics of Deisotoping}
-\subsection{Characteristics table}
-\begin{center}
-    \begin{tabular}{ | l | l | l | l |}
-    \hline
-    Deisotoper & Available implementations & Algorithm & Performance \\ \hline
-    Test Deisotoper & Many implementations & X Algorithm & Test Performance \\ \hline
-    \end{tabular}
-\end{center}
-\subsection{Datasets for comparison / Sample data}
-\subsection{Available Deisotoping software}
 
-\section{Implementation}
+\begin{sidewaystable}[ht]
+%    \begin{tabular}{ | l | l | l | l |}
+%    \hline
+%    Deisotoper & Available implementations & Algorithm & Performance \\ \hline
+%    Test Deisotoper & Many implementations & X Algorithm & Test Performance \\ \hline
+%    \end{tabular}
 
-\section{Conclusion}
+
+%\begin{table}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{ll|rr|lrrr|lr|rl|rr}
+\hline
+\hline
+map     &       statistical value       &       \#regions       &       area err        &       meta&   pop size        &       mutrate &       \#gen   & compute hardware      &       cores   &       proc time       &       unit    &       &       Fig\\
+\hline
+US state level &  \#electors    &       49      &       0.36    &       GA      &       unknown &       unknown &       10      &       Intel Xeon CPU @ 1.5 GHz        &       1       &       $\approx$1      &       min     &               &       \ref{figure:USelection}\\
+US state level &  area  &       50      &       0.17    &       -       &       -&      -&      -       &       -       &       1       &       $\ll$1  &       sec     &               &       \ref{figure:usage}\\
+8x8 checkerborad        &       1:4     &       64      &       0.27    &       GA      &       256     &       0.25    &     533       &       3 GHz Intel Core i7     &       4       &       $\approx$1      &       min   &         &       \ref{figure:cmp_GA_GRASP}\\
+8x8 checkerborad        &       1:4     &       64      &       0.27    &       GRASP   &       NA      &       NA      &       NA      &       3 GHz Intel Core i7     &       4       &       $\approx$1      &       min     &               &       \ref{figure:cmp_GA_GRASP}\\
+\hline
+US state level  &       population 1977 &       48      &      0.41     &       GA      &       300     &       0.25    &       11      &       3 GHz Intel Core i7     &       4       &       5       &       sec     &               &       \ref{figure:x77}\\
+US state level  &       murder 1977     &       48      &      0.37     &       GA      &       300     &       0.25    &       20      &       3 GHz Intel Core i7     &       4       &       10      &       sec     &               &       \ref{figure:x77}\\
+US state level  &       income 1977     &       48      &      0.29     &       GA      &       300     &       0.25    &       30      &       3 GHz Intel Core i7     &       4       &       16      &       sec     &               &       \ref{figure:x77}\\
+US state level  &       illiteracy 1977     &   48      &      0.40     &       GA      &       300     &       0.25    &       30      &       3 GHz Intel Core i7     &       4       &       16      &       sec     &               &       \ref{figure:x77}\\
+\hline
+US California   &       population 2010 &       48      &       0.62    &       GA      &       240     &       0.25    &       27      &       3 GHz Intel Core i7     &       4       &       10      &       sec     &               &       \ref{figure:us_census}\\
+US Colorado     &       population 2010 &       64      &       0.68    &       GA      &       320     &       0.25    &       102     &       3 GHz Intel Core i7     &       4       &       74      &       sec     &               &       \ref{figure:us_census}\\
+US Florida      &       population 2010 &       68      &       0.44    &       GA      &       240     &       0.25    &       49      &       3 GHz Intel Core i7     &       4       &       39      &       sec     &               &       \ref{figure:us_census}\\
+US New Jersey   &       population 2010 &       21      &       0.38    &       GA      &       105     &       0.25    &       30      &       3 GHz Intel Core i7     &       4       &       4       &       sec     &               &       \ref{figure:us_census}\\
+US New York     &       population 2010 &       62      &       0.62      &     GA      &       310     &       0.25    &       148     &       3 GHz Intel Core i7     &       4       &       106     &       sec     &               &       \ref{figure:us_census}\\
+\hline
+Switzerland     &       population 2010 &       2300    &       0.59    &       GA      &       1280    &       0.35    &       300     &       Intel Xeon CPU E5-2698 v3 @ 2.30GHz     &       64      &       3       &       days    &               &       \ref{figure:Switzerland:population}\\
+Swiss SBB railway       &       passenger frequency     &       724     &       NA      &      GA       &        1000   &       0.25    &  1000         &       Intel Xeon CPU E5-2698 v3 @ 2.30GHz     &       64      &       2       &       days    &               &       \ref{figure:sbb}\\
+UK      &       electorates     &       370     &       0.57    &       GA      &       1200    &       0.25    &       4000    &       Intel Xeon CPU E5-2698 v3 @ 2.30GHz     &       64      &       3       &       days    &               &       \ref{fig:brexit}\\
+\hline
+\hline
+\end{tabular}}
+\caption{bla bla}
+\end{sidewaystable}
+
+
+
+
+\chapter{Related Work}
+Available Deisotoping software
+
+\chapter{Implementation}
+Java8 gSON, jGraphT, 
+
+make and maven
+
+Rpackage, ...
+
+Test Driven Development (TDD)
+
+Unit Test
+
+
+
+\chapter{Evaluation}
+\section{Datasets for comparison / Sample data}
+hela...
+
+
+\chapter{Conclusion}
 %%%
 
 \begin{Schunk}
@@ -61,4 +148,14 @@
 > Test
 \end{Sinput}
 \end{Schunk}
+
+\part{System Administration}
+%\appendix{dd}
+
+\begin{appendix}
+\chapter{R package documentation}
+\chapter{LOG of the 95 days}
+\end{appendix}
 \end{document}
+
+
