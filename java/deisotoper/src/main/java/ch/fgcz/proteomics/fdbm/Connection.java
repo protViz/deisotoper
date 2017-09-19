@@ -6,61 +6,37 @@ package ch.fgcz.proteomics.fdbm;
  */
 
 public class Connection {
-    public static void connect(cluster1, cluster2) {
-        if (!containsNode(cluster1) || !containsNode(cluster2)) {
-            throw new RuntimeException("Node does not exist");
+    /**
+     * Returns the color of the connection between cluster1 and cluster2. If the clusters are not connected it returns null;
+     * 
+     * @param cluster1
+     * @param cluster2
+     * @return color
+     */
+    public static String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
+
+        if (cluster1.getIsotopicCluster().get(cluster1.getIsotopicCluster().size() - 1).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
+            return "black";
         }
 
-        String color = null;
-
-        if (!cluster2.isStart()) {
-            if (cluster2.getCluster().size() != 0) {
-                if (cluster1.isStart() && cluster2.getCluster().get(0).getMz() == min) {
-                    color = "black";
-                    return cluster1.addEdge(cluster2, color, score);
+        if (cluster1.getIsotopicCluster().get(0).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
+            if (cluster1.getIsotopicCluster().size() == 2) {
+                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+                    return "red";
+                }
+            } else if (cluster1.getIsotopicCluster().size() == 3) {
+                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
+                        || cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+                    return "red";
+                }
+            } else if (cluster1.getIsotopicCluster().size() == 3) {
+                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
+                        && cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(1).getMz()) {
+                    return "red";
                 }
             }
         }
 
-        if (cluster1.isStart() || cluster2.isStart()) {
-            return false;
-        }
-
-        if (!cluster1.isEnd()) {
-            if (cluster2.isEnd() && cluster1.getEdgeCount() == 0) {
-                color = "black";
-                return cluster1.addEdge(cluster2, color, score);
-            }
-        }
-
-        if (cluster1.isEnd() || cluster2.isEnd()) {
-            return false;
-        }
-
-        if (cluster1.getCluster().get(cluster1.getCluster().size() - 1).getMz() < cluster2.getCluster().get(0).getMz()) {
-            color = "black";
-        }
-
-        if (cluster1.getCluster().get(0).getMz() < cluster2.getCluster().get(0).getMz()) {
-            if (cluster1.getCluster().size() == 2) {
-                if (cluster1.getCluster().get(1).getMz() == cluster2.getCluster().get(0).getMz()) {
-                    color = "red";
-                }
-            } else if (cluster1.getCluster().size() == 3) {
-                if (cluster1.getCluster().get(1).getMz() == cluster2.getCluster().get(0).getMz() || cluster1.getCluster().get(2).getMz() == cluster2.getCluster().get(0).getMz()) {
-                    color = "red";
-                }
-            } else if (cluster1.getCluster().size() == 3) {
-                if (cluster1.getCluster().get(1).getMz() == cluster2.getCluster().get(0).getMz() && cluster1.getCluster().get(2).getMz() == cluster2.getCluster().get(1).getMz()) {
-                    color = "red";
-                }
-            }
-        }
-
-        if (color == "red" || color == "black") {
-            return cluster1.addEdge(cluster2, color, score);
-        }
-
-        return false;
+        return null;
     }
 }
