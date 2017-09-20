@@ -1,13 +1,13 @@
 package ch.fgcz.proteomics.fdbm;
 
-import org.jgrapht.graph.DefaultEdge;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-19
  */
 
-public class Connection extends DefaultEdge {
+import org.jgrapht.graph.DefaultWeightedEdge;
+
+public class Connection extends DefaultWeightedEdge {
     /**
         *
         */
