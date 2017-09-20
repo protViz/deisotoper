@@ -52,4 +52,18 @@ public class IsotopicCluster {
         this.charge = 0;
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[ ");
+        if (this.isotopiccluster == null) {
+            return this.status;
+        }
+        for (Peak p : this.isotopiccluster) {
+            sb.append(p.getMz() + " ");
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

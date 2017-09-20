@@ -1,12 +1,21 @@
 package ch.fgcz.proteomics.fdbm;
 
+import org.jgraph.JGraph;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-20
  */
 
 import org.jgrapht.DirectedGraph;
+import org.jgrapht.demo.JGraphAdapterDemo;
+import org.jgrapht.ext.JGraphModelAdapter;
+import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
+
+import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.layout.mxIGraphLayout;
+import com.mxgraph.swing.mxGraphComponent;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
@@ -16,6 +25,8 @@ import ch.fgcz.proteomics.fdbmold.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
 
 public class IsotopicClusterGraph {
     private double min = Double.MAX_VALUE;
@@ -66,12 +77,30 @@ public class IsotopicClusterGraph {
     public static void createIsotopicClusterGraphFromMS(MassSpectrum MS) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
         for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
-            IsotopicClusterGraph test = new IsotopicClusterGraph(IS);
+            IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
 
-            scoreIsotopicClusterGraph(test, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
+            scoreIsotopicClusterGraph(ICG, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
 
-            prettyPrint(test.isotopicclustergraph, IS);
+            prettyPrint(ICG.getIsotopicclustergraph(), IS);
+
+            createAndShowGui(ICG.getIsotopicclustergraph());
         }
+    }
+
+    private static void createAndShowGui(DirectedGraph<IsotopicCluster, Connection> g) {
+        JFrame frame = new JFrame("Isotopic Cluster Graph");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
+
+        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+        layout.execute(graphAdapter.getDefaultParent());
+
+        frame.add(new mxGraphComponent(graphAdapter));
+
+        frame.pack();
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
     }
 
     public IsotopicClusterGraph(IsotopicSet IS) {

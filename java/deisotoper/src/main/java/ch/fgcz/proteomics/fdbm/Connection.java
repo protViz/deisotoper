@@ -35,4 +35,9 @@ public class Connection extends DefaultEdge {
         this.color = color;
         this.score = 0;
     }
+
+    @Override
+    public String toString() {
+        return this.color + ", " + (double) Math.round(this.score * 10000d) / 10000d;
+    }
 }
