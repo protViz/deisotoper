@@ -196,7 +196,7 @@ public class IsotopicClusterGraph {
 
     private static void drawIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
         JFrame frame = new JFrame("Isotopic Cluster Graph");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
 
