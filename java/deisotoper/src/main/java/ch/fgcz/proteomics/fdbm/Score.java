@@ -18,7 +18,7 @@ public class Score {
     private final static double NH_MASS = 15.01464;
     private final static double CO_MASS = 28.0101;
 
-    private static double score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx) {
+    public static double score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx) {
         return 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx)
                 + 0.1 * thirdNonintensityFeature(x, y, error + 0.1 * fifthIntensityFeature(icofx)) + 0.1 * fourthNonintensityFeature(x, y, error);
 

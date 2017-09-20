@@ -10,6 +10,9 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
+import ch.fgcz.proteomics.fdbmold.Edge;
+import ch.fgcz.proteomics.fdbmold.IsotopicSets;
+import ch.fgcz.proteomics.fdbmold.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,14 @@ import java.util.List;
 public class IsotopicClusterGraph {
     private double min = Double.MAX_VALUE;
     private DirectedGraph<IsotopicCluster, Connection> isotopicclustergraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(Connection.class);
+
+    public DirectedGraph<IsotopicCluster, Connection> getIsotopicclustergraph() {
+        return isotopicclustergraph;
+    }
+
+    public void setIsotopicclustergraph(DirectedGraph<IsotopicCluster, Connection> isotopicclustergraph) {
+        this.isotopicclustergraph = isotopicclustergraph;
+    }
 
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
@@ -56,6 +67,9 @@ public class IsotopicClusterGraph {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
         for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
             IsotopicClusterGraph test = new IsotopicClusterGraph(IS);
+
+            scoreIsotopicClusterGraph(test, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
+
             prettyPrint(test.isotopicclustergraph, IS);
         }
     }
@@ -95,11 +109,24 @@ public class IsotopicClusterGraph {
         for (IsotopicCluster e : list) {
             connectClusters(e, new IsotopicCluster("end"), this.isotopicclustergraph, "black");
         }
+    }
 
+    private static void scoreIsotopicClusterGraph(IsotopicClusterGraph test, double pepmass, int chargestate, double error, Peaklist peaklist) {
+        for (Connection e : test.getIsotopicclustergraph().edgeSet()) {
+            double sumscore = 0;
+            if (test.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster() != null) {
+                for (Peak x : test.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
+                    for (Peak y : peaklist.getPeaklist()) {
+                        sumscore += Score.score(x, y, error, pepmass, chargestate, test.getIsotopicclustergraph().getEdgeTarget(e));
+                    }
+                }
+                e.setScore(sumscore);
+            }
+        }
     }
 
     private static void prettyPrint(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS) {
-        System.out.println("For this IsotopicClusters: ");
+        System.out.println("IsotopicClusters: ");
         for (IsotopicCluster cluster : IS.getIsotopicSet()) {
             if (cluster.getIsotopicCluster() != null) {
                 System.out.print("[ ");
@@ -111,20 +138,20 @@ public class IsotopicClusterGraph {
         }
         System.out.println();
         System.out.println();
-        System.out.println("Exists this IsotopicClusterGraph:");
+        System.out.println("IsotopicClusterGraph:");
         for (Connection e : clustergraph.edgeSet()) {
             if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
                 for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
                 }
-                System.out.print("--" + e.getColor() + "-> ");
+                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
                 for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
                 }
                 System.out.println();
             } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
                 System.out.print("start ");
-                System.out.print("--" + e.getColor() + "-> ");
+                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
                 for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
                 }
@@ -133,7 +160,7 @@ public class IsotopicClusterGraph {
                 for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
                 }
-                System.out.print("--" + e.getColor() + "-> ");
+                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
                 System.out.println("end");
             }
         }
@@ -142,7 +169,6 @@ public class IsotopicClusterGraph {
     }
 
     private static DirectedGraph<IsotopicCluster, Connection> connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, DirectedGraph<IsotopicCluster, Connection> graph, String color) {
-
         graph.addVertex(cluster1);
         graph.addVertex(cluster2);
 
