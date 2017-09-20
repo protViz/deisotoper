@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.utilities;
+package ch.fgcz.proteomics.mspy;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ public class Convert {
      * @param file
      * @return Peaklist
      */
-    public static ch.fgcz.proteomics.mspy.Peaklist msdToPeaklist(String file) {
+    public static Peaklist msdToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
         List<Integer> charge = new ArrayList<>();
@@ -48,7 +48,7 @@ public class Convert {
             e.printStackTrace();
         }
 
-        return new ch.fgcz.proteomics.mspy.Peaklist(mz, intensity, charge, isotope);
+        return new Peaklist(mz, intensity, charge, isotope);
     }
 
     /**
@@ -75,7 +75,7 @@ public class Convert {
      * @param file
      * @return Peaklist
      */
-    public static ch.fgcz.proteomics.mspy.Peaklist mgfToPeaklist(String file) {
+    public static Peaklist mgfToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
 

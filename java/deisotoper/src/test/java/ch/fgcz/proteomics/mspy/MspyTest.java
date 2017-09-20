@@ -101,16 +101,16 @@ public class MspyTest {
         peaklistout.setPeaklist(Mspy.removeEmptyPeaks(peaklistout.getPeaklist()));
 
         // HeLa filtered ID 6 input
-        peaklistin2 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
+        peaklistin2 = Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
         // HeLa filtered ID 6 mMass output
-        peaklistout2 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] deisotoped.msd");
+        peaklistout2 = Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] deisotoped.msd");
         // HeLa filtered ID 6 mMass deconvolute output
-        peaklistout2d = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] - Deconvoluted.msd");
+        peaklistout2d = Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] - Deconvoluted.msd");
 
         // HeLa filtered ID 13 input
-        peaklistin3 = ch.fgcz.proteomics.utilities.Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
+        peaklistin3 = Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
         // HeLa filtered ID 13 mMass output
-        peaklistout3 = ch.fgcz.proteomics.utilities.Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
+        peaklistout3 = Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
     }
 
     @Test
