@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
-    private List<MassSpectrum> MSlist = new ArrayList<MassSpectrum>();
+
+    // TODO : Better name for MSlist - violates coding convention for variable names (start with small letter).
+
+    private List<MassSpectrum> MSlist = new ArrayList<>();
     private String source;
 
     public String getSource() {
@@ -30,7 +33,7 @@ public class MassSpectrometryMeasurement {
 
     /**
      * Constructs a MassSpectrometryMeasurement object.
-     * 
+     *
      * @param src
      */
     public MassSpectrometryMeasurement(String src) {
@@ -41,31 +44,33 @@ public class MassSpectrometryMeasurement {
 
     /**
      * Fills the generated List<MassSpectrum> with input data.
-     * 
+     *
      * @param typ
-     * @param searchengine
+     * @param searchEngine
      * @param mz
      * @param intensity
-     * @param peptidmass
+     * @param peptideMass
      * @param rt
-     * @param chargestate
+     * @param chargeState
      * @param id
      */
-    public void addMS(String typ, String searchengine, double[] mz, double[] intensity, double peptidmass, double rt, int chargestate, int id) {
-        List<Double> mzlist = new ArrayList<>();
-        List<Double> intlist = new ArrayList<>();
+    public void addMS(String typ, String searchEngine, double[] mz, double[] intensity,
+                      double peptideMass, double rt, int chargeState, int id) {
+        List<Double> mzValues = new ArrayList<>();
+        List<Double> intensityValues = new ArrayList<>();
+
 
         for (int i = 0; i < mz.length || i < intensity.length; i++) {
-            mzlist.add(mz[i]);
-            intlist.add(intensity[i]);
+            mzValues.add(mz[i]);
+            intensityValues.add(intensity[i]);
         }
 
-        this.getMSlist().add(new MassSpectrum(typ, searchengine, mzlist, intlist, peptidmass, rt, chargestate, id));
+        this.getMSlist().add(new MassSpectrum(typ, searchEngine, mzValues, intensityValues, peptideMass, rt, chargeState, id));
     }
 
     /**
      * Fills the generated List<MassSpectrum> with input data.
-     * 
+     *
      * @param typ
      * @param searchengine
      * @param mz

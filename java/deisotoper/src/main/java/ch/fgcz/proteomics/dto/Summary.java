@@ -55,7 +55,7 @@ public class Summary {
                 summary.append(spectrum.getId()).append(",max_peak_distance,").append("0").append(linesep);
             }
             summary.append(spectrum.getId()).append(",precursor_charge,").append(spectrum.getChargeState()).append(linesep);
-            summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptidMass()).append(linesep);
+            summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptideMass()).append(linesep);
             summary.append(spectrum.getId()).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
             if (!spectrum.getCharge().isEmpty() && !spectrum.getIsotope().isEmpty()) {
                 double chargesum = 0;

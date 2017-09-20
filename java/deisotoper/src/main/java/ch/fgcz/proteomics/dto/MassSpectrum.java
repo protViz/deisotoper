@@ -12,7 +12,9 @@ import java.util.stream.Collectors;
 
 public class MassSpectrum {
     private String typ;
-    private String searchengine;
+    private String searchEngine;
+
+    // TODO (LS) why not double[] mz, intensity etc?
     private List<Double> mz = new ArrayList<>();
     private List<Double> intensity = new ArrayList<>();
     private List<Integer> charge = new ArrayList<>();
@@ -22,6 +24,8 @@ public class MassSpectrum {
     private int chargestate;
     private int id;
 
+
+    // TODO (LS):  not used
     public int[] getChargeArray() {
         int[] chargearray = new int[charge.size()];
 
@@ -32,6 +36,7 @@ public class MassSpectrum {
         return chargearray;
     }
 
+    // TODO (LS): not used
     public double[] getMzArray() {
         double[] mzarray = new double[mz.size()];
 
@@ -42,6 +47,8 @@ public class MassSpectrum {
         return mzarray;
     }
 
+
+    // TODO (LS): not used
     public double[] getIntensityArray() {
         double[] intarray = new double[intensity.size()];
 
@@ -52,6 +59,7 @@ public class MassSpectrum {
         return intarray;
     }
 
+    // TODO (LS): not used
     public double[] getIsotopeArray() {
         double[] isoarray = new double[isotope.size()];
 
@@ -111,18 +119,18 @@ public class MassSpectrum {
     }
 
     public String getSearchEngine() {
-        return searchengine;
+        return searchEngine;
     }
 
-    public void setSearchEngine(String searchengine) {
-        this.searchengine = searchengine;
+    public void setSearchEngine(String searchEngine) {
+        this.searchEngine = searchEngine;
     }
 
-    public double getPeptidMass() {
+    public double getPeptideMass() {
         return peptidmass;
     }
 
-    public void setPeptidMass(double peptidmass) {
+    public void setPeptideMass(double peptidmass) {
         this.peptidmass = peptidmass;
     }
 
@@ -153,7 +161,7 @@ public class MassSpectrum {
      * Peak Objects in one average List<Peak>, there would be 9000000 Objects. In some tests with that structure we got many Java out of memory Errors.
      * 
      * @param typ
-     * @param searchengine
+     * @param searchEngine
      * @param mz
      * @param intensity
      * @param peptidmass
@@ -161,7 +169,7 @@ public class MassSpectrum {
      * @param chargestate
      * @param id
      */
-    public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
+    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
         if (!isSorted(mz)) {
             Collections.sort(mz);
         }
@@ -169,8 +177,8 @@ public class MassSpectrum {
         this.setMz(mz);
         this.setIntensity(intensity);
         this.setTyp(typ);
-        this.setSearchEngine(searchengine);
-        this.setPeptidMass(peptidmass);
+        this.setSearchEngine(searchEngine);
+        this.setPeptideMass(peptidmass);
         this.setRt(rt);
         this.setChargeState(chargestate);
         this.setId(id);
@@ -180,7 +188,7 @@ public class MassSpectrum {
      * Constructs a MassSpectrum Object with a List of isotopes and a List of charges.
      * 
      * @param typ
-     * @param searchengine
+     * @param searchEngine
      * @param mz
      * @param intensity
      * @param peptidmass
@@ -190,7 +198,7 @@ public class MassSpectrum {
      * @param charge
      * @param isotope
      */
-    public MassSpectrum(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
+    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
             Collections.sort(mz);
         }
@@ -200,8 +208,8 @@ public class MassSpectrum {
         this.setCharge(charge);
         this.setIsotope(isotope);
         this.setTyp(typ);
-        this.setSearchEngine(searchengine);
-        this.setPeptidMass(peptidmass);
+        this.setSearchEngine(searchEngine);
+        this.setPeptideMass(peptidmass);
         this.setRt(rt);
         this.setChargeState(chargestate);
         this.setId(id);

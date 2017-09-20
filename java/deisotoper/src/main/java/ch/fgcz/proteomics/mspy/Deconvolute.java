@@ -16,6 +16,7 @@ public class Deconvolute {
 
             List<Peak> outputpeaklist = Mspy.deconvolute(inputpeaklist.getPeaklist(), 0);
 
+            // TODO (LS) you have exactly the same code in Deisotope - DRY.
             List<Integer> chargelist = new ArrayList<>();
             List<Double> isotopelist = new ArrayList<>();
             List<Double> mzlist = new ArrayList<>();
@@ -28,7 +29,7 @@ public class Deconvolute {
                 intensitylist.add(outputpeaklist.get(i).getIntensity());
             }
 
-            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptidMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
+            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptideMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
         }
 
         return output;

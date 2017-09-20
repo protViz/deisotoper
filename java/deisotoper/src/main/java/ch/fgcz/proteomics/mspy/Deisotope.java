@@ -18,6 +18,7 @@ public class Deisotope {
         for (ch.fgcz.proteomics.dto.MassSpectrum ms : input.getMSlist()) {
             Peaklist inputpeaklist = new Peaklist(ms);
 
+            // TODO (LS) you have exactly the same code in Deisotope - DRY.
             List<Peak> outputpeaklist = Mspy.deisotope(inputpeaklist.getPeaklist(), 3, 0.05, 0.5, 0.0);
 
             List<Integer> chargelist = new ArrayList<>();
@@ -32,7 +33,7 @@ public class Deisotope {
                 intensitylist.add(outputpeaklist.get(i).getIntensity());
             }
 
-            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptidMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
+            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptideMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
         }
 
         return output;
