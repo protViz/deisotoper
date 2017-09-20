@@ -18,9 +18,9 @@ public class Score {
     private final static double NH_MASS = 15.01464;
     private final static double CO_MASS = 28.0101;
 
-    private static double score(Peak x, Peak y, double error) {
-        return 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error) + 0.1 * thirdNonintensityFeature(x, y, error + 0.1 * fifthIntensityFeature(x, y))
-                + 0.1 * fourthNonintensityFeature(x, y, error);
+    private static double score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx) {
+        return 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx)
+                + 0.1 * thirdNonintensityFeature(x, y, error + 0.1 * fifthIntensityFeature(icofx)) + 0.1 * fourthNonintensityFeature(x, y, error);
 
     }
 
@@ -84,9 +84,37 @@ public class Score {
         return F1.size();
     }
 
-    // NOT IMPLEMENTED YET
-    private static int secondNonintensityFeature(Peak x, Peak y, double e) {
+    private static int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic) {
         List<Peak> F2 = new ArrayList<>();
+        double M = pepmass * charge;
+
+        int i = 1;
+        for (Peak c : ic.getIsotopicCluster()) {
+            if (c.getMz() == x.getMz() && c.getIntensity() == x.getIntensity()) {
+                break;
+            }
+            i++;
+        }
+
+        if (M + 2 * i + 2 * H_MASS - e < sum1(x, y) && sum1(x, y) < M + 2 * i + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 2 + 2 * H_MASS - e < sum1(x, y) && sum1(x, y) < (M + 2 * i) / 2 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum1(x, y) && sum1(x, y) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 2 + 2 * H_MASS - e < sum2(x, y) && sum2(x, y) < (M + 2 * i) / 2 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 2 + 2 * H_MASS - e < sum2(y, x) && sum2(y, x) < (M + 2 * i) / 2 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum3(x, y) && sum3(x, y) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum3(y, x) && sum3(y, x) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum4(x, y) && sum4(x, y) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
+            F2.add(y);
+        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum4(y, x) && sum4(y, x) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
+            F2.add(y);
+        }
 
         return F2.size();
     }
@@ -179,9 +207,30 @@ public class Score {
         return F4.size();
     }
 
-    // NOT IMPLEMENTED YET
-    private static int fifthIntensityFeature(Peak x, Peak y) {
+    // NOT FINISHED YET
+    private static int fifthIntensityFeature(IsotopicCluster ic) {
         List<Peak> F5 = new ArrayList<>();
+        double T_MIN = 0; // Missing because don't know how to calculate
+        double T_MEAN = 0; // Missing because don't know how to calculate
+        double T_MEAN_OVERLAP = 0; // Missing because don't know how to calculate
+        double T_MAX = 0; // Missing because don't know how to calculate
+        double threshold = 0.3;
+        // Peak x = ic.getIsotopicCluster().get(0);
+        // Peak y1 = ic.getIsotopicCluster().get(1);
+        // if (ic.getIsotopicCluster().size() == 3) {
+        // Peak y2 = ic.getIsotopicCluster().get(2);
+        // }
+
+        for (Peak p : ic.getIsotopicCluster()) {
+            // if black
+            if (Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN <= threshold) {
+                F5.add(p);
+            }
+            // if red
+            if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
+                F5.add(p);
+            }
+        }
 
         return F5.size();
     }

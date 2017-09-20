@@ -25,32 +25,51 @@ public class Deisotope {
 
         IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01);
 
-        // for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
-        // for (IsotopicCluster n : i.getIsotopicSet()) {
-        // for (IsotopicCluster m : i.getIsotopicSet()) {
-        // String color = ch.fgcz.proteomics.fdbm.Connection.calculateConnection(n, m);
-        //
-        // if (color != null) {
-        // n.addConnection(new Connection(n, m, color));
-        // }
-        // }
-        // }
-        // }
-        //
-        // for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
-        // for (IsotopicCluster n : i.getIsotopicSet()) {
-        // for (Connection c : n.getConnection()) {
-        // System.out.print("[");
-        // for (Peak x : c.getTail().getIsotopicCluster()) {
-        // System.out.print(" " + x.getMz() + " ");
-        // }
-        // System.out.print("] ---" + c.getColor() + "--- [ ");
-        // for (Peak x : c.getHead().getIsotopicCluster()) {
-        // System.out.print(" " + x.getMz() + " ");
-        // }
-        // System.out.println("]");
-        // }
-        // }
-        // }
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sbs = new StringBuilder();
+        StringBuilder sbe = new StringBuilder();
+
+        String linesep = System.getProperty("line.separator");
+
+        for (IsotopicSet i : test.getIsotopicMassSpectrum()) {
+            i.getIsotopicSet().add(new IsotopicCluster("start"));
+            i.getIsotopicSet().add(new IsotopicCluster("end"));
+
+            for (IsotopicCluster n : i.getIsotopicSet()) {
+                for (IsotopicCluster m : i.getIsotopicSet()) {
+                    String color = ch.fgcz.proteomics.fdbm.Connection.calculateConnection(n, m);
+                    if (color != null && n.getIsotopicCluster() != null && m.getIsotopicCluster() != null) {
+                        for (Peak x : n.getIsotopicCluster()) {
+                            sb.append(x.getMz() + " ");
+                        }
+                        sb.append("--" + color + "-- ");
+                        for (Peak x : m.getIsotopicCluster()) {
+                            sb.append(x.getMz() + " ");
+                        }
+                        sb.append(linesep);
+                    }
+                    if (color != null && n.getIsotopicCluster() == null) {
+                        sbs.append("start ");
+                        sbs.append("--" + color + "-- ");
+                        for (Peak x : m.getIsotopicCluster()) {
+                            sbs.append(x.getMz() + " ");
+                        }
+                        sbs.append(linesep);
+                    }
+                    if (color != null && m.getIsotopicCluster() == null) {
+                        for (Peak x : n.getIsotopicCluster()) {
+                            sbe.append(x.getMz() + " ");
+                        }
+                        sbe.append("--" + color + "-- ");
+                        sbe.append("end");
+                        sbe.append(linesep);
+                    }
+                }
+            }
+        }
+
+        System.out.println(sbs.toString());
+        System.out.println(sb.toString());
+        System.out.println(sbe.toString());
     }
 }
