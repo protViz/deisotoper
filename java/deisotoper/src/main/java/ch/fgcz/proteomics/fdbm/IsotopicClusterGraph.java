@@ -1,15 +1,12 @@
 package ch.fgcz.proteomics.fdbm;
 
-import org.jgraph.JGraph;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-20
  */
 
 import org.jgrapht.DirectedGraph;
-import org.jgrapht.demo.JGraphAdapterDemo;
-import org.jgrapht.ext.JGraphModelAdapter;
+
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
@@ -19,9 +16,6 @@ import com.mxgraph.swing.mxGraphComponent;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fdbmold.Edge;
-import ch.fgcz.proteomics.fdbmold.IsotopicSets;
-import ch.fgcz.proteomics.fdbmold.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,13 +75,13 @@ public class IsotopicClusterGraph {
 
             scoreIsotopicClusterGraph(ICG, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
 
-            prettyPrint(ICG.getIsotopicclustergraph(), IS);
+            printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS);
 
-            createAndShowGui(ICG.getIsotopicclustergraph());
+            drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
         }
     }
 
-    private static void createAndShowGui(DirectedGraph<IsotopicCluster, Connection> g) {
+    private static void drawIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
         JFrame frame = new JFrame("Isotopic Cluster Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -154,7 +148,7 @@ public class IsotopicClusterGraph {
         }
     }
 
-    private static void prettyPrint(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS) {
+    private static void printIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS) {
         System.out.println("IsotopicClusters: ");
         for (IsotopicCluster cluster : IS.getIsotopicSet()) {
             if (cluster.getIsotopicCluster() != null) {
