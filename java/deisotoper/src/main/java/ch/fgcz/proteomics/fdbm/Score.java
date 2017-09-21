@@ -56,6 +56,7 @@ public class Score {
         return x.getMz() + (((y.getMz() * 2) + H_MASS) / 3);
     }
 
+    // TODO (LS) write brief docu - you can also copy paste from paper.
     private static int firstNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F1 = new ArrayList<>();
 

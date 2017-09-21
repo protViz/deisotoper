@@ -19,9 +19,9 @@ public class MassSpectrum {
     private List<Double> intensity = new ArrayList<>();
     private List<Integer> charge = new ArrayList<>();
     private List<Double> isotope = new ArrayList<>();
-    private double peptidmass;
+    private double peptideMass;
     private double rt;
-    private int chargestate;
+    private int chargeState;
     private int id;
 
 
@@ -127,11 +127,11 @@ public class MassSpectrum {
     }
 
     public double getPeptideMass() {
-        return peptidmass;
+        return peptideMass;
     }
 
     public void setPeptideMass(double peptidmass) {
-        this.peptidmass = peptidmass;
+        this.peptideMass = peptidmass;
     }
 
     public double getRt() {
@@ -143,11 +143,11 @@ public class MassSpectrum {
     }
 
     public int getChargeState() {
-        return chargestate;
+        return chargeState;
     }
 
     public void setChargeState(int chargestate) {
-        this.chargestate = chargestate;
+        this.chargeState = chargestate;
     }
 
     /**
