@@ -13,13 +13,20 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 import com.mxgraph.layout.*;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.model.mxICell;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.handler.mxCellTracker;
+import com.mxgraph.swing.util.mxSwingConstants;
+import com.mxgraph.util.mxConstants;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
@@ -96,8 +103,8 @@ public class IsotopicClusterGraph {
 
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
         MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
-        MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
+        // MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
+        // MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
         System.out.println(createIsotopicClusterGraphFromMSM(MSM));
     }
@@ -139,8 +146,8 @@ public class IsotopicClusterGraph {
 
             GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
 
-            // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
-            // drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
+            printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
+            drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
 
             table.append(tableBestPath(bp, IS.getSetID()));
         }
@@ -162,10 +169,33 @@ public class IsotopicClusterGraph {
 
         JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
 
-        mxIGraphLayout layout = new mxHierarchicalLayout(graphAdapter);
+        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
         layout.execute(graphAdapter.getDefaultParent());
 
-        frame.add(new mxGraphComponent(graphAdapter));
+        for (Connection edge : g.edgeSet()) {
+            Object[] edgeobj = { (Object) graphAdapter.getEdgeToCellMap().get(g.getEdge(g.getEdgeSource(edge), g.getEdgeTarget(edge))) };
+            Object[] vertexobj = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeSource(edge)) };
+            Object[] vertexobj2 = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeTarget(edge)) };
+
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj2);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj2);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj2);
+
+            if (edge.getColor() == "red") {
+                graphAdapter.setCellStyles("strokeColor", "#FF0000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#FE2E64", edgeobj);
+            } else if (edge.getColor() == "black") {
+                graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
+            }
+
+        }
+        mxGraphComponent graphcomp = new mxGraphComponent(graphAdapter);
+        frame.add(graphcomp);
+        new mxCellTracker(graphcomp, Color.GRAY);
 
         frame.pack();
         frame.setLocationByPlatform(true);

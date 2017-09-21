@@ -38,6 +38,6 @@ public class Connection extends DefaultWeightedEdge {
 
     @Override
     public String toString() {
-        return this.color + ", " + (double) Math.round(this.score * 10000d) / 10000d;
+        return "" + (double) Math.round(this.score * 10000d) / 10000d;
     }
 }
