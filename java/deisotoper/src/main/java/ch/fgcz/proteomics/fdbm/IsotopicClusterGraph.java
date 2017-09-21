@@ -11,8 +11,8 @@ import org.jgrapht.alg.KShortestPaths;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
-import com.mxgraph.layout.mxCircleLayout;
-import com.mxgraph.layout.mxIGraphLayout;
+import com.mxgraph.layout.*;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
@@ -149,7 +149,7 @@ public class IsotopicClusterGraph {
 
         JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
 
-        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+        mxIGraphLayout layout = new mxHierarchicalLayout(graphAdapter);
         layout.execute(graphAdapter.getDefaultParent());
 
         frame.add(new mxGraphComponent(graphAdapter));

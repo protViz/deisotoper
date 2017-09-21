@@ -12,6 +12,15 @@ public class IsotopicCluster {
     private List<Peak> isotopiccluster = new ArrayList<>();
     private int charge;
     private String status;
+    private int clusterID;
+
+    public int getClusterID() {
+        return clusterID;
+    }
+
+    public void setClusterID(int clusterID) {
+        this.clusterID = clusterID;
+    }
 
     public String getStatus() {
         return status;
@@ -40,6 +49,7 @@ public class IsotopicCluster {
     public IsotopicCluster(List<Peak> isotopiccluster) {
         this.isotopiccluster = isotopiccluster;
         this.charge = 0;
+        this.clusterID = 0;
     }
 
     public IsotopicCluster(List<Peak> isotopiccluster, int charge) {
@@ -56,12 +66,12 @@ public class IsotopicCluster {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[ ");
+        sb.append("[ - ");
         if (this.isotopiccluster == null) {
             return this.status;
         }
         for (Peak p : this.isotopiccluster) {
-            sb.append(p.getMz() + " ");
+            sb.append(p.getMz() + " - ");
         }
         sb.append("]");
         return sb.toString();

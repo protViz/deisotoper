@@ -14,6 +14,15 @@ import java.util.Set;
 
 public class IsotopicSet {
     private List<IsotopicCluster> isotopicset = new ArrayList<>();
+    private int setID;
+
+    public int getSetID() {
+        return setID;
+    }
+
+    public void setSetID(int setID) {
+        this.setID = setID;
+    }
 
     public List<IsotopicCluster> getIsotopicSet() {
         return isotopicset;
@@ -23,7 +32,7 @@ public class IsotopicSet {
         this.isotopicset = isotopicSet;
     }
 
-    public IsotopicSet(List<Peak> isotopicset, double errortolerance) {
+    public IsotopicSet(List<Peak> isotopicset, double errortolerance, int setid) {
         List<IsotopicCluster> is = new ArrayList<>();
 
         int charge = 3;
@@ -111,7 +120,14 @@ public class IsotopicSet {
 
         is = sortIsotopicSet(is);
 
+        int clusterid = 0;
+        for (IsotopicCluster cluster : is) {
+            cluster.setClusterID(clusterid);
+            clusterid++;
+        }
+
         this.isotopicset = is;
+        this.setID = setid;
     }
 
     private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> list) {

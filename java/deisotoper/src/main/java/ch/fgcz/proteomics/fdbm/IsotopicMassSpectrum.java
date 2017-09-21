@@ -45,6 +45,7 @@ public class IsotopicMassSpectrum {
     }
 
     private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance) {
+        int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
             List<Peak> isotopicset = new ArrayList<>();
 
@@ -70,7 +71,8 @@ public class IsotopicMassSpectrum {
             }
 
             if (1 < isotopicset.size()) {
-                IsotopicSet is = new IsotopicSet(isotopicset, errortolerance);
+                IsotopicSet is = new IsotopicSet(isotopicset, errortolerance, id);
+                id++;
 
                 this.isotopicmassspectrum.add(is);
 
@@ -100,8 +102,9 @@ public class IsotopicMassSpectrum {
         IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01);
 
         for (IsotopicSet is : test.getIsotopicMassSpectrum()) {
+            System.out.println("(((" + is.getSetID() + ")))");
             for (IsotopicCluster ic : is.getIsotopicSet()) {
-                System.out.print("(" + ic.getCharge() + ") ");
+                System.out.print("((" + ic.getClusterID() + ")) (" + ic.getCharge() + ") ");
                 for (Peak p : ic.getIsotopicCluster()) {
                     System.out.print(p.getMz() + " ");
                 }
