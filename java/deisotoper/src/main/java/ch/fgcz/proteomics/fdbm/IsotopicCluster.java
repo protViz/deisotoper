@@ -66,7 +66,7 @@ public class IsotopicCluster {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[ - ");
+        sb.append("(" + this.clusterID + ") [ - ");
         if (this.isotopiccluster == null) {
             return this.status;
         }

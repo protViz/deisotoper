@@ -129,9 +129,14 @@ public class IsotopicClusterGraph {
                 }
             }
 
-            printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bestPath(start, end, ICG));
+            GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
+
+            printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
 
             drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
+
+            System.out.println("Table of best path:");
+            System.out.println(drawtableBestPath(bp, IS.getSetID()));
         }
     }
 
@@ -157,6 +162,21 @@ public class IsotopicClusterGraph {
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
+    }
+
+    private static String drawtableBestPath(GraphPath<IsotopicCluster, Connection> g, int setID) {
+        StringBuilder table = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+        table.append("mZ, Intensity, Charge, IsotopicCluster ID, IsotopicSet ID").append(linesep);
+
+        for (IsotopicCluster cluster : g.getVertexList()) {
+            if (cluster.getIsotopicCluster() != null) {
+                for (Peak p : cluster.getIsotopicCluster()) {
+                    table.append(p.getMz() + ",").append(p.getIntensity() + ",").append(cluster.getCharge() + ",").append(cluster.getClusterID() + ",").append(setID).append(linesep);
+                }
+            }
+        }
+        return table.toString();
     }
 
     public IsotopicClusterGraph(IsotopicSet IS) {
@@ -252,33 +272,40 @@ public class IsotopicClusterGraph {
         }
         System.out.println();
         System.out.println("Best Path (Score: " + bestpath.getWeight() + "):");
+        System.out.print("start -> ");
         for (Connection e : bestpath.getEdgeList()) {
-            if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-                for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
-                for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.println();
-            } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-                System.out.print(clustergraph.getEdgeSource(e).getStatus());
-                System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
-                for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.println();
-            } else if (clustergraph.getEdgeTarget(e).getIsotopicCluster() == null && clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
-                for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
-                System.out.println(clustergraph.getEdgeTarget(e).getStatus());
+            if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
+                System.out.print(clustergraph.getEdgeSource(e).getClusterID() + " -> ");
             }
         }
+        System.out.println("end");
 
-        System.out.println();
+        // for (Connection e : bestpath.getEdgeList()) {
+        // if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
+        // for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
+        // System.out.print(x.getMz() + " ");
+        // }
+        // System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
+        // for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
+        // System.out.print(x.getMz() + " ");
+        // }
+        // System.out.println();
+        // } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
+        // System.out.print(clustergraph.getEdgeSource(e).getStatus());
+        // System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
+        // for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
+        // System.out.print(x.getMz() + " ");
+        // }
+        // System.out.println();
+        // } else if (clustergraph.getEdgeTarget(e).getIsotopicCluster() == null && clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
+        // for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
+        // System.out.print(x.getMz() + " ");
+        // }
+        // System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
+        // System.out.println(clustergraph.getEdgeTarget(e).getStatus());
+        // }
+        // }
+
         System.out.println();
     }
 
