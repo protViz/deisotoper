@@ -14,11 +14,19 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import com.mxgraph.layout.*;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxCellTracker;
+import com.mxgraph.util.mxCellRenderer;
+import com.mxgraph.util.png.mxPngEncodeParam;
+import com.mxgraph.util.png.mxPngImageEncoder;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 import java.awt.Color;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,8 +148,13 @@ public class IsotopicClusterGraph {
 
             GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
 
-            printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
-            drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
+            // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
+            // drawWindowIsotopicClusterGraph(ICG.getIsotopicclustergraph());
+            // try {
+            // drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID());
+            // } catch (FileNotFoundException e1) {
+            // e1.printStackTrace();
+            // }
 
             table.append(tableBestPath(bp, IS.getSetID()));
         }
@@ -157,7 +170,7 @@ public class IsotopicClusterGraph {
         return p.get(p.size() - 1);
     }
 
-    private static void drawIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
+    public static void drawWindowIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
         JFrame frame = new JFrame("Isotopic Cluster Graph");
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -185,15 +198,61 @@ public class IsotopicClusterGraph {
                 graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
                 graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
             }
-
         }
-        mxGraphComponent graphcomp = new mxGraphComponent(graphAdapter);
-        frame.add(graphcomp);
-        new mxCellTracker(graphcomp, Color.GRAY);
+        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
+        frame.add(graphComponent);
+        new mxCellTracker(graphComponent, Color.GRAY);
 
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
+    }
+
+    public static void drawPNGIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid) throws FileNotFoundException {
+        JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
+
+        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+        layout.execute(graphAdapter.getDefaultParent());
+
+        for (Connection edge : g.edgeSet()) {
+            Object[] edgeobj = { (Object) graphAdapter.getEdgeToCellMap().get(g.getEdge(g.getEdgeSource(edge), g.getEdgeTarget(edge))) };
+            Object[] vertexobj = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeSource(edge)) };
+            Object[] vertexobj2 = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeTarget(edge)) };
+
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj2);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj2);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj2);
+
+            if (edge.getColor() == "red") {
+                graphAdapter.setCellStyles("strokeColor", "#FF0000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#FE2E64", edgeobj);
+            } else if (edge.getColor() == "black") {
+                graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
+            }
+        }
+        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
+
+        RenderedImage image = mxCellRenderer.createBufferedImage(graphComponent.getGraph(), null, 1, Color.WHITE, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
+        mxPngEncodeParam param = mxPngEncodeParam.getDefaultEncodeParam(image);
+
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(new File("IsotopicCluster_from_IsotopicSet_" + setid + ".png"));
+
+            mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
+
+            if (image != null) {
+                encoder.encode(image);
+            }
+
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String tableBestPath(GraphPath<IsotopicCluster, Connection> g, int setID) {
