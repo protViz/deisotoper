@@ -22,6 +22,50 @@ public class MassSpectrum {
     private int chargeState;
     private int id;
 
+    // Helper function for R
+    public int[] getChargeArray() {
+        int[] chargearray = new int[charge.size()];
+
+        for (int i = 0; i < chargearray.length; i++) {
+            chargearray[i] = charge.get(i);
+        }
+
+        return chargearray;
+    }
+
+    // Helper function for R
+    public double[] getMzArray() {
+        double[] mzarray = new double[mz.size()];
+
+        for (int i = 0; i < mzarray.length; i++) {
+            mzarray[i] = mz.get(i);
+        }
+
+        return mzarray;
+    }
+
+    // Helper function for R
+    public double[] getIntensityArray() {
+        double[] intarray = new double[intensity.size()];
+
+        for (int i = 0; i < intarray.length; i++) {
+            intarray[i] = intensity.get(i);
+        }
+
+        return intarray;
+    }
+
+    // Helper function for R
+    public double[] getIsotopeArray() {
+        double[] isoarray = new double[isotope.size()];
+
+        for (int i = 0; i < isoarray.length; i++) {
+            isoarray[i] = isotope.get(i);
+        }
+
+        return isoarray;
+    }
+
     public List<Integer> getCharge() {
         return charge;
     }
