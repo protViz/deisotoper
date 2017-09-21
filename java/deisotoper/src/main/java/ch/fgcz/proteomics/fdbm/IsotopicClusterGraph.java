@@ -99,17 +99,25 @@ public class IsotopicClusterGraph {
         MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
         MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
-        createIsotopicClusterGraphFromMSM(MSM);
+        System.out.println(createIsotopicClusterGraphFromMSM(MSM));
     }
 
-    public static void createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement MSM) {
+    public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement MSM) {
+        StringBuilder table = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+        table.append("IsotopicSet ID,IsotopicCluster ID,mZ,Intensity,Charge").append(linesep);
         for (MassSpectrum MS : MSM.getMSlist()) {
-            createIsotopicClusterGraphFromMS(MS);
+            table.append(createIsotopicClusterGraphFromMS(MS));
         }
+
+        return table.toString();
     }
 
-    public static void createIsotopicClusterGraphFromMS(MassSpectrum MS) {
+    public static String createIsotopicClusterGraphFromMS(MassSpectrum MS) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
+
+        StringBuilder table = new StringBuilder();
+
         for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
             IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
 
@@ -131,13 +139,13 @@ public class IsotopicClusterGraph {
 
             GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
 
-            printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
+            // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
+            // drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
 
-            drawIsotopicClusterGraph(ICG.getIsotopicclustergraph());
-
-            System.out.println("Table of best path:");
-            System.out.println(drawtableBestPath(bp, IS.getSetID()));
+            table.append(tableBestPath(bp, IS.getSetID()));
         }
+
+        return table.toString();
     }
 
     private static GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
@@ -164,15 +172,14 @@ public class IsotopicClusterGraph {
         frame.setVisible(true);
     }
 
-    private static String drawtableBestPath(GraphPath<IsotopicCluster, Connection> g, int setID) {
+    private static String tableBestPath(GraphPath<IsotopicCluster, Connection> g, int setID) {
         StringBuilder table = new StringBuilder();
         String linesep = System.getProperty("line.separator");
-        table.append("mZ, Intensity, Charge, IsotopicCluster ID, IsotopicSet ID").append(linesep);
 
         for (IsotopicCluster cluster : g.getVertexList()) {
             if (cluster.getIsotopicCluster() != null) {
                 for (Peak p : cluster.getIsotopicCluster()) {
-                    table.append(p.getMz() + ",").append(p.getIntensity() + ",").append(cluster.getCharge() + ",").append(cluster.getClusterID() + ",").append(setID).append(linesep);
+                    table.append(setID + ",").append(cluster.getClusterID() + ",").append(p.getMz() + ",").append(p.getIntensity() + ",").append(cluster.getCharge()).append(linesep);
                 }
             }
         }
