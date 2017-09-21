@@ -208,7 +208,7 @@ public class IsotopicClusterGraph {
         frame.setVisible(true);
     }
 
-    public static void drawPNGIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid) throws FileNotFoundException {
+    public static void drawPNGIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid, int msid) throws FileNotFoundException {
         JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
 
         mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
@@ -241,7 +241,7 @@ public class IsotopicClusterGraph {
 
         FileOutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(new File("IsotopicCluster_from_IsotopicSet_" + setid + ".png"));
+            outputStream = new FileOutputStream(new File("IsotopicClusterGraphs/MS_" + msid + "_IS_" + setid + ".png"));
 
             mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
 

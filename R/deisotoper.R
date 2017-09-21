@@ -353,19 +353,19 @@ jVersionMSM <- function() {
 #' Deisotopes a MSM.
 #'
 #' @return
-#' @export jDeisotopeMSM
+#' @export jDeisotopeMSMmspy
 #'
 #' @examples
 #'
 #' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 #' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 #'
-#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
+#' joMSMdeisotoped <- jDeisotopeMSMmspy(joMSM)
 #'
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSM <- function(jobj) {
+jDeisotopeMSMmspy <- function(jobj) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
@@ -380,21 +380,21 @@ jDeisotopeMSM <- function(jobj) {
 #' Deconvolutes a MSM.
 #'
 #' @return
-#' @export jDeconvoluteMSM
+#' @export jDeconvoluteMSMmspy
 #'
 #' @examples
 #'
 #' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 #' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 #'
-#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
+#' joMSMdeisotoped <- jDeisotopeMSMmspy(joMSM)
 #'
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-#' joMSMdeconvoluted <- jDeconvoluteMSM(joMSMdeisotoped)
+#' joMSMdeconvoluted <- jDeconvoluteMSMmspy(joMSMdeisotoped)
 #' joMSMdeconvolutedsummary <- jSummaryMSM(joMSMdeconvoluted)
-jDeconvoluteMSM <- function(jobj) {
+jDeconvoluteMSMmspy <- function(jobj) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
@@ -402,6 +402,40 @@ jDeconvoluteMSM <- function(jobj) {
   d <- .jnew("ch.fgcz.proteomics.mspy.Deconvolute")
   
   output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deconvoluteMSM", jobj)
+  
+  output
+}
+
+#' Deisotopes a MSM.
+#'
+#' @return
+#' @export jDeisotopeMSMfdbm
+#'
+#' @examples
+#'
+#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#'
+#' joMSMdeisotoped <- jDeisotopeMSMfdbm(joMSM)
+#'
+#' joMSMsummary <- jSummaryMSM(joMSM)
+#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
+#' 
+jDeisotopeMSMfdbm <- function(jobj) {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
+  .jaddClassPath("inst/java/jgraph-5.13.0.0.jar")
+  .jaddClassPath("inst/java/jgrapht-core-1.0.1.jar")
+  .jaddClassPath("inst/java/jgrapht-demo-1.0.1.jar")
+  .jaddClassPath("inst/java/jgrapht-ext-1.0.1.jar")
+  .jaddClassPath("inst/java/jgrapht-ext-1.0.1-uber.jar")
+  .jaddClassPath("inst/java/jgraphx-2.0.0.1.jar")
+  .jclassPath()
+  
+  d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
+  
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj)
   
   output
 }

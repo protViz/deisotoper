@@ -20,6 +20,7 @@ public class Deisotope {
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
+        int msid = 0;
         for (MassSpectrum MS : input.getMSlist()) {
 
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
@@ -51,7 +52,7 @@ public class Deisotope {
                 GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, ICG);
 
                 try {
-                    IsotopicClusterGraph.drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID());
+                    IsotopicClusterGraph.drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), msid);
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }
@@ -73,7 +74,7 @@ public class Deisotope {
                 mzlist.addAll(clustermz);
                 intensitylist.addAll(clusteri);
             }
-
+            msid++;
             output.addMS(MS.getTyp(), MS.getSearchEngine(), mzlist, intensitylist, MS.getPeptideMass(), MS.getRt(), MS.getChargeState(), MS.getId(), chargelist, isotopelist);
         }
 
