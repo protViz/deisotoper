@@ -17,7 +17,6 @@ import com.mxgraph.swing.mxGraphComponent;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.mspy.Convert;
 
 import java.util.ArrayList;
 import java.util.List;

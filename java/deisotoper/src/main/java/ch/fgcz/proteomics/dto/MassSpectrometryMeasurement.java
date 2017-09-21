@@ -10,9 +10,7 @@ import java.util.List;
 
 public class MassSpectrometryMeasurement {
 
-    // TODO : Better name for MSlist - violates coding convention for variable names (start with small letter).
-
-    private List<MassSpectrum> MSlist = new ArrayList<>();
+    private List<MassSpectrum> massspectrumlist = new ArrayList<>();
     private String source;
 
     public String getSource() {
@@ -24,11 +22,11 @@ public class MassSpectrometryMeasurement {
     }
 
     public List<MassSpectrum> getMSlist() {
-        return MSlist;
+        return massspectrumlist;
     }
 
     public void setMSlist(List<MassSpectrum> list) {
-        this.MSlist = list;
+        this.massspectrumlist = list;
     }
 
     /**
@@ -54,11 +52,9 @@ public class MassSpectrometryMeasurement {
      * @param chargeState
      * @param id
      */
-    public void addMS(String typ, String searchEngine, double[] mz, double[] intensity,
-                      double peptideMass, double rt, int chargeState, int id) {
+    public void addMS(String typ, String searchEngine, double[] mz, double[] intensity, double peptideMass, double rt, int chargeState, int id) {
         List<Double> mzValues = new ArrayList<>();
         List<Double> intensityValues = new ArrayList<>();
-
 
         for (int i = 0; i < mz.length || i < intensity.length; i++) {
             mzValues.add(mz[i]);

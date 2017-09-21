@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 public class MassSpectrum {
     private String typ;
     private String searchEngine;
-
-    // TODO (LS) why not double[] mz, intensity etc?
     private List<Double> mz = new ArrayList<>();
     private List<Double> intensity = new ArrayList<>();
     private List<Integer> charge = new ArrayList<>();
@@ -23,52 +21,6 @@ public class MassSpectrum {
     private double rt;
     private int chargestate;
     private int id;
-
-
-    // TODO (LS):  not used
-    public int[] getChargeArray() {
-        int[] chargearray = new int[charge.size()];
-
-        for (int i = 0; i < chargearray.length; i++) {
-            chargearray[i] = charge.get(i);
-        }
-
-        return chargearray;
-    }
-
-    // TODO (LS): not used
-    public double[] getMzArray() {
-        double[] mzarray = new double[mz.size()];
-
-        for (int i = 0; i < mzarray.length; i++) {
-            mzarray[i] = mz.get(i);
-        }
-
-        return mzarray;
-    }
-
-
-    // TODO (LS): not used
-    public double[] getIntensityArray() {
-        double[] intarray = new double[intensity.size()];
-
-        for (int i = 0; i < intarray.length; i++) {
-            intarray[i] = intensity.get(i);
-        }
-
-        return intarray;
-    }
-
-    // TODO (LS): not used
-    public double[] getIsotopeArray() {
-        double[] isoarray = new double[isotope.size()];
-
-        for (int i = 0; i < isoarray.length; i++) {
-            isoarray[i] = isotope.get(i);
-        }
-
-        return isoarray;
-    }
 
     public List<Integer> getCharge() {
         return charge;
