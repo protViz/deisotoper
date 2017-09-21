@@ -237,7 +237,7 @@ public class IsotopicClusterGraph {
                 System.out.println();
             } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
                 System.out.print(clustergraph.getEdgeSource(e).getStatus());
-                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
+                System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
                 for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
                 }
@@ -264,7 +264,7 @@ public class IsotopicClusterGraph {
                 System.out.println();
             } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
                 System.out.print(clustergraph.getEdgeSource(e).getStatus());
-                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
+                System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
                 for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
                 }

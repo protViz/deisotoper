@@ -220,28 +220,28 @@ public class Score {
 
         for (Peak p : ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
             double T_MIN = ASP_MASS / p.getMz();
-            System.out.println("T_MIN: " + T_MIN);
+            // System.out.println("T_MIN: " + T_MIN);
             double T_MEAN = AVE_UPDATED_MASS / p.getMz();
-            System.out.println("T_MEAN: " + T_MEAN);
+            // System.out.println("T_MEAN: " + T_MEAN);
             double T_MEAN_OVERLAP = AVE_UPDATED_MASS / p.getMz();
             double T_MAX = PHE_MASS / p.getMz();
-            System.out.println("T_MAX: " + T_MAX);
+            // System.out.println("T_MAX: " + T_MAX);
 
             if (e.getColor() == "black") {
-                System.out.println("black: " + Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN);
+                // System.out.println("black: " + Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN);
                 if (Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN <= threshold) {
                     F5.add(p);
                 }
             }
             if (e.getColor() == "red") {
-                System.out.println("red: " + Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)));
+                // System.out.println("red: " + Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)));
                 if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
                     F5.add(p);
                 }
             }
         }
 
-        System.out.println(F5.size());
+        // System.out.println(F5.size());
         return F5.size();
     }
 }
