@@ -12,21 +12,15 @@ import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 import com.mxgraph.layout.*;
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
-import com.mxgraph.model.mxICell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxCellTracker;
-import com.mxgraph.swing.util.mxSwingConstants;
-import com.mxgraph.util.mxConstants;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JFrame;
 
@@ -103,8 +97,8 @@ public class IsotopicClusterGraph {
 
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
         MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        // MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
-        // MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
+        MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
+        MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
         System.out.println(createIsotopicClusterGraphFromMSM(MSM));
     }
