@@ -17,11 +17,16 @@ public class Score {
     private final static double H2O_MASS = 18.01528;
     private final static double NH_MASS = 15.01464;
     private final static double CO_MASS = 28.0101;
+    private final static double PHE_MASS = 165.192;
+    private final static double ASP_MASS = 133.104;
+    private final static double AVE_UPDATED_MASS = 111.125;
+    // private final static List<Peak> PHE_PATTERN = Arrays.asList(new Peak(147.06842, 100), new Peak(148.07178, 10.2), new Peak(149.07513, 0.6));
+    // private final static List<Peak> ASP_PATTERN = Arrays.asList(new Peak(115.02696, 100), new Peak(116.03032, 4.9), new Peak(117.0312, 0.7));
+    // private final static List<Peak> AVE_UPDATED_PATTERN = Arrays.asList(new Peak(0, 0));
 
-    public static double score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx) {
-        return 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx)
-                + 0.1 * thirdNonintensityFeature(x, y, error + 0.1 * fifthIntensityFeature(icofx)) + 0.1 * fourthNonintensityFeature(x, y, error);
-
+    public static double score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx, Connection e, IsotopicClusterGraph ICG) {
+        return 0.8 * firstNonintensityFeature(x, y, error) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx) + 0.1 * thirdNonintensityFeature(x, y, error)
+                + 0.1 * fourthNonintensityFeature(x, y, error) + 0.1 * fifthIntensityFeature(e, ICG);
     }
 
     private static double diff1(Peak x, Peak y) {
@@ -209,30 +214,34 @@ public class Score {
     }
 
     // NOT FINISHED YET
-    private static int fifthIntensityFeature(IsotopicCluster ic) {
+    private static int fifthIntensityFeature(Connection e, IsotopicClusterGraph ICG) {
         List<Peak> F5 = new ArrayList<>();
-        double T_MIN = 0; // Missing because don't know how to calculate
-        double T_MEAN = 0; // Missing because don't know how to calculate
-        double T_MEAN_OVERLAP = 0; // Missing because don't know how to calculate
-        double T_MAX = 0; // Missing because don't know how to calculate
         double threshold = 0.3;
-        // Peak x = ic.getIsotopicCluster().get(0);
-        // Peak y1 = ic.getIsotopicCluster().get(1);
-        // if (ic.getIsotopicCluster().size() == 3) {
-        // Peak y2 = ic.getIsotopicCluster().get(2);
-        // }
 
-        for (Peak p : ic.getIsotopicCluster()) {
-            // if black
-            if (Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN <= threshold) {
-                F5.add(p);
+        for (Peak p : ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
+            double T_MIN = ASP_MASS / p.getMz();
+            System.out.println("T_MIN: " + T_MIN);
+            double T_MEAN = AVE_UPDATED_MASS / p.getMz();
+            System.out.println("T_MEAN: " + T_MEAN);
+            double T_MEAN_OVERLAP = AVE_UPDATED_MASS / p.getMz();
+            double T_MAX = PHE_MASS / p.getMz();
+            System.out.println("T_MAX: " + T_MAX);
+
+            if (e.getColor() == "black") {
+                System.out.println("black: " + Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN);
+                if (Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN <= threshold) {
+                    F5.add(p);
+                }
             }
-            // if red
-            if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
-                F5.add(p);
+            if (e.getColor() == "red") {
+                System.out.println("red: " + Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)));
+                if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
+                    F5.add(p);
+                }
             }
         }
 
+        System.out.println(F5.size());
         return F5.size();
     }
 }

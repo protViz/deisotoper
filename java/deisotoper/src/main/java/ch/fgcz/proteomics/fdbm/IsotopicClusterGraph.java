@@ -202,7 +202,7 @@ public class IsotopicClusterGraph {
             if (ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster() != null) {
                 for (Peak x : ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
                     for (Peak y : peaklist.getPeaklist()) {
-                        sumscore += Score.score(x, y, error, pepmass, chargestate, ICG.getIsotopicclustergraph().getEdgeTarget(e));
+                        sumscore += Score.score(x, y, error, pepmass, chargestate, ICG.getIsotopicclustergraph().getEdgeTarget(e), e, ICG);
                     }
                 }
                 e.setScore(sumscore);
