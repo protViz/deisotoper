@@ -7,8 +7,11 @@ package ch.fgcz.proteomics.dto;
 
 public class JsonToSummary {
 
-    //TODO: what happens if no arguments are given?
     public static void main(String[] args) {
-        System.out.println((Summary.makeSummary(Serialize.deserializeJsonToMSM(args[0]))));
+        if (args.length != 0) {
+            System.out.println((Summary.makeSummary(Serialize.deserializeJsonToMSM(args[0]))));
+        } else {
+            System.out.println("Error");
+        }
     }
 }

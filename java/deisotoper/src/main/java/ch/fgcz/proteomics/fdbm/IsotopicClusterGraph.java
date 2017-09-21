@@ -17,10 +17,8 @@ import com.mxgraph.swing.mxGraphComponent;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.mspy.Convert;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -97,21 +95,11 @@ public class IsotopicClusterGraph {
         int id3 = 1;
 
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
-        // MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        // MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
+        MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+        MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
         MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
         createIsotopicClusterGraphFromMSM(MSM);
-
-        ch.fgcz.proteomics.mspy.Peaklist peaklist = Convert.mgfToPeaklist("/srv/lucas1/Downloads/shorttest.txt");
-
-        for (ch.fgcz.proteomics.mspy.Peak p : peaklist.getPeaklist()) {
-            System.out.print(p.getMz() + ",");
-        }
-        System.out.println();
-        for (ch.fgcz.proteomics.mspy.Peak p : peaklist.getPeaklist()) {
-            System.out.print(p.getIntensity() + ",");
-        }
     }
 
     public static void createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement MSM) {
@@ -147,56 +135,17 @@ public class IsotopicClusterGraph {
         }
     }
 
-    class BestPath {
-        private GraphPath<IsotopicCluster, Connection> gp;
-        private double score;
-
-        public GraphPath<IsotopicCluster, Connection> getGp() {
-            return gp;
-        }
-
-        public void setGp(GraphPath<IsotopicCluster, Connection> gp) {
-            this.gp = gp;
-        }
-
-        public double getScore() {
-            return score;
-        }
-
-        public void setScore(double score) {
-            this.score = score;
-        }
-
-        public BestPath() {
-        }
-
-        public BestPath(GraphPath<IsotopicCluster, Connection> gp, double score) {
-            this.score = score;
-            this.gp = gp;
-        }
-    }
-
-    private static BestPath bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
-        BestPath path = null;
-        double max = 0;
-
-        KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(ICG.getIsotopicclustergraph(), source, 10);
+    private static GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
+        KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(ICG.getIsotopicclustergraph(), source, 1000000);
 
         List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
 
-        for (GraphPath<IsotopicCluster, Connection> i : p) {
-            if (i.getWeight() > max) {
-                max = i.getWeight();
-                path = ICG.new BestPath(i, i.getWeight());
-            }
-        }
-
-        return path;
+        return p.get(p.size() - 1);
     }
 
     private static void drawIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
         JFrame frame = new JFrame("Isotopic Cluster Graph");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
 
@@ -262,7 +211,7 @@ public class IsotopicClusterGraph {
         }
     }
 
-    private static void printIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS, BestPath bestpath) {
+    private static void printIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS, GraphPath<IsotopicCluster, Connection> bestpath) {
         System.out.println("IsotopicClusters: ");
         for (IsotopicCluster cluster : IS.getIsotopicSet()) {
             if (cluster.getIsotopicCluster() != null) {
@@ -302,8 +251,8 @@ public class IsotopicClusterGraph {
             }
         }
         System.out.println();
-        System.out.println("Best Path (Score: " + bestpath.getScore() + "):");
-        for (Connection e : bestpath.getGp().getEdgeList()) {
+        System.out.println("Best Path (Score: " + bestpath.getWeight() + "):");
+        for (Connection e : bestpath.getEdgeList()) {
             if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
                 for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
                     System.out.print(x.getMz() + " ");
