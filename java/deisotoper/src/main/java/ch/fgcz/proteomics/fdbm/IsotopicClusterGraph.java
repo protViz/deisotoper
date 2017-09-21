@@ -20,7 +20,6 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.mspy.Convert;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -102,16 +101,6 @@ public class IsotopicClusterGraph {
         MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
         createIsotopicClusterGraphFromMSM(MSM);
-
-        ch.fgcz.proteomics.mspy.Peaklist peaklist = Convert.mgfToPeaklist("/srv/lucas1/Downloads/shorttest.txt");
-
-        for (ch.fgcz.proteomics.mspy.Peak p : peaklist.getPeaklist()) {
-            System.out.print(p.getMz() + ",");
-        }
-        System.out.println();
-        for (ch.fgcz.proteomics.mspy.Peak p : peaklist.getPeaklist()) {
-            System.out.print(p.getIntensity() + ",");
-        }
     }
 
     public static void createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement MSM) {
