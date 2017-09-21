@@ -148,7 +148,7 @@ public class IsotopicClusterGraph {
         return table.toString();
     }
 
-    private static GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
+    public static GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
         KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(ICG.getIsotopicclustergraph(), source, 1000000);
 
         List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
@@ -223,7 +223,7 @@ public class IsotopicClusterGraph {
         }
     }
 
-    private static void scoreIsotopicClusterGraph(IsotopicClusterGraph ICG, double pepmass, int chargestate, double error, Peaklist peaklist) {
+    public static void scoreIsotopicClusterGraph(IsotopicClusterGraph ICG, double pepmass, int chargestate, double error, Peaklist peaklist) {
         for (Connection e : ICG.getIsotopicclustergraph().edgeSet()) {
             double sumscore = 0;
             if (ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster() != null) {
@@ -334,7 +334,7 @@ public class IsotopicClusterGraph {
      * @param cluster2
      * @return color
      */
-    public String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
+    private String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
         if (cluster1.getIsotopicCluster() != null) {
             if (cluster1.getIsotopicCluster().get(0).getMz() < this.min) {
                 this.min = cluster1.getIsotopicCluster().get(0).getMz();
