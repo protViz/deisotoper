@@ -111,7 +111,7 @@ public class Deisotope {
             cluster.getIsotopicCluster().remove(2);
             cluster.getIsotopicCluster().remove(1);
         }
-
+        //cluster.getIsotopicCluster().get(0).setMz(cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge() ); - (cluster.getCharge() - 1) * H_MASS);
         return cluster;
     }
 
