@@ -75,7 +75,7 @@ public class Deisotope {
                             cluster = aggregateMean(cluster);
                         } else if (modus == "none") {
                         } else {
-                            throw new IllegalArgumentException();
+                            throw new IllegalArgumentException("Modus not found (" + modus + ")");
                         }
 
                         int position = 1;
@@ -230,7 +230,7 @@ public class Deisotope {
 
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false, "last")));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false, "first")));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {
