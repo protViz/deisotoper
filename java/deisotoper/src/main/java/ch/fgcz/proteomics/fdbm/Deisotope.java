@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jgrapht.GraphPath;
+import org.omg.Messaging.SyncScopeHelper;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
@@ -66,6 +67,9 @@ public class Deisotope {
 
                 for (IsotopicCluster cluster : bp.getVertexList()) {
                     if (cluster.getIsotopicCluster() != null) {
+
+                        cluster = aggregate(cluster);
+
                         int position = 1;
                         for (Peak p : cluster.getIsotopicCluster()) {
                             clustermz.add(p.getMz());
@@ -87,6 +91,26 @@ public class Deisotope {
         }
 
         return output;
+    }
+
+    private static IsotopicCluster aggregate(IsotopicCluster cluster) {
+        int intensitysum = 0;
+        for (Peak p : cluster.getIsotopicCluster()) {
+            intensitysum += p.getIntensity();
+
+        }
+
+        Peak ap = new Peak(cluster.getIsotopicCluster().get(0).getMz(), intensitysum);
+
+        cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        if (cluster.getIsotopicCluster().size() == 2) {
+            cluster.getIsotopicCluster().remove(1);
+        } else if (cluster.getIsotopicCluster().size() == 3) {
+            cluster.getIsotopicCluster().remove(2);
+            cluster.getIsotopicCluster().remove(1);
+        }
+
+        return cluster;
     }
 
     public static void main(String[] args) {
