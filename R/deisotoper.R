@@ -296,7 +296,7 @@ jGetMSM <- function(jobj) {
     list(mZ =.jcall(MSlistR[[i]], "[D", "getMzArray"),
          intensity = .jcall(MSlistR[[i]], "[D", "getIntensityArray"),
          rtinseconds = .jcall(MSlistR[[i]], "D", "getRt"),
-         pepmass = .jcall(MSlistR[[i]], "D", "getPeptidMass"),
+         pepmass = .jcall(MSlistR[[i]], "D", "getPeptideMass"),
          id =  .jcall(MSlistR[[i]], "I", "getId"),
          charge = .jcall(MSlistR[[i]], "I", "getChargeState"),
          scans = .jcall(MSlistR[[i]], "I", "getId"),
