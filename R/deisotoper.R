@@ -433,9 +433,12 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first") {
   .jaddClassPath("inst/java/jgraphx-2.0.0.1.jar")
   .jclassPath()
   
+  String <- J("java.lang.String")
+  m <- new( String, modus )
+  
   d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save, modus)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save, m)
   
   output
 }

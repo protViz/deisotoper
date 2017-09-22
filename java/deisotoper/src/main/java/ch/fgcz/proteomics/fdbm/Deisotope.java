@@ -67,13 +67,13 @@ public class Deisotope {
                 for (IsotopicCluster cluster : bp.getVertexList()) {
                     if (cluster.getIsotopicCluster() != null) {
 
-                        if (modus == "first") {
+                        if (modus.contains("first")) {
                             cluster = aggregateFirst(cluster);
-                        } else if (modus == "last") {
+                        } else if (modus.contains("last")) {
                             cluster = aggregateLast(cluster);
-                        } else if (modus == "mean") {
+                        } else if (modus.contains("mean")) {
                             cluster = aggregateMean(cluster);
-                        } else if (modus == "none") {
+                        } else if (modus.contains("none")) {
                         } else {
                             throw new IllegalArgumentException("Modus not found (" + modus + ")");
                         }
