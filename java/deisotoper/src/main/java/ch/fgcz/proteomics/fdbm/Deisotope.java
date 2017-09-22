@@ -73,6 +73,9 @@ public class Deisotope {
                             cluster = aggregateLast(cluster);
                         } else if (modus == "mean") {
                             cluster = aggregateMean(cluster);
+                        } else if (modus == "none") {
+                        } else {
+                            throw new IllegalArgumentException();
                         }
 
                         int position = 1;

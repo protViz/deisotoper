@@ -6,7 +6,6 @@ package ch.fgcz.proteomics.dto;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -167,7 +166,7 @@ public class MassSpectrum {
      */
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
         if (!isSorted(mz)) {
-            Collections.sort(mz);
+            throw new IllegalArgumentException("The mZ-values are not sorted");
         }
 
         this.setMz(mz);
@@ -196,7 +195,7 @@ public class MassSpectrum {
      */
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
-            Collections.sort(mz);
+            throw new IllegalArgumentException("The mZ-values are not sorted");
         }
 
         this.setMz(mz);
