@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jgrapht.GraphPath;
-import org.omg.Messaging.SyncScopeHelper;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
@@ -99,8 +98,6 @@ public class Deisotope {
             intensitysum += p.getIntensity();
 
         }
-
-        Peak ap = new Peak(cluster.getIsotopicCluster().get(0).getMz(), intensitysum);
 
         cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
         if (cluster.getIsotopicCluster().size() == 2) {
