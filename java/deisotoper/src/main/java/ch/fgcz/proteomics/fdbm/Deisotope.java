@@ -17,7 +17,7 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 
 public class Deisotope {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input) {
+    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
         int msid = 0;
@@ -51,10 +51,12 @@ public class Deisotope {
 
                 GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, ICG);
 
-                try {
-                    IsotopicClusterGraph.drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), msid);
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
+                if (save == true) {
+                    try {
+                        IsotopicClusterGraph.drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), msid);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
                 }
 
                 List<Double> clustermz = new ArrayList<>();
@@ -156,7 +158,7 @@ public class Deisotope {
 
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM)));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false)));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {

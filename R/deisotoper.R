@@ -421,7 +421,7 @@ jDeconvoluteMSMmspy <- function(jobj) {
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSMfdbm <- function(jobj) {
+jDeisotopeMSMfdbm <- function(jobj, save=FALSE) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -435,7 +435,7 @@ jDeisotopeMSMfdbm <- function(jobj) {
   
   d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save)
   
   output
 }
