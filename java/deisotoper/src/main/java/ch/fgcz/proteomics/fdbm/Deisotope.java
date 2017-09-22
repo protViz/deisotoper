@@ -17,7 +17,7 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 
 public class Deisotope {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save) {
+    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
         int msid = 0;
@@ -67,7 +67,14 @@ public class Deisotope {
                 for (IsotopicCluster cluster : bp.getVertexList()) {
                     if (cluster.getIsotopicCluster() != null) {
 
-                        cluster = aggregate(cluster);
+                        if (modus == "first") {
+                            cluster = aggregateFirst(cluster);
+                        } else if (modus == "last") {
+                            cluster = aggregateLast(cluster);
+                        } else if (modus == "mean") {
+                            cluster = aggregateMean(cluster);
+
+                        }
 
                         int position = 1;
                         for (Peak p : cluster.getIsotopicCluster()) {
@@ -92,12 +99,8 @@ public class Deisotope {
         return output;
     }
 
-    private static IsotopicCluster aggregate(IsotopicCluster cluster) {
-        int intensitysum = 0;
-        for (Peak p : cluster.getIsotopicCluster()) {
-            intensitysum += p.getIntensity();
-
-        }
+    private static IsotopicCluster aggregateFirst(IsotopicCluster cluster) {
+        double intensitysum = sumIntensity(cluster);
 
         cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
         if (cluster.getIsotopicCluster().size() == 2) {
@@ -108,6 +111,52 @@ public class Deisotope {
         }
 
         return cluster;
+    }
+
+    private static IsotopicCluster aggregateLast(IsotopicCluster cluster) {
+        double intensitysum = sumIntensity(cluster);
+
+        cluster.getIsotopicCluster().remove(0);
+        if (cluster.getIsotopicCluster().size() == 1) {
+            cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        } else if (cluster.getIsotopicCluster().size() == 2) {
+            cluster.getIsotopicCluster().remove(0);
+            cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        }
+
+        return cluster;
+    }
+
+    private static IsotopicCluster aggregateMean(IsotopicCluster cluster) {
+        double intensitysum = sumIntensity(cluster);
+
+        double mzmean = 0;
+        for (Peak p : cluster.getIsotopicCluster()) {
+            mzmean += p.getMz();
+        }
+
+        mzmean = mzmean / cluster.getIsotopicCluster().size();
+
+        cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        cluster.getIsotopicCluster().get(0).setMz(mzmean);
+        if (cluster.getIsotopicCluster().size() == 2) {
+            cluster.getIsotopicCluster().remove(1);
+        } else if (cluster.getIsotopicCluster().size() == 3) {
+            cluster.getIsotopicCluster().remove(2);
+            cluster.getIsotopicCluster().remove(1);
+        }
+
+        return cluster;
+    }
+
+    private static double sumIntensity(IsotopicCluster cluster) {
+        double intensitysum = 0;
+        for (Peak p : cluster.getIsotopicCluster()) {
+            intensitysum += p.getIntensity();
+
+        }
+
+        return intensitysum;
     }
 
     public static void main(String[] args) {
@@ -179,7 +228,7 @@ public class Deisotope {
 
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false)));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false, "mean")));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {
