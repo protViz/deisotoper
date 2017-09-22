@@ -8,7 +8,11 @@ import java.io.FileNotFoundException;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jgrapht.GraphPath;
 
@@ -17,6 +21,8 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 
 public class Deisotope {
+    private final static double H_MASS = 1.008;
+
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
@@ -29,6 +35,8 @@ public class Deisotope {
             List<Double> isotopelist = new ArrayList<>();
             List<Double> mzlist = new ArrayList<>();
             List<Double> intensitylist = new ArrayList<>();
+
+            List<Double> mzlist2 = new ArrayList<>();
 
             for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
                 IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
@@ -64,8 +72,14 @@ public class Deisotope {
                 List<Double> clusteriso = new ArrayList<>();
                 List<Integer> clustercharge = new ArrayList<>();
 
+                List<Double> clustermz2 = new ArrayList<>();
+
                 for (IsotopicCluster cluster : bp.getVertexList()) {
                     if (cluster.getIsotopicCluster() != null) {
+
+                        for (Peak p : cluster.getIsotopicCluster()) {
+                            clustermz2.add(p.getMz());
+                        }
 
                         if (modus.contains("first")) {
                             cluster = aggregateFirst(cluster);
@@ -93,12 +107,53 @@ public class Deisotope {
                 intensitylist.addAll(clusteri);
                 isotopelist.addAll(clusteriso);
                 chargelist.addAll(clustercharge);
+
+                mzlist2.addAll(clustermz2);
             }
+
+            for (int i = 0; i < MS.getMz().size(); i++) {
+                if (!mzlist2.contains(MS.getMz().get(i))) {
+                    mzlist.add(MS.getMz().get(i));
+                    intensitylist.add(MS.getIntensity().get(i));
+                    isotopelist.add(-1.0);
+                    chargelist.add(-1);
+                }
+            }
+
+            keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
+
             msid++;
             output.addMS(MS.getTyp(), MS.getSearchEngine(), mzlist, intensitylist, MS.getPeptideMass(), MS.getRt(), MS.getChargeState(), MS.getId(), chargelist, isotopelist);
         }
 
         return output;
+    }
+
+    public static <T extends Comparable<T>> void keySort(final List<T> key, List<?>... lists) {
+        List<Integer> indices = new ArrayList<Integer>();
+        for (int i = 0; i < key.size(); i++)
+            indices.add(i);
+
+        Collections.sort(indices, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer i, Integer j) {
+                return key.get(i).compareTo(key.get(j));
+            }
+        });
+
+        Map<Integer, Integer> swapMap = new HashMap<Integer, Integer>(indices.size());
+
+        for (int i = 0; i < indices.size(); i++) {
+            int k = indices.get(i);
+            while (swapMap.containsKey(k))
+                k = swapMap.get(k);
+
+            swapMap.put(i, k);
+        }
+
+        for (Map.Entry<Integer, Integer> e : swapMap.entrySet())
+            for (List<?> list : lists)
+                Collections.swap(list, e.getKey(), e.getValue());
     }
 
     private static IsotopicCluster aggregateFirst(IsotopicCluster cluster) {
@@ -111,7 +166,8 @@ public class Deisotope {
             cluster.getIsotopicCluster().remove(2);
             cluster.getIsotopicCluster().remove(1);
         }
-        //cluster.getIsotopicCluster().get(0).setMz(cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge() ); - (cluster.getCharge() - 1) * H_MASS);
+
+        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
         return cluster;
     }
 
@@ -126,6 +182,7 @@ public class Deisotope {
             cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
         }
 
+        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
         return cluster;
     }
 
@@ -148,6 +205,7 @@ public class Deisotope {
             cluster.getIsotopicCluster().remove(1);
         }
 
+        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
         return cluster;
     }
 
@@ -155,7 +213,6 @@ public class Deisotope {
         double intensitysum = 0;
         for (Peak p : cluster.getIsotopicCluster()) {
             intensitysum += p.getIntensity();
-
         }
 
         return intensitysum;
@@ -230,7 +287,7 @@ public class Deisotope {
 
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false, "first")));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false, "mean")));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {
