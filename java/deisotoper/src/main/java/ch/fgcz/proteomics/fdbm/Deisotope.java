@@ -59,20 +59,26 @@ public class Deisotope {
 
                 List<Double> clustermz = new ArrayList<>();
                 List<Double> clusteri = new ArrayList<>();
+                List<Double> clusteriso = new ArrayList<>();
+                List<Integer> clustercharge = new ArrayList<>();
 
                 for (IsotopicCluster cluster : bp.getVertexList()) {
                     if (cluster.getIsotopicCluster() != null) {
-                        chargelist.add(cluster.getCharge());
-                        isotopelist.add((double) cluster.getCharge());
+                        int position = 1;
                         for (Peak p : cluster.getIsotopicCluster()) {
                             clustermz.add(p.getMz());
                             clusteri.add(p.getIntensity());
+                            clusteriso.add((double) position);
+                            clustercharge.add(cluster.getCharge());
+                            position++;
                         }
                     }
                 }
 
                 mzlist.addAll(clustermz);
                 intensitylist.addAll(clusteri);
+                isotopelist.addAll(clusteriso);
+                chargelist.addAll(clustercharge);
             }
             msid++;
             output.addMS(MS.getTyp(), MS.getSearchEngine(), mzlist, intensitylist, MS.getPeptideMass(), MS.getRt(), MS.getChargeState(), MS.getId(), chargelist, isotopelist);
