@@ -46,6 +46,434 @@ public class IsotopicClusterGraph {
         this.isotopicclustergraph = isotopicclustergraph;
     }
 
+    /**
+     * @param MSM
+     * @return table of peaks from MSM
+     */
+    public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement MSM) {
+        StringBuilder table = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+        table.append("IsotopicSet ID,IsotopicCluster ID,mZ,Intensity,Charge").append(linesep);
+        for (MassSpectrum MS : MSM.getMSlist()) {
+            table.append(createIsotopicClusterGraphFromMS(MS));
+        }
+
+        return table.toString();
+    }
+
+    /**
+     * @param MS
+     * @return table of peaks from MS
+     */
+    public static String createIsotopicClusterGraphFromMS(MassSpectrum MS) {
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
+
+        StringBuilder table = new StringBuilder();
+
+        for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
+            IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
+
+            scoreIsotopicClusterGraph(ICG, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
+
+            IsotopicCluster start = null;
+            for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
+                if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
+                    start = e;
+                }
+            }
+
+            IsotopicCluster end = null;
+            for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
+                if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
+                    end = e;
+                }
+            }
+
+            GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
+
+            // drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), 0);
+            // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
+            // drawWindowIsotopicClusterGraph(ICG.getIsotopicclustergraph());
+            // try {
+            // drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID());
+            // } catch (FileNotFoundException e1) {
+            // e1.printStackTrace();
+            // }
+
+            table.append(tableBestPath(bp, IS.getSetID()));
+        }
+
+        return table.toString();
+    }
+
+    /**
+     * @param source
+     * @param sink
+     * @param ICG
+     * @return best path of the IsotopicClusterGraph
+     */
+    public static GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
+        KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(ICG.getIsotopicclustergraph(), source, 1000000);
+
+        List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
+
+        return p.get(p.size() - 1);
+    }
+
+    /**
+     * Creates a window and draws the graph in it.
+     * 
+     * @param g
+     */
+    public static void drawWindowIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
+        JFrame frame = new JFrame("Isotopic Cluster Graph");
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
+
+        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+        layout.execute(graphAdapter.getDefaultParent());
+
+        for (Connection edge : g.edgeSet()) {
+            Object[] edgeobj = { (Object) graphAdapter.getEdgeToCellMap().get(g.getEdge(g.getEdgeSource(edge), g.getEdgeTarget(edge))) };
+            Object[] vertexobj = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeSource(edge)) };
+            Object[] vertexobj2 = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeTarget(edge)) };
+
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj2);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj2);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj2);
+
+            if (edge.getColor() == "red") {
+                graphAdapter.setCellStyles("strokeColor", "#FF0000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#FE2E64", edgeobj);
+            } else if (edge.getColor() == "black") {
+                graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
+            }
+        }
+        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
+        frame.add(graphComponent);
+        new mxCellTracker(graphComponent, Color.GRAY);
+
+        frame.pack();
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+    }
+
+    /**
+     * Draws the graph and saves it as a png-file.
+     * 
+     * @param g
+     * @param setid
+     * @param msid
+     * @throws FileNotFoundException
+     */
+    public static void drawPNGIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid, int msid) throws FileNotFoundException {
+        JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
+
+        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+        layout.execute(graphAdapter.getDefaultParent());
+
+        for (Connection edge : g.edgeSet()) {
+            Object[] edgeobj = { (Object) graphAdapter.getEdgeToCellMap().get(g.getEdge(g.getEdgeSource(edge), g.getEdgeTarget(edge))) };
+            Object[] vertexobj = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeSource(edge)) };
+            Object[] vertexobj2 = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeTarget(edge)) };
+
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj);
+            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj2);
+            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj2);
+            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj2);
+
+            if (edge.getColor() == "red") {
+                graphAdapter.setCellStyles("strokeColor", "#FF0000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#FE2E64", edgeobj);
+            } else if (edge.getColor() == "black") {
+                graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
+                graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
+            }
+        }
+        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
+
+        RenderedImage image = mxCellRenderer.createBufferedImage(graphComponent.getGraph(), null, 1, Color.WHITE, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
+        mxPngEncodeParam param = mxPngEncodeParam.getDefaultEncodeParam(image);
+
+        FileOutputStream outputStream = null;
+        try {
+            new File("IsotopicClusterGraphs_PNG").mkdirs();
+            outputStream = new FileOutputStream(new File("IsotopicClusterGraphs_PNG/MS_" + msid + "_IS_" + setid + ".png"));
+
+            mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
+
+            if (image != null) {
+                encoder.encode(image);
+            }
+
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Draws the graph and saves it as a txt-file. (DOT LANGUAGE)
+     * 
+     * @param g
+     * @param setid
+     * @param msid
+     */
+    public static void drawDOTIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid, int msid) {
+        StringBuilder sb = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+
+        sb.append("digraph {").append(linesep);
+        sb.append("rankdir=LR;").append(linesep);
+
+        for (Connection e : g.edgeSet()) {
+            if (g.getEdgeSource(e).getIsotopicCluster() != null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
+                sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+            } else if (g.getEdgeSource(e).getIsotopicCluster() == null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
+                sb.append(g.getEdgeSource(e).getStatus());
+                sb.append(" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+            } else if (g.getEdgeTarget(e).getIsotopicCluster() == null && g.getEdgeSource(e).getIsotopicCluster() != null) {
+                sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\" -> " + g.getEdgeTarget(e).getStatus())
+                        .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+            }
+        }
+
+        sb.append("}");
+
+        new File("IsotopicClusterGraphs_DOT").mkdirs();
+        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs_DOT/MS_" + msid + "_IS_" + setid + ".txt"))) {
+            out.print(sb.toString());
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    /**
+     * @param g
+     * @param setID
+     * @return table of peaks of the best path.
+     */
+    private static String tableBestPath(GraphPath<IsotopicCluster, Connection> g, int setID) {
+        StringBuilder table = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+
+        for (IsotopicCluster cluster : g.getVertexList()) {
+            if (cluster.getIsotopicCluster() != null) {
+                for (Peak p : cluster.getIsotopicCluster()) {
+                    table.append(setID + ",").append(cluster.getClusterID() + ",").append(p.getMz() + ",").append(p.getIntensity() + ",").append(cluster.getCharge()).append(linesep);
+                }
+            }
+        }
+        return table.toString();
+    }
+
+    /**
+     * @param IS
+     */
+    public IsotopicClusterGraph(IsotopicSet IS) {
+        this.min = Double.MAX_VALUE;
+        IS.getIsotopicSet().add(new IsotopicCluster("start"));
+        for (IsotopicCluster n : IS.getIsotopicSet()) {
+            for (IsotopicCluster m : IS.getIsotopicSet()) {
+                String color = calculateConnection(n, m);
+
+                // Start
+                if (color != null && n.getIsotopicCluster() == null && m.getIsotopicCluster() != null) {
+                    connectClusters(n, m, this.isotopicclustergraph, color);
+                }
+
+                // Other
+                if (color != null && n.getIsotopicCluster() != null && m.getIsotopicCluster() != null) {
+                    connectClusters(n, m, this.isotopicclustergraph, color);
+                }
+            }
+        }
+
+        // End
+        List<IsotopicCluster> list = new ArrayList<>();
+        for (IsotopicCluster e : this.isotopicclustergraph.vertexSet()) {
+            int edgecount = 0;
+            for (IsotopicCluster f : this.isotopicclustergraph.vertexSet()) {
+                edgecount += this.isotopicclustergraph.getAllEdges(e, f).size();
+            }
+
+            if (edgecount == 0) {
+                list.add(e);
+            }
+        }
+
+        for (IsotopicCluster e : list) {
+            connectClusters(e, new IsotopicCluster("end"), this.isotopicclustergraph, "black");
+        }
+    }
+
+    /**
+     * @param ICG
+     * @param pepmass
+     * @param chargestate
+     * @param error
+     * @param peaklist
+     */
+    public static void scoreIsotopicClusterGraph(IsotopicClusterGraph ICG, double pepmass, int chargestate, double error, Peaklist peaklist) {
+        for (Connection e : ICG.getIsotopicclustergraph().edgeSet()) {
+            double sumscore = 0;
+            if (ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster() != null) {
+                for (Peak x : ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
+                    for (Peak y : peaklist.getPeaklist()) {
+                        sumscore += Score.score(x, y, error, pepmass, chargestate, ICG.getIsotopicclustergraph().getEdgeTarget(e), e, ICG);
+                    }
+                }
+                e.setScore(sumscore);
+                ICG.getIsotopicclustergraph().setEdgeWeight(e, sumscore);
+            }
+        }
+    }
+
+    /**
+     * @param clustergraph
+     * @param IS
+     * @param bestpath
+     */
+    private static void printIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS, GraphPath<IsotopicCluster, Connection> bestpath) {
+        System.out.println("IsotopicClusters: ");
+        for (IsotopicCluster cluster : IS.getIsotopicSet()) {
+            if (cluster.getIsotopicCluster() != null) {
+                System.out.print("[ ");
+                for (Peak p : cluster.getIsotopicCluster()) {
+                    System.out.print(p.getMz() + " ");
+                }
+                System.out.print("] ");
+            }
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println("IsotopicClusterGraph:");
+        for (Connection e : clustergraph.edgeSet()) {
+            if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
+                for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
+                    System.out.print(x.getMz() + " ");
+                }
+                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
+                for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
+                    System.out.print(x.getMz() + " ");
+                }
+                System.out.println();
+            } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
+                System.out.print(clustergraph.getEdgeSource(e).getStatus());
+                System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
+                for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
+                    System.out.print(x.getMz() + " ");
+                }
+                System.out.println();
+            } else if (clustergraph.getEdgeTarget(e).getIsotopicCluster() == null && clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
+                for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
+                    System.out.print(x.getMz() + " ");
+                }
+                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
+                System.out.println(clustergraph.getEdgeTarget(e).getStatus());
+            }
+        }
+        System.out.println();
+        System.out.println("Best Path (Score: " + bestpath.getWeight() + "):");
+        System.out.print("start -> ");
+        for (Connection e : bestpath.getEdgeList()) {
+            if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
+                System.out.print(clustergraph.getEdgeSource(e).getClusterID() + " -> ");
+            }
+        }
+        System.out.println("end");
+
+        System.out.println();
+    }
+
+    /**
+     * @param cluster1
+     * @param cluster2
+     * @param graph
+     * @param color
+     * @return
+     */
+    private static DefaultDirectedWeightedGraph<IsotopicCluster, Connection> connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2,
+            DefaultDirectedWeightedGraph<IsotopicCluster, Connection> graph, String color) {
+        graph.addVertex(cluster1);
+        graph.addVertex(cluster2);
+
+        Connection connection = new Connection(color);
+        graph.addEdge(cluster1, cluster2, connection);
+
+        return graph;
+    }
+
+    /**
+     * Returns the color of the connection between cluster1 and cluster2. If the clusters are not connected it returns null;
+     * 
+     * @param cluster1
+     * @param cluster2
+     * @return color
+     */
+    private String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
+        if (cluster1.getIsotopicCluster() != null) {
+            if (cluster1.getIsotopicCluster().get(0).getMz() < this.min) {
+                this.min = cluster1.getIsotopicCluster().get(0).getMz();
+            }
+        }
+
+        if (cluster1.getStatus() == "start" && cluster2.getIsotopicCluster() != null && cluster1.getIsotopicCluster() == null && cluster2.getIsotopicCluster().get(0).getMz() == this.min) {
+            return "black";
+        }
+
+        if (cluster1.getIsotopicCluster() == null || cluster2.getIsotopicCluster() == null) {
+            return null;
+        }
+
+        if (cluster1.getIsotopicCluster().get(cluster1.getIsotopicCluster().size() - 1).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
+            return "black";
+        }
+
+        if (cluster1.getIsotopicCluster().get(0).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
+            if (cluster1.getIsotopicCluster().size() == 2) {
+                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+                    return "red";
+                }
+            } else if (cluster1.getIsotopicCluster().size() == 3) {
+                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
+                        || cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+                    return "red";
+                }
+            } else if (cluster1.getIsotopicCluster().size() == 3) {
+                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
+                        && cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(1).getMz()) {
+                    return "red";
+                }
+            }
+        }
+
+        return null;
+    }
+
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
 
@@ -110,398 +538,5 @@ public class IsotopicClusterGraph {
         MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
         System.out.println(createIsotopicClusterGraphFromMSM(MSM));
-    }
-
-    public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement MSM) {
-        StringBuilder table = new StringBuilder();
-        String linesep = System.getProperty("line.separator");
-        table.append("IsotopicSet ID,IsotopicCluster ID,mZ,Intensity,Charge").append(linesep);
-        for (MassSpectrum MS : MSM.getMSlist()) {
-            table.append(createIsotopicClusterGraphFromMS(MS));
-        }
-
-        return table.toString();
-    }
-
-    public static String createIsotopicClusterGraphFromMS(MassSpectrum MS) {
-        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
-
-        StringBuilder table = new StringBuilder();
-
-        for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
-            IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
-
-            scoreIsotopicClusterGraph(ICG, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
-
-            IsotopicCluster start = null;
-            for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
-                if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
-                    start = e;
-                }
-            }
-
-            IsotopicCluster end = null;
-            for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
-                if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
-                    end = e;
-                }
-            }
-
-            GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
-
-            // drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), 0);
-            // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
-            // drawWindowIsotopicClusterGraph(ICG.getIsotopicclustergraph());
-            // try {
-            // drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID());
-            // } catch (FileNotFoundException e1) {
-            // e1.printStackTrace();
-            // }
-
-            table.append(tableBestPath(bp, IS.getSetID()));
-        }
-
-        return table.toString();
-    }
-
-    public static GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink, IsotopicClusterGraph ICG) {
-        KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(ICG.getIsotopicclustergraph(), source, 1000000);
-
-        List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
-
-        return p.get(p.size() - 1);
-    }
-
-    public static void drawWindowIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g) {
-        JFrame frame = new JFrame("Isotopic Cluster Graph");
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
-
-        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
-        layout.execute(graphAdapter.getDefaultParent());
-
-        for (Connection edge : g.edgeSet()) {
-            Object[] edgeobj = { (Object) graphAdapter.getEdgeToCellMap().get(g.getEdge(g.getEdgeSource(edge), g.getEdgeTarget(edge))) };
-            Object[] vertexobj = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeSource(edge)) };
-            Object[] vertexobj2 = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeTarget(edge)) };
-
-            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj);
-            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj);
-            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj);
-            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj2);
-            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj2);
-            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj2);
-
-            if (edge.getColor() == "red") {
-                graphAdapter.setCellStyles("strokeColor", "#FF0000", edgeobj);
-                graphAdapter.setCellStyles("fontColor", "#FE2E64", edgeobj);
-            } else if (edge.getColor() == "black") {
-                graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
-                graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
-            }
-        }
-        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
-        frame.add(graphComponent);
-        new mxCellTracker(graphComponent, Color.GRAY);
-
-        frame.pack();
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
-    }
-
-    public static void drawPNGIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid, int msid) throws FileNotFoundException {
-        JGraphXAdapter<IsotopicCluster, Connection> graphAdapter = new JGraphXAdapter<IsotopicCluster, Connection>(g);
-
-        mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
-        layout.execute(graphAdapter.getDefaultParent());
-
-        for (Connection edge : g.edgeSet()) {
-            Object[] edgeobj = { (Object) graphAdapter.getEdgeToCellMap().get(g.getEdge(g.getEdgeSource(edge), g.getEdgeTarget(edge))) };
-            Object[] vertexobj = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeSource(edge)) };
-            Object[] vertexobj2 = { (Object) graphAdapter.getVertexToCellMap().get(g.getEdgeTarget(edge)) };
-
-            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj);
-            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj);
-            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj);
-            graphAdapter.setCellStyles("fillColor", "#EEEEEE", vertexobj2);
-            graphAdapter.setCellStyles("strokeColor", "#424242", vertexobj2);
-            graphAdapter.setCellStyles("fontColor", "#424242", vertexobj2);
-
-            if (edge.getColor() == "red") {
-                graphAdapter.setCellStyles("strokeColor", "#FF0000", edgeobj);
-                graphAdapter.setCellStyles("fontColor", "#FE2E64", edgeobj);
-            } else if (edge.getColor() == "black") {
-                graphAdapter.setCellStyles("strokeColor", "#000000", edgeobj);
-                graphAdapter.setCellStyles("fontColor", "#6E6E6E", edgeobj);
-            }
-        }
-        mxGraphComponent graphComponent = new mxGraphComponent(graphAdapter);
-
-        RenderedImage image = mxCellRenderer.createBufferedImage(graphComponent.getGraph(), null, 1, Color.WHITE, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
-        mxPngEncodeParam param = mxPngEncodeParam.getDefaultEncodeParam(image);
-
-        FileOutputStream outputStream = null;
-        try {
-            new File("IsotopicClusterGraphs_PNG").mkdirs();
-            outputStream = new FileOutputStream(new File("IsotopicClusterGraphs_PNG/MS_" + msid + "_IS_" + setid + ".png"));
-
-            mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
-
-            if (image != null) {
-                encoder.encode(image);
-            }
-
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void drawDOTIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid, int msid) {
-        StringBuilder sb = new StringBuilder();
-        String linesep = System.getProperty("line.separator");
-
-        sb.append("digraph {").append(linesep);
-        sb.append("rankdir=LR;").append(linesep);
-
-        for (Connection e : g.edgeSet()) {
-            if (g.getEdgeSource(e).getIsotopicCluster() != null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
-                sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
-                for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
-                }
-                sb.append("]\" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
-                for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
-                }
-                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
-            } else if (g.getEdgeSource(e).getIsotopicCluster() == null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
-                sb.append(g.getEdgeSource(e).getStatus());
-                sb.append(" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
-                for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
-                }
-                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
-            } else if (g.getEdgeTarget(e).getIsotopicCluster() == null && g.getEdgeSource(e).getIsotopicCluster() != null) {
-                sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
-                for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
-                }
-                sb.append("]\" -> " + g.getEdgeTarget(e).getStatus())
-                        .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
-            }
-        }
-
-        sb.append("}");
-
-        new File("IsotopicClusterGraphs_DOT").mkdirs();
-        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs_DOT/MS_" + msid + "_IS_" + setid + ".txt"))) {
-            out.print(sb.toString());
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    private static String tableBestPath(GraphPath<IsotopicCluster, Connection> g, int setID) {
-        StringBuilder table = new StringBuilder();
-        String linesep = System.getProperty("line.separator");
-
-        for (IsotopicCluster cluster : g.getVertexList()) {
-            if (cluster.getIsotopicCluster() != null) {
-                for (Peak p : cluster.getIsotopicCluster()) {
-                    table.append(setID + ",").append(cluster.getClusterID() + ",").append(p.getMz() + ",").append(p.getIntensity() + ",").append(cluster.getCharge()).append(linesep);
-                }
-            }
-        }
-        return table.toString();
-    }
-
-    public IsotopicClusterGraph(IsotopicSet IS) {
-        this.min = Double.MAX_VALUE;
-        IS.getIsotopicSet().add(new IsotopicCluster("start"));
-        for (IsotopicCluster n : IS.getIsotopicSet()) {
-            for (IsotopicCluster m : IS.getIsotopicSet()) {
-                String color = calculateConnection(n, m);
-
-                // Start
-                if (color != null && n.getIsotopicCluster() == null && m.getIsotopicCluster() != null) {
-                    connectClusters(n, m, this.isotopicclustergraph, color);
-                }
-
-                // Other
-                if (color != null && n.getIsotopicCluster() != null && m.getIsotopicCluster() != null) {
-                    connectClusters(n, m, this.isotopicclustergraph, color);
-                }
-            }
-        }
-
-        // End
-        List<IsotopicCluster> list = new ArrayList<>();
-        for (IsotopicCluster e : this.isotopicclustergraph.vertexSet()) {
-            int edgecount = 0;
-            for (IsotopicCluster f : this.isotopicclustergraph.vertexSet()) {
-                edgecount += this.isotopicclustergraph.getAllEdges(e, f).size();
-            }
-
-            if (edgecount == 0) {
-                list.add(e);
-            }
-        }
-
-        for (IsotopicCluster e : list) {
-            connectClusters(e, new IsotopicCluster("end"), this.isotopicclustergraph, "black");
-        }
-    }
-
-    public static void scoreIsotopicClusterGraph(IsotopicClusterGraph ICG, double pepmass, int chargestate, double error, Peaklist peaklist) {
-        for (Connection e : ICG.getIsotopicclustergraph().edgeSet()) {
-            double sumscore = 0;
-            if (ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster() != null) {
-                for (Peak x : ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
-                    for (Peak y : peaklist.getPeaklist()) {
-                        sumscore += Score.score(x, y, error, pepmass, chargestate, ICG.getIsotopicclustergraph().getEdgeTarget(e), e, ICG);
-                    }
-                }
-                e.setScore(sumscore);
-                ICG.getIsotopicclustergraph().setEdgeWeight(e, sumscore);
-            }
-        }
-    }
-
-    private static void printIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> clustergraph, IsotopicSet IS, GraphPath<IsotopicCluster, Connection> bestpath) {
-        System.out.println("IsotopicClusters: ");
-        for (IsotopicCluster cluster : IS.getIsotopicSet()) {
-            if (cluster.getIsotopicCluster() != null) {
-                System.out.print("[ ");
-                for (Peak p : cluster.getIsotopicCluster()) {
-                    System.out.print(p.getMz() + " ");
-                }
-                System.out.print("] ");
-            }
-        }
-        System.out.println();
-        System.out.println();
-        System.out.println("IsotopicClusterGraph:");
-        for (Connection e : clustergraph.edgeSet()) {
-            if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-                for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
-                for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.println();
-            } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-                System.out.print(clustergraph.getEdgeSource(e).getStatus());
-                System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
-                for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.println();
-            } else if (clustergraph.getEdgeTarget(e).getIsotopicCluster() == null && clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
-                for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
-                    System.out.print(x.getMz() + " ");
-                }
-                System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
-                System.out.println(clustergraph.getEdgeTarget(e).getStatus());
-            }
-        }
-        System.out.println();
-        System.out.println("Best Path (Score: " + bestpath.getWeight() + "):");
-        System.out.print("start -> ");
-        for (Connection e : bestpath.getEdgeList()) {
-            if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
-                System.out.print(clustergraph.getEdgeSource(e).getClusterID() + " -> ");
-            }
-        }
-        System.out.println("end");
-
-        // for (Connection e : bestpath.getEdgeList()) {
-        // if (clustergraph.getEdgeSource(e).getIsotopicCluster() != null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-        // for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
-        // System.out.print(x.getMz() + " ");
-        // }
-        // System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
-        // for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
-        // System.out.print(x.getMz() + " ");
-        // }
-        // System.out.println();
-        // } else if (clustergraph.getEdgeSource(e).getIsotopicCluster() == null && clustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-        // System.out.print(clustergraph.getEdgeSource(e).getStatus());
-        // System.out.print(" -- " + e.getColor() + " - " + e.getScore() + " -> ");
-        // for (Peak x : clustergraph.getEdgeTarget(e).getIsotopicCluster()) {
-        // System.out.print(x.getMz() + " ");
-        // }
-        // System.out.println();
-        // } else if (clustergraph.getEdgeTarget(e).getIsotopicCluster() == null && clustergraph.getEdgeSource(e).getIsotopicCluster() != null) {
-        // for (Peak x : clustergraph.getEdgeSource(e).getIsotopicCluster()) {
-        // System.out.print(x.getMz() + " ");
-        // }
-        // System.out.print("-- " + e.getColor() + " - " + e.getScore() + " -> ");
-        // System.out.println(clustergraph.getEdgeTarget(e).getStatus());
-        // }
-        // }
-
-        System.out.println();
-    }
-
-    private static DefaultDirectedWeightedGraph<IsotopicCluster, Connection> connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2,
-            DefaultDirectedWeightedGraph<IsotopicCluster, Connection> graph, String color) {
-        graph.addVertex(cluster1);
-        graph.addVertex(cluster2);
-
-        Connection connection = new Connection(color);
-        graph.addEdge(cluster1, cluster2, connection);
-
-        return graph;
-    }
-
-    /**
-     * Returns the color of the connection between cluster1 and cluster2. If the clusters are not connected it returns null;
-     * 
-     * @param cluster1
-     * @param cluster2
-     * @return color
-     */
-    private String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
-        if (cluster1.getIsotopicCluster() != null) {
-            if (cluster1.getIsotopicCluster().get(0).getMz() < this.min) {
-                this.min = cluster1.getIsotopicCluster().get(0).getMz();
-            }
-        }
-
-        if (cluster1.getStatus() == "start" && cluster2.getIsotopicCluster() != null && cluster1.getIsotopicCluster() == null && cluster2.getIsotopicCluster().get(0).getMz() == this.min) {
-            return "black";
-        }
-
-        if (cluster1.getIsotopicCluster() == null || cluster2.getIsotopicCluster() == null) {
-            return null;
-        }
-
-        if (cluster1.getIsotopicCluster().get(cluster1.getIsotopicCluster().size() - 1).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
-            return "black";
-        }
-
-        if (cluster1.getIsotopicCluster().get(0).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
-            if (cluster1.getIsotopicCluster().size() == 2) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
-                    return "red";
-                }
-            } else if (cluster1.getIsotopicCluster().size() == 3) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
-                        || cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
-                    return "red";
-                }
-            } else if (cluster1.getIsotopicCluster().size() == 3) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
-                        && cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(1).getMz()) {
-                    return "red";
-                }
-            }
-        }
-
-        return null;
     }
 }
