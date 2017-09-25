@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsotopicCluster {
+    private final static double H_MASS = 1.008;
     private List<Peak> isotopiccluster = new ArrayList<>();
     private int charge;
     private String status;
@@ -61,6 +62,68 @@ public class IsotopicCluster {
         this.isotopiccluster = null;
         this.charge = 0;
         this.status = status;
+    }
+
+    public static IsotopicCluster aggregateFirst(IsotopicCluster cluster) {
+        double intensitysum = sumIntensity(cluster);
+
+        cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        if (cluster.getIsotopicCluster().size() == 2) {
+            cluster.getIsotopicCluster().remove(1);
+        } else if (cluster.getIsotopicCluster().size() == 3) {
+            cluster.getIsotopicCluster().remove(2);
+            cluster.getIsotopicCluster().remove(1);
+        }
+
+        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
+        return cluster;
+    }
+
+    public static IsotopicCluster aggregateLast(IsotopicCluster cluster) {
+        double intensitysum = sumIntensity(cluster);
+
+        cluster.getIsotopicCluster().remove(0);
+        if (cluster.getIsotopicCluster().size() == 1) {
+            cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        } else if (cluster.getIsotopicCluster().size() == 2) {
+            cluster.getIsotopicCluster().remove(0);
+            cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        }
+
+        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
+        return cluster;
+    }
+
+    public static IsotopicCluster aggregateMean(IsotopicCluster cluster) {
+        double intensitysum = sumIntensity(cluster);
+
+        double mzmean = 0;
+        for (Peak p : cluster.getIsotopicCluster()) {
+            mzmean += p.getMz();
+        }
+
+        mzmean = mzmean / cluster.getIsotopicCluster().size();
+
+        cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
+        cluster.getIsotopicCluster().get(0).setMz(mzmean);
+        if (cluster.getIsotopicCluster().size() == 2) {
+            cluster.getIsotopicCluster().remove(1);
+        } else if (cluster.getIsotopicCluster().size() == 3) {
+            cluster.getIsotopicCluster().remove(2);
+            cluster.getIsotopicCluster().remove(1);
+        }
+
+        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
+        return cluster;
+    }
+
+    private static double sumIntensity(IsotopicCluster cluster) {
+        double intensitysum = 0;
+        for (Peak p : cluster.getIsotopicCluster()) {
+            intensitysum += p.getIntensity();
+        }
+
+        return intensitysum;
     }
 
     @Override

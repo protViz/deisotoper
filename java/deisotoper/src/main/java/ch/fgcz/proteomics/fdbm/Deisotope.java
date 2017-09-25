@@ -19,8 +19,6 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 
 public class Deisotope {
-    private final static double H_MASS = 1.008;
-
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
@@ -76,11 +74,11 @@ public class Deisotope {
                         }
 
                         if (modus.contains("first")) {
-                            cluster = aggregateFirst(cluster);
+                            cluster = IsotopicCluster.aggregateFirst(cluster);
                         } else if (modus.contains("last")) {
-                            cluster = aggregateLast(cluster);
+                            cluster = IsotopicCluster.aggregateLast(cluster);
                         } else if (modus.contains("mean")) {
-                            cluster = aggregateMean(cluster);
+                            cluster = IsotopicCluster.aggregateMean(cluster);
                         } else if (modus.contains("none")) {
                         } else {
                             throw new IllegalArgumentException("Modus not found (" + modus + ")");
@@ -148,68 +146,6 @@ public class Deisotope {
         for (Map.Entry<Integer, Integer> e : swapMap.entrySet())
             for (List<?> list : lists)
                 Collections.swap(list, e.getKey(), e.getValue());
-    }
-
-    private static IsotopicCluster aggregateFirst(IsotopicCluster cluster) {
-        double intensitysum = sumIntensity(cluster);
-
-        cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
-        if (cluster.getIsotopicCluster().size() == 2) {
-            cluster.getIsotopicCluster().remove(1);
-        } else if (cluster.getIsotopicCluster().size() == 3) {
-            cluster.getIsotopicCluster().remove(2);
-            cluster.getIsotopicCluster().remove(1);
-        }
-
-        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
-        return cluster;
-    }
-
-    private static IsotopicCluster aggregateLast(IsotopicCluster cluster) {
-        double intensitysum = sumIntensity(cluster);
-
-        cluster.getIsotopicCluster().remove(0);
-        if (cluster.getIsotopicCluster().size() == 1) {
-            cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
-        } else if (cluster.getIsotopicCluster().size() == 2) {
-            cluster.getIsotopicCluster().remove(0);
-            cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
-        }
-
-        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
-        return cluster;
-    }
-
-    private static IsotopicCluster aggregateMean(IsotopicCluster cluster) {
-        double intensitysum = sumIntensity(cluster);
-
-        double mzmean = 0;
-        for (Peak p : cluster.getIsotopicCluster()) {
-            mzmean += p.getMz();
-        }
-
-        mzmean = mzmean / cluster.getIsotopicCluster().size();
-
-        cluster.getIsotopicCluster().get(0).setIntensity(intensitysum);
-        cluster.getIsotopicCluster().get(0).setMz(mzmean);
-        if (cluster.getIsotopicCluster().size() == 2) {
-            cluster.getIsotopicCluster().remove(1);
-        } else if (cluster.getIsotopicCluster().size() == 3) {
-            cluster.getIsotopicCluster().remove(2);
-            cluster.getIsotopicCluster().remove(1);
-        }
-
-        cluster.getIsotopicCluster().get(0).setMz((cluster.getIsotopicCluster().get(0).getMz() * cluster.getCharge()) - (cluster.getCharge() - 1) * H_MASS);
-        return cluster;
-    }
-
-    private static double sumIntensity(IsotopicCluster cluster) {
-        double intensitysum = 0;
-        for (Peak p : cluster.getIsotopicCluster()) {
-            intensitysum += p.getIntensity();
-        }
-
-        return intensitysum;
     }
 
     public static void main(String[] args) {
