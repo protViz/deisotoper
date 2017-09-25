@@ -218,13 +218,24 @@ public class Score {
         List<Peak> F5 = new ArrayList<>();
         double threshold = 0.3;
 
+        int i = 0;
         for (Peak p : ICG.getIsotopicclustergraph().getEdgeTarget(e).getIsotopicCluster()) {
-            double T_MIN = ASP_MASS / p.getMz();
+            // System.out.println("PEAK: " + p.getMz() + " MZ, " + p.getIntensity() + " INTENSITY");
+            double T_MIN = (p.getMz() / ASP_MASS) * p.getIntensity();
             // System.out.println("T_MIN: " + T_MIN);
-            double T_MEAN = AVE_UPDATED_MASS / p.getMz();
+            double T_MEAN = (p.getMz() / AVE_UPDATED_MASS) * p.getIntensity();
             // System.out.println("T_MEAN: " + T_MEAN);
-            double T_MEAN_OVERLAP = AVE_UPDATED_MASS / p.getMz();
-            double T_MAX = PHE_MASS / p.getMz();
+            double T_MEAN_OVERLAP = 0;
+            if (ICG.getIsotopicclustergraph().getEdgeSource(e).getIsotopicCluster() != null) {
+                if (i < ICG.getIsotopicclustergraph().getEdgeSource(e).getIsotopicCluster().size()) {
+                    T_MEAN_OVERLAP = (ICG.getIsotopicclustergraph().getEdgeSource(e).getIsotopicCluster().get(i).getMz() / AVE_UPDATED_MASS) * p.getIntensity();
+                } else {
+                    T_MEAN_OVERLAP = (ICG.getIsotopicclustergraph().getEdgeSource(e).getIsotopicCluster().get(ICG.getIsotopicclustergraph().getEdgeSource(e).getIsotopicCluster().size() - 1).getMz()
+                            / AVE_UPDATED_MASS) * p.getIntensity();
+                }
+            }
+            // System.out.println("T_MEAN_OVERLAP: " + T_MEAN_OVERLAP);
+            double T_MAX = (p.getMz() / PHE_MASS) * p.getIntensity();
             // System.out.println("T_MAX: " + T_MAX);
 
             if (e.getColor() == "black") {
@@ -233,15 +244,18 @@ public class Score {
                     F5.add(p);
                 }
             }
+
             if (e.getColor() == "red") {
                 // System.out.println("red: " + Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)));
                 if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
                     F5.add(p);
+                    // System.out.println("RED ADDED");
                 }
             }
+            i++;
         }
 
-        // System.out.println(F5.size());
+        // System.out.println("SCORE: " + F5.size());
         return F5.size();
     }
 }
