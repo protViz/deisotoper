@@ -263,6 +263,7 @@ public class IsotopicClusterGraph {
         String linesep = System.getProperty("line.separator");
 
         sb.append("digraph {").append(linesep);
+        sb.append("rankdir=LR;").append(linesep);
 
         for (Connection e : g.edgeSet()) {
             if (g.getEdgeSource(e).getIsotopicCluster() != null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
