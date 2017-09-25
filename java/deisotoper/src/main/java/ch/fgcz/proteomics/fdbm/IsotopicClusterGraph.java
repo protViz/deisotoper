@@ -243,7 +243,8 @@ public class IsotopicClusterGraph {
 
         FileOutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(new File("IsotopicClusterGraphs/MS_" + msid + "_IS_" + setid + ".png"));
+            new File("IsotopicClusterGraphs_PNG").mkdirs();
+            outputStream = new FileOutputStream(new File("IsotopicClusterGraphs_PNG/MS_" + msid + "_IS_" + setid + ".png"));
 
             mxPngImageEncoder encoder = new mxPngImageEncoder(outputStream, param);
 
@@ -293,8 +294,8 @@ public class IsotopicClusterGraph {
 
         sb.append("}");
 
-        new File("IsotopicClusterGraphs").mkdirs();
-        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs/MS_" + msid + "_IS_" + setid + ".txt"))) {
+        new File("IsotopicClusterGraphs_DOT").mkdirs();
+        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs_DOT/MS_" + msid + "_IS_" + setid + ".txt"))) {
             out.print(sb.toString());
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
