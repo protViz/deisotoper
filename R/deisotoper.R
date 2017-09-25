@@ -446,7 +446,7 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first") {
 #' Deisotopes a MSM. Save and first parameters are for method fdbm.
 #'
 #' @return
-#' @export jDeisotopeMSMfdbm
+#' @export jDeisotopeMSM
 #'
 #' @examples
 #'
