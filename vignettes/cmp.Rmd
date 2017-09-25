@@ -29,12 +29,16 @@ S <- lapply(input, function(u){
   S$file <- objN;
   S$status <- 'input'
   
-  Sd <- jSummaryMSM(jD <- jDeisotopeMSM(jo))
-  Sd$file <- objN;
-  Sd$status <- 'mspy'
+  Sd1 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="mspy"))
+  Sd1$file <- objN;
+  Sd1$status <- 'mspy'
+  
+  Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="fdbm"))
+  Sd2$file <- objN;
+  Sd2$status <- 'fdbm'
   
   # mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
-  rbind(S, Sd)
+  rbind(S, Sd1, Sd2)
   })
 
 
@@ -55,6 +59,7 @@ filter <- (S$Attribute == "min_peak_distance")
 histogram(~Value | file * status,  data=S[filter, ], 
           scales = list(x=list(log=TRUE)), type='count')
 ```
+
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "max_peak_distance")
