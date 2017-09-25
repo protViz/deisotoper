@@ -1,7 +1,5 @@
 package ch.fgcz.proteomics.fdbm;
 
-import java.io.FileNotFoundException;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-21
@@ -60,11 +58,7 @@ public class Deisotope {
                 GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, ICG);
 
                 if (save == true) {
-                    try {
-                        IsotopicClusterGraph.drawPNGIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), msid);
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    }
+                    IsotopicClusterGraph.drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), msid);
                 }
 
                 List<Double> clustermz = new ArrayList<>();

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,6 +149,7 @@ public class IsotopicClusterGraph {
 
             GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
 
+            // drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), 0);
             // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);
             // drawWindowIsotopicClusterGraph(ICG.getIsotopicclustergraph());
             // try {
@@ -252,6 +254,50 @@ public class IsotopicClusterGraph {
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void drawDOTIsotopicClusterGraph(DirectedGraph<IsotopicCluster, Connection> g, int setid, int msid) {
+        StringBuilder sb = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+
+        sb.append("digraph {").append(linesep);
+
+        for (Connection e : g.edgeSet()) {
+            if (g.getEdgeSource(e).getIsotopicCluster() != null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
+                sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+            } else if (g.getEdgeSource(e).getIsotopicCluster() == null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
+                sb.append(g.getEdgeSource(e).getStatus());
+                sb.append(" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+            } else if (g.getEdgeTarget(e).getIsotopicCluster() == null && g.getEdgeSource(e).getIsotopicCluster() != null) {
+                sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
+                for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
+                    sb.append(x.getMz() + " ");
+                }
+                sb.append("]\" -> " + g.getEdgeTarget(e).getStatus())
+                        .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+            }
+        }
+
+        sb.append("}");
+
+        new File("IsotopicClusterGraphs").mkdirs();
+        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs/MS_" + msid + "_IS_" + setid + ".txt"))) {
+            out.print(sb.toString());
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
     }
 
