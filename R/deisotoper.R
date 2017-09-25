@@ -442,3 +442,30 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first") {
   
   output
 }
+
+#' Deisotopes a MSM. Save and first parameters are for method fdbm.
+#'
+#' @return
+#' @export jDeisotopeMSMfdbm
+#'
+#' @examples
+#'
+#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#'
+#' joMSMdeisotoped <- jDeisotopeMSM(joMSM, method)
+#'
+#' joMSMsummary <- jSummaryMSM(joMSM)
+#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
+#'
+jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first") {
+  if(method == "fdbm") {
+    output <- jDeisotopeMSMfdbm(jobj, save, modus)
+  } else if(method == "mspy") {
+    output <- jDeconvoluteMSMmspy(jDeisotopeMSMmspy(jobj))
+  } else {
+    stop("Wrong method!")
+  }
+  
+  output
+}
