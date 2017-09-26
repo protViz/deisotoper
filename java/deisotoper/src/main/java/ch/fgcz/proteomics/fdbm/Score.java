@@ -49,7 +49,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double diff1(Peak x, Peak y) {
+    protected static double diff1(Peak x, Peak y) {
         return x.getMz() - y.getMz();
     }
 
@@ -60,7 +60,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double diff2(Peak x, Peak y) {
+    protected static double diff2(Peak x, Peak y) {
         return x.getMz() - ((y.getMz() + H_MASS) / 2);
     }
 
@@ -71,7 +71,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double diff3(Peak x, Peak y) {
+    protected static double diff3(Peak x, Peak y) {
         return x.getMz() - ((y.getMz() + (2 * H_MASS)) / 3);
     }
 
@@ -82,7 +82,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double diff4(Peak x, Peak y) {
+    protected static double diff4(Peak x, Peak y) {
         return x.getMz() - (((y.getMz() * 2) + H_MASS) / 3);
     }
 
@@ -93,7 +93,7 @@ public class Score {
      * @param y
      * @return
      */
-    private static double sum1(Peak x, Peak y) {
+    protected static double sum1(Peak x, Peak y) {
         return x.getMz() + y.getMz();
     }
 
@@ -104,7 +104,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double sum2(Peak x, Peak y) {
+    protected static double sum2(Peak x, Peak y) {
         return x.getMz() + ((y.getMz() + H_MASS) / 2);
     }
 
@@ -115,7 +115,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double sum3(Peak x, Peak y) {
+    protected static double sum3(Peak x, Peak y) {
         return x.getMz() + ((y.getMz() + (2 * H_MASS)) / 3);
     }
 
@@ -126,7 +126,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    private static double sum4(Peak x, Peak y) {
+    protected static double sum4(Peak x, Peak y) {
         return x.getMz() + (((y.getMz() * 2) + H_MASS) / 3);
     }
 
@@ -138,7 +138,7 @@ public class Score {
      * @param e Errortolerance
      * @return Cardinality of List F1
      */
-    private static int firstNonintensityFeature(Peak x, Peak y, double e) {
+    protected static int firstNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F1 = new ArrayList<>();
 
         for (Double aa : AA_MASS) {
@@ -177,7 +177,7 @@ public class Score {
      * @param ic IsotopicCluster
      * @return Cardinality of List F2
      */
-    private static int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic) {
+    protected static int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic) {
         List<Peak> F2 = new ArrayList<>();
         double M = pepmass * charge;
 
@@ -221,7 +221,7 @@ public class Score {
      * @param e Errortolerance
      * @return Cardinality of List F3
      */
-    private static int thirdNonintensityFeature(Peak x, Peak y, double e) {
+    protected static int thirdNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F3 = new ArrayList<>();
 
         if (H2O_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < H2O_MASS + e) {
@@ -274,7 +274,7 @@ public class Score {
      * @param e Errortolerance
      * @return Cardinality of List F4
      */
-    private static int fourthNonintensityFeature(Peak x, Peak y, double e) {
+    protected static int fourthNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F4 = new ArrayList<>();
 
         if (NH_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH_MASS + e) {
@@ -327,7 +327,7 @@ public class Score {
      * @param icg IsotopicClusterGraph
      * @return Cardinality of List F5
      */
-    private static int fifthIntensityFeature(Connection con, IsotopicClusterGraph icg) {
+    protected static int fifthIntensityFeature(Connection con, IsotopicClusterGraph icg) {
         List<Peak> F5 = new ArrayList<>();
         double threshold = 0.3;
 
