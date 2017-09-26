@@ -22,7 +22,6 @@ public class Deisotope {
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
-        int msid = 0;
         for (MassSpectrum MS : input.getMSlist()) {
 
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
@@ -56,7 +55,7 @@ public class Deisotope {
                 GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, ICG);
 
                 if (save == true) {
-                    IsotopicClusterGraph.drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), msid);
+                    IsotopicClusterGraph.drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), MS.getId());
                 }
 
                 List<Double> clustermz = new ArrayList<>();
@@ -114,7 +113,6 @@ public class Deisotope {
 
             keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
 
-            msid++;
             output.addMS(MS.getTyp(), MS.getSearchEngine(), mzlist, intensitylist, MS.getPeptideMass(), MS.getRt(), MS.getChargeState(), MS.getId(), chargelist, isotopelist);
         }
 
@@ -122,28 +120,28 @@ public class Deisotope {
     }
 
     public static <T extends Comparable<T>> void keySort(final List<T> key, List<?>... lists) {
-        List<Integer> indices = new ArrayList<Integer>();
+        List<Integer> indicearray = new ArrayList<Integer>();
         for (int i = 0; i < key.size(); i++)
-            indices.add(i);
+            indicearray.add(i);
 
-        Collections.sort(indices, new Comparator<Integer>() {
+        Collections.sort(indicearray, new Comparator<Integer>() {
             @Override
             public int compare(Integer i, Integer j) {
                 return key.get(i).compareTo(key.get(j));
             }
         });
 
-        Map<Integer, Integer> swapMap = new HashMap<Integer, Integer>(indices.size());
+        Map<Integer, Integer> swap = new HashMap<Integer, Integer>(indicearray.size());
 
-        for (int i = 0; i < indices.size(); i++) {
-            int k = indices.get(i);
-            while (swapMap.containsKey(k))
-                k = swapMap.get(k);
+        for (int i = 0; i < indicearray.size(); i++) {
+            int k = indicearray.get(i);
+            while (swap.containsKey(k))
+                k = swap.get(k);
 
-            swapMap.put(i, k);
+            swap.put(i, k);
         }
 
-        for (Map.Entry<Integer, Integer> e : swapMap.entrySet())
+        for (Map.Entry<Integer, Integer> e : swap.entrySet())
             for (List<?> list : lists)
                 Collections.swap(list, e.getKey(), e.getValue());
     }
