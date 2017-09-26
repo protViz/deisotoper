@@ -45,7 +45,7 @@ public class Score {
                 add(186.07931);
                 add(163.06333);
                 add(99.06841);
-                System.out.println("WARNING: File not found, unsing standart amino acid masses instead!");
+                System.err.println("WARNING: File not found, unsing standart amino acid masses instead!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
