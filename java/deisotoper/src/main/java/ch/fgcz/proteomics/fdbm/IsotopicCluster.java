@@ -19,8 +19,8 @@ public class IsotopicCluster {
         return clusterID;
     }
 
-    public void setClusterID(int clusterID) {
-        this.clusterID = clusterID;
+    public void setClusterID(int clusterid) {
+        this.clusterID = clusterid;
     }
 
     public String getStatus() {
