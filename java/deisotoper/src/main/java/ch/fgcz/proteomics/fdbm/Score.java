@@ -14,43 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Score {
-    private static List<Double> AA_MASS = new ArrayList<Double>() {
-        {
-            try (BufferedReader br = new BufferedReader(new FileReader("AminoAcidMasses.ini"))) {
-                String line = br.readLine();
-
-                while (line != null) {
-                    String[] parts = line.split("=");
-                    add(Double.parseDouble(parts[1]));
-                    line = br.readLine();
-                }
-            } catch (FileNotFoundException e) {
-                add(71.03711);
-                add(156.10111);
-                add(114.04293);
-                add(115.02694);
-                add(103.00919);
-                add(129.04259);
-                add(128.05858);
-                add(57.02146);
-                add(137.05891);
-                add(113.08406);
-                add(113.08406);
-                add(128.09496);
-                add(131.04049);
-                add(147.06841);
-                add(97.05276);
-                add(87.03203);
-                add(101.04768);
-                add(186.07931);
-                add(163.06333);
-                add(99.06841);
-                System.err.println("WARNING: File not found, unsing standart amino acid masses instead!");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };
+    private static List<Double> AA_MASS = new ArrayList<>();
     private final static double H_MASS = 1.008;
     private final static double NH3_MASS = 17.03052;
     private final static double H2O_MASS = 18.01528;
@@ -62,6 +26,44 @@ public class Score {
     // private final static List<Peak> PHE_PATTERN = Arrays.asList(new Peak(147.06842, 100), new Peak(148.07178, 10.2), new Peak(149.07513, 0.6));
     // private final static List<Peak> ASP_PATTERN = Arrays.asList(new Peak(115.02696, 100), new Peak(116.03032, 4.9), new Peak(117.0312, 0.7));
     // private final static List<Peak> AVE_UPDATED_PATTERN = Arrays.asList(new Peak(0, 0));
+
+    public static void setUpAA_MASS() {
+        Score.AA_MASS.removeAll(Score.AA_MASS);
+
+        try (BufferedReader br = new BufferedReader(new FileReader("AminoAcidMasses.ini"))) {
+            String line = br.readLine();
+
+            while (line != null) {
+                String[] parts = line.split("=");
+                Score.AA_MASS.add(Double.parseDouble(parts[1]));
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            Score.AA_MASS.add(71.03711);
+            Score.AA_MASS.add(156.10111);
+            Score.AA_MASS.add(114.04293);
+            Score.AA_MASS.add(115.02694);
+            Score.AA_MASS.add(103.00919);
+            Score.AA_MASS.add(129.04259);
+            Score.AA_MASS.add(128.05858);
+            Score.AA_MASS.add(57.02146);
+            Score.AA_MASS.add(137.05891);
+            Score.AA_MASS.add(113.08406);
+            Score.AA_MASS.add(113.08406);
+            Score.AA_MASS.add(128.09496);
+            Score.AA_MASS.add(131.04049);
+            Score.AA_MASS.add(147.06841);
+            Score.AA_MASS.add(97.05276);
+            Score.AA_MASS.add(87.03203);
+            Score.AA_MASS.add(101.04768);
+            Score.AA_MASS.add(186.07931);
+            Score.AA_MASS.add(163.06333);
+            Score.AA_MASS.add(99.06841);
+            System.err.println("WARNING: File not found, unsing standart amino acid masses instead!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * To thoroughly assess each possible isotopic cluster, those five features above are combined in a score function.
@@ -179,6 +181,8 @@ public class Score {
      */
     protected static int firstNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F1 = new ArrayList<>();
+
+        Score.setUpAA_MASS();
 
         for (Double aa : AA_MASS) {
             if (aa - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa + e) {
