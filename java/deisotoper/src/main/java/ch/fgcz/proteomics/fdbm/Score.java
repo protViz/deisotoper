@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Score {
-    private final static List<Double> AA_MASS = new ArrayList<Double>() {
+    private static List<Double> AA_MASS = new ArrayList<Double>() {
         {
             try (BufferedReader br = new BufferedReader(new FileReader("AminoAcidMasses.ini"))) {
                 String line = br.readLine();
