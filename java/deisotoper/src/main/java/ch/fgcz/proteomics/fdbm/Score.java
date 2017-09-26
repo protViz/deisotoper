@@ -1,17 +1,55 @@
 package ch.fgcz.proteomics.fdbm;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-19
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Score {
-    private final static List<Double> AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496,
-            131.04049, 147.06841, 97.05276, 87.03203, 101.04768, 186.07931, 163.06333, 99.06841);
+    private final static List<Double> AA_MASS = new ArrayList<Double>() {
+        {
+            try (BufferedReader br = new BufferedReader(new FileReader("AminoAcidMasses.ini"))) {
+                String line = br.readLine();
+
+                while (line != null) {
+                    String[] parts = line.split("=");
+                    add(Double.parseDouble(parts[1]));
+                    line = br.readLine();
+                }
+            } catch (FileNotFoundException e) {
+                add(71.03711);
+                add(156.10111);
+                add(114.04293);
+                add(115.02694);
+                add(103.00919);
+                add(129.04259);
+                add(128.05858);
+                add(57.02146);
+                add(137.05891);
+                add(113.08406);
+                add(113.08406);
+                add(128.09496);
+                add(131.04049);
+                add(147.06841);
+                add(97.05276);
+                add(87.03203);
+                add(101.04768);
+                add(186.07931);
+                add(163.06333);
+                add(99.06841);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
     private final static double H_MASS = 1.008;
     private final static double NH3_MASS = 17.03052;
     private final static double H2O_MASS = 18.01528;
