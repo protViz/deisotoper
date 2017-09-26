@@ -59,7 +59,7 @@ public class Score {
             Score.AA_MASS.add(186.07931);
             Score.AA_MASS.add(163.06333);
             Score.AA_MASS.add(99.06841);
-            System.err.println("WARNING: File not found, unsing standart amino acid masses instead!");
+            System.err.println("WARNING: File not found, using standart amino acid masses instead!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,8 +181,6 @@ public class Score {
      */
     protected static int firstNonintensityFeature(Peak x, Peak y, double e) {
         List<Peak> F1 = new ArrayList<>();
-
-        Score.setUpAA_MASS();
 
         for (Double aa : AA_MASS) {
             if (aa - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa + e) {

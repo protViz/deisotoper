@@ -22,6 +22,8 @@ public class Deisotope {
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
+        Score.setUpAA_MASS();
+
         for (MassSpectrum MS : input.getMSlist()) {
 
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);

@@ -15,6 +15,7 @@ public class ScoreTest {
 
     @Test
     public void testF1() {
+        Score.setUpAA_MASS();
         Peak x1 = new Peak(123.0, 550.42);
         Peak y1 = new Peak(125.86, 467.55);
         Peak x2 = new Peak(113.0, 6699.498);
@@ -73,7 +74,7 @@ public class ScoreTest {
         IsotopicClusterGraph icg = new IsotopicClusterGraph(
                 new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23), new Peak(124.0, 333.23), new Peak(125.0, 342.23), new Peak(125.5, 173.243)), 0.01, 0));
         Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
-        
+
         double score = Score.fifthIntensityFeature((Connection) a[0], icg);
 
         assertEquals(score, 0, 0);

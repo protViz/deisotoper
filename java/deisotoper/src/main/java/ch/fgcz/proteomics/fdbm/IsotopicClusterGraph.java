@@ -53,6 +53,7 @@ public class IsotopicClusterGraph {
     public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement msm) {
         StringBuilder table = new StringBuilder();
         String linesep = System.getProperty("line.separator");
+        Score.setUpAA_MASS();
         table.append("IsotopicSet ID,IsotopicCluster ID,mZ,Intensity,Charge").append(linesep);
         for (MassSpectrum MS : msm.getMSlist()) {
             table.append(createIsotopicClusterGraphFromMS(MS));
