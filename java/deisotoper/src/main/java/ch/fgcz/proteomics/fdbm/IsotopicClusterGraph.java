@@ -53,10 +53,10 @@ public class IsotopicClusterGraph {
     public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement msm) {
         StringBuilder table = new StringBuilder();
         String linesep = System.getProperty("line.separator");
-        Score.setUpAA_MASS();
+        Score.setUpAAMASS();
         table.append("IsotopicSet ID,IsotopicCluster ID,mZ,Intensity,Charge").append(linesep);
-        for (MassSpectrum MS : msm.getMSlist()) {
-            table.append(createIsotopicClusterGraphFromMS(MS));
+        for (MassSpectrum ms : msm.getMSlist()) {
+            table.append(createIsotopicClusterGraphFromMS(ms));
         }
 
         return table.toString();
@@ -71,8 +71,8 @@ public class IsotopicClusterGraph {
 
         StringBuilder table = new StringBuilder();
 
-        for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
-            IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
+        for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+            IsotopicClusterGraph ICG = new IsotopicClusterGraph(is);
 
             scoreIsotopicClusterGraph(ICG, ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()));
 
@@ -101,7 +101,7 @@ public class IsotopicClusterGraph {
             // e1.printStackTrace();
             // }
 
-            table.append(tableBestPath(bp, IS.getSetID()));
+            table.append(tableBestPath(bp, is.getSetID()));
         }
 
         return table.toString();
@@ -536,11 +536,11 @@ public class IsotopicClusterGraph {
         int chargestate3 = 2;
         int id3 = 1;
 
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
-        MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
-        MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
+        MassSpectrometryMeasurement msm = new MassSpectrometryMeasurement(s);
+        msm.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+        msm.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
+        msm.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
-        Deisotope.deisotopeMSM(MSM, true, "first");
+        Deisotope.deisotopeMSM(msm, true, "first");
     }
 }

@@ -22,10 +22,10 @@ public class Deisotope {
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
-        Score.setUpAA_MASS();
+        Score.setUpAAMASS();
 
-        for (MassSpectrum MS : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((MS) -> {
-            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
+        for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
+            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, 0.01);
 
             List<Integer> chargelist = new ArrayList<>();
             List<Double> isotopelist = new ArrayList<>();
@@ -34,29 +34,29 @@ public class Deisotope {
 
             List<Double> mzlist2 = new ArrayList<>();
 
-            for (IsotopicSet IS : ims.getIsotopicMassSpectrum()) {
-                IsotopicClusterGraph ICG = new IsotopicClusterGraph(IS);
+            for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+                IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-                IsotopicClusterGraph.scoreIsotopicClusterGraph(ICG, MS.getPeptideMass(), MS.getChargeState(), 0.3, new Peaklist(MS.getMz(), MS.getIntensity()));
+                IsotopicClusterGraph.scoreIsotopicClusterGraph(icg, ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()));
 
                 IsotopicCluster start = null;
-                for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
+                for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
                     if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
                         start = e;
                     }
                 }
 
                 IsotopicCluster end = null;
-                for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
+                for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
                     if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
                         end = e;
                     }
                 }
 
-                GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, ICG);
+                GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, icg);
 
                 if (save == true) {
-                    IsotopicClusterGraph.drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), MS.getId());
+                    IsotopicClusterGraph.drawDOTIsotopicClusterGraph(icg.getIsotopicclustergraph(), is.getSetID(), ms.getId());
                 }
 
                 List<Double> clustermz = new ArrayList<>();
@@ -103,10 +103,10 @@ public class Deisotope {
                 mzlist2.addAll(clustermz2);
             }
 
-            for (int i = 0; i < MS.getMz().size(); i++) {
-                if (!mzlist2.contains(MS.getMz().get(i))) {
-                    mzlist.add(MS.getMz().get(i));
-                    intensitylist.add(MS.getIntensity().get(i));
+            for (int i = 0; i < ms.getMz().size(); i++) {
+                if (!mzlist2.contains(ms.getMz().get(i))) {
+                    mzlist.add(ms.getMz().get(i));
+                    intensitylist.add(ms.getIntensity().get(i));
                     isotopelist.add(-1.0);
                     chargelist.add(-1);
                 }
@@ -114,7 +114,7 @@ public class Deisotope {
 
             keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
 
-            output.addMS(MS.getTyp(), MS.getSearchEngine(), mzlist, intensitylist, MS.getPeptideMass(), MS.getRt(), MS.getChargeState(), MS.getId(), chargelist, isotopelist);
+            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptideMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
         }
 
         return output;
@@ -206,18 +206,18 @@ public class Deisotope {
         int chargestate3 = 2;
         int id3 = 2;
 
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
-        MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-        MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
-        MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
+        MassSpectrometryMeasurement msm = new MassSpectrometryMeasurement(s);
+        msm.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+        msm.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
+        msm.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
         // Make Summary of MSM
         System.out.println("Input summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(MSM));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(msm));
 
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(MSM, false, "mean")));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(msm, false, "mean")));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {
