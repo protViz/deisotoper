@@ -8,6 +8,15 @@ package ch.fgcz.proteomics.fdbm;
 public class Peak {
     private double mz;
     private double intensity;
+    private int peakID;
+
+    public int getPeakID() {
+        return peakID;
+    }
+
+    public void setPeakID(int peakID) {
+        this.peakID = peakID;
+    }
 
     public double getMz() {
         return mz;
@@ -31,8 +40,9 @@ public class Peak {
      * @param mz
      * @param intensity
      */
-    public Peak(double mz, double intensity) {
+    public Peak(double mz, double intensity, int peakID) {
         this.mz = mz;
         this.intensity = intensity;
+        this.peakID = peakID;
     }
 }

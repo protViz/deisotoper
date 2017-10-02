@@ -233,31 +233,34 @@ public class IsotopicClusterGraph {
 
         sb.append("digraph {").append(linesep);
         sb.append("rankdir=LR;").append(linesep);
+        sb.append("node [shape=box];").append(linesep);
 
         for (Connection e : g.edgeSet()) {
             if (g.getEdgeSource(e).getIsotopicCluster() != null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
                 sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
                 for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
+                    sb.append(" (" + x.getPeakID() + ") " + Math.round(x.getMz() * 100d) / 100d + " ");
                 }
-                sb.append("]\" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
+                sb.append("] z:" + g.getEdgeSource(e).getCharge() + "\" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
                 for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
+                    sb.append(" (" + x.getPeakID() + ") " + Math.round(x.getMz() * 100d) / 100d + " ");
                 }
-                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+                sb.append("] z:" + g.getEdgeTarget(e).getCharge() + "\"")
+                        .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
             } else if (g.getEdgeSource(e).getIsotopicCluster() == null && g.getEdgeTarget(e).getIsotopicCluster() != null) {
                 sb.append(g.getEdgeSource(e).getStatus());
                 sb.append(" -> \"(" + g.getEdgeTarget(e).getClusterID() + ") [ ");
                 for (Peak x : g.getEdgeTarget(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
+                    sb.append(" (" + x.getPeakID() + ") " + Math.round(x.getMz() * 100d) / 100d + " ");
                 }
-                sb.append("]\"").append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
+                sb.append("] z:" + g.getEdgeTarget(e).getCharge() + "\"")
+                        .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
             } else if (g.getEdgeTarget(e).getIsotopicCluster() == null && g.getEdgeSource(e).getIsotopicCluster() != null) {
                 sb.append("\"(" + g.getEdgeSource(e).getClusterID() + ") [ ");
                 for (Peak x : g.getEdgeSource(e).getIsotopicCluster()) {
-                    sb.append(x.getMz() + " ");
+                    sb.append(" (" + x.getPeakID() + ") " + Math.round(x.getMz() * 100d) / 100d + " ");
                 }
-                sb.append("]\" -> " + g.getEdgeTarget(e).getStatus())
+                sb.append("] z:" + g.getEdgeSource(e).getCharge() + "\" -> " + g.getEdgeTarget(e).getStatus())
                         .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
             }
         }
@@ -265,7 +268,7 @@ public class IsotopicClusterGraph {
         sb.append("}");
 
         new File("IsotopicClusterGraphs_DOT").mkdirs();
-        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs_DOT/MS_" + msid + "_IS_" + setid + ".txt"))) {
+        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs_DOT/MS_" + msid + "_IS_" + setid + ".dot"))) {
             out.print(sb.toString());
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
@@ -538,6 +541,6 @@ public class IsotopicClusterGraph {
         MSM.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
         MSM.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
-        System.out.println(createIsotopicClusterGraphFromMSM(MSM));
+        Deisotope.deisotopeMSM(MSM, true, "first");
     }
 }

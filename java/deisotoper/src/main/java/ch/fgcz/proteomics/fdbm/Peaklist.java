@@ -30,7 +30,7 @@ public class Peaklist {
         List<Peak> plist = new ArrayList<>();
 
         for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
-            plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i)));
+            plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i), i));
         }
 
         this.peaklist = plist;
@@ -46,7 +46,7 @@ public class Peaklist {
         List<Peak> plist = new ArrayList<>();
 
         for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
-            plist.add(new Peak(mz.get(i), intensity.get(i)));
+            plist.add(new Peak(mz.get(i), intensity.get(i), i));
         }
 
         this.peaklist = plist;
