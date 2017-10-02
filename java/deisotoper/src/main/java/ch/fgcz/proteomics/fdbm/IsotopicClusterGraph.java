@@ -72,25 +72,25 @@ public class IsotopicClusterGraph {
         StringBuilder table = new StringBuilder();
 
         for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-            IsotopicClusterGraph ICG = new IsotopicClusterGraph(is);
+            IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-            scoreIsotopicClusterGraph(ICG, ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()));
+            scoreIsotopicClusterGraph(icg, ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()));
 
             IsotopicCluster start = null;
-            for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
+            for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
                 if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
                     start = e;
                 }
             }
 
             IsotopicCluster end = null;
-            for (IsotopicCluster e : ICG.getIsotopicclustergraph().vertexSet()) {
+            for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
                 if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
                     end = e;
                 }
             }
 
-            GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, ICG);
+            GraphPath<IsotopicCluster, Connection> bp = bestPath(start, end, icg);
 
             // drawDOTIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS.getSetID(), 0);
             // printIsotopicClusterGraph(ICG.getIsotopicclustergraph(), IS, bp);

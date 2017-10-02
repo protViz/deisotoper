@@ -1,18 +1,18 @@
 package ch.fgcz.proteomics.mspy;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-13
  */
+
+import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class Deisotope {
     /**
      * @param input
      * @return deisotoped input
      */
-    public static ch.fgcz.proteomics.dto.MassSpectrometryMeasurement deisotopeMSM(ch.fgcz.proteomics.dto.MassSpectrometryMeasurement input) {
+    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input) {
         return Convert.deisotopeordeconvolute(input, "deisotope");
     }
 
