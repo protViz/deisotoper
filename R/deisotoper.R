@@ -407,6 +407,8 @@ jDeconvoluteMSMmspy <- function(jobj) {
 }
 
 #' Deisotopes a MSM.
+#' 
+#' The amino acid masses file ("AminoAcidMasses.ini") must be in the home directory, otherwise it will initialize the standart amino acid masses.
 #'
 #' @return
 #' @export jDeisotopeMSMfdbm
@@ -444,6 +446,8 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first") {
 }
 
 #' Deisotopes a MSM. Save and first parameters are for method fdbm.
+#' 
+#' The amino acid masses file ("AminoAcidMasses.ini") must be in the home directory, otherwise it will initialize the standart amino acid masses.
 #'
 #' @return
 #' @export jDeisotopeMSM
