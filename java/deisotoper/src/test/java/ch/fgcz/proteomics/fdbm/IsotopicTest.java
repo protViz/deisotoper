@@ -31,12 +31,12 @@ public class IsotopicTest {
         peaklistr = new Peaklist(mzr, intensityr);
 
         // Possible Cluster for the example
-        A = Arrays.asList(new Peak(1.0, 2.0), new Peak(2.0, 1.0), new Peak(3.0, 1.0));
-        B = Arrays.asList(new Peak(1.0, 2.0), new Peak(2.0, 1.0));
-        C = Arrays.asList(new Peak(2.0, 1.0), new Peak(2.5, 1.0), new Peak(3.0, 1.0));
-        D = Arrays.asList(new Peak(2.0, 1.0), new Peak(2.5, 1.0));
-        E = Arrays.asList(new Peak(2.0, 1.0), new Peak(3.0, 1.0));
-        F = Arrays.asList(new Peak(2.5, 1.0), new Peak(3.0, 1.0));
+        A = Arrays.asList(new Peak(1.0, 2.0, 0), new Peak(2.0, 1.0, 0), new Peak(3.0, 1.0, 0));
+        B = Arrays.asList(new Peak(1.0, 2.0, 0), new Peak(2.0, 1.0, 0));
+        C = Arrays.asList(new Peak(2.0, 1.0, 0), new Peak(2.5, 1.0, 0), new Peak(3.0, 1.0, 0));
+        D = Arrays.asList(new Peak(2.0, 1.0, 0), new Peak(2.5, 1.0, 0));
+        E = Arrays.asList(new Peak(2.0, 1.0, 0), new Peak(3.0, 1.0, 0));
+        F = Arrays.asList(new Peak(2.5, 1.0, 0), new Peak(3.0, 1.0, 0));
     }
 
     @Test
