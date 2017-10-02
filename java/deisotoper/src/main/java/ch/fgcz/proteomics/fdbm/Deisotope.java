@@ -24,8 +24,7 @@ public class Deisotope {
 
         Score.setUpAA_MASS();
 
-        input.getMSlist().parallelStream().forEach((MS) -> { // for (MassSpectrum MS : input.getMSlist())
-
+        for (MassSpectrum MS : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((MS) -> {
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(MS, 0.01);
 
             List<Integer> chargelist = new ArrayList<>();
@@ -116,9 +115,10 @@ public class Deisotope {
             keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
 
             output.addMS(MS.getTyp(), MS.getSearchEngine(), mzlist, intensitylist, MS.getPeptideMass(), MS.getRt(), MS.getChargeState(), MS.getId(), chargelist, isotopelist);
-        });
+        }
 
         return output;
+
     }
 
     public static <T extends Comparable<T>> void keySort(final List<T> key, List<?>... lists) {
