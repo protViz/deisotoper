@@ -90,8 +90,13 @@ public class Summary {
                 summary.append(spectrum.getId()).append(",average_charge,").append(chargesum / i).append(linesep);
                 summary.append(spectrum.getId()).append(",average_isotope,").append(isotopesum / i).append(linesep);
                 summary.append(spectrum.getId()).append(",sum_isotope,").append(deisotopesum).append(linesep);
-                summary.append(spectrum.getId()).append(",max_charge,").append(Collections.max(spectrum.getCharge())).append(linesep);
-                summary.append(spectrum.getId()).append(",max_isotope,").append(Collections.max(spectrum.getIsotope())).append(linesep);
+                if (!spectrum.getCharge().isEmpty() && !spectrum.getIsotope().isEmpty()) {
+                    summary.append(spectrum.getId()).append(",max_charge,").append(Collections.max(spectrum.getCharge())).append(linesep);
+                    summary.append(spectrum.getId()).append(",max_isotope,").append(Collections.max(spectrum.getIsotope())).append(linesep);
+                } else {
+                    summary.append(spectrum.getId()).append(",max_charge,").append(0).append(linesep);
+                    summary.append(spectrum.getId()).append(",max_isotope,").append(0).append(linesep);
+                }
                 summary.append(spectrum.getId()).append(",nr_z1,").append(z1sum).append(linesep);
                 summary.append(spectrum.getId()).append(",nr_z2,").append(z2sum).append(linesep);
                 summary.append(spectrum.getId()).append(",nr_z3,").append(z3sum).append(linesep);
