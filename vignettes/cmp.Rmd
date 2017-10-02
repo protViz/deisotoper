@@ -33,13 +33,19 @@ S <- lapply(input, function(u){
   Sd1$file <- objN;
   Sd1$status <- 'mspy'
   
-  Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="fdbm"))
-  Sd2$file <- objN;
-  Sd2$status <- 'fdbm'
+  if(objN != "TP_HeLa_200ng_msdeconv") {
+    Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="fdbm"))
+    Sd2$file <- objN;
+    Sd2$status <- 'fdbm'
+  }
   
   # mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
-  rbind(S, Sd1, Sd2)
-  })
+  if(exists("Sd2")) {
+    rbind(S, Sd1, Sd2)
+  } else {
+    rbind(S, Sd1)
+  }
+})
 
 
 S <- do.call('rbind', S)
