@@ -50,10 +50,10 @@ public class IsotopicClusterGraph {
      * @param msm
      * @return table of peaks from MSM
      */
-    public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement msm) {
+    public static String createIsotopicClusterGraphFromMSM(MassSpectrometryMeasurement msm, String file) {
         StringBuilder table = new StringBuilder();
         String linesep = System.getProperty("line.separator");
-        Score.setUpAAMASS();
+        Score.setUpAAMASS(file);
         table.append("IsotopicSet ID,IsotopicCluster ID,mZ,Intensity,Charge").append(linesep);
         for (MassSpectrum ms : msm.getMSlist()) {
             table.append(createIsotopicClusterGraphFromMS(ms));
@@ -541,6 +541,6 @@ public class IsotopicClusterGraph {
         msm.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
         msm.addMS(typ3, searchengine3, mz3, intensity3, peptidmass3, rt3, chargestate3, id3);
 
-        Deisotope.deisotopeMSM(msm, true, "first");
+        Deisotope.deisotopeMSM(msm, true, "first", "AminoAcidMasses.ini");
     }
 }

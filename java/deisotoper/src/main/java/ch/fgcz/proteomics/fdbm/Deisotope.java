@@ -19,10 +19,10 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 
 public class Deisotope {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus) {
+    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
-        Score.setUpAAMASS();
+        Score.setUpAAMASS(file);
 
         for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, 0.01);
@@ -217,7 +217,7 @@ public class Deisotope {
 
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(msm, false, "mean")));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(msm, false, "mean", "AminoAcidMasses.ini")));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {

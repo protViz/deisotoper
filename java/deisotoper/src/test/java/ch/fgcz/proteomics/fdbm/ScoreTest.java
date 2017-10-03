@@ -15,7 +15,7 @@ public class ScoreTest {
 
     @Test
     public void testF1() {
-        Score.setUpAAMASS();
+        Score.setUpAAMASS("AminoAcidMasses.ini");
         Peak x1 = new Peak(123.0, 550.42, 0);
         Peak y1 = new Peak(125.86, 467.55, 0);
         Peak x2 = new Peak(113.0, 6699.498, 0);

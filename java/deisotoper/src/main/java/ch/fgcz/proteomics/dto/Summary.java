@@ -117,6 +117,6 @@ public class Summary {
         test.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
 
         System.out.println(makeSummary(test));
-        System.out.println(makeSummary(ch.fgcz.proteomics.fdbm.Deisotope.deisotopeMSM(test, false, "first")));
+        System.out.println(makeSummary(ch.fgcz.proteomics.fdbm.Deisotope.deisotopeMSM(test, false, "first", "AminoAcidMasses.ini")));
     }
 }

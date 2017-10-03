@@ -27,10 +27,10 @@ public class Score {
     // private final static List<Peak> ASP_PATTERN = Arrays.asList(new Peak(115.02696, 100), new Peak(116.03032, 4.9), new Peak(117.0312, 0.7));
     // private final static List<Peak> AVE_UPDATED_PATTERN = Arrays.asList(new Peak(0, 0));
 
-    public static void setUpAAMASS() {
+    public static void setUpAAMASS(String file) {
         Score.AA_MASS.removeAll(Score.AA_MASS);
 
-        try (BufferedReader br = new BufferedReader(new FileReader("AminoAcidMasses.ini"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
 
             while (line != null) {
