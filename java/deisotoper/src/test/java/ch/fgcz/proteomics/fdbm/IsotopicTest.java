@@ -9,14 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class IsotopicTest {
-    Peaklist peaklist;
-    Peaklist peaklistr;
-    List<Peak> A;
-    List<Peak> B;
-    List<Peak> C;
-    List<Peak> D;
-    List<Peak> E;
-    List<Peak> F;
+    private Peaklist peaklist;
+    private Peaklist peaklistr;
+    private List<Peak> A;
+    private List<Peak> B;
+    private List<Peak> C;
+    private List<Peak> D;
+    private List<Peak> E;
+    private List<Peak> F;
 
     @Before
     public void setUp() {
