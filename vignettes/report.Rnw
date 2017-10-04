@@ -1,6 +1,7 @@
 %\documentclass{article}
 \documentclass[a4paper, 12pt, DIV15, twoside, BCOR=10.25mm]{scrreprt}
 
+\usepackage{url}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{rotating}
@@ -29,7 +30,10 @@ bla bla
 
 
 \chapter{The Functional Genomics Center Zurich}
+The Functional Genomics Center Zurich (FGCZ) is a department of the ETH Zurich specialized in research and training. The department was founded in 2002 and is since then a expert in support for Omics research supported by the latest technologies. The FGCZ collaborates with Zurich Life Sience research community. There are about 40 staff members employed, about six member are from the subject area of computer science and about ten of them are specialized in the area of bioinformations. The task of the FGCZ is in general a research and training facility with several departments. Therefor the FGCZ is composed of six specialized areas (Genomics/Transcriptomics, Proteomics \& Protein Analysis, Metabolomics \& Biophysics, Data Integration \& IT, Reserach Collaborations and Governance \& Management).
 
+
+\url{http://www.fgcz.ch/the-center/_jcr_content/par/fullwidthimage/image.imageformat.lightbox.1160524864.png/}
 
 \begin{itemize}
 \item founded 2002
