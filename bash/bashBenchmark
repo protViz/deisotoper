@@ -1,0 +1,19 @@
+#!/bin/bash
+function benchmark() {
+	in="$1"
+	[ -e "$in" ] || exit 1
+
+	out="${in%.*}_benchmark.mgf"
+	tfile="temp.RData"
+
+	rm -f "$tfile"
+	./mgf2RData.pl -n="${tfile%.*}" > /dev/null < "$in"
+	[ -s "$tfile" ] || exit 1
+	./rBenchmark.r "$tfile" "$out" > /dev/null
+	rm -f "$tfile"
+}
+
+for i in "$@" 
+do
+	benchmark "$i"
+done

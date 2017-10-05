@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function getattributes() {
+	in="$1"
+	[ -e "$in" ] || exit 1
+	unset -v A
+	declare -A p=()
+
+	p[SearchName]=$( awk -F"=" '/^COM=/{print $2;}' "$in" )
+	p[DatFile]="$in"
+	if [[ $in =~ ^F([[:digit:]]+) ]]; then
+		p[JobID]=${BASH_REMATCH[1]}
+	fi
+
+	p[NrSpectra]=$( egrep "^q[[:digit:]]+_p1=" "$in" | wc -l )
+	p[NrSpectraOver25]=$( awk -F"," '/^q[[:digit:]]+_p1=/{if($8 > 25) print;}' "$in" | wc -l )
+
+	local line=""
+	for a in $( printf "%s\n" "${!p[@]}" | sort )
+	do
+		line+="${line:+,}${p[${a}]}"
+	done
+	echo "$line"
+}
+
+for i in "$@"
+do
+	getattributes "$i"
+done
