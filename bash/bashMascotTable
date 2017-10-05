@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#Usage: bashMascotTable X Y Z >> A.csv
+
 function getattributes() {
 	in="$1"
 	[ -e "$in" ] || exit 1
