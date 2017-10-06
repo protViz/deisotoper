@@ -21,11 +21,11 @@ function getparameter() {
 	unset -v A
 	declare -a q=()
 # index 1: filename
-	q[1]="$in"
+	q[1]="$( basename "$in" )"
 # index 0: SearchName
 	q[0]=$( awk -F"=" '/^COM=/{print $2;}' "$in" )
 
-	if [[ $in =~ ^F([[:digit:]]+) ]]; then
+	if [[ ${q[1]} =~ ^F([[:digit:]]+) ]]; then
 # index 2: JobId
 		q[2]=${BASH_REMATCH[1]}
 	fi
