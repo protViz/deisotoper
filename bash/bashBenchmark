@@ -11,7 +11,7 @@ function benchmark() {
 	[ -e "$in" ] || exit 1
 
 	out="${in%.*}_benchmark"
-	tfile="temp.RData"
+	tfile="R$RANDOM.RData"
 
 	rm -f "$tfile"
 
