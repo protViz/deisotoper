@@ -9,7 +9,7 @@ function benchmark() {
 	rm -f "$tfile"
 	./mgf2RData.pl -n="${tfile%.*}" > /dev/null < "$in"
 	[ -s "$tfile" ] || exit 1
-	./rBenchmark.r "$tfile" "$out" > /dev/null
+	./rBenchmark.R "$tfile" "$out" > /dev/null
 	rm -f "$tfile"
 }
 
