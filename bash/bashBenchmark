@@ -1,15 +1,18 @@
 #!/bin/bash
+RBENCHMARK="../R/rBenchmark.R"
+MGF2RDATA="./mgf2RData.pl"
+
 function benchmark() {
 	in="$1"
 	[ -e "$in" ] || exit 1
 
-	out="${in%.*}_benchmark.mgf"
+	out="${in%.*}_benchmark"
 	tfile="temp.RData"
 
 	rm -f "$tfile"
-	./mgf2RData.pl -n="${tfile%.*}" > /dev/null < "$in"
+	"$MGF2RDATA" -n="${tfile%.*}" > /dev/null < "$in"
 	[ -s "$tfile" ] || exit 1
-	./rBenchmark.R "$tfile" "$out" > /dev/null
+	"$RBENCHMARK" "$tfile" "$out" > /dev/null
 	rm -f "$tfile"
 }
 
