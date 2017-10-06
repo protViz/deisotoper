@@ -33,6 +33,8 @@ function getparameter() {
 # index 3: NrSpectra
 # index 4: NrSpectraOver25
         q+=( $( awk -F"," '/^q[[:digit:]]+_p1=/{c++; if($8 > 25) cx++;} END {print c; print cx;}' "$in" ) )
+# index 5: Over25inPercent
+	q+=( $( printf "%.2f" $( bc -l <<< "${q[4]}*100/${q[3]}" ) ) )
 
         csvline q
 }
