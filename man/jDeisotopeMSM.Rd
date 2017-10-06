@@ -2,19 +2,20 @@
 % Please edit documentation in R/deisotoper.R
 \name{jDeisotopeMSM}
 \alias{jDeisotopeMSM}
-\title{Deisotopes a MSM.}
+\title{Deisotopes a MSM. Save and first parameters are for method fdbm.}
 \usage{
-jDeisotopeMSM(jobj)
+jDeisotopeMSM(jobj, method = "fdbm", save = FALSE, modus = "first",
+  aamassfile = "AminoAcidMasses.ini")
 }
 \description{
-Deisotopes a MSM.
+The amino acid masses file ("AminoAcidMasses.ini") must be in the home directory, otherwise it will initialize the standart amino acid masses.
 }
 \examples{
 
 load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 
-joMSMdeisotoped <- jDeisotopeMSM(joMSM)
+joMSMdeisotoped <- jDeisotopeMSM(joMSM, method)
 
 joMSMsummary <- jSummaryMSM(joMSM)
 joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)

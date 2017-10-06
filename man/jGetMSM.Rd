@@ -12,3 +12,8 @@ jGetMSM(jobj)
 \description{
 Title
 }
+\examples{
+load(system.file("extdata",
+name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+}
