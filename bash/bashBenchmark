@@ -14,10 +14,22 @@ function benchmark() {
 	tfile="temp.RData"
 
 	rm -f "$tfile"
-	"$MGF2RDATA" -n="${tfile%.*}" > /dev/null < "$in"
-	[ -s "$tfile" ] || exit 1
-	"$RBENCHMARK" "$tfile" "$out" > /dev/null
-	rm -f "$tfile"
+
+	case "${in}" in
+		*.mgf)
+			"$MGF2RDATA" -n="${tfile%.*}" > /dev/null < "$in"
+			[ -s "$tfile" ] || exit 1
+			"$RBENCHMARK" "$tfile" "$out" > /dev/null
+			rm -f "$tfile"
+		;;
+		*.RData)
+			"$RBENCHMARK" "$in" "$out" > /dev/null
+		;;
+		*)
+			echo "Wrong data format. Must be .mgf or .RData!"
+			exit 1
+		;;
+	esac
 }
 
 for i in "$@" 
