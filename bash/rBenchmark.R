@@ -4,5 +4,9 @@ args <- commandArgs(TRUE)
 
 library(deisotoper)
 
+rm(list=ls())
+
 deisotoper:::jBenchmark(input = args[[1]], output = paste(args[[2]], "_fdbm.mgf", sep = ""), method = "fdbm")
 deisotoper:::jBenchmark(input = args[[1]], output = paste(args[[2]], "_mspy.mgf", sep = ""), method = "mspy")
+
+rm(list=ls())
