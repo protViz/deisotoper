@@ -1,4 +1,8 @@
 #!/bin/bash
+
+#Usage (normal): ./bashBenchmark X Y Z (X, Y, Z are .mgf-files)
+#Usage (parallel): find FOLDER -name "*.mgf" | parallel ./bashBenchmark (FOLDER contains .mgf-files)
+
 RBENCHMARK="../R/rBenchmark.R"
 MGF2RDATA="./mgf2RData.pl"
 
