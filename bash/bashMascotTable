@@ -2,30 +2,70 @@
 
 #Usage: bashMascotTable X Y Z >> A.csv
 
+function csvline() {
+        if grep -q "\-a" < <( declare -p $1 ) ; then
+# array: sort index numeric
+            sorting="-g"
+        else
+# hash: sort index dictionary-order
+            sorting="-d"
+        fi
+        declare -n THIS=$1
+
+	local line=""
+	for a in $( printf "%s\n" "${!THIS[@]}" | sort $sorting )
+        do
+		line+="${line:+,}${THIS[${a}]}"
+	done
+	echo "$line"
+}
+
+function getparameter() {
+# this runs only once over the dat-file
+	in="$1"
+	[ -e "$in" ] || exit 1
+
+	unset -v A
+	declare -a q=()
+# index 0: filename
+	q[0]="$in"
+# index 1: SearchName
+	q[1]=$( awk -F"=" '/^COM=/{print $2;}' "$in" )
+
+	if [[ $in =~ ^F([[:digit:]]+) ]]; then
+# index 2: JobId
+		q[2]=${BASH_REMATCH[1]}
+	fi
+
+# index 3: NrSpectra
+# index 4: NrSpectraOver25
+        q+=( $( awk -F"," '/^q[[:digit:]]+_p1=/{c++; if($8 > 25) cx++;} END {print c; print cx;}' "$in" ) )
+
+        csvline q
+}
+
+#old
 function getattributes() {
+# this runs twice over the dat-file
 	in="$1"
 	[ -e "$in" ] || exit 1
 	unset -v A
 	declare -A p=()
 
-	p[SearchName]=$( awk -F"=" '/^COM=/{print $2;}' "$in" )
 	p[DatFile]="$in"
+	p[SearchName]=$( awk -F"=" '/^COM=/{print $2;}' "$in" )
 	if [[ $in =~ ^F([[:digit:]]+) ]]; then
 		p[JobID]=${BASH_REMATCH[1]}
+		q[2]=${BASH_REMATCH[1]}
 	fi
 
 	p[NrSpectra]=$( egrep "^q[[:digit:]]+_p1=" "$in" | wc -l )
 	p[NrSpectraOver25]=$( awk -F"," '/^q[[:digit:]]+_p1=/{if($8 > 25) print;}' "$in" | wc -l )
 
-	local line=""
-	for a in $( printf "%s\n" "${!p[@]}" | sort )
-	do
-		line+="${line:+,}${p[${a}]}"
-	done
-	echo "$line"
+        csvline p
 }
 
 for i in "$@"
 do
-	getattributes "$i"
+	getparameter "$i"
 done
