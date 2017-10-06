@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#Usage: bashMascotTable X Y Z >> A.csv (X, Y, Z are .dat-files and A.csv is the output .csv-file)
+#Usage (normal): bashMascotTable X Y Z >> A.csv (X, Y, Z are .dat-files and A.csv is the output .csv-file)
+#Usage (parallel): find FOLDER -name "*.dat" | parallel ./bashMascotTable >> A.csv (FOLDER contains .dat-files and A.csv is the output .csv-file)
 
 function csvline() {
         declare -n THIS=$1
