@@ -23,11 +23,11 @@ public class ScoreTest {
         Peak x3 = new Peak(155.0, 5855.542, 0);
         Peak y3 = new Peak(189.86, 325.58, 0);
         double e = 0.3;
-        String file = "";
+        ScoreConfig config = new ScoreConfig("");
 
-        double score1 = s.firstNonintensityFeature(x1, y1, e, file);
-        double score2 = s.firstNonintensityFeature(x2, y3, e, file);
-        double score3 = s.firstNonintensityFeature(x3, y2, e, file);
+        double score1 = s.firstNonintensityFeature(x1, y1, e, config);
+        double score2 = s.firstNonintensityFeature(x2, y3, e, config);
+        double score3 = s.firstNonintensityFeature(x3, y2, e, config);
 
         assertEquals(score1, 3.0, 0);
         assertEquals(score2, 1.0, 0);

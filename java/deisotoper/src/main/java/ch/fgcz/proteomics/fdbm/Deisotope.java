@@ -19,12 +19,12 @@ public class Deisotope {
     public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
-        output = addToOutput(input, output, save, modus, file);
+        output = addToOutput(input, output, save, modus, new ScoreConfig(file));
 
         return output;
     }
 
-    private MassSpectrometryMeasurement addToOutput(MassSpectrometryMeasurement input, MassSpectrometryMeasurement output, boolean save, String modus, String file) {
+    private MassSpectrometryMeasurement addToOutput(MassSpectrometryMeasurement input, MassSpectrometryMeasurement output, boolean save, String modus, ScoreConfig config) {
         for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, 0.01);
 
@@ -38,7 +38,7 @@ public class Deisotope {
             for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
                 IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-                icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()), file);
+                icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()), config);
 
                 IsotopicCluster start = createStart(icg);
 

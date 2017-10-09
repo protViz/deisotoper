@@ -339,7 +339,7 @@ public class IsotopicClusterGraph {
      * @param error
      * @param peaklist
      */
-    public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double error, Peaklist peaklist, String file) {
+    public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double error, Peaklist peaklist, ScoreConfig config) {
         for (Connection e : this.isotopicclustergraph.edgeSet()) {
             double sumscore = 0;
             if (this.isotopicclustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
@@ -348,7 +348,7 @@ public class IsotopicClusterGraph {
                         if (x.getMz() > y.getMz()) {
                             continue;
                         }
-                        Score s = new Score(x, y, error, pepmass, chargestate, this.isotopicclustergraph.getEdgeTarget(e), e, this.isotopicclustergraph, file);
+                        Score s = new Score(x, y, error, pepmass, chargestate, this.isotopicclustergraph.getEdgeTarget(e), e, this.isotopicclustergraph, config);
                         sumscore += s.getScore();
                     }
                 }

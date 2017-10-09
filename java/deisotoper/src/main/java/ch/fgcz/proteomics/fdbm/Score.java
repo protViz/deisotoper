@@ -46,8 +46,8 @@ public class Score {
      * @return score
      */
     public Score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx, Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph,
-            String file) {
-        this.score = 0.8 * firstNonintensityFeature(x, y, error, file) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx) + 0.1 * thirdNonintensityFeature(x, y, error)
+            ScoreConfig config) {
+        this.score = 0.8 * firstNonintensityFeature(x, y, error, config) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx) + 0.1 * thirdNonintensityFeature(x, y, error)
                 + 0.1 * fourthNonintensityFeature(x, y, error) + 0.1 * fifthIntensityFeature(con, isotopicclustergraph);
     }
 
@@ -153,10 +153,10 @@ public class Score {
      * @param e Errortolerance
      * @return Cardinality of List F1
      */
-    protected int firstNonintensityFeature(Peak x, Peak y, double e, String file) {
+    protected int firstNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
         List<Peak> F1 = new ArrayList<>();
 
-        ScoreConfig config = new ScoreConfig(file);
+        // ScoreConfig config = new ScoreConfig(file);
 
         for (Double aa : config.getAA_MASS()) {
             if (aa - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa + e) {
