@@ -55,7 +55,7 @@ public class ScoreConfig {
             this.AA_MASS.add(186.07931);
             this.AA_MASS.add(163.06333);
             this.AA_MASS.add(99.06841);
-            System.err.println("WARNING: File not found, using standart amino acid masses instead!");
+            // System.err.println("WARNING: File not found, using standart amino acid masses instead!");
         } catch (IOException e) {
             e.printStackTrace();
         }

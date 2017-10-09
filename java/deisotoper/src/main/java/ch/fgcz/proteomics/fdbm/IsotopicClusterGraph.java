@@ -345,6 +345,9 @@ public class IsotopicClusterGraph {
             if (this.isotopicclustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
                 for (Peak x : this.isotopicclustergraph.getEdgeTarget(e).getIsotopicCluster()) {
                     for (Peak y : peaklist.getPeaklist()) {
+                        if (x.getMz() > y.getMz()) {
+                            continue;
+                        }
                         Score s = new Score(x, y, error, pepmass, chargestate, this.isotopicclustergraph.getEdgeTarget(e), e, this.isotopicclustergraph, file);
                         sumscore += s.getScore();
                     }
