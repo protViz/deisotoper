@@ -5,8 +5,10 @@ package ch.fgcz.proteomics.mspy;
  * @since 2017-09-15
  */
 
+import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+
 public class Deconvolute {
-    public static ch.fgcz.proteomics.dto.MassSpectrometryMeasurement deconvoluteMSM(ch.fgcz.proteomics.dto.MassSpectrometryMeasurement input) {
+    public static MassSpectrometryMeasurement deconvoluteMSM(MassSpectrometryMeasurement input) {
         return Convert.deisotopeordeconvolute(input, "deconvolute");
     }
 }

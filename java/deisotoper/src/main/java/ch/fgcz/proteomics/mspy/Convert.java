@@ -1,5 +1,10 @@
 package ch.fgcz.proteomics.mspy;
 
+/**
+ * @author Lucas Schmidt
+ * @since 2017-09-15
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

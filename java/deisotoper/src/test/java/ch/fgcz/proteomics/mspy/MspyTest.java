@@ -19,8 +19,6 @@ public class MspyTest {
     private Peaklist peaklistin2;
     private Peaklist peaklistout2;
     private Peaklist peaklistout2d;
-    private Peaklist peaklistin3;
-    private Peaklist peaklistout3;
 
     @Before
     public void setUp() {
@@ -107,10 +105,8 @@ public class MspyTest {
         // HeLa filtered ID 6 mMass deconvolute output
         peaklistout2d = Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] - Deconvoluted.msd");
 
-        // HeLa filtered ID 13 input
-        peaklistin3 = Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
-        // HeLa filtered ID 13 mMass output
-        peaklistout3 = Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
+        Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
+        Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
     }
 
     @Test

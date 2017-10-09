@@ -6,24 +6,25 @@ package ch.fgcz.proteomics.fdbm;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jgrapht.GraphPath;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
+import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotope {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
+    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
-        Score.setUpAAMASS(file);
+        output = addToOutput(input, output, save, modus, file);
 
+        return output;
+    }
+
+    private MassSpectrometryMeasurement addToOutput(MassSpectrometryMeasurement input, MassSpectrometryMeasurement output, boolean save, String modus, String file) {
         for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
             IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, 0.01);
 
@@ -37,26 +38,16 @@ public class Deisotope {
             for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
                 IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-                IsotopicClusterGraph.scoreIsotopicClusterGraph(icg, ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()));
+                icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()), file);
 
-                IsotopicCluster start = null;
-                for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
-                    if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
-                        start = e;
-                    }
-                }
+                IsotopicCluster start = createStart(icg);
 
-                IsotopicCluster end = null;
-                for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
-                    if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
-                        end = e;
-                    }
-                }
+                IsotopicCluster end = createEnd(icg);
 
-                GraphPath<IsotopicCluster, Connection> bp = IsotopicClusterGraph.bestPath(start, end, icg);
+                GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(start, end);
 
                 if (save == true) {
-                    IsotopicClusterGraph.drawDOTIsotopicClusterGraph(icg.getIsotopicclustergraph(), is.getSetID(), ms.getId());
+                    icg.drawDOTIsotopicClusterGraph(is.getSetID(), ms.getId());
                 }
 
                 List<Double> clustermz = new ArrayList<>();
@@ -73,16 +64,7 @@ public class Deisotope {
                             clustermz2.add(p.getMz());
                         }
 
-                        if (modus.contains("first")) {
-                            cluster = IsotopicCluster.aggregateFirst(cluster);
-                        } else if (modus.contains("last")) {
-                            cluster = IsotopicCluster.aggregateLast(cluster);
-                        } else if (modus.contains("mean")) {
-                            cluster = IsotopicCluster.aggregateMean(cluster);
-                        } else if (modus.contains("none")) {
-                        } else {
-                            throw new IllegalArgumentException("Modus not found (" + modus + ")");
-                        }
+                        aggregation(cluster, modus);
 
                         int position = 1;
                         for (Peak p : cluster.getIsotopicCluster()) {
@@ -112,40 +94,44 @@ public class Deisotope {
                 }
             }
 
-            keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
+            Sort.keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
 
             output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptideMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
         }
 
         return output;
-
     }
 
-    public static <T extends Comparable<T>> void keySort(final List<T> key, List<?>... lists) {
-        List<Integer> indicearray = new ArrayList<Integer>();
-        for (int i = 0; i < key.size(); i++)
-            indicearray.add(i);
-
-        Collections.sort(indicearray, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer i, Integer j) {
-                return key.get(i).compareTo(key.get(j));
+    private IsotopicCluster createStart(IsotopicClusterGraph icg) {
+        for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
+            if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
+                return e;
             }
-        });
-
-        Map<Integer, Integer> swap = new HashMap<Integer, Integer>(indicearray.size());
-
-        for (int i = 0; i < indicearray.size(); i++) {
-            int k = indicearray.get(i);
-            while (swap.containsKey(k))
-                k = swap.get(k);
-
-            swap.put(i, k);
         }
+        return null;
+    }
 
-        for (Map.Entry<Integer, Integer> e : swap.entrySet())
-            for (List<?> list : lists)
-                Collections.swap(list, e.getKey(), e.getValue());
+    private IsotopicCluster createEnd(IsotopicClusterGraph icg) {
+        for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
+            if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    private IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
+        if (modus.contains("first")) {
+            return IsotopicCluster.aggregateFirst(cluster);
+        } else if (modus.contains("last")) {
+            return IsotopicCluster.aggregateLast(cluster);
+        } else if (modus.contains("mean")) {
+            return IsotopicCluster.aggregateMean(cluster);
+        } else if (modus.contains("none")) {
+            return cluster;
+        } else {
+            throw new IllegalArgumentException("Modus not found (" + modus + ")");
+        }
     }
 
     public static void main(String[] args) {
@@ -215,9 +201,11 @@ public class Deisotope {
         System.out.println("Input summary:");
         System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(msm));
 
+        Deisotope deiso = new Deisotope();
+
         // Make Summary of MSM deisotoped
         System.out.println("Output summary:");
-        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(Deisotope.deisotopeMSM(msm, false, "mean", "AminoAcidMasses.ini")));
+        System.out.println(ch.fgcz.proteomics.dto.Summary.makeSummary(deiso.deisotopeMSM(msm, false, "mean", "AminoAcidMasses.ini")));
 
         // for (MassSpectrum x : Deisotope.deisotopeMSM(MSM).getMSlist()) {
         // for (Double y : x.getMz()) {

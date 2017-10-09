@@ -10,7 +10,6 @@ import org.junit.Test;
 
 public class IsotopicTest {
     private Peaklist peaklist;
-    private Peaklist peaklistr;
     private List<Peak> A;
     private List<Peak> B;
     private List<Peak> C;
@@ -24,11 +23,6 @@ public class IsotopicTest {
         List<Double> mz = Arrays.asList(0.2, 1.0, 2.0, 2.5, 3.0, 10.0);
         List<Double> intensity = Arrays.asList(0.5, 2.0, 1.0, 1.0, 1.0, 3.0);
         peaklist = new Peaklist(mz, intensity);
-
-        // Example result
-        List<Double> mzr = Arrays.asList(1.0, 2.0, 2.5, 3.0);
-        List<Double> intensityr = Arrays.asList(2.0, 1.0, 1.0, 1.0);
-        peaklistr = new Peaklist(mzr, intensityr);
 
         // Possible Cluster for the example
         A = Arrays.asList(new Peak(1.0, 2.0, 0), new Peak(2.0, 1.0, 0), new Peak(3.0, 1.0, 0));
