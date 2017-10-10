@@ -475,7 +475,7 @@ jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamass
   output
 }
 
-jBenchmark <- function(input, output, method="fdbm", aamassfile="nofile") {
+jBenchmark <- function(input, output, method="fdbm", modus="first", aamassfile="nofile") {
   name <- load(file = input)
-  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, save = FALSE, aamassfile = aamassfile)), filename = output)
+  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, modus = modus, save = FALSE, aamassfile = aamassfile)), filename = output)
 }
