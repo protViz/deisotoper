@@ -1,14 +1,15 @@
 library(shiny)
+library(protViz)
 
 shinyUI(fluidPage(
   titlePanel("PSM-Difference",windowTitle = "PSM-Difference"),
   fluidRow(
     column(12, align="center",
            hr(),
-           textInput("text1", "URL (RData-file)", "file:///srv/lucas1/Downloads/MascotDaemon/deisotoped/fdbmaggregatednew/TP_HeLa_200ng_benchmark_fdbm_first.RData", width = "100%"),
+           textInput("text1", "URL (RData-file)", "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257664.RData", width = "100%"),
            actionButton("load1", "load", width = "10%", style="center-align"),
            hr(),
-           textInput("text2", "URL (RData-file)", value = "file:///srv/lucas1/Downloads/MascotDaemon/deisotoped/fdbmaggregatednew/TP_HeLa_200ng_benchmark_fdbm_with_mod_first.RData", width = "100%"),
+           textInput("text2", "URL (RData-file)", value = "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257544.RData", width = "100%"),
            actionButton("load2", "load", width = "10%"),
            hr(),
            div(style="display: inline-block;vertical-align:top; width: 150px;", actionButton("action1", "-", width = "30%")),
