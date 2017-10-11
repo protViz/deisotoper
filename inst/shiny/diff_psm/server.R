@@ -34,7 +34,7 @@ shinyServer(function(input, output, session) {
     val <- button1()
     rv <- plot.mascot_query(val$queries[[values$i]], val)
     
-    difflist <- diffMS(button1()$queries[[values$i]], button2()$queries[[values$i]])
+    difflist <- diff(button1()$queries[[values$i]], button2()$queries[[values$i]])
     abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
     abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
   })
@@ -45,23 +45,19 @@ shinyServer(function(input, output, session) {
     val <- button2()
     rv <- plot.mascot_query(val$queries[[values$i]], val)
     
-    difflist <- diffMS(button1()$queries[[values$i]], button2()$queries[[values$i]])
+    difflist <- diff(button1()$queries[[values$i]], button2()$queries[[values$i]])
     abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
     abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
   })
 })
 
-diffMS <- function(query1, query2) {
+diff <- function(query1, query2) {
   qms1 <- protViz:::.get_ms2(query1)
   qms2 <- protViz:::.get_ms2(query2)
   qms <- list(mZ = c(qms1$mZ, qms2$mZ), intensity = c(qms1$intensity, qms2$intensity))
-  diffmz1 <- setdiff(x = qms1$mZ, y = qms2$mZ)
-  diffmz2 <- setdiff(x = qms2$mZ, y = qms1$mZ)
-  diffmz <- c(diffmz1, diffmz2)
-  diffint1 <- setdiff(x = qms1$intensity, y = qms2$intensity)
-  diffint2 <- setdiff(x = qms2$intensity, y = qms1$intensity)
-  diffint <- c(diffint1, diffint2)
+  diffmz <- c(setdiff(x = qms1$mZ, y = qms2$mZ), setdiff(x = qms2$mZ, y = qms1$mZ))
   
+  diffint <- c(setdiff(x = qms1$intensity, y = qms2$intensity), setdiff(x = qms2$intensity, y = qms1$intensity))
   diffintall <- list()
   i <- 1
   for (x in qms$mZ) {
