@@ -5,8 +5,32 @@ shinyServer(function(input, output, session) {
   values <- reactiveValues(i = 1)
   
   button <- eventReactive(input$load1, {
-    list(one = get(load(con <- url(input$text1))), two = get(load(con <- url(input$text2))))
+    url1 <- get(load(con <- url(input$text1)))
+    url2 <- get(load(con <- url(input$text2)))
     
+    index1 <- order(as.numeric(protViz:::.get_q_peptide(url1, attribute = 'pep_score')), decreasing = TRUE)
+    index2 <- order(as.numeric(protViz:::.get_q_peptide(url2, attribute = 'pep_score')), decreasing = TRUE)
+    
+    sort <- input$sort
+    
+    if(sort == 1) {
+      j <- 1
+      for(i in index1) {
+        url1$queries[j] <- url1$queries[i]
+        url2$queries[j] <- url2$queries[i]
+        j <- j + 1
+      }
+    } else if (sort == 2){ 
+      j <- 1
+      for(i in index2) {
+        url1$queries[j] <- url1$queries[i]
+        url2$queries[j] <- url2$queries[i]
+        j <- j + 1
+      }
+    }
+    
+    
+    list(one = url1, two = url2)
   })
   
   observe({
@@ -28,12 +52,15 @@ shinyServer(function(input, output, session) {
   
   output$plot1 <- renderPlot({
     val <- button()$one
-    rv <- plot.mascot_query(val$queries[[values$i]], val)
-    
-    difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
-    abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
-    abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
     if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
+      spec <- protViz:::.get_ms2(val$queries[[values$i]])
+      peakplot(peptideSequence = val$queries[[values$i]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), ylim = c(0, max(spec$intensity)))
+      #rv <- plot.mascot_query(val$queries[[values$i]], val)
+    
+      difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
+      abline(v=difflist$mZ, col="#7CFC0033", lwd = 4)
+      abline(v=difflist$intensity, col="#00800033", lwd = 4)
+      
       if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
         mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
       } else {
@@ -44,12 +71,15 @@ shinyServer(function(input, output, session) {
   
   output$plot2 <- renderPlot({   
     val <- button()$two
-    rv <- plot.mascot_query(val$queries[[values$i]], val)
-    
-    difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
-    abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
-    abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
     if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
+      spec <- protViz:::.get_ms2(val$queries[[values$i]])
+      peakplot(peptideSequence = val$queries[[values$i]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), ylim = c(0, max(spec$intensity)))
+      #rv <- plot.mascot_query(val$queries[[values$i]], val, xlim = c(0, 200))
+    
+      difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
+      abline(v=difflist$mZ, col="#7CFC0033", lwd = 4)
+      abline(v=difflist$intensity, col="#00800033", lwd = 4)
+      
       if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
         mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
       } else {
