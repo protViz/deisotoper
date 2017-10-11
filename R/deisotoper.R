@@ -407,8 +407,6 @@ jDeconvoluteMSMmspy <- function(jobj) {
 }
 
 #' Deisotopes a MSM.
-#' 
-#' The amino acid masses file ("AminoAcidMasses.ini") must be in the home directory, otherwise it will initialize the standart amino acid masses.
 #'
 #' @return
 #' @export jDeisotopeMSMfdbm
@@ -442,6 +440,38 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="Amino
   d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
   
   output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save, m, aamass)
+  
+  output
+}
+
+#' Deisotopes a MS.
+#'
+#' @return
+#' @export jDeisotopeMSfdbm
+#'
+#' @examples
+#' 
+jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAcidMasses.ini") {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
+  .jaddClassPath("inst/java/jgraph-5.13.0.0.jar")
+  .jaddClassPath("inst/java/jgrapht-core-1.0.1.jar")
+  .jaddClassPath("inst/java/jgrapht-demo-1.0.1.jar")
+  .jaddClassPath("inst/java/jgrapht-ext-1.0.1.jar")
+  .jaddClassPath("inst/java/jgrapht-ext-1.0.1-uber.jar")
+  .jaddClassPath("inst/java/jgraphx-2.0.0.1.jar")
+  .jclassPath()
+  
+  String <- J("java.lang.String")
+  m <- new( String, modus )
+  aamass <- new( String, aamassfile )
+  
+  d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
+  
+  config <- .jnew(ch.fgcz.proteomics.fdbm.ScoreConfig, aamassfile)
+  
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMS", ms, save, m, config)
   
   output
 }

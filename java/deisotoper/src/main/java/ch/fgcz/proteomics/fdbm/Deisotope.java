@@ -21,83 +21,83 @@ public class Deisotope {
     public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
-        output = addToOutput(input, output, save, modus, new ScoreConfig(file));
+        ScoreConfig config = new ScoreConfig(file);
+
+        for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
+            output.getMSlist().add(deisotopeMS(ms, save, modus, config));
+        }
 
         return output;
     }
 
-    private MassSpectrometryMeasurement addToOutput(MassSpectrometryMeasurement input, MassSpectrometryMeasurement output, boolean save, String modus, ScoreConfig config) {
-        for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
-            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, 0.01);
+    public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config) {
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, 0.01);
 
-            List<Double> isotopelist = new ArrayList<>();
-            List<Double> mzlist = new ArrayList<>();
-            List<Double> intensitylist = new ArrayList<>();
-            List<Integer> chargelist = new ArrayList<>();
+        List<Double> isotopelist = new ArrayList<>();
+        List<Double> mzlist = new ArrayList<>();
+        List<Double> intensitylist = new ArrayList<>();
+        List<Integer> chargelist = new ArrayList<>();
 
-            List<Double> mzlistnew = new ArrayList<>();
+        List<Double> mzlistnew = new ArrayList<>();
 
-            for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-                IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
+        for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+            IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-                icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), 0.3, new Peaklist(ms.getMz(), ms.getIntensity()), config);
+            icg.scoreIsotopicClusterGraph(input.getPeptideMass(), input.getChargeState(), 0.3, new Peaklist(input.getMz(), input.getIntensity()), config);
 
-                GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
+            GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
 
-                if (save == true) {
-                    icg.drawDOTIsotopicClusterGraph(is.getSetID(), ms.getId());
-                }
+            if (save == true) {
+                icg.drawDOTIsotopicClusterGraph(is.getSetID(), input.getId());
+            }
 
-                List<Double> clustermz = new ArrayList<>();
-                List<Double> clusteri = new ArrayList<>();
-                List<Double> clusteriso = new ArrayList<>();
-                List<Integer> clustercharge = new ArrayList<>();
+            List<Double> clustermz = new ArrayList<>();
+            List<Double> clusteri = new ArrayList<>();
+            List<Double> clusteriso = new ArrayList<>();
+            List<Integer> clustercharge = new ArrayList<>();
 
-                List<Double> clustermznew = new ArrayList<>();
+            List<Double> clustermznew = new ArrayList<>();
 
-                for (IsotopicCluster cluster : bp.getVertexList()) {
-                    if (cluster.getIsotopicCluster() != null) {
+            for (IsotopicCluster cluster : bp.getVertexList()) {
+                if (cluster.getIsotopicCluster() != null) {
 
-                        for (Peak p : cluster.getIsotopicCluster()) {
-                            clustermznew.add(p.getMz());
-                        }
+                    for (Peak p : cluster.getIsotopicCluster()) {
+                        clustermznew.add(p.getMz());
+                    }
 
-                        aggregation(cluster, modus);
+                    aggregation(cluster, modus);
 
-                        int position = 1;
-                        for (Peak p : cluster.getIsotopicCluster()) {
-                            clustermz.add(p.getMz());
-                            clusteri.add(p.getIntensity());
-                            clusteriso.add((double) position);
-                            clustercharge.add(cluster.getCharge());
-                            position++;
-                        }
+                    int position = 1;
+                    for (Peak p : cluster.getIsotopicCluster()) {
+                        clustermz.add(p.getMz());
+                        clusteri.add(p.getIntensity());
+                        clusteriso.add((double) position);
+                        clustercharge.add(cluster.getCharge());
+                        position++;
                     }
                 }
-
-                mzlist.addAll(clustermz);
-                intensitylist.addAll(clusteri);
-                isotopelist.addAll(clusteriso);
-                chargelist.addAll(clustercharge);
-
-                mzlistnew.addAll(clustermznew);
             }
 
-            for (int i = 0; i < ms.getMz().size(); i++) {
-                if (!mzlistnew.contains(ms.getMz().get(i))) {
-                    mzlist.add(ms.getMz().get(i));
-                    intensitylist.add(ms.getIntensity().get(i));
-                    isotopelist.add(-1.0);
-                    chargelist.add(-1);
-                }
-            }
+            mzlist.addAll(clustermz);
+            intensitylist.addAll(clusteri);
+            isotopelist.addAll(clusteriso);
+            chargelist.addAll(clustercharge);
 
-            Sort.keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
-
-            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptideMass(), ms.getRt(), ms.getChargeState(), ms.getId(), chargelist, isotopelist);
+            mzlistnew.addAll(clustermznew);
         }
 
-        return output;
+        for (int i = 0; i < input.getMz().size(); i++) {
+            if (!mzlistnew.contains(input.getMz().get(i))) {
+                mzlist.add(input.getMz().get(i));
+                intensitylist.add(input.getIntensity().get(i));
+                isotopelist.add(-1.0);
+                chargelist.add(-1);
+            }
+        }
+
+        Sort.keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
+
+        return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mzlist, intensitylist, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), chargelist, isotopelist);
     }
 
     private IsotopicCluster getStart(IsotopicClusterGraph icg) {
