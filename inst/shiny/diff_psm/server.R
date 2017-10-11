@@ -37,12 +37,7 @@ shinyServer(function(input, output, session) {
     difflist <- diff(button1()$queries[[values$i]], button2()$queries[[values$i]])
     abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
     abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
-    
-    if (val$queries[[values$i]]$q_peptide$pep_score > 25) {
-      mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col = "red")
-    } else {
-      mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0)
-    }
+    mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0)
   })
   
   output$plot2 <- renderPlot({   
@@ -54,12 +49,7 @@ shinyServer(function(input, output, session) {
     difflist <- diff(button1()$queries[[values$i]], button2()$queries[[values$i]])
     abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
     abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
-    
-    if (val$queries[[values$i]]$q_peptide$pep_score > 25) {
-      mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col = "red")
-    } else {
-      mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0)
-    } 
+    mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0)
   })
 })
 
