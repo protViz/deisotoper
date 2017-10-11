@@ -4,12 +4,8 @@ library(protViz)
 shinyServer(function(input, output, session) {
   values <- reactiveValues(i = 1)
   
-  button1 <- eventReactive(input$load1, {
-    get(load(con <- url(input$text1)))
-  })
-  
-  button2 <- eventReactive(input$load2, {
-    get(load(con <- url(input$text2)))
+  button <- eventReactive(input$load1, {
+    list(one = get(load(con <- url(input$text1))), two = get(load(con <- url(input$text2))))
   })
   
   observe({
@@ -29,27 +25,35 @@ shinyServer(function(input, output, session) {
   })
   
   output$plot1 <- renderPlot({
-    #val <- get(load(con <- url(button1())))[[values$i]]
-    #plot(x = val$mZ, y = val$intensity, type = "h", xlab = "mZ", ylab = "Intensity", main = val$title)
-    val <- button1()
+    val <- button()$one
     rv <- plot.mascot_query(val$queries[[values$i]], val)
     
-    difflist <- diff(button1()$queries[[values$i]], button2()$queries[[values$i]])
+    difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
     abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
     abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
-    mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0)
+    if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
+      if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
+        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
+      } else {
+        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="black")
+      }
+    }
   })
   
   output$plot2 <- renderPlot({   
-    #val <- get(load(con <- url(button2())))[[values$i]]
-    #plot(x = val$mZ, y = val$intensity, type = "h", xlab = "mZ", ylab = "Intensity", main = val$title)
-    val <- button2()
+    val <- button()$two
     rv <- plot.mascot_query(val$queries[[values$i]], val)
     
-    difflist <- diff(button1()$queries[[values$i]], button2()$queries[[values$i]])
+    difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
     abline(v=difflist$mZ, col="#00FF0033", lwd = 4)
     abline(v=difflist$intensity, col="#FFFF0033", lwd = 4)
-    mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0)
+    if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
+      if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
+        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
+      } else {
+        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="black")
+      }
+    }
   })
 })
 
