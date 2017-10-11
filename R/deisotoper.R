@@ -451,8 +451,12 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="Amino
 #'
 #' @examples
 #' 
+#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+#' 
 #' mslist<-joMSM$getMSlist()
-#' ms <- mslist$get(as.integer(0))
+#' ms <- mslist$get(as.integer(0)) #index 0 of joMSM
+#' 
 #' msdeisotoped <- jDeisotopeMSfdbm(ms)
 #' 
 jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAcidMasses.ini") {
