@@ -451,6 +451,10 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="Amino
 #'
 #' @examples
 #' 
+#' mslist<-joMSM$getMSlist()
+#' ms <- mslist$get(as.integer(0))
+#' msdeisotoped <- jDeisotopeMSfdbm(ms)
+#' 
 jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAcidMasses.ini") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -469,7 +473,7 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAci
   
   d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
   
-  config <- .jnew(ch.fgcz.proteomics.fdbm.ScoreConfig, aamassfile)
+  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", aamassfile)
   
   output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMS", ms, save, m, config)
   
