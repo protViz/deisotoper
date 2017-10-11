@@ -58,8 +58,8 @@ shinyServer(function(input, output, session) {
       #rv <- plot.mascot_query(val$queries[[values$i]], val)
     
       difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
-      abline(v=difflist$mZ, col="#7CFC0033", lwd = 4)
-      abline(v=difflist$intensity, col="#00800033", lwd = 4)
+      abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+      abline(v=difflist$intensity, col="#FF000033", lwd = 4)
       
       if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
         mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
@@ -77,8 +77,8 @@ shinyServer(function(input, output, session) {
       #rv <- plot.mascot_query(val$queries[[values$i]], val, xlim = c(0, 200))
     
       difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
-      abline(v=difflist$mZ, col="#7CFC0033", lwd = 4)
-      abline(v=difflist$intensity, col="#00800033", lwd = 4)
+      abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+      abline(v=difflist$intensity, col="#FF000033", lwd = 4)
       
       if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
         mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
@@ -87,6 +87,19 @@ shinyServer(function(input, output, session) {
       }
     }
   })
+  
+  output$plot3 <- renderPlot({  
+    pep_score1 <- protViz:::.get_q_peptide(button()$one, attribute = 'pep_score')
+    pep_score2 <- protViz:::.get_q_peptide(button()$two, attribute = 'pep_score')
+    index1 <- order(as.numeric(protViz:::.get_q_peptide(button()$one, attribute = 'pep_score')), decreasing = TRUE)
+    index2 <- order(as.numeric(protViz:::.get_q_peptide(button()$two, attribute = 'pep_score')), decreasing = TRUE)
+    #y <- max(c(max(as.numeric(pep_score1)), max(as.numeric(pep_score2)))) # fix me
+    plot(pep_score1[index1],col="#0000FF66", type="p", cex = 0.05, ylab = "Mascot-Score", xlab = "Index")
+    points(pep_score2[index2],col="#FF000066", type="p", cex = 0.05)
+    mtext(text ="First Mascot-Scores", line = 2, adj = 0, col="blue")
+    mtext(text ="Second Mascot-Scores", line = 1, adj = 0, col="red")
+  })
+  
 })
 
 diff <- function(query1, query2) {
@@ -106,5 +119,5 @@ diff <- function(query1, query2) {
     i <- i + 1
   }
   
-  return(list(mZ=diffmz, intensity=diffintall))
+  return(list(mZ=diffmz, intensity=diffintall, realintensity=diffint))
 }
