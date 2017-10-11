@@ -6,10 +6,12 @@ shinyServer(function(input, output, session) {
   
   button <- eventReactive(input$load1, {
     list(one = get(load(con <- url(input$text1))), two = get(load(con <- url(input$text2))))
+    
   })
   
   observe({
     input$action2
+    
     isolate({
       values$i <- values$i + 1
     })
@@ -65,6 +67,7 @@ diff <- function(query1, query2) {
   
   diffint <- c(setdiff(x = qms1$intensity, y = qms2$intensity), setdiff(x = qms2$intensity, y = qms1$intensity))
   diffintall <- list()
+  
   i <- 1
   for (x in qms$mZ) {
     if(qms$intensity[[i]] %in% diffint) {
