@@ -28,8 +28,7 @@ shinyServer(function(input, output, session) {
         j <- j + 1
       }
     }
-    
-    
+
     list(one = url1, two = url2)
   })
   
@@ -52,7 +51,6 @@ shinyServer(function(input, output, session) {
     if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
       spec <- protViz:::.get_ms2(val$queries[[values$i]])
       peakplot(peptideSequence = val$queries[[values$i]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), ylim = c(0, max(spec$intensity)))
-      #rv <- plot.mascot_query(val$queries[[values$i]], val)
     
       difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
       
@@ -80,8 +78,7 @@ shinyServer(function(input, output, session) {
     if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
       spec <- protViz:::.get_ms2(val$queries[[values$i]])
       peakplot(peptideSequence = val$queries[[values$i]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), ylim = c(0, max(spec$intensity)))
-      #rv <- plot.mascot_query(val$queries[[values$i]], val, xlim = c(0, 200))
-    
+
       difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
       
       if(!is.null(input$check)) {
@@ -103,15 +100,30 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  ranges <- reactiveValues(x = NULL, y = NULL)
+  
+  observeEvent(input$dbclick, {
+    brush <- input$brush
+    if (!is.null(brush)) {
+      ranges$x <- c(brush$xmin, brush$xmax)
+      ranges$y <- c(brush$ymin, brush$ymax)
+    } else {
+      ranges$x <- NULL
+      ranges$y <- NULL
+    }
+  })
+  
   output$plot3 <- renderPlot({  
     pep_score1 <- protViz:::.get_q_peptide(button()$one, attribute = 'pep_score')
     pep_score2 <- protViz:::.get_q_peptide(button()$two, attribute = 'pep_score')
     index1 <- order(as.numeric(protViz:::.get_q_peptide(button()$one, attribute = 'pep_score')), decreasing = TRUE)
     index2 <- order(as.numeric(protViz:::.get_q_peptide(button()$two, attribute = 'pep_score')), decreasing = TRUE)
-    plot(pep_score1[index1],col="#0000FF66", type="p", cex = 0.05, ylab = "Mascot-Score", xlab = "Index", ylim = c(0, 5+max(max(as.numeric(as.character(unlist(pep_score1))), na.rm=TRUE), max(as.numeric(as.character(unlist(pep_score2))), na.rm=TRUE))))
-    points(pep_score2[index2],col="#FF000066", type="p", cex = 0.05)
+    plot(pep_score1[index1],col="#0000FF", type="p", cex = 0.8, ylab = "Mascot-Score", xlab = "Index", xlim = ranges$x, ylim = ranges$y, pch = 16)
+    points(pep_score2[index2],col="#FF0000", type="p", cex = 0.8, pch = 16)
     mtext(text ="First Mascot-Scores", line = 2, adj = 0, col="blue")
     mtext(text ="Second Mascot-Scores", line = 1, adj = 0, col="red")
+    abline(v=values$i, col="#FF00FF77", lwd = 1)
+    mtext(text ="Position of the plotted Mass Spectra", line = 0, adj = 0, col="#FF00FF")
   })
   
 })

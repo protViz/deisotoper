@@ -24,7 +24,11 @@ shinyUI(fluidPage(
                  checkboxGroupInput("check", label = NULL, inline = TRUE, choices = list("show mZ diff" = 1, "show intensity diff" = 2), selected = 1),
                  plotOutput("plot1", height = "510"), 
                  plotOutput("plot2", height = "510")),
-        tabPanel("Mascot Score Plot", plotOutput("plot3", height = "600")))
+        tabPanel("Mascot Score Plot", 
+                 plotOutput("plot3", height = "600", dblclick = "dbclick", brush = brushOpts(
+                   id = "brush",
+                   resetOnNew = TRUE
+                 ))))
       )
     )
   )
