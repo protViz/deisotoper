@@ -17,10 +17,10 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel("Mass Spectrum Plots",
                  br(),
-                 div(style="display: inline-block;vertical-align:top; width: 10%;", actionButton("action1", NULL, width = "50px", icon = icon("glyphicon glyphicon-minus"))),
-                 div(style="display: inline-block;vertical-align:top; width: 3%;font-size:2em;", textOutput("num"), width = "50px"),
-                 div(style="display: inline-block;vertical-align:top; width: 10%;", actionButton("action2", NULL, width = "50px", icon = icon("glyphicon glyphicon-plus"))),
-                 div(style="display: inline-block;vertical-align:top; width: 75%;", sliderInput("zoom", label = NULL, min = 0, max = 2000, value = c(0, 2000), width = "100%")),
+                 div(style="display: inline-block;vertical-align:top; width: 8%;", actionButton("action1", NULL, width = "50px", icon = icon("glyphicon glyphicon-minus"))),
+                 div(style="display: inline-block;vertical-align:top;font-size:2em;", textOutput("num"), width = "40px"),
+                 div(style="display: inline-block;vertical-align:top; width: 8%;", actionButton("action2", NULL, width = "50px", icon = icon("glyphicon glyphicon-plus"))),
+                 div(style="display: inline-block;vertical-align:top; width: 75%;", sliderInput("zoom", label = NULL, min = 0, max = 2000, value = c(0, 2000), width = "90%")),
                  plotOutput("plot1", height = "510"), 
                  plotOutput("plot2", height = "510")),
         tabPanel("Mascot Score Plot", plotOutput("plot3", height = "600")))
