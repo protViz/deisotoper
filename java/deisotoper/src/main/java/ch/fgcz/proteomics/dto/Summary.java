@@ -80,11 +80,10 @@ public class Summary {
                 }
                 for (double iso : spectrum.getIsotope()) {
                     if (iso != -1) {
-                        if (iso == 0) {
+                        if (iso == 1) {
                             deisotopesum++;
                         }
                         isotopesum += iso;
-                        i++;
                     }
                 }
                 summary.append(spectrum.getId()).append(",average_charge,").append(chargesum / i).append(linesep);
