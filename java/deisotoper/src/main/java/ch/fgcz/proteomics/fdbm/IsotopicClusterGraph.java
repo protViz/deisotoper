@@ -225,7 +225,7 @@ public class IsotopicClusterGraph {
      * @param setid
      * @param msid
      */
-    public void drawDOTIsotopicClusterGraph(int setid, int msid) {
+    public void drawDOTIsotopicClusterGraph(int setid, int msid, String date) {
         StringBuilder sb = new StringBuilder();
         String linesep = System.getProperty("line.separator");
 
@@ -265,8 +265,10 @@ public class IsotopicClusterGraph {
 
         sb.append("}");
 
-        new File("IsotopicClusterGraphs_DOT").mkdirs();
-        try (PrintWriter out = new PrintWriter(new File("IsotopicClusterGraphs_DOT/MS_" + msid + "_IS_" + setid + ".dot"))) {
+        String folder = "IsotopicClusterGraphs_DOT/" + date + "/";
+
+        new File(folder).mkdirs();
+        try (PrintWriter out = new PrintWriter(new File(folder + "/MS_" + msid + "_IS_" + setid + ".dot"))) {
             out.print(sb.toString());
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();

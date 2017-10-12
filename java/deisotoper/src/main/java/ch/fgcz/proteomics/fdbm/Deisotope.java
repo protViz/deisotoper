@@ -1,12 +1,14 @@
 package ch.fgcz.proteomics.fdbm;
 
+import java.text.SimpleDateFormat;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-21
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.jgrapht.GraphPath;
@@ -23,14 +25,22 @@ public class Deisotope {
 
         ScoreConfig config = new ScoreConfig(file);
 
+        String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+
         for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
-            output.getMSlist().add(deisotopeMS(ms, save, modus, config));
+            output.getMSlist().add(deisotopeMS(ms, save, modus, config, date));
         }
 
         return output;
     }
 
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config) {
+        String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+
+        return deisotopeMS(input, save, modus, config, date);
+    }
+
+    public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, 0.01);
 
         List<Double> isotopelist = new ArrayList<>();
@@ -48,7 +58,7 @@ public class Deisotope {
             GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
 
             if (save == true) {
-                icg.drawDOTIsotopicClusterGraph(is.getSetID(), input.getId());
+                icg.drawDOTIsotopicClusterGraph(is.getSetID(), input.getId(), date);
             }
 
             List<Double> clustermz = new ArrayList<>();
@@ -135,7 +145,7 @@ public class Deisotope {
     public static void main(String[] args) {
         runtimeBenchmark();
 
-        // testDeisotope();
+        testDeisotope();
     }
 
     private static void testDeisotope() {
@@ -243,7 +253,7 @@ public class Deisotope {
         Deisotope deiso = new Deisotope();
 
         System.out.println("Output:");
-        for (MassSpectrum x : deiso.deisotopeMSM(msm, true, "mean", "AminoAcidMasses.ini").getMSlist()) {
+        for (MassSpectrum x : deiso.deisotopeMSM(msm, false, "mean", "AminoAcidMasses.ini").getMSlist()) {
             for (int y = 0; y < x.getMz().size(); y++) {
                 System.out.print("M: " + x.getMz().get(y) + ", ");
                 System.out.print("Z: " + x.getCharge().get(y) + ", ");
