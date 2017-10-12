@@ -93,8 +93,7 @@ shinyServer(function(input, output, session) {
     pep_score2 <- protViz:::.get_q_peptide(button()$two, attribute = 'pep_score')
     index1 <- order(as.numeric(protViz:::.get_q_peptide(button()$one, attribute = 'pep_score')), decreasing = TRUE)
     index2 <- order(as.numeric(protViz:::.get_q_peptide(button()$two, attribute = 'pep_score')), decreasing = TRUE)
-    #y <- max(c(max(as.numeric(pep_score1)), max(as.numeric(pep_score2)))) # fix me
-    plot(pep_score1[index1],col="#0000FF66", type="p", cex = 0.05, ylab = "Mascot-Score", xlab = "Index")
+    plot(pep_score1[index1],col="#0000FF66", type="p", cex = 0.05, ylab = "Mascot-Score", xlab = "Index", ylim = c(0, 5+max(max(as.numeric(as.character(unlist(pep_score1))), na.rm=TRUE), max(as.numeric(as.character(unlist(pep_score2))), na.rm=TRUE))))
     points(pep_score2[index2],col="#FF000066", type="p", cex = 0.05)
     mtext(text ="First Mascot-Scores", line = 2, adj = 0, col="blue")
     mtext(text ="Second Mascot-Scores", line = 1, adj = 0, col="red")

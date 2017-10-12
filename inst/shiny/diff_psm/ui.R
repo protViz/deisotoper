@@ -10,9 +10,9 @@ shinyUI(fluidPage(
       12,
       align="center",
       hr(),
-      textInput("text1", "URLs", "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257664.RData", width = "100%"),
-      textInput("text2", NULL, value = "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257544.RData", width = "100%"),
-      radioButtons("sort", NULL, choiceNames = c("Sort first", "Sort second"), choiceValues = c(1, 2), inline = TRUE),
+      textInput("text1", "First URL", "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257664.RData", width = "100%"),
+      textInput("text2", "Second URL", value = "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257544.RData", width = "100%"),
+      radioButtons("sort", NULL, choiceNames = c("sort first", "sort second"), choiceValues = c(1, 2), inline = TRUE),
       actionButton("load1", "load & sort", width = "150px"),
       tabsetPanel(
         tabPanel("Mass Spectrum Plots",
@@ -23,7 +23,7 @@ shinyUI(fluidPage(
                  div(style="display: inline-block;vertical-align:top; width: 75%;", sliderInput("zoom", label = NULL, min = 0, max = 2000, value = c(0, 2000), width = "100%")),
                  plotOutput("plot1", height = "510"), 
                  plotOutput("plot2", height = "510")),
-        tabPanel("Mascot Score Plot", plotOutput("plot3")))
+        tabPanel("Mascot Score Plot", plotOutput("plot3", height = "600")))
       )
     )
   )
