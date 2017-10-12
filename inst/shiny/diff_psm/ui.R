@@ -27,8 +27,7 @@ shinyUI(fluidPage(
         tabPanel("Mascot Score Plot", 
                  plotOutput("plot3", height = "600", dblclick = "dbclick", brush = brushOpts(
                    id = "brush",
-                   resetOnNew = TRUE
-                 ))))
+                   resetOnNew = TRUE))))
       )
     )
   )
