@@ -298,7 +298,7 @@ public class IsotopicClusterGraph {
     public IsotopicClusterGraph(IsotopicSet is) {
         this.min = Double.MAX_VALUE;
         is.getIsotopicSet().add(new IsotopicCluster("start"));
-        
+
         for (IsotopicCluster n : is.getIsotopicSet()) {
             for (IsotopicCluster m : is.getIsotopicSet()) {
                 String color = calculateConnection(n, m);

@@ -156,8 +156,6 @@ public class Score {
     protected int firstNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
         List<Peak> F1 = new ArrayList<>();
 
-        // ScoreConfig config = new ScoreConfig(file);
-
         for (Double aa : config.getAA_MASS()) {
             if (aa - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa + e) {
                 F1.add(y);
