@@ -5,9 +5,6 @@ package ch.fgcz.proteomics.fdbm;
  * @since 2017-09-19
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class Score {
@@ -151,34 +148,45 @@ public class Score {
      * @param x Peak
      * @param y Peak
      * @param e Errortolerance
-     * @return Cardinality of List F1
+     * @return F1
      */
     protected int firstNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
-        List<Peak> F1 = new ArrayList<>();
+        int F1 = 0;
+
+        double d1xy = Math.abs(diff1(x, y));
+        double d2xy = Math.abs(diff2(x, y));
+        double d2yx = Math.abs(diff2(y, x));
+        double d3xy = Math.abs(diff3(x, y));
+        double d3yx = Math.abs(diff3(y, x));
+        double d4xy = Math.abs(diff4(x, y));
+        double d4yx = Math.abs(diff4(y, x));
 
         for (Double aa : config.getAA_MASS()) {
-            if (aa - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa + e) {
-                F1.add(y);
-            } else if (aa / 2 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa / 2 + e) {
-                F1.add(y);
-            } else if (aa / 3 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < aa / 3 + e) {
-                F1.add(y);
-            } else if (aa / 2 - e < Math.abs(diff2(x, y)) && Math.abs(diff2(x, y)) < aa / 2 + e) {
-                F1.add(y);
-            } else if (aa / 2 - e < Math.abs(diff2(y, x)) && Math.abs(diff2(y, x)) < aa / 2 + e) {
-                F1.add(y);
-            } else if (aa / 3 - e < Math.abs(diff3(x, y)) && Math.abs(diff3(x, y)) < aa / 3 + e) {
-                F1.add(y);
-            } else if (aa / 3 - e < Math.abs(diff3(y, x)) && Math.abs(diff3(y, x)) < aa / 3 + e) {
-                F1.add(y);
-            } else if (aa / 3 - e < Math.abs(diff4(x, y)) && Math.abs(diff4(x, y)) < aa / 3 + e) {
-                F1.add(y);
-            } else if (aa / 3 - e < Math.abs(diff4(y, x)) && Math.abs(diff4(y, x)) < aa / 3 + e) {
-                F1.add(y);
+            double aa2 = aa / 2;
+            double aa3 = aa / 3;
+
+            if (aa - e < d1xy && d1xy < aa + e) {
+                F1++;
+            } else if (aa2 - e < d1xy && d1xy < aa2 + e) {
+                F1++;
+            } else if (aa3 - e < d1xy && d1xy < aa3 + e) {
+                F1++;
+            } else if (aa2 - e < d2xy && d2xy < aa2 + e) {
+                F1++;
+            } else if (aa2 - e < d2yx && d2yx < aa2 + e) {
+                F1++;
+            } else if (aa3 - e < d3xy && d3xy < aa3 + e) {
+                F1++;
+            } else if (aa3 - e < d3yx && d3yx < aa3 + e) {
+                F1++;
+            } else if (aa3 - e < d4xy && d4xy < aa3 + e) {
+                F1++;
+            } else if (aa3 - e < d4yx && d4yx < aa3 + e) {
+                F1++;
             }
         }
 
-        return F1.size();
+        return F1;
     }
 
     /**
@@ -190,10 +198,10 @@ public class Score {
      * @param pepmass PeptidMass of MS
      * @param charge ChargeState of MS
      * @param ic IsotopicCluster
-     * @return Cardinality of List F2
+     * @return F2
      */
     protected int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic) {
-        List<Peak> F2 = new ArrayList<>();
+        int F2 = 0;
         double M = pepmass * charge;
 
         int i = 1;
@@ -204,27 +212,37 @@ public class Score {
             i++;
         }
 
-        if (M + 2 * i + 2 * H_MASS - e < sum1(x, y) && sum1(x, y) < M + 2 * i + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 2 + 2 * H_MASS - e < sum1(x, y) && sum1(x, y) < (M + 2 * i) / 2 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum1(x, y) && sum1(x, y) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 2 + 2 * H_MASS - e < sum2(x, y) && sum2(x, y) < (M + 2 * i) / 2 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 2 + 2 * H_MASS - e < sum2(y, x) && sum2(y, x) < (M + 2 * i) / 2 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum3(x, y) && sum3(x, y) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum3(y, x) && sum3(y, x) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum4(x, y) && sum4(x, y) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
-            F2.add(y);
-        } else if ((M + 2 * i) / 3 + 2 * H_MASS - e < sum4(y, x) && sum4(y, x) < (M + 2 * i) / 3 + 2 * H_MASS + e) {
-            F2.add(y);
+        double s1xy = sum1(x, y);
+        double s2xy = sum2(x, y);
+        double s2yx = sum2(y, x);
+        double s3xy = sum3(x, y);
+        double s3yx = sum3(y, x);
+        double s4xy = sum4(x, y);
+        double s4yx = sum4(y, x);
+        double m2i = M + 2 * i;
+        double h2 = 2 * H_MASS;
+
+        if (m2i + h2 - e < s1xy && s1xy < m2i + h2 + e) {
+            F2++;
+        } else if ((m2i) / 2 + h2 - e < s1xy && s1xy < (m2i) / 2 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 3 + h2 - e < s1xy && s1xy < (m2i) / 3 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 2 + h2 - e < s2xy && s2xy < (m2i) / 2 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 2 + h2 - e < s2yx && s2yx < (m2i) / 2 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 3 + h2 - e < s3xy && s3xy < (m2i) / 3 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 3 + h2 - e < s3yx && s3yx < (m2i) / 3 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 3 + h2 - e < s4xy && s4xy < (m2i) / 3 + h2 + e) {
+            F2++;
+        } else if ((m2i) / 3 + h2 - e < s4yx && s4yx < (m2i) / 3 + h2 + e) {
+            F2++;
         }
 
-        return F2.size();
+        return F2;
     }
 
     /**
@@ -234,50 +252,58 @@ public class Score {
      * @param x Peak
      * @param y Peak
      * @param e Errortolerance
-     * @return Cardinality of List F3
+     * @return F3
      */
     protected int thirdNonintensityFeature(Peak x, Peak y, double e) {
-        List<Peak> F3 = new ArrayList<>();
+        int F3 = 0;
 
-        if (H2O_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < H2O_MASS + e) {
-            F3.add(y);
-        } else if (NH3_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH3_MASS + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 2 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < H2O_MASS / 2 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 2 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH3_MASS / 2 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 3 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < H2O_MASS / 3 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 3 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH3_MASS / 3 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 2 - e < Math.abs(diff2(x, y)) && Math.abs(diff2(x, y)) < H2O_MASS / 2 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 2 - e < Math.abs(diff2(x, y)) && Math.abs(diff2(x, y)) < NH3_MASS / 2 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 2 - e < Math.abs(diff2(y, x)) && Math.abs(diff2(y, x)) < H2O_MASS / 2 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 2 - e < Math.abs(diff2(y, x)) && Math.abs(diff2(y, x)) < NH3_MASS / 2 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 3 - e < Math.abs(diff3(x, y)) && Math.abs(diff3(x, y)) < H2O_MASS / 3 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 3 - e < Math.abs(diff3(x, y)) && Math.abs(diff3(x, y)) < NH3_MASS / 3 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 3 - e < Math.abs(diff3(y, x)) && Math.abs(diff3(y, x)) < H2O_MASS / 3 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 3 - e < Math.abs(diff3(y, x)) && Math.abs(diff3(y, x)) < NH3_MASS / 3 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 3 - e < Math.abs(diff4(x, y)) && Math.abs(diff4(x, y)) < H2O_MASS / 3 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 3 - e < Math.abs(diff4(x, y)) && Math.abs(diff4(x, y)) < NH3_MASS / 3 + e) {
-            F3.add(y);
-        } else if (H2O_MASS / 3 - e < Math.abs(diff4(y, x)) && Math.abs(diff4(y, x)) < H2O_MASS / 3 + e) {
-            F3.add(y);
-        } else if (NH3_MASS / 3 - e < Math.abs(diff4(y, x)) && Math.abs(diff4(y, x)) < NH3_MASS / 3 + e) {
-            F3.add(y);
+        double d1xy = Math.abs(diff1(x, y));
+        double d2xy = Math.abs(diff2(x, y));
+        double d2yx = Math.abs(diff2(y, x));
+        double d3xy = Math.abs(diff3(x, y));
+        double d3yx = Math.abs(diff3(y, x));
+        double d4xy = Math.abs(diff4(x, y));
+        double d4yx = Math.abs(diff4(y, x));
+
+        if (H2O_MASS - e < d1xy && d1xy < H2O_MASS + e) {
+            F3++;
+        } else if (NH3_MASS - e < d1xy && d1xy < NH3_MASS + e) {
+            F3++;
+        } else if (H2O_MASS / 2 - e < d1xy && d1xy < H2O_MASS / 2 + e) {
+            F3++;
+        } else if (NH3_MASS / 2 - e < d1xy && d1xy < NH3_MASS / 2 + e) {
+            F3++;
+        } else if (H2O_MASS / 3 - e < d1xy && d1xy < H2O_MASS / 3 + e) {
+            F3++;
+        } else if (NH3_MASS / 3 - e < d1xy && d1xy < NH3_MASS / 3 + e) {
+            F3++;
+        } else if (H2O_MASS / 2 - e < d2xy && d2xy < H2O_MASS / 2 + e) {
+            F3++;
+        } else if (NH3_MASS / 2 - e < d2xy && d2xy < NH3_MASS / 2 + e) {
+            F3++;
+        } else if (H2O_MASS / 2 - e < d2yx && d2yx < H2O_MASS / 2 + e) {
+            F3++;
+        } else if (NH3_MASS / 2 - e < d2yx && d2yx < NH3_MASS / 2 + e) {
+            F3++;
+        } else if (H2O_MASS / 3 - e < d3xy && d3xy < H2O_MASS / 3 + e) {
+            F3++;
+        } else if (NH3_MASS / 3 - e < d3xy && d3xy < NH3_MASS / 3 + e) {
+            F3++;
+        } else if (H2O_MASS / 3 - e < d3yx && d3yx < H2O_MASS / 3 + e) {
+            F3++;
+        } else if (NH3_MASS / 3 - e < d3yx && d3yx < NH3_MASS / 3 + e) {
+            F3++;
+        } else if (H2O_MASS / 3 - e < d4xy && d4xy < H2O_MASS / 3 + e) {
+            F3++;
+        } else if (NH3_MASS / 3 - e < d4xy && d4xy < NH3_MASS / 3 + e) {
+            F3++;
+        } else if (H2O_MASS / 3 - e < d4yx && d4yx < H2O_MASS / 3 + e) {
+            F3++;
+        } else if (NH3_MASS / 3 - e < d4yx && d4yx < NH3_MASS / 3 + e) {
+            F3++;
         }
 
-        return F3.size();
+        return F3;
     }
 
     /**
@@ -287,50 +313,58 @@ public class Score {
      * @param x Peak
      * @param y Peak
      * @param e Errortolerance
-     * @return Cardinality of List F4
+     * @return F4
      */
     protected int fourthNonintensityFeature(Peak x, Peak y, double e) {
-        List<Peak> F4 = new ArrayList<>();
+        int F4 = 0;
 
-        if (NH_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH_MASS + e) {
-            F4.add(y);
-        } else if (CO_MASS - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < CO_MASS + e) {
-            F4.add(y);
-        } else if (NH_MASS / 2 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH_MASS / 2 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 2 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < CO_MASS / 2 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 3 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < NH_MASS / 3 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 3 - e < Math.abs(diff1(x, y)) && Math.abs(diff1(x, y)) < CO_MASS / 3 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 2 - e < Math.abs(diff2(x, y)) && Math.abs(diff2(x, y)) < NH_MASS / 2 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 2 - e < Math.abs(diff2(x, y)) && Math.abs(diff2(x, y)) < CO_MASS / 2 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 2 - e < Math.abs(diff2(y, x)) && Math.abs(diff2(y, x)) < NH_MASS / 2 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 2 - e < Math.abs(diff2(y, x)) && Math.abs(diff2(y, x)) < CO_MASS / 2 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 3 - e < Math.abs(diff3(x, y)) && Math.abs(diff3(x, y)) < NH_MASS / 3 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 3 - e < Math.abs(diff3(x, y)) && Math.abs(diff3(x, y)) < CO_MASS / 3 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 3 - e < Math.abs(diff3(y, x)) && Math.abs(diff3(y, x)) < NH_MASS / 3 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 3 - e < Math.abs(diff3(y, x)) && Math.abs(diff3(y, x)) < CO_MASS / 3 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 3 - e < Math.abs(diff4(x, y)) && Math.abs(diff4(x, y)) < NH_MASS / 3 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 3 - e < Math.abs(diff4(x, y)) && Math.abs(diff4(x, y)) < CO_MASS / 3 + e) {
-            F4.add(y);
-        } else if (NH_MASS / 3 - e < Math.abs(diff4(y, x)) && Math.abs(diff4(y, x)) < NH_MASS / 3 + e) {
-            F4.add(y);
-        } else if (CO_MASS / 3 - e < Math.abs(diff4(y, x)) && Math.abs(diff4(y, x)) < CO_MASS / 3 + e) {
-            F4.add(y);
+        double d1xy = Math.abs(diff1(x, y));
+        double d2xy = Math.abs(diff2(x, y));
+        double d2yx = Math.abs(diff2(y, x));
+        double d3xy = Math.abs(diff3(x, y));
+        double d3yx = Math.abs(diff3(y, x));
+        double d4xy = Math.abs(diff4(x, y));
+        double d4yx = Math.abs(diff4(y, x));
+
+        if (NH_MASS - e < d1xy && d1xy < NH_MASS + e) {
+            F4++;
+        } else if (CO_MASS - e < d1xy && d1xy < CO_MASS + e) {
+            F4++;
+        } else if (NH_MASS / 2 - e < d1xy && d1xy < NH_MASS / 2 + e) {
+            F4++;
+        } else if (CO_MASS / 2 - e < d1xy && d1xy < CO_MASS / 2 + e) {
+            F4++;
+        } else if (NH_MASS / 3 - e < d1xy && d1xy < NH_MASS / 3 + e) {
+            F4++;
+        } else if (CO_MASS / 3 - e < d1xy && d1xy < CO_MASS / 3 + e) {
+            F4++;
+        } else if (NH_MASS / 2 - e < d2xy && d2xy < NH_MASS / 2 + e) {
+            F4++;
+        } else if (CO_MASS / 2 - e < d2xy && d2xy < CO_MASS / 2 + e) {
+            F4++;
+        } else if (NH_MASS / 2 - e < d2yx && d2yx < NH_MASS / 2 + e) {
+            F4++;
+        } else if (CO_MASS / 2 - e < d2yx && d2yx < CO_MASS / 2 + e) {
+            F4++;
+        } else if (NH_MASS / 3 - e < d3xy && d3xy < NH_MASS / 3 + e) {
+            F4++;
+        } else if (CO_MASS / 3 - e < d3xy && d3xy < CO_MASS / 3 + e) {
+            F4++;
+        } else if (NH_MASS / 3 - e < d3yx && d3yx < NH_MASS / 3 + e) {
+            F4++;
+        } else if (CO_MASS / 3 - e < d3yx && d3yx < CO_MASS / 3 + e) {
+            F4++;
+        } else if (NH_MASS / 3 - e < d4xy && d4xy < NH_MASS / 3 + e) {
+            F4++;
+        } else if (CO_MASS / 3 - e < d4xy && d4xy < CO_MASS / 3 + e) {
+            F4++;
+        } else if (NH_MASS / 3 - e < d4yx && d4yx < NH_MASS / 3 + e) {
+            F4++;
+        } else if (CO_MASS / 3 - e < d4yx && d4yx < CO_MASS / 3 + e) {
+            F4++;
         }
 
-        return F4.size();
+        return F4;
     }
 
     // NOT FINISHED YET
@@ -340,10 +374,10 @@ public class Score {
      * 
      * @param con Connection
      * @param isotopicclustergraph IsotopicClusterGraph
-     * @return Cardinality of List F5
+     * @return F5
      */
     protected int fifthIntensityFeature(Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph) {
-        List<Peak> F5 = new ArrayList<>();
+        int F5 = 0;
         double threshold = 0.3;
 
         int i = 0;
@@ -369,14 +403,14 @@ public class Score {
             if (con.getColor() == "black") {
                 // System.out.println("black: " + Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN);
                 if (Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN <= threshold) {
-                    F5.add(p);
+                    F5++;
                 }
             }
 
             if (con.getColor() == "red") {
                 // System.out.println("red: " + Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)));
                 if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
-                    F5.add(p);
+                    F5++;
                     // System.out.println("RED ADDED");
                 }
             }
@@ -384,6 +418,6 @@ public class Score {
         }
 
         // System.out.println("SCORE: " + F5.size());
-        return F5.size();
+        return F5;
     }
 }
