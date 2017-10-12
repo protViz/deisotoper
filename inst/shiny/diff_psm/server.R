@@ -35,15 +35,12 @@ shinyServer(function(input, output, session) {
   
   observe({
     input$action2
-    
-    isolate({
-      values$i <- values$i + 1
-    })
+    isolate({ values$i <- values$i + 1 })
   })
   
   observe({
     input$action1
-    isolate(if(values$i != 1) { values$i <- values$i - 1 })
+    isolate( if(values$i != 1) { values$i <- values$i - 1 })
   })
   
   output$num <- renderText({
@@ -58,8 +55,17 @@ shinyServer(function(input, output, session) {
       #rv <- plot.mascot_query(val$queries[[values$i]], val)
     
       difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
-      abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-      abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+      
+      if(!is.null(input$check)) {
+        if(input$check == 1 && length(input$check) == 1) {
+          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+        } else if (input$check == 2 && length(input$check) == 1){
+          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+        } else if (length(input$check) == 2){
+          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+        }
+      }
       
       if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
         mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
@@ -77,9 +83,18 @@ shinyServer(function(input, output, session) {
       #rv <- plot.mascot_query(val$queries[[values$i]], val, xlim = c(0, 200))
     
       difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
-      abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-      abline(v=difflist$intensity, col="#FF000033", lwd = 4)
       
+      if(!is.null(input$check)) {
+        if(input$check == 1 && length(input$check) == 1) {
+          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+        } else if (input$check == 2 && length(input$check) == 1){
+          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+        } else if (length(input$check) == 2){
+          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+        }
+      }
+
       if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
         mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
       } else {
