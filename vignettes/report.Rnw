@@ -43,6 +43,7 @@ The Functional Genomics Center Zurich (FGCZ) is a department of the ETH Zurich s
 
 
 \chapter{Environment}
+The Eviroment includes 20 mass spectrometry devices and 5 DNA sequencer. There are more than 1000 active nodes of Microsoft Windows, Linux and Mac OSX. The data management system is called b-fabric and there is about 500TB of storage. For my project I used a development environment on Linux using Java 8.
 
 \begin{itemize}
 \item 20 Mass spec devices, 5 sequencer
