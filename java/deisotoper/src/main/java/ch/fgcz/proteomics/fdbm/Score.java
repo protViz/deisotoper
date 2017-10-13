@@ -8,18 +8,13 @@ package ch.fgcz.proteomics.fdbm;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class Score {
+    // public static double timescoref1 = 0;
+    // public static double timescoref2 = 0;
+    // public static double timescoref3 = 0;
+    // public static double timescoref4 = 0;
+    // public static double timescoref5 = 0;
+
     private double score;
-    private final double H_MASS = 1.008;
-    private final double NH3_MASS = 17.03052;
-    private final double H2O_MASS = 18.01528;
-    private final double NH_MASS = 15.01464;
-    private final double CO_MASS = 28.0101;
-    private final double PHE_MASS = 165.192;
-    private final double ASP_MASS = 133.104;
-    private final double AVE_UPDATED_MASS = 111.125;
-    // private final static List<Peak> PHE_PATTERN = Arrays.asList(new Peak(147.06842, 100), new Peak(148.07178, 10.2), new Peak(149.07513, 0.6));
-    // private final static List<Peak> ASP_PATTERN = Arrays.asList(new Peak(115.02696, 100), new Peak(116.03032, 4.9), new Peak(117.0312, 0.7));
-    // private final static List<Peak> AVE_UPDATED_PATTERN = Arrays.asList(new Peak(0, 0));
 
     public double getScore() {
         return score;
@@ -44,14 +39,15 @@ public class Score {
      */
     public Score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx, Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph,
             ScoreConfig config) {
-        this.score = 0.8 * firstNonintensityFeature(x, y, error, config) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx) + 0.1 * thirdNonintensityFeature(x, y, error)
-                + 0.1 * fourthNonintensityFeature(x, y, error) + 0.1 * fifthIntensityFeature(con, isotopicclustergraph);
+        this.score = 0.8 * firstNonintensityFeature(x, y, error, config) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx, config)
+                + 0.1 * thirdNonintensityFeature(x, y, error, config) + 0.1 * fourthNonintensityFeature(x, y, error, config) + 0.1 * fifthIntensityFeature(con, isotopicclustergraph, config);
     }
 
     /**
      * Empty constructor.
      */
     public Score() {
+        this.score = 0;
     }
 
     /**
@@ -61,7 +57,7 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double diff1(Peak x, Peak y) {
+    protected double diff1(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() - y.getMz();
     }
 
@@ -72,8 +68,8 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double diff2(Peak x, Peak y) {
-        return x.getMz() - ((y.getMz() + H_MASS) / 2);
+    protected double diff2(Peak x, Peak y, ScoreConfig config) {
+        return x.getMz() - ((y.getMz() + config.getH_MASS()) / 2);
     }
 
     /**
@@ -83,8 +79,8 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double diff3(Peak x, Peak y) {
-        return x.getMz() - ((y.getMz() + (2 * H_MASS)) / 3);
+    protected double diff3(Peak x, Peak y, ScoreConfig config) {
+        return x.getMz() - ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
     /**
@@ -94,8 +90,8 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double diff4(Peak x, Peak y) {
-        return x.getMz() - (((y.getMz() * 2) + H_MASS) / 3);
+    protected double diff4(Peak x, Peak y, ScoreConfig config) {
+        return x.getMz() - (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
     /**
@@ -105,7 +101,7 @@ public class Score {
      * @param y
      * @return
      */
-    protected double sum1(Peak x, Peak y) {
+    protected double sum1(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() + y.getMz();
     }
 
@@ -116,8 +112,8 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double sum2(Peak x, Peak y) {
-        return x.getMz() + ((y.getMz() + H_MASS) / 2);
+    protected double sum2(Peak x, Peak y, ScoreConfig config) {
+        return x.getMz() + ((y.getMz() + config.getH_MASS()) / 2);
     }
 
     /**
@@ -127,8 +123,8 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double sum3(Peak x, Peak y) {
-        return x.getMz() + ((y.getMz() + (2 * H_MASS)) / 3);
+    protected double sum3(Peak x, Peak y, ScoreConfig config) {
+        return x.getMz() + ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
     /**
@@ -138,8 +134,8 @@ public class Score {
      * @param Peak of the MassSpectrum y
      * @return
      */
-    protected double sum4(Peak x, Peak y) {
-        return x.getMz() + (((y.getMz() * 2) + H_MASS) / 3);
+    protected double sum4(Peak x, Peak y, ScoreConfig config) {
+        return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
     /**
@@ -151,40 +147,63 @@ public class Score {
      * @return F1
      */
     protected int firstNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
+        // long startTime = System.currentTimeMillis();
+
         int F1 = 0;
 
-        double d1xy = Math.abs(diff1(x, y));
-        double d2xy = Math.abs(diff2(x, y));
-        double d2yx = Math.abs(diff2(y, x));
-        double d3xy = Math.abs(diff3(x, y));
-        double d3yx = Math.abs(diff3(y, x));
-        double d4xy = Math.abs(diff4(x, y));
-        double d4yx = Math.abs(diff4(y, x));
+        double d1xy = Math.abs(diff1(x, y, config));
+        double d2xy = Math.abs(diff2(x, y, config));
+        double d2yx = Math.abs(diff2(y, x, config));
+        double d3xy = Math.abs(diff3(x, y, config));
+        double d3yx = Math.abs(diff3(y, x, config));
+        double d4xy = Math.abs(diff4(x, y, config));
+        double d4yx = Math.abs(diff4(y, x, config));
 
-        for (Double aa : config.getAA_MASS()) {
-            double aa2 = aa / 2;
-            double aa3 = aa / 3;
+        double min = config.getMin() / 3 - 5;
+        double max = config.getMax() + 5;
 
-            if (aa - e < d1xy && d1xy < aa + e) {
-                F1++;
-            } else if (aa2 - e < d1xy && d1xy < aa2 + e) {
-                F1++;
-            } else if (aa3 - e < d1xy && d1xy < aa3 + e) {
-                F1++;
-            } else if (aa2 - e < d2xy && d2xy < aa2 + e) {
-                F1++;
-            } else if (aa2 - e < d2yx && d2yx < aa2 + e) {
-                F1++;
-            } else if (aa3 - e < d3xy && d3xy < aa3 + e) {
-                F1++;
-            } else if (aa3 - e < d3yx && d3yx < aa3 + e) {
-                F1++;
-            } else if (aa3 - e < d4xy && d4xy < aa3 + e) {
-                F1++;
-            } else if (aa3 - e < d4yx && d4yx < aa3 + e) {
-                F1++;
+        if ((min < d1xy && d1xy < max) || (min < d2xy && d2xy < max) || (min < d2yx && d2yx < max) || (min < d3xy && d3xy < max) || (min < d3yx && d3yx < max) || (min < d4xy && d4xy < max)
+                || (min < d4yx && d4yx < max)) {
+            for (Double aa : config.getAA_MASS()) {
+                double aa2 = aa / 2;
+                double aa3 = aa / 3;
+                double aape = aa + e;
+                double aame = aa - e;
+                double aa2pe = aa2 + e;
+                double aa2me = aa2 - e;
+                double aa3pe = aa3 + e;
+                double aa3me = aa3 - e;
+
+                if ((aame < d1xy && d1xy < aape) || (aa2me < d1xy && d1xy < aa2pe) || (aa3me < d1xy && d1xy < aa3pe) || (aa2me < d2xy && d2xy < aa2pe) || (aa2me < d2yx && d2yx < aa2pe)
+                        || (aa3me < d3xy && d3xy < aa3pe) || (aa3me < d3yx && d3yx < aa3pe) || (aa3me < d4xy && d4xy < aa3pe) || (aa3me < d4yx && d4yx < aa3pe)) {
+                    F1++;
+                }
+
+                // if (aame < d1xy && d1xy < aape) {
+                // F1++;
+                // } else if (aa2me < d1xy && d1xy < aa2pe) {
+                // F1++;
+                // } else if (aa3me < d1xy && d1xy < aa3pe) {
+                // F1++;
+                // } else if (aa2me < d2xy && d2xy < aa2pe) {
+                // F1++;
+                // } else if (aa2me < d2yx && d2yx < aa2pe) {
+                // F1++;
+                // } else if (aa3me < d3xy && d3xy < aa3pe) {
+                // F1++;
+                // } else if (aa3me < d3yx && d3yx < aa3pe) {
+                // F1++;
+                // } else if (aa3me < d4xy && d4xy < aa3pe) {
+                // F1++;
+                // } else if (aa3me < d4yx && d4yx < aa3pe) {
+                // F1++;
+                // }
             }
         }
+
+        // long endTime = System.currentTimeMillis();
+
+        // timescoref1 = timescoref1 + (endTime - startTime);
 
         return F1;
     }
@@ -200,10 +219,10 @@ public class Score {
      * @param ic IsotopicCluster
      * @return F2
      */
-    protected int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic) {
-        int F2 = 0;
-        double M = pepmass * charge;
+    protected int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic, ScoreConfig config) {
+        // long startTime = System.currentTimeMillis();
 
+        int F2 = 0;
         int i = 1;
         for (Peak c : ic.getIsotopicCluster()) {
             if (c.getMz() == x.getMz() && c.getIntensity() == x.getIntensity()) {
@@ -211,36 +230,38 @@ public class Score {
             }
             i++;
         }
+        double s1xy = sum1(x, y, config);
+        double s2xy = sum2(x, y, config);
+        double s2yx = sum2(y, x, config);
+        double s3xy = sum3(x, y, config);
+        double s3yx = sum3(y, x, config);
+        double s4xy = sum4(x, y, config);
+        double s4yx = sum4(y, x, config);
+        double m2i = pepmass * charge + 2 * i;
 
-        double s1xy = sum1(x, y);
-        double s2xy = sum2(x, y);
-        double s2yx = sum2(y, x);
-        double s3xy = sum3(x, y);
-        double s3yx = sum3(y, x);
-        double s4xy = sum4(x, y);
-        double s4yx = sum4(y, x);
-        double m2i = M + 2 * i;
-        double h2 = 2 * H_MASS;
-
-        if (m2i + h2 - e < s1xy && s1xy < m2i + h2 + e) {
+        if (m2i + config.getH_MASSx2() - e < s1xy && s1xy < m2i + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 2 + h2 - e < s1xy && s1xy < (m2i) / 2 + h2 + e) {
+        } else if (m2i / 2 + config.getH_MASSx2() - e < s1xy && s1xy < m2i / 2 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 3 + h2 - e < s1xy && s1xy < (m2i) / 3 + h2 + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - e < s1xy && s1xy < m2i / 3 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 2 + h2 - e < s2xy && s2xy < (m2i) / 2 + h2 + e) {
+        } else if (m2i / 2 + config.getH_MASSx2() - e < s2xy && s2xy < m2i / 2 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 2 + h2 - e < s2yx && s2yx < (m2i) / 2 + h2 + e) {
+        } else if (m2i / 2 + config.getH_MASSx2() - e < s2yx && s2yx < m2i / 2 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 3 + h2 - e < s3xy && s3xy < (m2i) / 3 + h2 + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - e < s3xy && s3xy < m2i / 3 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 3 + h2 - e < s3yx && s3yx < (m2i) / 3 + h2 + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - e < s3yx && s3yx < m2i / 3 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 3 + h2 - e < s4xy && s4xy < (m2i) / 3 + h2 + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - e < s4xy && s4xy < m2i / 3 + config.getH_MASSx2() + e) {
             F2++;
-        } else if ((m2i) / 3 + h2 - e < s4yx && s4yx < (m2i) / 3 + h2 + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - e < s4yx && s4yx < m2i / 3 + config.getH_MASSx2() + e) {
             F2++;
         }
+
+        // long endTime = System.currentTimeMillis();
+
+        // timescoref2 = timescoref2 + (endTime - startTime);
 
         return F2;
     }
@@ -254,54 +275,60 @@ public class Score {
      * @param e Errortolerance
      * @return F3
      */
-    protected int thirdNonintensityFeature(Peak x, Peak y, double e) {
+    protected int thirdNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
+        // long startTime = System.currentTimeMillis();
+
         int F3 = 0;
 
-        double d1xy = Math.abs(diff1(x, y));
-        double d2xy = Math.abs(diff2(x, y));
-        double d2yx = Math.abs(diff2(y, x));
-        double d3xy = Math.abs(diff3(x, y));
-        double d3yx = Math.abs(diff3(y, x));
-        double d4xy = Math.abs(diff4(x, y));
-        double d4yx = Math.abs(diff4(y, x));
+        double d1xy = Math.abs(diff1(x, y, config));
+        double d2xy = Math.abs(diff2(x, y, config));
+        double d2yx = Math.abs(diff2(y, x, config));
+        double d3xy = Math.abs(diff3(x, y, config));
+        double d3yx = Math.abs(diff3(y, x, config));
+        double d4xy = Math.abs(diff4(x, y, config));
+        double d4yx = Math.abs(diff4(y, x, config));
 
-        if (H2O_MASS - e < d1xy && d1xy < H2O_MASS + e) {
+        if (config.getH2O_MASS() - e < d1xy && d1xy < config.getH2O_MASS() + e) {
             F3++;
-        } else if (NH3_MASS - e < d1xy && d1xy < NH3_MASS + e) {
+        } else if (config.getNH3_MASS() - e < d1xy && d1xy < config.getNH3_MASS() + e) {
             F3++;
-        } else if (H2O_MASS / 2 - e < d1xy && d1xy < H2O_MASS / 2 + e) {
+        } else if (config.getH2O_MASSd2() - e < d1xy && d1xy < config.getH2O_MASSd2() + e) {
             F3++;
-        } else if (NH3_MASS / 2 - e < d1xy && d1xy < NH3_MASS / 2 + e) {
+        } else if (config.getNH3_MASSd2() - e < d1xy && d1xy < config.getNH3_MASSd2() + e) {
             F3++;
-        } else if (H2O_MASS / 3 - e < d1xy && d1xy < H2O_MASS / 3 + e) {
+        } else if (config.getH2O_MASSd3() - e < d1xy && d1xy < config.getH2O_MASSd3() + e) {
             F3++;
-        } else if (NH3_MASS / 3 - e < d1xy && d1xy < NH3_MASS / 3 + e) {
+        } else if (config.getNH3_MASSd3() - e < d1xy && d1xy < config.getNH3_MASSd3() + e) {
             F3++;
-        } else if (H2O_MASS / 2 - e < d2xy && d2xy < H2O_MASS / 2 + e) {
+        } else if (config.getH2O_MASSd2() - e < d2xy && d2xy < config.getH2O_MASSd2() + e) {
             F3++;
-        } else if (NH3_MASS / 2 - e < d2xy && d2xy < NH3_MASS / 2 + e) {
+        } else if (config.getNH3_MASSd2() - e < d2xy && d2xy < config.getNH3_MASSd2() + e) {
             F3++;
-        } else if (H2O_MASS / 2 - e < d2yx && d2yx < H2O_MASS / 2 + e) {
+        } else if (config.getH2O_MASSd2() - e < d2yx && d2yx < config.getH2O_MASSd2() + e) {
             F3++;
-        } else if (NH3_MASS / 2 - e < d2yx && d2yx < NH3_MASS / 2 + e) {
+        } else if (config.getNH3_MASSd2() - e < d2yx && d2yx < config.getNH3_MASSd2() + e) {
             F3++;
-        } else if (H2O_MASS / 3 - e < d3xy && d3xy < H2O_MASS / 3 + e) {
+        } else if (config.getH2O_MASSd3() - e < d3xy && d3xy < config.getH2O_MASSd3() + e) {
             F3++;
-        } else if (NH3_MASS / 3 - e < d3xy && d3xy < NH3_MASS / 3 + e) {
+        } else if (config.getNH3_MASSd3() - e < d3xy && d3xy < config.getNH3_MASSd3() + e) {
             F3++;
-        } else if (H2O_MASS / 3 - e < d3yx && d3yx < H2O_MASS / 3 + e) {
+        } else if (config.getH2O_MASSd3() - e < d3yx && d3yx < config.getH2O_MASSd3() + e) {
             F3++;
-        } else if (NH3_MASS / 3 - e < d3yx && d3yx < NH3_MASS / 3 + e) {
+        } else if (config.getNH3_MASSd3() - e < d3yx && d3yx < config.getNH3_MASSd3() + e) {
             F3++;
-        } else if (H2O_MASS / 3 - e < d4xy && d4xy < H2O_MASS / 3 + e) {
+        } else if (config.getH2O_MASSd3() - e < d4xy && d4xy < config.getH2O_MASSd3() + e) {
             F3++;
-        } else if (NH3_MASS / 3 - e < d4xy && d4xy < NH3_MASS / 3 + e) {
+        } else if (config.getNH3_MASSd3() - e < d4xy && d4xy < config.getNH3_MASSd3() + e) {
             F3++;
-        } else if (H2O_MASS / 3 - e < d4yx && d4yx < H2O_MASS / 3 + e) {
+        } else if (config.getH2O_MASSd3() - e < d4yx && d4yx < config.getH2O_MASSd3() + e) {
             F3++;
-        } else if (NH3_MASS / 3 - e < d4yx && d4yx < NH3_MASS / 3 + e) {
+        } else if (config.getNH3_MASSd3() - e < d4yx && d4yx < config.getNH3_MASSd3() + e) {
             F3++;
         }
+
+        // long endTime = System.currentTimeMillis();
+
+        // timescoref3 = timescoref3 + (endTime - startTime);
 
         return F3;
     }
@@ -315,54 +342,60 @@ public class Score {
      * @param e Errortolerance
      * @return F4
      */
-    protected int fourthNonintensityFeature(Peak x, Peak y, double e) {
+    protected int fourthNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
+        // long startTime = System.currentTimeMillis();
+
         int F4 = 0;
 
-        double d1xy = Math.abs(diff1(x, y));
-        double d2xy = Math.abs(diff2(x, y));
-        double d2yx = Math.abs(diff2(y, x));
-        double d3xy = Math.abs(diff3(x, y));
-        double d3yx = Math.abs(diff3(y, x));
-        double d4xy = Math.abs(diff4(x, y));
-        double d4yx = Math.abs(diff4(y, x));
+        double d1xy = Math.abs(diff1(x, y, config));
+        double d2xy = Math.abs(diff2(x, y, config));
+        double d2yx = Math.abs(diff2(y, x, config));
+        double d3xy = Math.abs(diff3(x, y, config));
+        double d3yx = Math.abs(diff3(y, x, config));
+        double d4xy = Math.abs(diff4(x, y, config));
+        double d4yx = Math.abs(diff4(y, x, config));
 
-        if (NH_MASS - e < d1xy && d1xy < NH_MASS + e) {
+        if (config.getNH_MASS() - e < d1xy && d1xy < config.getCO_MASS() + e) {
             F4++;
-        } else if (CO_MASS - e < d1xy && d1xy < CO_MASS + e) {
+        } else if (config.getCO_MASS() - e < d1xy && d1xy < config.getCO_MASS() + e) {
             F4++;
-        } else if (NH_MASS / 2 - e < d1xy && d1xy < NH_MASS / 2 + e) {
+        } else if (config.getNH_MASSd2() - e < d1xy && d1xy < config.getNH_MASSd2() + e) {
             F4++;
-        } else if (CO_MASS / 2 - e < d1xy && d1xy < CO_MASS / 2 + e) {
+        } else if (config.getCO_MASSd2() - e < d1xy && d1xy < config.getCO_MASSd2() + e) {
             F4++;
-        } else if (NH_MASS / 3 - e < d1xy && d1xy < NH_MASS / 3 + e) {
+        } else if (config.getNH_MASSd3() - e < d1xy && d1xy < config.getNH_MASSd3() + e) {
             F4++;
-        } else if (CO_MASS / 3 - e < d1xy && d1xy < CO_MASS / 3 + e) {
+        } else if (config.getCO_MASSd3() - e < d1xy && d1xy < config.getCO_MASSd3() + e) {
             F4++;
-        } else if (NH_MASS / 2 - e < d2xy && d2xy < NH_MASS / 2 + e) {
+        } else if (config.getNH_MASSd2() - e < d2xy && d2xy < config.getNH_MASSd2() + e) {
             F4++;
-        } else if (CO_MASS / 2 - e < d2xy && d2xy < CO_MASS / 2 + e) {
+        } else if (config.getCO_MASSd2() - e < d2xy && d2xy < config.getCO_MASSd2() + e) {
             F4++;
-        } else if (NH_MASS / 2 - e < d2yx && d2yx < NH_MASS / 2 + e) {
+        } else if (config.getNH_MASSd2() - e < d2yx && d2yx < config.getNH_MASSd2() + e) {
             F4++;
-        } else if (CO_MASS / 2 - e < d2yx && d2yx < CO_MASS / 2 + e) {
+        } else if (config.getCO_MASSd2() - e < d2yx && d2yx < config.getCO_MASSd2() + e) {
             F4++;
-        } else if (NH_MASS / 3 - e < d3xy && d3xy < NH_MASS / 3 + e) {
+        } else if (config.getNH_MASSd3() - e < d3xy && d3xy < config.getNH_MASSd3() + e) {
             F4++;
-        } else if (CO_MASS / 3 - e < d3xy && d3xy < CO_MASS / 3 + e) {
+        } else if (config.getCO_MASSd3() - e < d3xy && d3xy < config.getCO_MASSd3() + e) {
             F4++;
-        } else if (NH_MASS / 3 - e < d3yx && d3yx < NH_MASS / 3 + e) {
+        } else if (config.getNH_MASSd3() - e < d3yx && d3yx < config.getNH_MASSd3() + e) {
             F4++;
-        } else if (CO_MASS / 3 - e < d3yx && d3yx < CO_MASS / 3 + e) {
+        } else if (config.getCO_MASSd3() - e < d3yx && d3yx < config.getCO_MASSd3() + e) {
             F4++;
-        } else if (NH_MASS / 3 - e < d4xy && d4xy < NH_MASS / 3 + e) {
+        } else if (config.getNH_MASSd3() - e < d4xy && d4xy < config.getNH_MASSd3() + e) {
             F4++;
-        } else if (CO_MASS / 3 - e < d4xy && d4xy < CO_MASS / 3 + e) {
+        } else if (config.getCO_MASSd3() - e < d4xy && d4xy < config.getCO_MASSd3() + e) {
             F4++;
-        } else if (NH_MASS / 3 - e < d4yx && d4yx < NH_MASS / 3 + e) {
+        } else if (config.getNH_MASSd3() - e < d4yx && d4yx < config.getNH_MASSd3() + e) {
             F4++;
-        } else if (CO_MASS / 3 - e < d4yx && d4yx < CO_MASS / 3 + e) {
+        } else if (config.getCO_MASSd3() - e < d4yx && d4yx < config.getCO_MASSd3() + e) {
             F4++;
         }
+
+        // long endTime = System.currentTimeMillis();
+
+        // timescoref4 = timescoref4 + (endTime - startTime);
 
         return F4;
     }
@@ -376,28 +409,30 @@ public class Score {
      * @param isotopicclustergraph IsotopicClusterGraph
      * @return F5
      */
-    protected int fifthIntensityFeature(Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph) {
+    protected int fifthIntensityFeature(Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, ScoreConfig config) {
+        // long startTime = System.currentTimeMillis();
+
         int F5 = 0;
         double threshold = 0.3;
 
         int i = 0;
         for (Peak p : isotopicclustergraph.getEdgeTarget(con).getIsotopicCluster()) {
             // System.out.println("PEAK: " + p.getMz() + " MZ, " + p.getIntensity() + " INTENSITY");
-            double T_MIN = (p.getMz() / ASP_MASS) * p.getIntensity();
+            double T_MIN = (p.getMz() / config.getASP_MASS()) * p.getIntensity();
             // System.out.println("T_MIN: " + T_MIN);
-            double T_MEAN = (p.getMz() / AVE_UPDATED_MASS) * p.getIntensity();
+            double T_MEAN = (p.getMz() / config.getAVE_UPDATED_MASS()) * p.getIntensity();
             // System.out.println("T_MEAN: " + T_MEAN);
             double T_MEAN_OVERLAP = 0;
             if (isotopicclustergraph.getEdgeSource(con).getIsotopicCluster() != null) {
                 if (i < isotopicclustergraph.getEdgeSource(con).getIsotopicCluster().size()) {
-                    T_MEAN_OVERLAP = (isotopicclustergraph.getEdgeSource(con).getIsotopicCluster().get(i).getMz() / AVE_UPDATED_MASS) * p.getIntensity();
+                    T_MEAN_OVERLAP = (isotopicclustergraph.getEdgeSource(con).getIsotopicCluster().get(i).getMz() / config.getAVE_UPDATED_MASS()) * p.getIntensity();
                 } else {
                     T_MEAN_OVERLAP = (isotopicclustergraph.getEdgeSource(con).getIsotopicCluster().get(isotopicclustergraph.getEdgeSource(con).getIsotopicCluster().size() - 1).getMz()
-                            / AVE_UPDATED_MASS) * p.getIntensity();
+                            / config.getAVE_UPDATED_MASS()) * p.getIntensity();
                 }
             }
             // System.out.println("T_MEAN_OVERLAP: " + T_MEAN_OVERLAP);
-            double T_MAX = (p.getMz() / PHE_MASS) * p.getIntensity();
+            double T_MAX = (p.getMz() / config.getPHE_MASS()) * p.getIntensity();
             // System.out.println("T_MAX: " + T_MAX);
 
             if (con.getColor() == "black") {
@@ -416,6 +451,10 @@ public class Score {
             }
             i++;
         }
+
+        // long endTime = System.currentTimeMillis();
+
+        // timescoref5 = timescoref5 + (endTime - startTime);
 
         // System.out.println("SCORE: " + F5.size());
         return F5;

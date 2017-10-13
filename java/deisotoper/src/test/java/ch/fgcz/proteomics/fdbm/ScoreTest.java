@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 public class ScoreTest {
+    private ScoreConfig config = new ScoreConfig("");
 
     @Test
     public void testF1() {
@@ -23,7 +24,6 @@ public class ScoreTest {
         Peak x3 = new Peak(155.0, 5855.542, 0);
         Peak y3 = new Peak(189.86, 325.58, 0);
         double e = 0.3;
-        ScoreConfig config = new ScoreConfig("");
 
         double score1 = s.firstNonintensityFeature(x1, y1, e, config);
         double score2 = s.firstNonintensityFeature(x2, y3, e, config);
@@ -44,7 +44,7 @@ public class ScoreTest {
         double e = 0.3;
         IsotopicCluster ic = new IsotopicCluster(Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1);
 
-        double score = s.secondNonintensityFeature(x, y, e, pepmass, charge, ic);
+        double score = s.secondNonintensityFeature(x, y, e, pepmass, charge, ic, config);
 
         assertEquals(score, 0, 0);
     }
@@ -56,7 +56,7 @@ public class ScoreTest {
         Peak y = new Peak(141.0, 467.55, 0);
         double e = 0.3;
 
-        double score = s.thirdNonintensityFeature(x, y, e);
+        double score = s.thirdNonintensityFeature(x, y, e, config);
 
         assertEquals(score, 1, 0);
     }
@@ -68,7 +68,7 @@ public class ScoreTest {
         Peak y = new Peak(138.0, 467.55, 0);
         double e = 0.3;
 
-        double score = s.fourthNonintensityFeature(x, y, e);
+        double score = s.fourthNonintensityFeature(x, y, e, config);
 
         assertEquals(score, 1, 0);
     }
@@ -80,7 +80,7 @@ public class ScoreTest {
                 new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0), new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)), 0.01, 0));
         Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
 
-        double score = s.fifthIntensityFeature((Connection) a[0], icg.getIsotopicclustergraph());
+        double score = s.fifthIntensityFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
 
         assertEquals(score, 0, 0);
     }

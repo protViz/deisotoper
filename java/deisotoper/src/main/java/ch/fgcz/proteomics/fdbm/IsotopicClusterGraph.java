@@ -31,6 +31,8 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("deprecation")
 public class IsotopicClusterGraph {
+    // public static double timescore2 = 0;
+
     private double min = Double.MAX_VALUE;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(Connection.class);
 
@@ -354,7 +356,15 @@ public class IsotopicClusterGraph {
                         if (x.getMz() > y.getMz()) {
                             continue;
                         }
+
+                        // long startTime = System.currentTimeMillis();
+
                         Score s = new Score(x, y, error, pepmass, chargestate, this.isotopicclustergraph.getEdgeTarget(e), e, this.isotopicclustergraph, config);
+
+                        // long endTime = System.currentTimeMillis();
+
+                        // timescore2 = timescore2 + (endTime - startTime);
+
                         sumscore += s.getScore();
                     }
                 }

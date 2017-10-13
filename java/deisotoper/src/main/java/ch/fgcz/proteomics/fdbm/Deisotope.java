@@ -20,6 +20,8 @@ import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotope {
+    private static double time = 0;
+
     public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
@@ -145,7 +147,7 @@ public class Deisotope {
     public static void main(String[] args) {
         runtimeBenchmark();
 
-        testDeisotope();
+        // testDeisotope();
     }
 
     private static void testDeisotope() {
@@ -481,9 +483,22 @@ public class Deisotope {
         long startTime = System.currentTimeMillis();
 
         Deisotope deiso = new Deisotope();
-        System.out.println(Summary.makeSummary(deiso.deisotopeMSM(msm, false, "first", "AminoAcidMasses.ini")));
+        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "AminoAcidMasses.ini");
 
         long endTime = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (endTime - startTime) + "ms");
+
+        // System.out.println(Summary.makeSummary(d));
+
+        time = endTime - startTime;
+
+        System.out.println("Total execution time: " + time + "ms (100%)");
+        System.out.println();
+
+        // System.out.println("new score execution time: " + IsotopicClusterGraph.timescore2 + "ms (" + (int) (IsotopicClusterGraph.timescore2 / time * 100) + "%)");
+        // System.out.println("f1 execution time: " + Score.timescoref1 + "ms (" + (int) (Score.timescoref1 / time * 100) + "%)");
+        // System.out.println("f2 execution time: " + Score.timescoref2 + "ms (" + (int) (Score.timescoref2 / time * 100) + "%)");
+        // System.out.println("f3 execution time: " + Score.timescoref3 + "ms (" + (int) (Score.timescoref3 / time * 100) + "%)");
+        // System.out.println("f4 execution time: " + Score.timescoref4 + "ms (" + (int) (Score.timescoref4 / time * 100) + "%)");
+        // System.out.println("f5 execution time: " + Score.timescoref5 + "ms (" + (int) (Score.timescoref5 / time * 100) + "%)");
     }
 }
