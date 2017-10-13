@@ -1,11 +1,11 @@
 package ch.fgcz.proteomics.fdbm;
 
-import java.text.SimpleDateFormat;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-21
  */
+
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,12 +45,12 @@ public class Deisotope {
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, 0.01);
 
-        List<Double> isotopelist = new ArrayList<>();
-        List<Double> mzlist = new ArrayList<>();
-        List<Double> intensitylist = new ArrayList<>();
-        List<Integer> chargelist = new ArrayList<>();
+        List<Double> mz = new ArrayList<>();
+        List<Double> intensity = new ArrayList<>();
+        List<Double> isotope = new ArrayList<>();
+        List<Integer> charge = new ArrayList<>();
 
-        List<Double> mzlistnew = new ArrayList<>();
+        List<Double> mz3 = new ArrayList<>();
 
         for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
             IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
@@ -63,53 +63,53 @@ public class Deisotope {
                 icg.drawDOTIsotopicClusterGraph(is.getSetID(), input.getId(), date);
             }
 
-            List<Double> clustermz = new ArrayList<>();
-            List<Double> clusteri = new ArrayList<>();
-            List<Double> clusteriso = new ArrayList<>();
-            List<Integer> clustercharge = new ArrayList<>();
+            List<Double> mz2 = new ArrayList<>();
+            List<Double> intensity2 = new ArrayList<>();
+            List<Double> isotope2 = new ArrayList<>();
+            List<Integer> charge2 = new ArrayList<>();
 
-            List<Double> clustermznew = new ArrayList<>();
+            List<Double> mz4 = new ArrayList<>();
 
             for (IsotopicCluster cluster : bp.getVertexList()) {
                 if (cluster.getIsotopicCluster() != null) {
 
                     for (Peak p : cluster.getIsotopicCluster()) {
-                        clustermznew.add(p.getMz());
+                        mz4.add(p.getMz());
                     }
 
                     aggregation(cluster, modus);
 
                     int position = 1;
                     for (Peak p : cluster.getIsotopicCluster()) {
-                        clustermz.add(p.getMz());
-                        clusteri.add(p.getIntensity());
-                        clusteriso.add((double) position);
-                        clustercharge.add(cluster.getCharge());
+                        mz2.add(p.getMz());
+                        intensity2.add(p.getIntensity());
+                        isotope2.add((double) position);
+                        charge2.add(cluster.getCharge());
                         position++;
                     }
                 }
             }
 
-            mzlist.addAll(clustermz);
-            intensitylist.addAll(clusteri);
-            isotopelist.addAll(clusteriso);
-            chargelist.addAll(clustercharge);
+            mz.addAll(mz2);
+            intensity.addAll(intensity2);
+            isotope.addAll(isotope2);
+            charge.addAll(charge2);
 
-            mzlistnew.addAll(clustermznew);
+            mz3.addAll(mz4);
         }
 
         for (int i = 0; i < input.getMz().size(); i++) {
-            if (!mzlistnew.contains(input.getMz().get(i))) {
-                mzlist.add(input.getMz().get(i));
-                intensitylist.add(input.getIntensity().get(i));
-                isotopelist.add(-1.0);
-                chargelist.add(-1);
+            if (!mz3.contains(input.getMz().get(i))) {
+                mz.add(input.getMz().get(i));
+                intensity.add(input.getIntensity().get(i));
+                isotope.add(-1.0);
+                charge.add(-1);
             }
         }
 
-        Sort.keySort(mzlist, mzlist, intensitylist, isotopelist, chargelist);
+        Sort.keySort(mz, mz, intensity, isotope, charge);
 
-        return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mzlist, intensitylist, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), chargelist, isotopelist);
+        return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz, intensity, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge, isotope);
     }
 
     private IsotopicCluster getStart(IsotopicClusterGraph icg) {

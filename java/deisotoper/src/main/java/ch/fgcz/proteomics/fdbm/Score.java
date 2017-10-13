@@ -32,14 +32,14 @@ public class Score {
      * @param error Errortolerance
      * @param mspepmass PeptidMass of MS
      * @param mscharge ChargeState of MS
-     * @param icofx IsotopicCluster which contains x
+     * @param icx IsotopicCluster which contains x
      * @param con Connection
      * @param isotopicclustergraph IsotopicClusterGraph
      * @return score
      */
-    public Score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icofx, Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph,
+    public Score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icx, Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph,
             ScoreConfig config) {
-        this.score = 0.8 * firstNonintensityFeature(x, y, error, config) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icofx, config)
+        this.score = 0.8 * firstNonintensityFeature(x, y, error, config) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icx, config)
                 + 0.1 * thirdNonintensityFeature(x, y, error, config) + 0.1 * fourthNonintensityFeature(x, y, error, config) + 0.1 * fifthIntensityFeature(con, isotopicclustergraph, config);
     }
 
