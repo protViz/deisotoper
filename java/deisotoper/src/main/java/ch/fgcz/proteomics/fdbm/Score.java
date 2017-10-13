@@ -159,14 +159,15 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config));
         double d4yx = Math.abs(diff4(y, x, config));
 
-        double min = config.getMin() / 3 - 5;
-        double max = config.getMax() + 5;
+        double min = config.getMin() - 2;
+        double max = config.getMax() + 2;
 
         if ((min < d1xy && d1xy < max) || (min < d2xy && d2xy < max) || (min < d2yx && d2yx < max) || (min < d3xy && d3xy < max) || (min < d3yx && d3yx < max) || (min < d4xy && d4xy < max)
                 || (min < d4yx && d4yx < max)) {
-            for (Double aa : config.getAA_MASS()) {
-                double aa2 = aa / 2;
-                double aa3 = aa / 3;
+            for (int i = 0; i < config.getAA_MASS().size(); i++) {
+                double aa = config.getAA_MASS().get(i);
+                double aa2 = config.getAA_MASS2().get(i);
+                double aa3 = config.getAA_MASS3().get(i);
                 double aape = aa + e;
                 double aame = aa - e;
                 double aa2pe = aa2 + e;

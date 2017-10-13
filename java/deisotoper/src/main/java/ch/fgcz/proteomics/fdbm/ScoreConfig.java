@@ -15,6 +15,8 @@ import java.util.List;
 
 public class ScoreConfig {
     private List<Double> AA_MASS = new ArrayList<>();
+    private List<Double> AA_MASS2 = new ArrayList<>();
+    private List<Double> AA_MASS3 = new ArrayList<>();
     private double min = 0;
     private double max = Double.MAX_VALUE;
     private final double H_MASS = 1.008;
@@ -130,6 +132,22 @@ public class ScoreConfig {
         AA_MASS = aA_MASS;
     }
 
+    public List<Double> getAA_MASS2() {
+        return AA_MASS2;
+    }
+
+    public void setAA_MASS2(List<Double> aA_MASS2) {
+        AA_MASS2 = aA_MASS2;
+    }
+
+    public List<Double> getAA_MASS3() {
+        return AA_MASS3;
+    }
+
+    public void setAA_MASS3(List<Double> aA_MASS3) {
+        AA_MASS3 = aA_MASS3;
+    }
+
     public ScoreConfig(String file) {
         this.AA_MASS.removeAll(this.AA_MASS);
 
@@ -167,7 +185,12 @@ public class ScoreConfig {
             e.printStackTrace();
         }
 
-        this.min = Collections.min(this.AA_MASS);
+        for (Double x : this.AA_MASS) {
+            this.AA_MASS2.add(x / 2);
+            this.AA_MASS3.add(x / 3);
+        }
+
+        this.min = Collections.min(this.AA_MASS3);
         this.max = Collections.max(this.AA_MASS);
     }
 }
