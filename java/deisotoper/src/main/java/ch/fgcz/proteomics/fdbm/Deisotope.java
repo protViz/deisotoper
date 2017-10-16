@@ -132,11 +132,13 @@ public class Deisotope {
 
     private IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
         if (modus.contains("first")) {
-            return cluster.aggregateFirst();
+            return cluster.simpleAggregateFirst();
         } else if (modus.contains("last")) {
-            return cluster.aggregateLast();
+            return cluster.simpleAggregateLast();
         } else if (modus.contains("mean")) {
-            return cluster.aggregateMean();
+            return cluster.simpleAggregateMean();
+        } else if (modus.contains("highest")) {
+            return cluster.advancedAggregateHighest();
         } else if (modus.contains("none")) {
             return cluster;
         } else {
@@ -479,6 +481,8 @@ public class Deisotope {
                 j = 0;
             }
         }
+
+        System.out.println(Summary.makeSummary(msm));
 
         long startTime = System.currentTimeMillis();
 

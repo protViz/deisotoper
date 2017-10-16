@@ -64,7 +64,7 @@ public class IsotopicCluster {
         this.status = status;
     }
 
-    public IsotopicCluster aggregateFirst() {
+    public IsotopicCluster simpleAggregateFirst() {
         double intensitysum = this.sumIntensity();
 
         this.isotopiccluster.get(0).setIntensity(intensitysum);
@@ -79,7 +79,7 @@ public class IsotopicCluster {
         return this;
     }
 
-    public IsotopicCluster aggregateLast() {
+    public IsotopicCluster simpleAggregateLast() {
         double intensitysum = this.sumIntensity();
 
         this.isotopiccluster.remove(0);
@@ -94,7 +94,7 @@ public class IsotopicCluster {
         return this;
     }
 
-    public IsotopicCluster aggregateMean() {
+    public IsotopicCluster simpleAggregateMean() {
         double intensitysum = this.sumIntensity();
 
         double mzmean = 0;
@@ -114,6 +114,30 @@ public class IsotopicCluster {
         }
 
         this.isotopiccluster.get(0).setMz((this.isotopiccluster.get(0).getMz() * this.charge) - (this.charge - 1) * H_MASS);
+        return this;
+    }
+
+    public IsotopicCluster advancedAggregateHighest() {
+        double intensitysum = this.sumIntensity();
+        double minint = 0;
+        double minmz = 0;
+
+        for (Peak p : this.isotopiccluster) {
+            if (p.getIntensity() > minint) {
+                minint = p.getIntensity();
+                minmz = p.getMz();
+            }
+        }
+
+        this.isotopiccluster.get(0).setIntensity(intensitysum);
+        this.isotopiccluster.get(0).setMz(minmz);
+        if (this.isotopiccluster.size() == 2) {
+            this.isotopiccluster.remove(1);
+        } else if (this.isotopiccluster.size() == 3) {
+            this.isotopiccluster.remove(2);
+            this.isotopiccluster.remove(1);
+        }
+
         return this;
     }
 
