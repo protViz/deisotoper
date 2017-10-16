@@ -119,6 +119,19 @@ public class IsotopicClusterGraph {
     }
 
     /**
+     * @param source
+     * @param sink
+     * @return paths
+     */
+    public List<GraphPath<IsotopicCluster, Connection>> allPaths(IsotopicCluster source, IsotopicCluster sink) {
+        KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(this.isotopicclustergraph, source, 1000000);
+
+        List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
+
+        return p;
+    }
+
+    /**
      * Creates a window and draws the graph in it.
      * 
      * @param g

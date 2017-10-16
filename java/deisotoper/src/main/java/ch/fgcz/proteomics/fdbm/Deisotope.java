@@ -29,7 +29,7 @@ public class Deisotope {
 
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
-        for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {
+        for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {$
             output.getMSlist().add(deisotopeMS(ms, save, modus, config, date));
         }
 
@@ -487,7 +487,7 @@ public class Deisotope {
 
         long endTime = System.currentTimeMillis();
 
-        // System.out.println(Summary.makeSummary(d));
+        System.out.println(Summary.makeSummary(d));
 
         time = endTime - startTime;
 
