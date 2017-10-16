@@ -2,7 +2,8 @@ library(shiny)
 library(protViz)
 
 shinyServer(function(input, output, session) {
-  values <- reactiveValues(i = 1)
+  values <- reactiveValues()
+  #max(length(button()$one$queries), length(button()$two$queries))
   
   button <- eventReactive(input$load1, {
     url1 <- get(load(con <- url(input$text1)))
@@ -32,27 +33,43 @@ shinyServer(function(input, output, session) {
     list(one = url1, two = url2)
   })
   
-  observe({
-    input$action2
-    isolate({ values$i <- values$i + 1 })
+  output$slider <- renderUI({
+    sliderInput("id", label = "Spectrum ID", min = 1, max = max(length(button()$one$queries), length(button()$two$queries)), value = 1, width = "600", step = 1)
   })
   
-  observe({
-    input$action1
-    isolate( if(values$i != 1) { values$i <- values$i - 1 })
-  })
-  
-  output$num <- renderText({
-    values$i
-  })
+  # observe({
+  #   input$action2
+  #   isolate({ values$i <- values$i + 1 })
+  # })
+  # 
+  # observe({
+  #   input$action1
+  #   isolate( if(values$i != 1) { values$i <- values$i - 1 })
+  # })
+  # 
+  # observe({
+  #   input$action22
+  #   isolate({ values$i <- values$i + 10 })
+  # })
+  # 
+  # observe({
+  #   input$action12
+  #   isolate( if(values$i > 10) { values$i <- values$i - 10 } else { values$i <- 1 })
+  # })
+  # 
+  # output$num <- renderText({
+  #   values$i
+  # })
   
   output$plot1 <- renderPlot({
     val <- button()$one
-    if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
-      spec <- protViz:::.get_ms2(val$queries[[values$i]])
-      peakplot(peptideSequence = val$queries[[values$i]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), ylim = c(0, max(spec$intensity)))
-    
-      difflist <- diff(val$queries[[values$i]], button()$two$queries[[values$i]])
+    if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
+      spec <- protViz:::.get_ms2(val$queries[[input$id]])
+      peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE))))
+      axis(side=1, at = spec$mZ, line = 0, labels = FALSE)
+      axis(side=1, at = spec$mZ, line = 1, tick = FALSE)
+      
+      difflist <- diff(val$queries[[input$id]], button()$two$queries[[input$id]])
       
       if(!is.null(input$check)) {
         if(input$check == 1 && length(input$check) == 1) {
@@ -65,21 +82,19 @@ shinyServer(function(input, output, session) {
         }
       }
       
-      if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
-        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
-      } else {
-        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="black")
-      }
+      mtext(text = paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, sep = ""), line = 2, adj = 0, col="black")
     }
   })
   
   output$plot2 <- renderPlot({   
     val <- button()$two
-    if(!is.null(val$queries[[values$i]]$q_peptide$pep_score)) {
-      spec <- protViz:::.get_ms2(val$queries[[values$i]])
-      peakplot(peptideSequence = val$queries[[values$i]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), ylim = c(0, max(spec$intensity)))
-
-      difflist <- diff(button()$one$queries[[values$i]], val$queries[[values$i]])
+    if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
+      spec <- protViz:::.get_ms2(val$queries[[input$id]])
+      peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$one$queries[[input$id]])$intensity, na.rm=TRUE))))
+      axis(side=1, at = spec$mZ, line = 0, labels = FALSE)
+      axis(side=1, at = spec$mZ, line = 1, tick = FALSE)
+      
+      difflist <- diff(button()$one$queries[[input$id]], val$queries[[input$id]])
       
       if(!is.null(input$check)) {
         if(input$check == 1 && length(input$check) == 1) {
@@ -92,11 +107,7 @@ shinyServer(function(input, output, session) {
         }
       }
 
-      if(as.numeric(val$queries[[values$i]]$q_peptide$pep_score) > 25) {
-        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="red")
-      } else {
-        mtext(text = paste("Mascot Score:", val$queries[[values$i]]$q_peptide$pep_score), line = 2, adj = 0, col="black")
-      }
+      mtext(text = paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, sep = ""), line = 2, adj = 0, col="black")
     }
   })
   
@@ -122,7 +133,7 @@ shinyServer(function(input, output, session) {
     points(pep_score2[index2],col="#FF0000", type="p", cex = 0.8, pch = 16)
     mtext(text ="First Mascot-Scores", line = 2, adj = 0, col="blue")
     mtext(text ="Second Mascot-Scores", line = 1, adj = 0, col="red")
-    abline(v=values$i, col="#FF00FF77", lwd = 1)
+    abline(v=input$id, col="#FF00FF77", lwd = 1)
     mtext(text ="Position of the plotted Mass Spectra", line = 0, adj = 0, col="#FF00FF")
   })
   
@@ -147,3 +158,67 @@ diff <- function(query1, query2) {
   
   return(list(mZ=diffmz, intensity=diffintall, realintensity=diffint))
 }
+
+peakplot <- function(peptideSequence,
+                     spec, 
+                     FUN=defaultIon, 
+                     fi=fragmentIon(peptideSequence, FUN=FUN)[[1]],
+                     main=NULL,
+                     sub=paste(peptideSequence, spec$title, sep=" / "),
+                     xlim=range(spec$mZ, na.rm=TRUE),
+                     ylim=range(spec$intensity, na.rm=TRUE),
+                     itol=0.6,
+                     pattern.abc="[abc].*",
+                     pattern.xyz="[xyz].*",
+                     ion.axes=TRUE){ 
+  
+  n<-nchar(peptideSequence)
+  
+  m<-psm(peptideSequence, spec, FUN, fi=fi, plot=FALSE)
+  
+  max.intensity<-max(spec$intensity, na.rm=TRUE)
+  yMax <- 1.0 * max.intensity
+  
+  plot(spec$mZ, spec$intensity,
+       xlab='m/z',
+       ylab='Intensity',
+       type='h',
+       main=main,
+       xlim=xlim,
+       ylim=ylim,
+       sub=sub,
+       axes='F'
+  ) 
+  
+  LABEL.abc<-(abs(m$mZ.Da.error) < itol) & (regexpr(pattern.abc, m$label) > 0)
+  LABEL.xyz<-(abs(m$mZ.Da.error) < itol) & (regexpr(pattern.xyz, m$label) > 0)
+  
+  if (ion.axes){
+    if (length(m$idx[LABEL.abc]) > 0){
+      axis(1, spec$mZ[m$idx[LABEL.abc]], m$label[LABEL.abc],las=2)
+    }
+    axis(2)
+    if (length(m$idx[LABEL.xyz]) > 0){
+      axis(3, spec$mZ[m$idx[LABEL.xyz]], m$label[LABEL.xyz], col.axis='blue', las=2)
+    }
+  }else{
+    axis(1)
+    axis(2)
+    a.at <- spec$mZ[m$idx[LABEL.abc | LABEL.xyz]]
+    a.label <- m$label[LABEL.abc | LABEL.xyz]
+    
+    if (length(a.at)>0) {
+      axis(3,a.at, a.label, col.axis='black', las=2)
+    } else {
+      print ("WARNING")
+      print (a.at)
+      print (a.label)
+    }
+    box()
+  }
+  axis(4,seq(0,yMax,length=6), seq(0,100,length=6))
+  
+  protViz:::.peakplot.label(spec=spec, match=m, yMax=yMax)
+  
+  return(m)
+} 

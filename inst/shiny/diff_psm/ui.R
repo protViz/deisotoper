@@ -1,5 +1,11 @@
 library(shiny)
 library(protViz)
+library(rJava)
+.jinit()
+toolkit <- J("java.awt.Toolkit")
+default_toolkit <- .jrcall(toolkit, "getDefaultToolkit")
+dim <- .jrcall(default_toolkit, "getScreenSize")
+height <- .jcall(dim, "D", "getHeight")
 
 shinyUI(fluidPage(
   titlePanel(
@@ -17,13 +23,17 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel("Mass Spectrum Plots",
                  br(),
-                 div(style="display: inline-block;vertical-align:top; width: 8%;", actionButton("action1", NULL, width = "50px", icon = icon("glyphicon glyphicon-minus"))),
-                 div(style="display: inline-block;vertical-align:top;font-size:2em;", textOutput("num"), width = "40px"),
-                 div(style="display: inline-block;vertical-align:top; width: 8%;", actionButton("action2", NULL, width = "50px", icon = icon("glyphicon glyphicon-plus"))),
-                 div(style="display: inline-block;vertical-align:top; width: 75%;", sliderInput("zoom", label = NULL, min = 0, max = 2000, value = c(0, 2000), width = "90%")),
+                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action12", "--")),
+                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action1", "-")),
+                 #div(style="display: inline-block;vertical-align:top;font-size:2em;", textOutput("num"), width = "40px"),
+                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action2", "+")),
+                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action22", "++")),
+                 div(style="display: inline-block;vertical-align:top", uiOutput("slider")),
+                 div(style="display: inline-block;vertical-align:top", sliderInput("itol", label = "Tolerance", min = 0, max = 10, value = 0.6, width = "600", step = 0.05)),
+                 div(style="display: inline-block;vertical-align:top", sliderInput("zoom", label = "Zoom", min = 0, max = 2000, value = c(0, 2000), width = "600")),
                  checkboxGroupInput("check", label = NULL, inline = TRUE, choices = list("show mZ diff" = 1, "show intensity diff" = 2), selected = 1),
-                 plotOutput("plot1", height = "510"), 
-                 plotOutput("plot2", height = "510")),
+                 plotOutput("plot1", height = height * 0.4), 
+                 plotOutput("plot2", height = height * 0.4)),
         tabPanel("Mascot Score Plot", 
                  plotOutput("plot3", height = "600", dblclick = "dbclick", brush = brushOpts(
                    id = "brush",
