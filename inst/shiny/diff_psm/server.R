@@ -65,7 +65,7 @@ shinyServer(function(input, output, session) {
     val <- button()$one
     if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
       spec <- protViz:::.get_ms2(val$queries[[input$id]])
-      peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE))))
+      rv <- peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE))))
       axis(side=1, at = spec$mZ, line = 0, labels = FALSE)
       axis(side=1, at = spec$mZ, line = 1, tick = FALSE)
       
@@ -90,7 +90,7 @@ shinyServer(function(input, output, session) {
     val <- button()$two
     if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
       spec <- protViz:::.get_ms2(val$queries[[input$id]])
-      peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$one$queries[[input$id]])$intensity, na.rm=TRUE))))
+      rv <- peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$one$queries[[input$id]])$intensity, na.rm=TRUE))))
       axis(side=1, at = spec$mZ, line = 0, labels = FALSE)
       axis(side=1, at = spec$mZ, line = 1, tick = FALSE)
       
@@ -136,7 +136,6 @@ shinyServer(function(input, output, session) {
     abline(v=input$id, col="#FF00FF77", lwd = 1)
     mtext(text ="Position of the plotted Mass Spectra", line = 0, adj = 0, col="#FF00FF")
   })
-  
 })
 
 diff <- function(query1, query2) {
@@ -157,6 +156,16 @@ diff <- function(query1, query2) {
   }
   
   return(list(mZ=diffmz, intensity=diffintall, realintensity=diffint))
+}
+
+diffIon <- function(rv1, rv2) {
+  diffb <- c(setdiff(rv1$fragmentIon$b, rv2$fragmentIon$b), setdiff(rv2$fragmentIon$b, rv1$fragmentIon$b))
+  diffy <- c(setdiff(rv1$fragmentIon$y, rv2$fragmentIon$y), setdiff(rv2$fragmentIon$y, rv1$fragmentIon$y))
+  diffc <- c(setdiff(rv1$fragmentIon$c, rv2$fragmentIon$c), setdiff(rv2$fragmentIon$c, rv1$fragmentIon$c))
+  diffz <- c(setdiff(rv1$fragmentIon$z, rv2$fragmentIon$z), setdiff(rv2$fragmentIon$z, rv1$fragmentIon$z))
+  diffall <- c(diffb, diffy, diffc, diffz)
+  
+  return(diffall)
 }
 
 peakplot <- function(peptideSequence,
