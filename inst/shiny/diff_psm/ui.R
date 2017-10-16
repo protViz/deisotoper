@@ -31,7 +31,7 @@ shinyUI(fluidPage(
                  div(style="display: inline-block;vertical-align:top", uiOutput("slider")),
                  div(style="display: inline-block;vertical-align:top", sliderInput("itol", label = "Tolerance", min = 0, max = 10, value = 0.6, width = "600", step = 0.05)),
                  div(style="display: inline-block;vertical-align:top", sliderInput("zoom", label = "Zoom", min = 0, max = 2000, value = c(0, 2000), width = "600")),
-                 checkboxGroupInput("check", label = NULL, inline = TRUE, choices = list("show mZ diff" = 1, "show intensity diff" = 2, "show ion diff (not implemented yet)" = 3), selected = 1),
+                 checkboxGroupInput("check", label = NULL, inline = TRUE, choices = list("show mZ diff" = 1, "show intensity diff" = 2, "show delta" = 3)),
                  plotOutput("plot1", height = height * 0.4), 
                  plotOutput("plot2", height = height * 0.4)),
         tabPanel("Mascot Score Plot", 

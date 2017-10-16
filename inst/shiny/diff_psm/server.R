@@ -72,23 +72,33 @@ shinyServer(function(input, output, session) {
       difflist <- diff(val$queries[[input$id]], button()$two$queries[[input$id]])
       
       delta <- delta(spec$mZ)
-      
-      for(x in 1:length(delta)) {
-        if(x %% 2 == 0) {
-          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-        } else {
-          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-        }
-      }
-      
+
       if(!is.null(input$check)) {
         if(input$check == 1 && length(input$check) == 1) {
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
         } else if (input$check == 2 && length(input$check) == 1){
           abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-        } else if (length(input$check) == 2){
+        } else if (input$check == 3 && length(input$check) == 1){
+          for(x in 1:length(delta)) {
+            if(x %% 2 == 0) {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            } else {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            }
+          }
+        } else if (input$check == c(1,2) && length(input$check) == 2){
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
           abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+        } else if (input$check == c(1,2,3) && length(input$check) == 3) {
+          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+          for(x in 1:length(delta)) {
+            if(x %% 2 == 0) {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            } else {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            }
+          }
         }
       }
       
@@ -108,22 +118,34 @@ shinyServer(function(input, output, session) {
       
       delta <- delta(spec$mZ)
       
-      for(x in 1:length(delta)) {
-        if(x %% 2 == 0) {
-          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-        } else {
-          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-        }
-      }
+      delta <- delta(spec$mZ)
       
       if(!is.null(input$check)) {
         if(input$check == 1 && length(input$check) == 1) {
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
         } else if (input$check == 2 && length(input$check) == 1){
           abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-        } else if (length(input$check) == 2){
+        } else if (input$check == 3 && length(input$check) == 1){
+          for(x in 1:length(delta)) {
+            if(x %% 2 == 0) {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            } else {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            }
+          }
+        } else if (input$check == c(1,2) && length(input$check) == 2){
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
           abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+        } else if (input$check == c(1,2,3) && length(input$check) == 3) {
+          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
+          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
+          for(x in 1:length(delta)) {
+            if(x %% 2 == 0) {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            } else {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            }
+          }
         }
       }
 
