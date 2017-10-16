@@ -71,6 +71,16 @@ shinyServer(function(input, output, session) {
       
       difflist <- diff(val$queries[[input$id]], button()$two$queries[[input$id]])
       
+      delta <- delta(spec$mZ)
+      
+      for(x in 1:length(delta)) {
+        if(x %% 2 == 0) {
+          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+        } else {
+          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+        }
+      }
+      
       if(!is.null(input$check)) {
         if(input$check == 1 && length(input$check) == 1) {
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
@@ -95,6 +105,16 @@ shinyServer(function(input, output, session) {
       axis(side=1, at = spec$mZ, line = 1, tick = FALSE)
       
       difflist <- diff(button()$one$queries[[input$id]], val$queries[[input$id]])
+      
+      delta <- delta(spec$mZ)
+      
+      for(x in 1:length(delta)) {
+        if(x %% 2 == 0) {
+          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+        } else {
+          text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+        }
+      }
       
       if(!is.null(input$check)) {
         if(input$check == 1 && length(input$check) == 1) {
@@ -156,6 +176,17 @@ diff <- function(query1, query2) {
   }
   
   return(list(mZ=diffmz, intensity=diffintall, realintensity=diffint))
+}
+
+delta <- function(mz) {
+  delta <- c()
+  
+  for(i in 2:length(mz)) {
+    m <- mz[[i]] - mz[[i - 1]]
+    delta <- c(delta, round(m, digits = 2))
+  }
+  
+  return(delta)
 }
 
 diffIon <- function(rv1, rv2) {
