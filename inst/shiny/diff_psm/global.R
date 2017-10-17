@@ -1,6 +1,5 @@
 library(shiny)
 library(protViz)
-library(webshot)
 library(rJava)
 
 .jinit()
