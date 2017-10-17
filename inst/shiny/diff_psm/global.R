@@ -1,6 +1,8 @@
 library(shiny)
 library(protViz)
+library(webshot)
 library(rJava)
+
 .jinit()
 toolkit <- J("java.awt.Toolkit")
 default_toolkit <- .jrcall(toolkit, "getDefaultToolkit")
@@ -122,4 +124,4 @@ peakplot <- function(peptideSequence,
   protViz:::.peakplot.label(spec=spec, match=m, yMax=yMax)
   
   return(m)
-} 
+}

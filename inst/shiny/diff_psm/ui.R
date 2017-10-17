@@ -10,7 +10,7 @@ shinyUI(fluidPage(
       textInput("text1", "First URL", "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257664.RData", width = "100%"),
       textInput("text2", "Second URL", value = "http://fgcz-ms.uzh.ch/~cpanse/R257544/F257544.RData", width = "100%"),
       radioButtons("sort", NULL, choiceNames = c("sort first", "sort second"), choiceValues = c(1, 2), inline = TRUE),
-      actionButton("load1", "LOAD & SORT", style="padding:8px;font-size:18px;"),
+      actionButton("load1", "LOAD & SORT"),
       hr(),
       tabsetPanel(
         tabPanel("Mass Spectrum Plots",
