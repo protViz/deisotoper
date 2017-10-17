@@ -23,11 +23,6 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel("Mass Spectrum Plots",
                  br(),
-                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action12", "--")),
-                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action1", "-")),
-                 #div(style="display: inline-block;vertical-align:top;font-size:2em;", textOutput("num"), width = "40px"),
-                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action2", "+")),
-                 #div(style="display: inline-block;vertical-align:top; width: 4%;", actionButton("action22", "++")),
                  div(style="display: inline-block;vertical-align:top", uiOutput("slider")),
                  div(style="display: inline-block;vertical-align:top", sliderInput("itol", label = "Tolerance", min = 0, max = 10, value = 0.6, width = "600", step = 0.05)),
                  div(style="display: inline-block;vertical-align:top", sliderInput("zoom", label = "Zoom", min = 0, max = 2000, value = c(0, 2000), width = "600")),

@@ -2,9 +2,6 @@ library(shiny)
 library(protViz)
 
 shinyServer(function(input, output, session) {
-  values <- reactiveValues()
-  #max(length(button()$one$queries), length(button()$two$queries))
-  
   button <- eventReactive(input$load1, {
     url1 <- get(load(con <- url(input$text1)))
     url2 <- get(load(con <- url(input$text2)))
@@ -37,32 +34,9 @@ shinyServer(function(input, output, session) {
     sliderInput("id", label = "Spectrum ID", min = 1, max = max(length(button()$one$queries), length(button()$two$queries)), value = 1, width = "600", step = 1)
   })
   
-  # observe({
-  #   input$action2
-  #   isolate({ values$i <- values$i + 1 })
-  # })
-  # 
-  # observe({
-  #   input$action1
-  #   isolate( if(values$i != 1) { values$i <- values$i - 1 })
-  # })
-  # 
-  # observe({
-  #   input$action22
-  #   isolate({ values$i <- values$i + 10 })
-  # })
-  # 
-  # observe({
-  #   input$action12
-  #   isolate( if(values$i > 10) { values$i <- values$i - 10 } else { values$i <- 1 })
-  # })
-  # 
-  # output$num <- renderText({
-  #   values$i
-  # })
-  
   output$plot1 <- renderPlot({
     val <- button()$one
+    if(!is.null(input$id)) {
     if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
       spec <- protViz:::.get_ms2(val$queries[[input$id]])
       rv <- peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE))))
@@ -74,40 +48,31 @@ shinyServer(function(input, output, session) {
       delta <- delta(spec$mZ)
 
       if(!is.null(input$check)) {
-        if(input$check == 1 && length(input$check) == 1) {
+        if(1 %in% input$check) {
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-        } else if (input$check == 2 && length(input$check) == 1){
+        } 
+        if (2 %in% input$check){
           abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-        } else if (input$check == 3 && length(input$check) == 1){
-          for(x in 1:length(delta)) {
-            if(x %% 2 == 0) {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            } else {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            }
-          }
-        } else if (input$check == c(1,2) && length(input$check) == 2){
-          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-        } else if (input$check == c(1,2,3) && length(input$check) == 3) {
-          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-          for(x in 1:length(delta)) {
-            if(x %% 2 == 0) {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            } else {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            }
-          }
         }
+        if (3 %in% input$check){
+          for(x in 1:length(delta)) {
+            if(x %% 2 == 0) {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            } else {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            }
+          }
+        } 
       }
       
       mtext(text = paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, sep = ""), line = 2, adj = 0, col="black")
+    }
     }
   })
   
   output$plot2 <- renderPlot({   
     val <- button()$two
+    if(!is.null(input$id)) {
     if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
       spec <- protViz:::.get_ms2(val$queries[[input$id]])
       rv <- peakplot(peptideSequence = val$queries[[input$id]]$q_peptide$pep_seq, spec = spec, sub='', xlim = c(input$zoom[1],input$zoom[2]), itol = input$itol, ylim = c(0, 1.1 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$one$queries[[input$id]])$intensity, na.rm=TRUE))))
@@ -121,35 +86,25 @@ shinyServer(function(input, output, session) {
       delta <- delta(spec$mZ)
       
       if(!is.null(input$check)) {
-        if(input$check == 1 && length(input$check) == 1) {
+        if(1 %in% input$check) {
           abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-        } else if (input$check == 2 && length(input$check) == 1){
+        } 
+        if (2 %in% input$check){
           abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-        } else if (input$check == 3 && length(input$check) == 1){
-          for(x in 1:length(delta)) {
-            if(x %% 2 == 0) {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            } else {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            }
-          }
-        } else if (input$check == c(1,2) && length(input$check) == 2){
-          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-        } else if (input$check == c(1,2,3) && length(input$check) == 3) {
-          abline(v=difflist$mZ, col="#0000FF33", lwd = 4)
-          abline(v=difflist$intensity, col="#FF000033", lwd = 4)
-          for(x in 1:length(delta)) {
-            if(x %% 2 == 0) {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            } else {
-              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
-            }
-          }
         }
+        if (3 %in% input$check){
+          for(x in 1:length(delta)) {
+            if(x %% 2 == 0) {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            } else {
+              text(x = spec$mZ[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(max(spec$intensity, na.rm=TRUE), max(protViz:::.get_ms2(button()$two$queries[[input$id]])$intensity, na.rm=TRUE)), labels = delta[[x]], cex = 0.8)
+            }
+          }
+        } 
       }
 
       mtext(text = paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, sep = ""), line = 2, adj = 0, col="black")
+    }
     }
   })
   
