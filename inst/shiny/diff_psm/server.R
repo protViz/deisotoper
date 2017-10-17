@@ -74,9 +74,10 @@ shinyServer(function(input, output, session) {
   
   output$textout1 <- renderText({
     val <- button()$one
+    spec <- protViz:::.get_ms2(val$queries[[input$id]])
     if (!is.null(input$id)) {
       if (!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
-        paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, sep = "")
+        paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, ", Number of Peaks: ", length(spec$mZ), sep = "")
       }
     }
   })
@@ -124,9 +125,10 @@ shinyServer(function(input, output, session) {
   
   output$textout2 <- renderText({ 
     val <- button()$two
+    spec <- protViz:::.get_ms2(val$queries[[input$id]])
     if(!is.null(input$id)) {
       if(!is.null(val$queries[[input$id]]$q_peptide$pep_score)) {
-        paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, sep = "")
+        paste("Query Number: ", val$queries[input$id]$query$.attrs, ", Mascot Score: ", val$queries[[input$id]]$q_peptide$pep_score, ", Peptide Sequence: ", val$queries[[input$id]]$q_peptide$pep_seq, ", Number of Peaks: ", length(spec$mZ), sep = "")
       }
     }
   })
