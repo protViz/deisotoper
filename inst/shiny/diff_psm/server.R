@@ -28,7 +28,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$slider <- renderUI({
-    sliderInput("id", label = "Spectrum ID", min = 1, max = max(length(button()$one$queries), length(button()$two$queries)), value = 1, width = "600", step = 1)
+    sliderInput("id", label = "Spectrum ID", min = 1, max = max(length(button()$one$queries), length(button()$two$queries)), value = 1, width = "1400", step = 1)
   })
   
   output$plot1 <- renderPlot({
