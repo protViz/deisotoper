@@ -155,7 +155,6 @@ shinyServer(function(input, output, session) {
     points(pep_score2[index2],col="#FF0000", type="p", cex = 0.8, pch = 16)
     mtext(text ="First Mascot-Scores", line = 2, adj = 0, col="blue")
     mtext(text ="Second Mascot-Scores", line = 1, adj = 0, col="red")
-    abline(v=input$id, col="#FF00FF77", lwd = 1)
     mtext(text ="Position of the plotted Mass Spectra", line = 0, adj = 0, col="#FF00FF")
   })
 })
