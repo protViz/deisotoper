@@ -200,9 +200,9 @@ public class ScoreConfig {
         this.min = Collections.min(this.AA_MASS3);
         this.max = Collections.max(this.AA_MASS);
 
-        for (double x : this.AA_MASS) {
-            System.out.println("Values:" + x);
-        }
-        System.out.println(this.AA_MASS.size());
+        // for (double x : this.AA_MASS) {
+        // System.out.println("Values:" + x);
+        // }
+        // System.out.println(this.AA_MASS.size());
     }
 }
