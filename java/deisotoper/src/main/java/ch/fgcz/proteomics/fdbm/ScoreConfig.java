@@ -1,17 +1,21 @@
 package ch.fgcz.proteomics.fdbm;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-10-09
  */
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 public class ScoreConfig {
     private List<Double> AA_MASS = new ArrayList<>();
@@ -151,14 +155,10 @@ public class ScoreConfig {
     public ScoreConfig(String file) {
         this.AA_MASS.removeAll(this.AA_MASS);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = br.readLine();
-
-            while (line != null) {
-                String[] parts = line.split("=");
-                this.AA_MASS.add(Double.parseDouble(parts[1]));
-                line = br.readLine();
-            }
+        Properties properties = new Properties();
+        try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));) {
+            properties.load(stream);
+            stream.close();
         } catch (FileNotFoundException e) {
             this.AA_MASS.add(71.03711);
             this.AA_MASS.add(156.10111);
@@ -185,6 +185,13 @@ public class ScoreConfig {
             e.printStackTrace();
         }
 
+        Enumeration<?> e = properties.propertyNames();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            String value = properties.getProperty(key);
+            this.AA_MASS.add(Double.parseDouble(value));
+        }
+
         for (Double x : this.AA_MASS) {
             this.AA_MASS2.add(x / 2);
             this.AA_MASS3.add(x / 3);
@@ -192,5 +199,10 @@ public class ScoreConfig {
 
         this.min = Collections.min(this.AA_MASS3);
         this.max = Collections.max(this.AA_MASS);
+
+        for (double x : this.AA_MASS) {
+            System.out.println("Values:" + x);
+        }
+        System.out.println(this.AA_MASS.size());
     }
 }

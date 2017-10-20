@@ -487,7 +487,7 @@ public class Deisotope {
         long startTime = System.currentTimeMillis();
 
         Deisotope deiso = new Deisotope();
-        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "AminoAcidMasses.ini");
+        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "nofile");
 
         long endTime = System.currentTimeMillis();
 
