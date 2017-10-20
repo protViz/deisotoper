@@ -5,7 +5,6 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{rotating}
-%\renewcommand{\familydefault}{\sfdefault}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -53,15 +52,10 @@ The Eviroment includes 20 mass spectrometry devices and 5 DNA sequencer. There a
 \item data managment system called b-fabric \cite{bfabric} ...
 \item dev on Linux Box using Java 8 ....
 \end{itemize}
-%\subsection{Time management}
-%\subsection{Technology used}
 
-\chapter{My Projetct Tasks}
+\chapter{My Project Tasks}
 
 Implementation of deisotoper .... see next chapter
-%\section{Practical semester}
-%\subsection{Motivation}
-%\subsection{Tasks}
 
 
 in the follwong sections
@@ -145,7 +139,6 @@ hela...
 
 
 \chapter{Conclusion}
-%%%
 
 \begin{Schunk}
 \begin{Sinput}
