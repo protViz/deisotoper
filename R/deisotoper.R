@@ -421,7 +421,7 @@ jDeconvoluteMSMmspy <- function(jobj) {
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="AminoAcidMasses.ini") {
+jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -459,7 +459,7 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="Amino
 #' 
 #' msdeisotoped <- jDeisotopeMSfdbm(ms)
 #' 
-jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAcidMasses.ini") {
+jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -486,8 +486,6 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAci
 
 #' Deisotopes a MSM. Save and first parameters are for method fdbm.
 #' 
-#' The amino acid masses file ("AminoAcidMasses.ini") must be in the home directory, otherwise it will initialize the standart amino acid masses.
-#'
 #' @return
 #' @export jDeisotopeMSM
 #'
@@ -501,7 +499,7 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="AminoAci
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #'
-jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="AminoAcidMasses.ini") {
+jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile") {
   if(method == "fdbm") {
     output <- jDeisotopeMSMfdbm(jobj, save, modus, aamassfile)
   } else if(method == "mspy") {
