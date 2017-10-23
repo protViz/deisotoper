@@ -1,16 +1,14 @@
 package ch.fgcz.proteomics.fdbm;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-10-09
  */
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
