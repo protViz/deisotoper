@@ -421,7 +421,7 @@ jDeconvoluteMSMmspy <- function(jobj) {
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofile") {
+jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofile", percent="0") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -439,7 +439,7 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofil
   
   d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save, m, aamass)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save, m, aamass, percent)
   
   output
 }
@@ -459,7 +459,7 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofil
 #' 
 #' msdeisotoped <- jDeisotopeMSfdbm(ms)
 #' 
-jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile") {
+jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile", percent="0") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -479,7 +479,7 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile")
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", aamassfile)
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMS", ms, save, m, config)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMS", ms, save, m, config, percent)
   
   output
 }
@@ -499,9 +499,9 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile")
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #'
-jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile") {
+jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent="0") {
   if(method == "fdbm") {
-    output <- jDeisotopeMSMfdbm(jobj, save, modus, aamassfile)
+    output <- jDeisotopeMSMfdbm(jobj, save, modus, aamassfile, percent)
   } else if(method == "mspy") {
     output <- jDeconvoluteMSMmspy(jDeisotopeMSMmspy(jobj))
   } else {
@@ -511,7 +511,7 @@ jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamass
   output
 }
 
-jBenchmark <- function(input, output, method="fdbm", save=FALSE, modus="first", aamassfile="nofile") {
+jBenchmark <- function(input, output, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent="0") {
   name <- load(file = input)
-  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, modus = modus, save = save, aamassfile = aamassfile)), filename = output)
+  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, modus = modus, save = save, aamassfile = aamassfile, percent = percent)), filename = output)
 }
