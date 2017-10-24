@@ -1,9 +1,5 @@
 package ch.fgcz.proteomics.fdbm;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-21
@@ -12,6 +8,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +23,7 @@ import ch.fgcz.proteomics.utilities.Sort;
 public class Deisotope {
     private static double time = 0;
 
-    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file) {
+    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, boolean save, String modus, String file, double percent) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
         ScoreConfig config = new ScoreConfig(file);
@@ -34,19 +31,19 @@ public class Deisotope {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
         for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {$
-            output.getMSlist().add(deisotopeMS(ms, save, modus, config, date));
+            output.getMSlist().add(deisotopeMS(ms, save, modus, config, date, percent));
         }
 
         return output;
     }
 
-    public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config) {
+    public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, double percent) {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
-        return deisotopeMS(input, save, modus, config, date);
+        return deisotopeMS(input, save, modus, config, date, percent);
     }
 
-    public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date) {
+    public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date, double percent) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, 0.01);
 
         ims.makeStatistics(date);
@@ -115,7 +112,26 @@ public class Deisotope {
 
         Sort.keySort(mz, mz, intensity, isotope, charge);
 
-        return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz, intensity, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge, isotope);
+        if (percent != 0) {
+            double threshold = Collections.max(mz) * percent / 100;
+
+            List<Double> mz5 = new ArrayList<>();
+            List<Double> intensity5 = new ArrayList<>();
+            List<Double> isotope5 = new ArrayList<>();
+            List<Integer> charge5 = new ArrayList<>();
+
+            for (int i = 0; i < mz.size(); i++) {
+                if (threshold < mz.get(i)) {
+                    mz5.add(mz.get(i));
+                    intensity5.add(intensity.get(i));
+                    isotope5.add(isotope.get(i));
+                    charge5.add(charge.get(i));
+                }
+            }
+            return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz5, intensity5, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge5, isotope5);
+        } else {
+            return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz, intensity, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge, isotope);
+        }
     }
 
     private IsotopicCluster getStart(IsotopicClusterGraph icg) {
@@ -263,7 +279,7 @@ public class Deisotope {
         Deisotope deiso = new Deisotope();
 
         System.out.println("Output:");
-        for (MassSpectrum x : deiso.deisotopeMSM(msm, false, "mean", "AminoAcidMasses.ini").getMSlist()) {
+        for (MassSpectrum x : deiso.deisotopeMSM(msm, false, "mean", "AminoAcidMasses.ini", 5).getMSlist()) {
             for (int y = 0; y < x.getMz().size(); y++) {
                 System.out.print("M: " + x.getMz().get(y) + ", ");
                 System.out.print("Z: " + x.getCharge().get(y) + ", ");
@@ -493,7 +509,7 @@ public class Deisotope {
         long startTime = System.currentTimeMillis();
 
         Deisotope deiso = new Deisotope();
-        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "nofile");
+        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "nofile", 5);
 
         long endTime = System.currentTimeMillis();
 
