@@ -48,22 +48,22 @@ public class ScoreTest {
     /**
      * Tests the secondNonintensityFeature function.
      * 
-     * With given x(123.0, 550.42) and y(257.0, 467.55) peaks, it is possible to precalculate the results.
+     * With given x(123.0, 550.42) and y(253.0, 467.55) peaks, it is possible to precalculate the results.
      * 
-     * sum1: 123 + 257 = 380
+     * sum1: 123 + 253 = 376
      * 
-     * And the m2i value is: 188 * 2 + 2 * 1 = 378
+     * And the m2i value is: 188 * 2 - 2 * 1.008  = 373.986
      * 
-     * Therefore we have: 378 + 2 * 1.008 +- 0.3 = 379.716 and 380.316
+     * Therefore we have: 373.986 + 2 * 1.008 +- 0.3 = 375.7 and 376.3
      * 
-     * The value of sum1 (380) is in the range of 378.716 and 380.316, therefore the result of the function is 1.
+     * The value of sum1 (376 is in the range of 375.7 and 376.3, therefore the result of the function is 1.
      */
     @Test
     public void testF2() {
         ScoreConfig config = new ScoreConfig("nofile");
         Score s = new Score();
         Peak x = new Peak(123.0, 550.42, 0);
-        Peak y = new Peak(257.0, 467.55, 1);
+        Peak y = new Peak(253.0, 467.55, 1);
         double pepmass = 188.038;
         int charge = 2;
         double e = 0.3;

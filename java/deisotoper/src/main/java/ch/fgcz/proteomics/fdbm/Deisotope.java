@@ -1,5 +1,9 @@
 package ch.fgcz.proteomics.fdbm;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-21
@@ -44,6 +48,8 @@ public class Deisotope {
 
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, 0.01);
+
+        ims.makeStatistics(date);
 
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
@@ -149,7 +155,7 @@ public class Deisotope {
     public static void main(String[] args) {
         runtimeBenchmark();
 
-        // testDeisotope();
+        testDeisotope();
     }
 
     private static void testDeisotope() {
