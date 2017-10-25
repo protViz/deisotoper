@@ -46,7 +46,9 @@ public class Deisotope {
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date, double percent, double error, double delta) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, delta);
 
-        ims.makeStatistics(date, input.getMz().size());
+        if (save == true) {
+            ims.makeStatistics(date, input.getMz().size());
+        }
 
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
