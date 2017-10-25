@@ -120,7 +120,7 @@ public class IsotopicMassSpectrum {
         }
     }
 
-    public void makeStatistics(String date) {
+    public void makeStatistics(String date, int allpeaks) {
         File file = new File("statistics_" + date.substring(0, 11) + ".csv");
 
         int isotopicset = this.isotopicmassspectrum.size();
@@ -135,7 +135,7 @@ public class IsotopicMassSpectrum {
         }
 
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
-            out.println(isotopicset + "," + isotopiccluster + "," + peaks);
+            out.println(isotopicset + "," + isotopiccluster + "," + peaks + "," + allpeaks);
         } catch (IOException e) {
             e.printStackTrace();
         }
