@@ -21,11 +21,11 @@ public class ScoreConfig {
     private List<Double> AA_MASS3 = new ArrayList<>();
     private double min = 0;
     private double max = Double.MAX_VALUE;
-    private double FM1;
-    private double FM2;
-    private double FM3;
-    private double FM4;
-    private double FM5;
+    private double FM1 = 0.8;
+    private double FM2 = 0.5;
+    private double FM3 = 0.1;
+    private double FM4 = 0.1;
+    private double FM5 = 0.1;
     private final double H_MASS = 1.008;
     private final double NH3_MASS = 17.03052;
     private final double H2O_MASS = 18.01528;
