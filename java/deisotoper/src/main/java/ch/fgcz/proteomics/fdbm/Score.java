@@ -39,8 +39,9 @@ public class Score {
      */
     public Score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icx, Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph,
             ScoreConfig config) {
-        this.score = 0.8 * firstNonintensityFeature(x, y, error, config) + 0.5 * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icx, config)
-                + 0.1 * thirdNonintensityFeature(x, y, error, config) + 0.1 * fourthNonintensityFeature(x, y, error, config) + 0.1 * fifthIntensityFeature(con, isotopicclustergraph, config);
+        this.score = config.getFM1() * firstNonintensityFeature(x, y, error, config) + config.getFM2() * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icx, config)
+                + config.getFM3() * thirdNonintensityFeature(x, y, error, config) + config.getFM4() * fourthNonintensityFeature(x, y, error, config)
+                + config.getFM5() * fifthIntensityFeature(con, isotopicclustergraph, config);
     }
 
     /**
@@ -143,10 +144,10 @@ public class Score {
      * 
      * @param x Peak
      * @param y Peak
-     * @param e Errortolerance
+     * @param errortolerance Errortolerance
      * @return F1
      */
-    protected int firstNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
+    protected int firstNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
         // long startTime = System.currentTimeMillis();
 
         int F1 = 0;
@@ -168,12 +169,12 @@ public class Score {
                 double aa = config.getAA_MASS().get(i);
                 double aa2 = config.getAA_MASS2().get(i);
                 double aa3 = config.getAA_MASS3().get(i);
-                double aape = aa + e;
-                double aame = aa - e;
-                double aa2pe = aa2 + e;
-                double aa2me = aa2 - e;
-                double aa3pe = aa3 + e;
-                double aa3me = aa3 - e;
+                double aape = aa + errortolerance;
+                double aame = aa - errortolerance;
+                double aa2pe = aa2 + errortolerance;
+                double aa2me = aa2 - errortolerance;
+                double aa3pe = aa3 + errortolerance;
+                double aa3me = aa3 - errortolerance;
 
                 if ((aame < d1xy && d1xy < aape) || (aa2me < d1xy && d1xy < aa2pe) || (aa3me < d1xy && d1xy < aa3pe) || (aa2me < d2xy && d2xy < aa2pe) || (aa2me < d2yx && d2yx < aa2pe)
                         || (aa3me < d3xy && d3xy < aa3pe) || (aa3me < d3yx && d3yx < aa3pe) || (aa3me < d4xy && d4xy < aa3pe) || (aa3me < d4yx && d4yx < aa3pe)) {
@@ -214,13 +215,13 @@ public class Score {
      * 
      * @param x Peak
      * @param y Peak
-     * @param e Errortolerance
+     * @param errortolerance Errortolerance
      * @param pepmass PeptidMass of MS
      * @param charge ChargeState of MS
      * @param ic IsotopicCluster
      * @return F2
      */
-    protected int secondNonintensityFeature(Peak x, Peak y, double e, double pepmass, double charge, IsotopicCluster ic, ScoreConfig config) {
+    protected int secondNonintensityFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge, IsotopicCluster ic, ScoreConfig config) {
         // long startTime = System.currentTimeMillis();
 
         int F2 = 0;
@@ -240,23 +241,23 @@ public class Score {
         double s4yx = sum4(y, x, config);
         double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * i;
 
-        if (m2i + config.getH_MASSx2() - e < s1xy && s1xy < m2i + config.getH_MASSx2() + e) {
+        if (m2i + config.getH_MASSx2() - errortolerance < s1xy && s1xy < m2i + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - e < s1xy && s1xy < m2i / 2 + config.getH_MASSx2() + e) {
+        } else if (m2i / 2 + config.getH_MASSx2() - errortolerance < s1xy && s1xy < m2i / 2 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - e < s1xy && s1xy < m2i / 3 + config.getH_MASSx2() + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s1xy && s1xy < m2i / 3 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - e < s2xy && s2xy < m2i / 2 + config.getH_MASSx2() + e) {
+        } else if (m2i / 2 + config.getH_MASSx2() - errortolerance < s2xy && s2xy < m2i / 2 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - e < s2yx && s2yx < m2i / 2 + config.getH_MASSx2() + e) {
+        } else if (m2i / 2 + config.getH_MASSx2() - errortolerance < s2yx && s2yx < m2i / 2 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - e < s3xy && s3xy < m2i / 3 + config.getH_MASSx2() + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s3xy && s3xy < m2i / 3 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - e < s3yx && s3yx < m2i / 3 + config.getH_MASSx2() + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s3yx && s3yx < m2i / 3 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - e < s4xy && s4xy < m2i / 3 + config.getH_MASSx2() + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s4xy && s4xy < m2i / 3 + config.getH_MASSx2() + errortolerance) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - e < s4yx && s4yx < m2i / 3 + config.getH_MASSx2() + e) {
+        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s4yx && s4yx < m2i / 3 + config.getH_MASSx2() + errortolerance) {
             F2++;
         }
 
@@ -273,10 +274,10 @@ public class Score {
      * 
      * @param x Peak
      * @param y Peak
-     * @param e Errortolerance
+     * @param errortolerance Errortolerance
      * @return F3
      */
-    protected int thirdNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
+    protected int thirdNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
         // long startTime = System.currentTimeMillis();
 
         int F3 = 0;
@@ -289,41 +290,41 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config));
         double d4yx = Math.abs(diff4(y, x, config));
 
-        if (config.getH2O_MASS() - e < d1xy && d1xy < config.getH2O_MASS() + e) {
+        if (config.getH2O_MASS() - errortolerance < d1xy && d1xy < config.getH2O_MASS() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASS() - e < d1xy && d1xy < config.getNH3_MASS() + e) {
+        } else if (config.getNH3_MASS() - errortolerance < d1xy && d1xy < config.getNH3_MASS() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd2() - e < d1xy && d1xy < config.getH2O_MASSd2() + e) {
+        } else if (config.getH2O_MASSd2() - errortolerance < d1xy && d1xy < config.getH2O_MASSd2() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd2() - e < d1xy && d1xy < config.getNH3_MASSd2() + e) {
+        } else if (config.getNH3_MASSd2() - errortolerance < d1xy && d1xy < config.getNH3_MASSd2() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd3() - e < d1xy && d1xy < config.getH2O_MASSd3() + e) {
+        } else if (config.getH2O_MASSd3() - errortolerance < d1xy && d1xy < config.getH2O_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd3() - e < d1xy && d1xy < config.getNH3_MASSd3() + e) {
+        } else if (config.getNH3_MASSd3() - errortolerance < d1xy && d1xy < config.getNH3_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd2() - e < d2xy && d2xy < config.getH2O_MASSd2() + e) {
+        } else if (config.getH2O_MASSd2() - errortolerance < d2xy && d2xy < config.getH2O_MASSd2() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd2() - e < d2xy && d2xy < config.getNH3_MASSd2() + e) {
+        } else if (config.getNH3_MASSd2() - errortolerance < d2xy && d2xy < config.getNH3_MASSd2() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd2() - e < d2yx && d2yx < config.getH2O_MASSd2() + e) {
+        } else if (config.getH2O_MASSd2() - errortolerance < d2yx && d2yx < config.getH2O_MASSd2() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd2() - e < d2yx && d2yx < config.getNH3_MASSd2() + e) {
+        } else if (config.getNH3_MASSd2() - errortolerance < d2yx && d2yx < config.getNH3_MASSd2() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd3() - e < d3xy && d3xy < config.getH2O_MASSd3() + e) {
+        } else if (config.getH2O_MASSd3() - errortolerance < d3xy && d3xy < config.getH2O_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd3() - e < d3xy && d3xy < config.getNH3_MASSd3() + e) {
+        } else if (config.getNH3_MASSd3() - errortolerance < d3xy && d3xy < config.getNH3_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd3() - e < d3yx && d3yx < config.getH2O_MASSd3() + e) {
+        } else if (config.getH2O_MASSd3() - errortolerance < d3yx && d3yx < config.getH2O_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd3() - e < d3yx && d3yx < config.getNH3_MASSd3() + e) {
+        } else if (config.getNH3_MASSd3() - errortolerance < d3yx && d3yx < config.getNH3_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd3() - e < d4xy && d4xy < config.getH2O_MASSd3() + e) {
+        } else if (config.getH2O_MASSd3() - errortolerance < d4xy && d4xy < config.getH2O_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd3() - e < d4xy && d4xy < config.getNH3_MASSd3() + e) {
+        } else if (config.getNH3_MASSd3() - errortolerance < d4xy && d4xy < config.getNH3_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getH2O_MASSd3() - e < d4yx && d4yx < config.getH2O_MASSd3() + e) {
+        } else if (config.getH2O_MASSd3() - errortolerance < d4yx && d4yx < config.getH2O_MASSd3() + errortolerance) {
             F3++;
-        } else if (config.getNH3_MASSd3() - e < d4yx && d4yx < config.getNH3_MASSd3() + e) {
+        } else if (config.getNH3_MASSd3() - errortolerance < d4yx && d4yx < config.getNH3_MASSd3() + errortolerance) {
             F3++;
         }
 
@@ -340,10 +341,10 @@ public class Score {
      * 
      * @param x Peak
      * @param y Peak
-     * @param e Errortolerance
+     * @param errortolerance Errortolerance
      * @return F4
      */
-    protected int fourthNonintensityFeature(Peak x, Peak y, double e, ScoreConfig config) {
+    protected int fourthNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
         // long startTime = System.currentTimeMillis();
 
         int F4 = 0;
@@ -356,41 +357,41 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config));
         double d4yx = Math.abs(diff4(y, x, config));
 
-        if (config.getNH_MASS() - e < d1xy && d1xy < config.getCO_MASS() + e) {
+        if (config.getNH_MASS() - errortolerance < d1xy && d1xy < config.getCO_MASS() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASS() - e < d1xy && d1xy < config.getCO_MASS() + e) {
+        } else if (config.getCO_MASS() - errortolerance < d1xy && d1xy < config.getCO_MASS() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd2() - e < d1xy && d1xy < config.getNH_MASSd2() + e) {
+        } else if (config.getNH_MASSd2() - errortolerance < d1xy && d1xy < config.getNH_MASSd2() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd2() - e < d1xy && d1xy < config.getCO_MASSd2() + e) {
+        } else if (config.getCO_MASSd2() - errortolerance < d1xy && d1xy < config.getCO_MASSd2() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd3() - e < d1xy && d1xy < config.getNH_MASSd3() + e) {
+        } else if (config.getNH_MASSd3() - errortolerance < d1xy && d1xy < config.getNH_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd3() - e < d1xy && d1xy < config.getCO_MASSd3() + e) {
+        } else if (config.getCO_MASSd3() - errortolerance < d1xy && d1xy < config.getCO_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd2() - e < d2xy && d2xy < config.getNH_MASSd2() + e) {
+        } else if (config.getNH_MASSd2() - errortolerance < d2xy && d2xy < config.getNH_MASSd2() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd2() - e < d2xy && d2xy < config.getCO_MASSd2() + e) {
+        } else if (config.getCO_MASSd2() - errortolerance < d2xy && d2xy < config.getCO_MASSd2() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd2() - e < d2yx && d2yx < config.getNH_MASSd2() + e) {
+        } else if (config.getNH_MASSd2() - errortolerance < d2yx && d2yx < config.getNH_MASSd2() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd2() - e < d2yx && d2yx < config.getCO_MASSd2() + e) {
+        } else if (config.getCO_MASSd2() - errortolerance < d2yx && d2yx < config.getCO_MASSd2() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd3() - e < d3xy && d3xy < config.getNH_MASSd3() + e) {
+        } else if (config.getNH_MASSd3() - errortolerance < d3xy && d3xy < config.getNH_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd3() - e < d3xy && d3xy < config.getCO_MASSd3() + e) {
+        } else if (config.getCO_MASSd3() - errortolerance < d3xy && d3xy < config.getCO_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd3() - e < d3yx && d3yx < config.getNH_MASSd3() + e) {
+        } else if (config.getNH_MASSd3() - errortolerance < d3yx && d3yx < config.getNH_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd3() - e < d3yx && d3yx < config.getCO_MASSd3() + e) {
+        } else if (config.getCO_MASSd3() - errortolerance < d3yx && d3yx < config.getCO_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd3() - e < d4xy && d4xy < config.getNH_MASSd3() + e) {
+        } else if (config.getNH_MASSd3() - errortolerance < d4xy && d4xy < config.getNH_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd3() - e < d4xy && d4xy < config.getCO_MASSd3() + e) {
+        } else if (config.getCO_MASSd3() - errortolerance < d4xy && d4xy < config.getCO_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getNH_MASSd3() - e < d4yx && d4yx < config.getNH_MASSd3() + e) {
+        } else if (config.getNH_MASSd3() - errortolerance < d4yx && d4yx < config.getNH_MASSd3() + errortolerance) {
             F4++;
-        } else if (config.getCO_MASSd3() - e < d4yx && d4yx < config.getCO_MASSd3() + e) {
+        } else if (config.getCO_MASSd3() - errortolerance < d4yx && d4yx < config.getCO_MASSd3() + errortolerance) {
             F4++;
         }
 

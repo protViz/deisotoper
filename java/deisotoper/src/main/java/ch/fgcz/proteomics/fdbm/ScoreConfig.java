@@ -21,6 +21,11 @@ public class ScoreConfig {
     private List<Double> AA_MASS3 = new ArrayList<>();
     private double min = 0;
     private double max = Double.MAX_VALUE;
+    private double FM1;
+    private double FM2;
+    private double FM3;
+    private double FM4;
+    private double FM5;
     private final double H_MASS = 1.008;
     private final double NH3_MASS = 17.03052;
     private final double H2O_MASS = 18.01528;
@@ -44,6 +49,46 @@ public class ScoreConfig {
 
     public double getNH_MASSd2() {
         return NH_MASSd2;
+    }
+
+    public double getFM1() {
+        return FM1;
+    }
+
+    public void setFM1(double fM1) {
+        FM1 = fM1;
+    }
+
+    public double getFM2() {
+        return FM2;
+    }
+
+    public void setFM2(double fM2) {
+        FM2 = fM2;
+    }
+
+    public double getFM3() {
+        return FM3;
+    }
+
+    public void setFM3(double fM3) {
+        FM3 = fM3;
+    }
+
+    public double getFM4() {
+        return FM4;
+    }
+
+    public void setFM4(double fM4) {
+        FM4 = fM4;
+    }
+
+    public double getFM5() {
+        return FM5;
+    }
+
+    public void setFM5(double fM5) {
+        FM5 = fM5;
     }
 
     public double getNH_MASSd3() {
@@ -178,6 +223,11 @@ public class ScoreConfig {
             this.AA_MASS.add(186.07931);
             this.AA_MASS.add(163.06333);
             this.AA_MASS.add(99.06841);
+            this.FM1 = 0.8;
+            this.FM2 = 0.5;
+            this.FM3 = 0.1;
+            this.FM4 = 0.1;
+            this.FM5 = 0.1;
             System.err.println("WARNING: File not found, using standart amino acid masses instead!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -187,7 +237,21 @@ public class ScoreConfig {
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             String value = properties.getProperty(key);
-            this.AA_MASS.add(Double.parseDouble(value));
+            double vdouble = Double.parseDouble(value);
+            
+            if (key.equals("F1")) {
+                this.FM1 = vdouble;
+            } else if (key.equals("F2")) {
+                this.FM2 = vdouble;
+            } else if (key.equals("F3")) {
+                this.FM3 = vdouble;
+            } else if (key.equals("F4")) {
+                this.FM4 = vdouble;
+            } else if (key.equals("F5")) {
+                this.FM5 = vdouble;
+            } else {
+                this.AA_MASS.add(vdouble);
+            }
         }
 
         for (Double x : this.AA_MASS) {

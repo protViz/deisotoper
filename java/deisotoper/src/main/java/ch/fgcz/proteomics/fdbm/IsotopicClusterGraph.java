@@ -240,10 +240,9 @@ public class IsotopicClusterGraph {
      * @param setid
      * @param msid
      */
-    public void drawDOTIsotopicClusterGraph(int setid, int msid, String date) {
+    public String createDOTIsotopicClusterGraph(int setid, int msid, String date) {
         StringBuilder sb = new StringBuilder();
         String linesep = System.getProperty("line.separator");
-        double sumscore = 0;
 
         sb.append("digraph {").append(linesep);
         sb.append("rankdir=LR;").append(linesep);
@@ -277,20 +276,15 @@ public class IsotopicClusterGraph {
                 sb.append("] z:" + this.isotopicclustergraph.getEdgeSource(e).getCharge() + "\" -> " + this.isotopicclustergraph.getEdgeTarget(e).getStatus())
                         .append("[color=\"" + e.getColor() + "\",label=\"" + Math.round(e.getScore() * 10000d) / 10000d + "\",weight=\"" + e.getScore() + "\"];").append(linesep);
             }
-
-            sumscore += e.getScore();
         }
 
         sb.append("}");
 
-        String folder = "IsotopicClusterGraphs_DOT/" + date + "/";
+        return sb.toString();
+    }
 
-        new File(folder).mkdirs();
-        try (PrintWriter out = new PrintWriter(new File(folder + "/MS_" + msid + "_IS_" + setid + "_SCORE_" + (Math.round(sumscore * 100d) / 100d) + ".dot"))) {
-            out.print(sb.toString());
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
+    public void drawDOTIsotopicClusterGraph(int setid, int msid, String date) {
+        saveDOTIsotopicClusterGraph(createDOTIsotopicClusterGraph(setid, msid, date), date, msid, setid);
     }
 
     // /**
@@ -311,6 +305,17 @@ public class IsotopicClusterGraph {
     // }
     // return table.toString();
     // }
+
+    private void saveDOTIsotopicClusterGraph(String string, String date, int msid, int setid) {
+        String folder = "IsotopicClusterGraphs_DOT/" + date + "/";
+
+        new File(folder).mkdirs();
+        try (PrintWriter out = new PrintWriter(new File(folder + "/MS_" + msid + "_IS_" + setid + ".dot"))) {
+            out.print(string);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+    }
 
     /**
      * @param is

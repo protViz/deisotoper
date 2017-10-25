@@ -153,15 +153,15 @@ public class Deisotope {
     }
 
     private IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
-        if (modus.contains("first")) {
+        if (modus.equals("first")) {
             return cluster.simpleAggregateFirst();
-        } else if (modus.contains("last")) {
+        } else if (modus.equals("last")) {
             return cluster.simpleAggregateLast();
-        } else if (modus.contains("mean")) {
+        } else if (modus.equals("mean")) {
             return cluster.simpleAggregateMean();
-        } else if (modus.contains("highest")) {
+        } else if (modus.equals("highest")) {
             return cluster.advancedAggregateHighest();
-        } else if (modus.contains("none")) {
+        } else if (modus.equals("none")) {
             return cluster;
         } else {
             throw new IllegalArgumentException("Modus not found (" + modus + ")");
@@ -171,7 +171,7 @@ public class Deisotope {
     public static void main(String[] args) {
         runtimeBenchmark();
 
-        testDeisotope();
+        // testDeisotope();
     }
 
     private static void testDeisotope() {
@@ -509,7 +509,7 @@ public class Deisotope {
         long startTime = System.currentTimeMillis();
 
         Deisotope deiso = new Deisotope();
-        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "nofile", 5, 0.3, 0.01);
+        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, false, "first", "/srv/lucas1/test.properties", 5, 0.3, 0.01);
 
         long endTime = System.currentTimeMillis();
 
