@@ -5,10 +5,11 @@
 \title{Deisotopes a MSM.}
 \usage{
 jDeisotopeMSMfdbm(jobj, save = FALSE, modus = "first",
-  aamassfile = "AminoAcidMasses.ini")
+  aamassfile = "nofile", percent = 0, errortolerance = 0.3,
+  delta = 0.01)
 }
 \description{
-The amino acid masses file ("AminoAcidMasses.ini") must be in the home directory, otherwise it will initialize the standart amino acid masses.
+Deisotopes a MSM.
 }
 \examples{
 
