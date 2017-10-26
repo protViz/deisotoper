@@ -490,11 +490,10 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile",
 #' @export jDeisotopeMSM
 #'
 #' @examples
-#'
 #' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 #' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 #'
-#' joMSMdeisotoped <- jDeisotopeMSM(joMSM, method)
+#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
 #'
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
