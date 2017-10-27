@@ -315,6 +315,8 @@ jGetMSM <- function(jobj) {
 #' @return
 #' @export jWriteMSM2JSON
 #'
+#' @examples
+#'
 jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -333,6 +335,8 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
 #'
 #' @return
 #' @export jReadJSON2MSM
+#'
+#' @examples
 #'
 jReadJSON2MSM <- function(filename='test.json'){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
