@@ -307,6 +307,14 @@ jGetMSM <- function(jobj) {
   as.MSM(MSM)
 }
 
+#' Serializes a MSM into a json.
+#'
+#' @param jobj
+#' @param filename 
+#'
+#' @return
+#' @export jWriteMSM2JSON
+#'
 jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -319,6 +327,13 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
   json
 }
 
+#' Deserializes a json into a MSM.
+#'
+#' @param filename 
+#'
+#' @return
+#' @export jReadJSON2MSM
+#'
 jReadJSON2MSM <- function(filename='test.json'){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -336,7 +351,6 @@ jReadJSON2MSM <- function(filename='test.json'){
 #' @return
 #' @export jVersionMSM
 #'
-#' @examples
 jVersionMSM <- function() {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -394,6 +408,7 @@ jDeisotopeMSMmspy <- function(jobj) {
 #' 
 #' joMSMdeconvoluted <- jDeconvoluteMSMmspy(joMSMdeisotoped)
 #' joMSMdeconvolutedsummary <- jSummaryMSM(joMSMdeconvoluted)
+#' 
 jDeconvoluteMSMmspy <- function(jobj) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
@@ -497,7 +512,7 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile",
 #'
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
-#'
+#' 
 jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.01) {
   if(method == "fdbm") {
     output <- jDeisotopeMSMfdbm(jobj, save, modus, aamassfile, percent, errortolerance, delta)
@@ -510,6 +525,11 @@ jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamass
   output
 }
 
+#' Used for benchmarking. The input is a MGF and the output is also a MGF.
+#' 
+#' @return
+#' @export jBenchmark
+#' 
 jBenchmark <- function(input, output, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.01) {
   name <- load(file = input)
   mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, modus = modus, save = save, aamassfile = aamassfile, percent = percent, errortolerance = errortolerance, delta = delta)), filename = output)
