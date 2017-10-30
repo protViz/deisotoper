@@ -32,91 +32,14 @@ public class IsotopicSet {
         this.isotopicset = isotopicSet;
     }
 
-
-    // TODO (LS) : remove code duplication in this function.
     public IsotopicSet(List<Peak> isotopicset, double errortolerance, int setid) {
         List<IsotopicCluster> is = new ArrayList<>();
 
-        int charge = 3;
-        for (Peak a : isotopicset) {
-            for (Peak b : isotopicset) {
-                double distanceab = b.getMz() - a.getMz();
-                for (Peak c : isotopicset) {
-                    List<Peak> ic = new ArrayList<>();
-                    double distanceac = c.getMz() - a.getMz();
-                    double distancebc = c.getMz() - b.getMz();
+        is = loop(is, isotopicset, 3, errortolerance);
 
-                    if ((1.003 / charge) - errortolerance < distanceab && distanceab < (1.003 / charge) + errortolerance) {
-                        ic.add(a);
-                        ic.add(b);
-                    }
+        is = loop(is, isotopicset, 2, errortolerance);
 
-                    if ((1.003 / charge) - errortolerance < distancebc && distancebc < (1.003 / charge) + errortolerance && ((1.003 / charge) - errortolerance) * 2 < distanceac
-                            && distanceac < ((1.003 / charge) + errortolerance) * 2) {
-                        ic.add(c);
-                    }
-
-                    if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
-                        is.add(cluster);
-                    }
-                }
-            }
-        }
-
-        charge = 2;
-        for (Peak a : isotopicset) {
-            for (Peak b : isotopicset) {
-                double distanceab = b.getMz() - a.getMz();
-                for (Peak c : isotopicset) {
-                    List<Peak> ic = new ArrayList<>();
-                    double distanceac = c.getMz() - a.getMz();
-                    double distancebc = c.getMz() - b.getMz();
-
-                    if ((1.003 / charge) - errortolerance < distanceab && distanceab < (1.003 / charge) + errortolerance) {
-                        ic.add(a);
-                        ic.add(b);
-                    }
-
-                    if ((1.003 / charge) - errortolerance < distancebc && distancebc < (1.003 / charge) + errortolerance && ((1.003 / charge) - errortolerance) * 2 < distanceac
-                            && distanceac < ((1.003 / charge) + errortolerance) * 2) {
-                        ic.add(c);
-                    }
-
-                    if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
-                        is.add(cluster);
-                    }
-                }
-            }
-        }
-
-        charge = 1;
-        for (Peak a : isotopicset) {
-            for (Peak b : isotopicset) {
-                double distanceab = b.getMz() - a.getMz();
-                for (Peak c : isotopicset) {
-                    List<Peak> ic = new ArrayList<>();
-                    double distanceac = c.getMz() - a.getMz();
-                    double distancebc = c.getMz() - b.getMz();
-
-                    if ((1.003 / charge) - errortolerance < distanceab && distanceab < (1.003 / charge) + errortolerance) {
-                        ic.add(a);
-                        ic.add(b);
-                    }
-
-                    if ((1.003 / charge) - errortolerance < distancebc && distancebc < (1.003 / charge) + errortolerance && ((1.003 / charge) - errortolerance) * 2 < distanceac
-                            && distanceac < ((1.003 / charge) + errortolerance) * 2) {
-                        ic.add(c);
-                    }
-
-                    if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
-                        is.add(cluster);
-                    }
-                }
-            }
-        }
+        is = loop(is, isotopicset, 1, errortolerance);
 
         is = removeMultipleIsotopicCluster(is);
 
@@ -130,6 +53,36 @@ public class IsotopicSet {
 
         this.isotopicset = is;
         this.setID = setid;
+    }
+
+    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double errortolerance) {
+        for (Peak a : isotopicset) {
+            for (Peak b : isotopicset) {
+                double distanceab = b.getMz() - a.getMz();
+                for (Peak c : isotopicset) {
+                    List<Peak> ic = new ArrayList<>();
+                    double distanceac = c.getMz() - a.getMz();
+                    double distancebc = c.getMz() - b.getMz();
+
+                    if ((1.003 / charge) - errortolerance < distanceab && distanceab < (1.003 / charge) + errortolerance) {
+                        ic.add(a);
+                        ic.add(b);
+                    }
+
+                    if ((1.003 / charge) - errortolerance < distancebc && distancebc < (1.003 / charge) + errortolerance && ((1.003 / charge) - errortolerance) * 2 < distanceac
+                            && distanceac < ((1.003 / charge) + errortolerance) * 2) {
+                        ic.add(c);
+                    }
+
+                    if (ic.size() == 2 || ic.size() == 3) {
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge);
+                        is.add(cluster);
+                    }
+                }
+            }
+        }
+
+        return is;
     }
 
     private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> list) {
