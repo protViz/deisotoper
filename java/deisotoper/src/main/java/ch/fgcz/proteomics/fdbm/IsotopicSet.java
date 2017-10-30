@@ -32,6 +32,8 @@ public class IsotopicSet {
         this.isotopicset = isotopicSet;
     }
 
+
+    // TODO (LS) : remove code duplication in this function.
     public IsotopicSet(List<Peak> isotopicset, double errortolerance, int setid) {
         List<IsotopicCluster> is = new ArrayList<>();
 
