@@ -37,6 +37,7 @@ public class Deisotope {
         return output;
     }
 
+    //TODO (LS): never used
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, double percent, double error, double delta) {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
