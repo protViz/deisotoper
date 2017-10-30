@@ -24,6 +24,12 @@ public class Score {
         this.score = score;
     }
 
+    //TODO (LS) pass ScoreConfig to constructor. Will save you an argument in each score function.
+    //TODO (LS) Score(Peak x, Peak y, double error,  consturctor doing? move to function, compute overall score.
+    // move to function.
+    // Constructor might look Score(ScoreConfig, isotopicclustergraph , ).
+    // What is con?
+
     /**
      * To thoroughly assess each possible isotopic cluster, those five features above are combined in a score function.
      * 
