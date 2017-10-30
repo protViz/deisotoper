@@ -44,6 +44,8 @@ public class Deisotope {
         return deisotopeMS(input, save, modus, config, date, percent, error, delta);
     }
 
+
+    // TODO (LS): To many parameters, - e.g. move delta, error, percent, modus, config to Deisotoper constructor.
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date, double percent, double error, double delta) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, delta);
 
@@ -171,12 +173,13 @@ public class Deisotope {
         }
     }
 
+    // TODO (LS): move to tests
     public static void main(String[] args) {
         runtimeBenchmark();
-
         // testDeisotope();
     }
 
+    // TODO (LS): Where is this called?
     private static void testDeisotope() {
         String typ = "MS2 Spectrum";
         String searchengine = "mascot";
@@ -292,6 +295,7 @@ public class Deisotope {
         }
     }
 
+    // TODO (LS) : MOVE TO TEST
     private static void runtimeBenchmark() {
         String s = "TesterinoData.RData";
         MassSpectrometryMeasurement msm = new MassSpectrometryMeasurement(s);
