@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 public class IsotopicSet {
+    private static final double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.003;
     private List<IsotopicCluster> isotopicset = new ArrayList<>();
     private int setID;
 
@@ -56,13 +57,13 @@ public class IsotopicSet {
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
-                    if ((1.003 / charge) - errortolerance < distanceab && distanceab < (1.003 / charge) + errortolerance) {
+                    if ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance < distanceab && distanceab < (DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance) {
                         ic.add(a);
                         ic.add(b);
                     }
 
-                    if ((1.003 / charge) - errortolerance < distancebc && distancebc < (1.003 / charge) + errortolerance && ((1.003 / charge) - errortolerance) * 2 < distanceac
-                            && distanceac < ((1.003 / charge) + errortolerance) * 2) {
+                    if ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance < distancebc && distancebc < (DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance && ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance) * 2 < distanceac
+                            && distanceac < ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance) * 2) {
                         ic.add(c);
                     }
 

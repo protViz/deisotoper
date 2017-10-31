@@ -17,6 +17,7 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicMassSpectrum {
+    private static final double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.003;
     private List<IsotopicSet> isotopicmassspectrum = new ArrayList<>();
 
     public List<IsotopicSet> getIsotopicMassSpectrum() {
@@ -61,7 +62,7 @@ public class IsotopicMassSpectrum {
                 double distance = peaklist.getPeaklist().get(i + 1).getMz() - peaklist.getPeaklist().get(i).getMz();
 
                 for (int charge = 1; charge <= 3; charge++) {
-                    if ((1.003 / charge) - errortolerance < distance && distance < (1.003 / charge) + errortolerance) {
+                    if ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance < distance && distance < (DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance) {
                         if (isotopicset.size() == 0) {
                             isotopicset.add((peaklist.getPeaklist().get(i)));
                         }
