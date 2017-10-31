@@ -106,8 +106,28 @@ TP+AF8-HeLa+AF8-200ng+AF8-removedNoise5Percent+AF8-FDBM.mgf+AF8-Fusion,F258099.d
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-14+AF8-Mix1b+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258258.dat,258258,34751,9385,27.01,
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-20+AF8-Mix1a+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258259.dat,258259,34433,9874,28.68,
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-22+AF8-Mix1b+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258260.dat,258260,34467,8814,25.57,
-/srv/lucas1/Downloads/MascotDaemon/input/mgf/HeLa/20161010+AF8-04+AF8-TP+AF8-HeLa+AF8-200ng.mgf+AF8-deisotoped,F258261.dat,258261,27583,16878,61.19,Best result from FDBM
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/HeLa/20161010+AF8-04+AF8-TP+AF8-HeLa+AF8-200ng.mgf+AF8-deisotoped,F258261.dat,258261,27583,16878,61.19,
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-11+AF8-Mix1a+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258262.dat,258262,34335,11515,33.54,Better than PD
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-14+AF8-Mix1b+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258263.dat,258263,34751,10705,30.8,Better than PD
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-20+AF8-Mix1a+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258264.dat,258264,34433,11183,32.48,Better than PD
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-22+AF8-Mix1b+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258265.dat,258265,34467,10117,29.35,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/HeLa/20161010+AF8-04+AF8-TP+AF8-HeLa+AF8-200ng.mgf+AF8-deisotoped,F258272.dat,258272,27583,16897,61.26,
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-11+AF8-Mix1a+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258273.dat,258273,34335,11514,33.53,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-14+AF8-Mix1b+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258274.dat,258274,34751,10720,30.85,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-20+AF8-Mix1a+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258275.dat,258275,34433,11201,32.53,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-22+AF8-Mix1b+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258276.dat,258276,34467,10130,29.39,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/HeLa/20161010+AF8-04+AF8-TP+AF8-HeLa+AF8-200ng.mgf+AF8-deisotoped,F258277.dat,258277,27583,16847,61.08,
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-11+AF8-Mix1a+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258278.dat,258278,34335,11496,33.48,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-14+AF8-Mix1b+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258279.dat,258279,34751,10684,30.74,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-20+AF8-Mix1a+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258280.dat,258280,34433,11170,32.44,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-22+AF8-Mix1b+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258281.dat,258281,34467,10094,29.29,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/HeLa/20161010+AF8-04+AF8-TP+AF8-HeLa+AF8-200ng.mgf+AF8-deisotoped,F258282.dat,258282,27583,16918,61.33,Best result from FDBM
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-11+AF8-Mix1a+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258283.dat,258283,34335,11476,33.42,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-14+AF8-Mix1b+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258284.dat,258284,34751,10693,30.77,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-20+AF8-Mix1a+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258285.dat,258285,34433,11175,32.45,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-22+AF8-Mix1b+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258286.dat,258286,34467,10118,29.36,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/HeLa/20161010+AF8-04+AF8-TP+AF8-HeLa+AF8-200ng.mgf+AF8-deisotoped,F258287.dat,258287,27583,16802,60.91,
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-11+AF8-Mix1a+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258288.dat,258288,34335,11452,33.35,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-14+AF8-Mix1b+AF8-1+AF8-DDA.mgf+AF8-deisotoped,F258289.dat,258289,34751,10632,30.59,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-20+AF8-Mix1a+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258290.dat,258290,34433,11123,32.3,Better than PD
+/srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA+AF8-pd/20161201+AF8-22+AF8-Mix1b+AF8-2+AF8-DDA.mgf+AF8-deisotoped,F258291.dat,258291,34467,10050,29.16,Better than PD
