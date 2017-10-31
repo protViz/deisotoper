@@ -23,4 +23,8 @@ public class DTOR {
     public String versionR() {
         return MassSpectrometryMeasurement.version();
     }
+
+    public MassSpectrometryMeasurement massSpectrometryMeasurementR(String src) {
+        return new MassSpectrometryMeasurement(src);
+    }
 }

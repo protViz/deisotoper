@@ -181,7 +181,9 @@ jCreateMSM <- function (obj) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("ch.fgcz.proteomics.dto.MassSpectrometryMeasurement", src)
+  DTOR <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  
+  MSM <- .jcall(DTOR, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "massSpectrometryMeasurementR", src)
   
   lapply(obj, function(x) {
     if (is.null(x))
