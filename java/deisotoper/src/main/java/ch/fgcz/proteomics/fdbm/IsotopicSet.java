@@ -20,6 +20,7 @@ public class IsotopicSet {
         return setID;
     }
 
+    // TODO (LS): Is this function used?
     public void setSetID(int setID) {
         this.setID = setID;
     }
@@ -28,6 +29,7 @@ public class IsotopicSet {
         return isotopicset;
     }
 
+    // TODO (LS): Is this function used?
     public void setIsotopicSet(List<IsotopicCluster> isotopicSet) {
         this.isotopicset = isotopicSet;
     }

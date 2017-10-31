@@ -41,6 +41,7 @@ public class Deisotope {
     }
 
     // TODO (LS): To many parameters, - e.g. move delta, error, percent, modus, config to Deisotoper constructor.
+    // TODO (LS): To long, to complex, split into several functions.
     public MassSpectrum deisotopeMS(MassSpectrum input, boolean save, String modus, ScoreConfig config, String date, double percent, double error, double delta) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, delta);
 

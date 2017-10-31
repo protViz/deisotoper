@@ -23,6 +23,7 @@ public class IsotopicMassSpectrum {
         return isotopicmassspectrum;
     }
 
+    // TODO (LS): Who is calling this funciton?
     public void setIsotopicMassSpectrum(List<IsotopicSet> isotopicMassSpectrum) {
         this.isotopicmassspectrum = isotopicMassSpectrum;
     }
@@ -49,6 +50,7 @@ public class IsotopicMassSpectrum {
         constructIsotopicMassSpectrum(peaklist, errortolerance);
     }
 
+    // TODO (LS) : what is the 1.003 number here?
     private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance) {
         int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
@@ -89,6 +91,7 @@ public class IsotopicMassSpectrum {
 
     }
 
+    //TODO (LS) move to tests.
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
 

@@ -14,6 +14,7 @@ public class Peak {
         return peakID;
     }
 
+    // TODO (LS) is this function used?
     public void setPeakID(int peakID) {
         this.peakID = peakID;
     }
