@@ -438,7 +438,7 @@ jDeconvoluteMSMmspy <- function(jobj) {
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance=0.3, delta = 0.01) {
+jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance=0.3, delta = 0.003) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -476,7 +476,7 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofil
 #' 
 #' msdeisotoped <- jDeisotopeMSfdbm(ms)
 #' 
-jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.01) {
+jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -515,7 +515,7 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile",
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.01) {
+jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
   if(method == "fdbm") {
     output <- jDeisotopeMSMfdbm(jobj, save, modus, aamassfile, percent, errortolerance, delta)
   } else if(method == "mspy") {
@@ -532,7 +532,7 @@ jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamass
 #' @return
 #' @export jBenchmark
 #' 
-jBenchmark <- function(input, output, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.01) {
+jBenchmark <- function(input, output, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
   name <- load(file = input)
   mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, modus = modus, save = save, aamassfile = aamassfile, percent = percent, errortolerance = errortolerance, delta = delta)), filename = output)
 }

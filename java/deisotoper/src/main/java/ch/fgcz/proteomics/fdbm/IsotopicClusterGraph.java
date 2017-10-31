@@ -379,7 +379,6 @@ public class IsotopicClusterGraph {
 
                         // long startTime = System.currentTimeMillis();
 
-                        // TODO (LS): construct once than use it.
                         double sres = s.calculateScore(x, y, this.isotopicclustergraph.getEdgeTarget(e), e);
 
                         // long endTime = System.currentTimeMillis();
