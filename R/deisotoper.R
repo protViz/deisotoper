@@ -44,9 +44,9 @@ jSummaryMSM <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("ch.fgcz.proteomics.dto.Summary")
+  sum <- .jnew("ch.fgcz.proteomics.R.DTOR")
   
-  summary <- .jcall(sum, "S", "makeSummary", jobj)
+  summary <- .jcall(sum, "S", "summaryR", jobj)
   con <- textConnection(summary)
   read.csv(con, sep=',', header = TRUE)
 }
@@ -91,14 +91,10 @@ findNN <- function (q, vec, check = FALSE) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
 
-  jFindNN <- .jnew("ch.fgcz.proteomics.utilities.FindNN")
+  jFindNN <- .jnew("ch.fgcz.proteomics.R.UtilitiesR")
   
-  .jcall(jFindNN, "V", "setVec", as.double(vec))
-  .jcall(jFindNN, "V", "setQ", as.double(q))
-  
-  idx <- (.jcall(jFindNN, "[D", "getIndex") + 1)
+  idx <- (.jcall(jFindNN, "[D", "findNNR", as.double(vec), as.double(q)) + 1)
 }
-
 
 #' Coerce to MS
 #'
@@ -322,9 +318,9 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  Serialize<- .jnew("ch.fgcz.proteomics.dto.Serialize")
+  Serialize <- .jnew("ch.fgcz.proteomics.R.DTOR")
   
-  json <- .jcall(Serialize, "S", "serializeMSMToJson", filename, jobj)
+  json <- .jcall(Serialize, "S", "serializeMSMToJsonR", filename, jobj)
   
   json
 }
@@ -343,9 +339,9 @@ jReadJSON2MSM <- function(filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  Serialize <- .jnew("ch.fgcz.proteomics.dto.Serialize")
+  Serialize <- .jnew("ch.fgcz.proteomics.R.DTOR")
   
-  MSM <- .jcall(Serialize, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deserializeJsonToMSM", filename)
+  MSM <- .jcall(Serialize, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deserializeJsonToMSMR", filename)
   
   MSM
 }
@@ -360,9 +356,9 @@ jVersionMSM <- function() {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("ch.fgcz.proteomics.dto.MassSpectrometryMeasurement", " ")
+  MSM <- .jnew("ch.fgcz.proteomics.R.DTOR")
   
-  version <- .jcall(MSM, "S", "version")
+  version <- .jcall(MSM, "S", "versionR")
   
   version
 }
@@ -388,9 +384,9 @@ jDeisotopeMSMmspy <- function(jobj) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  d <- .jnew("ch.fgcz.proteomics.mspy.Deisotope")
+  d <- .jnew("ch.fgcz.proteomics.R.MSPYR")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj)
   
   output
 }
@@ -418,9 +414,9 @@ jDeconvoluteMSMmspy <- function(jobj) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  d <- .jnew("ch.fgcz.proteomics.mspy.Deconvolute")
+  d <- .jnew("ch.fgcz.proteomics.R.MSPYR")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deconvoluteMSM", jobj)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deconvoluteMSMR", jobj)
   
   output
 }
@@ -456,9 +452,9 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofil
   m <- new( String, modus )
   aamass <- new( String, aamassfile )
   
-  d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
+  d <- .jnew("ch.fgcz.proteomics.R.FDBMR")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSM", jobj, save, m, aamass, percent, errortolerance, delta)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj, save, m, aamass, percent, errortolerance, delta)
   
   output
 }
@@ -494,11 +490,11 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile",
   m <- new( String, modus )
   aamass <- new( String, aamassfile )
   
-  d <- .jnew("ch.fgcz.proteomics.fdbm.Deisotope")
+  d <- .jnew("ch.fgcz.proteomics.R.FDBMR")
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", aamassfile)
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMS", ms, save, m, config, percent, errortolerance, delta)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMSR", ms, save, m, config, percent, errortolerance, delta)
   
   output
 }

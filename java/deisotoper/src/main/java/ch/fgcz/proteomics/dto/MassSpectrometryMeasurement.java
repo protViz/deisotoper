@@ -85,7 +85,7 @@ public class MassSpectrometryMeasurement {
     /**
      * @return version
      */
-    public String version() {
+    public static String version() {
         return "2017-09-22 (1) Lucas Schmidt";
     }
 }

@@ -10,17 +10,6 @@ import java.util.Arrays;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class FindNN {
-    private static double[] q;
-    private static double[] vec;
-
-    public static void setQ(double[] x) {
-        FindNN.q = x;
-    }
-
-    public static void setVec(double[] x) {
-        FindNN.vec = x;
-    }
-
     /**
      * Finds the nearest neighbors. Applies the pattern on the data to find the nearest neighbors of the pattern.
      * 
@@ -46,12 +35,5 @@ public class FindNN {
         }
 
         return index;
-    }
-
-    /**
-     * @return index array
-     */
-    public static double[] getIndex() {
-        return FindNN.findNN(FindNN.q, FindNN.vec);
     }
 }

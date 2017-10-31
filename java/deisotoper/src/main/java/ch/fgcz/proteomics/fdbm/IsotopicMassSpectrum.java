@@ -50,7 +50,7 @@ public class IsotopicMassSpectrum {
         constructIsotopicMassSpectrum(peaklist, errortolerance);
     }
 
-    // TODO (LS) : what is the 1.003 number here?
+    // TODO (LS) : what is the 1.003 number here? A: "The space between any pair of adjacent isotopic peaks in each set is 1.003/z (z = 1, 2, 3)" 
     private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance) {
         int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
