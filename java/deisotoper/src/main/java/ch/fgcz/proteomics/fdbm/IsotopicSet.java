@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 
 public class IsotopicSet {
-    private static final double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.003;
     private List<IsotopicCluster> isotopicset = new ArrayList<>();
     private int setID;
 
@@ -25,14 +24,14 @@ public class IsotopicSet {
         return isotopicset;
     }
 
-    public IsotopicSet(List<Peak> isotopicset, double errortolerance, int setid) {
+    public IsotopicSet(List<Peak> isotopicset, double errortolerance, int setid, ScoreConfig config) {
         List<IsotopicCluster> is = new ArrayList<>();
 
-        is = loop(is, isotopicset, 3, errortolerance);
+        is = loop(is, isotopicset, 3, errortolerance, config);
 
-        is = loop(is, isotopicset, 2, errortolerance);
+        is = loop(is, isotopicset, 2, errortolerance, config);
 
-        is = loop(is, isotopicset, 1, errortolerance);
+        is = loop(is, isotopicset, 1, errortolerance, config);
 
         is = removeMultipleIsotopicCluster(is);
 
@@ -48,7 +47,7 @@ public class IsotopicSet {
         this.setID = setid;
     }
 
-    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double errortolerance) {
+    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double errortolerance, ScoreConfig config) {
         for (Peak a : isotopicset) {
             for (Peak b : isotopicset) {
                 double distanceab = b.getMz() - a.getMz();
@@ -57,13 +56,14 @@ public class IsotopicSet {
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
-                    if ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance < distanceab && distanceab < (DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance) {
+                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance < distanceab && distanceab < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance) {
                         ic.add(a);
                         ic.add(b);
                     }
 
-                    if ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance < distancebc && distancebc < (DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance && ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance) * 2 < distanceac
-                            && distanceac < ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance) * 2) {
+                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance < distancebc && distancebc < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance
+                            && ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance) * 2 < distanceac
+                            && distanceac < ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance) * 2) {
                         ic.add(c);
                     }
 

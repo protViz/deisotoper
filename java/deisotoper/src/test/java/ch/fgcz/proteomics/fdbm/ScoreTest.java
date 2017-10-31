@@ -52,7 +52,7 @@ public class ScoreTest {
      * 
      * sum1: 123 + 253 = 376
      * 
-     * And the m2i value is: 188 * 2 - 2 * 1.008  = 373.986
+     * And the m2i value is: 188 * 2 - 2 * 1.008 = 373.986
      * 
      * Therefore we have: 373.986 + 2 * 1.008 +- 0.3 = 375.7 and 376.3
      * 
@@ -128,7 +128,7 @@ public class ScoreTest {
         ScoreConfig config = new ScoreConfig("nofile");
         Score s = new Score();
         IsotopicClusterGraph icg = new IsotopicClusterGraph(
-                new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0), new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)), 0.01, 0));
+                new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0), new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)), 0.01, 0, new ScoreConfig("")));
         Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
 
         double score = s.fifthIntensityFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);

@@ -17,7 +17,6 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicMassSpectrum {
-    private static final double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.003;
     private List<IsotopicSet> isotopicmassspectrum = new ArrayList<>();
 
     public List<IsotopicSet> getIsotopicMassSpectrum() {
@@ -35,10 +34,10 @@ public class IsotopicMassSpectrum {
      * @param massspectrum
      * @param errortolerance
      */
-    public IsotopicMassSpectrum(MassSpectrum massspectrum, double errortolerance) {
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, double errortolerance, ScoreConfig config) {
         Peaklist peaklist = new Peaklist(massspectrum);
 
-        constructIsotopicMassSpectrum(peaklist, errortolerance);
+        constructIsotopicMassSpectrum(peaklist, errortolerance, config);
     }
 
     /**
@@ -47,12 +46,12 @@ public class IsotopicMassSpectrum {
      * @param peaklist
      * @param errortolerance
      */
-    public IsotopicMassSpectrum(Peaklist peaklist, double errortolerance) {
-        constructIsotopicMassSpectrum(peaklist, errortolerance);
+    public IsotopicMassSpectrum(Peaklist peaklist, double errortolerance, ScoreConfig config) {
+        constructIsotopicMassSpectrum(peaklist, errortolerance, config);
     }
 
-    // TODO (LS) : what is the 1.003 number here? A: "The space between any pair of adjacent isotopic peaks in each set is 1.003/z (z = 1, 2, 3)" 
-    private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance) {
+    // TODO (LS) : what is the 1.003 number here? A: "The space between any pair of adjacent isotopic peaks in each set is 1.003/z (z = 1, 2, 3)"
+    private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance, ScoreConfig config) {
         int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
             List<Peak> isotopicset = new ArrayList<>();
@@ -62,7 +61,7 @@ public class IsotopicMassSpectrum {
                 double distance = peaklist.getPeaklist().get(i + 1).getMz() - peaklist.getPeaklist().get(i).getMz();
 
                 for (int charge = 1; charge <= 3; charge++) {
-                    if ((DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) - errortolerance < distance && distance < (DISTANCE_BETWEEN_ISOTOPIC_PEAKS / charge) + errortolerance) {
+                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance < distance && distance < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance) {
                         if (isotopicset.size() == 0) {
                             isotopicset.add((peaklist.getPeaklist().get(i)));
                         }
@@ -79,7 +78,7 @@ public class IsotopicMassSpectrum {
             }
 
             if (1 < isotopicset.size()) {
-                IsotopicSet is = new IsotopicSet(isotopicset, errortolerance, id);
+                IsotopicSet is = new IsotopicSet(isotopicset, errortolerance, id, config);
                 id++;
 
                 this.isotopicmassspectrum.add(is);
@@ -92,7 +91,7 @@ public class IsotopicMassSpectrum {
 
     }
 
-    //TODO (LS) move to tests.
+    // TODO (LS) move to tests.
     public static void main(String[] args) {
         String s = "TesterinoData.RData";
 
@@ -108,7 +107,7 @@ public class IsotopicMassSpectrum {
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
         MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
 
-        IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01);
+        IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01, new ScoreConfig(""));
 
         for (IsotopicSet is : test.getIsotopicMassSpectrum()) {
             System.out.println("(((" + is.getSetID() + ")))");

@@ -39,7 +39,7 @@ public class IsotopicTest {
 
     @Test
     public void testIsotopeSet() {
-        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01);
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new ScoreConfig(""));
 
         assertEquals("Created IsotopicMassSpectrum should have one IsotopicSet", ims.getIsotopicMassSpectrum().size(), 1);
         assertEquals("Created IsotopicSet should have six IsotopicCluster", ims.getIsotopicMassSpectrum().get(0).getIsotopicSet().size(), 6);
@@ -56,7 +56,7 @@ public class IsotopicTest {
 
     @Test
     public void testIsotopeCluster() {
-        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01);
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new ScoreConfig(""));
         for (IsotopicSet i : ims.getIsotopicMassSpectrum()) {
             assertPeaklistEquals(A, i.getIsotopicSet().get(0).getIsotopicCluster());
             assertPeaklistEquals(B, i.getIsotopicSet().get(1).getIsotopicCluster());

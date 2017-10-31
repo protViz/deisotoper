@@ -8,7 +8,6 @@ package ch.fgcz.proteomics.fdbm;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class Score {
-    private static final double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.0005 ;
     // public static double timescoref1 = 0;
     // public static double timescoref2 = 0;
     // public static double timescoref3 = 0;
@@ -25,8 +24,8 @@ public class Score {
         this.score = score;
     }
 
-    //TODO (LS) pass ScoreConfig to constructor. Will save you an argument in each score function.
-    //TODO (LS) Score(Peak x, Peak y, double error,  consturctor doing? move to function, compute overall score.
+    // TODO (LS) pass ScoreConfig to constructor. Will save you an argument in each score function.
+    // TODO (LS) Score(Peak x, Peak y, double error, consturctor doing? move to function, compute overall score.
     // move to function.
     // Constructor might look Score(ScoreConfig, isotopicclustergraph , ).
     // What is con?
@@ -246,7 +245,7 @@ public class Score {
         double s3yx = sum3(y, x, config);
         double s4xy = sum4(x, y, config);
         double s4yx = sum4(y, x, config);
-        double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * DISTANCE_BETWEEN_ISOTOPIC_PEAKS * i;
+        double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() * i;
 
         if (m2i + config.getH_MASSx2() - errortolerance < s1xy && s1xy < m2i + config.getH_MASSx2() + errortolerance) {
             F2++;

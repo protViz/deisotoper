@@ -26,6 +26,7 @@ public class ScoreConfig {
     private double FM3 = 0.1;
     private double FM4 = 0.1;
     private double FM5 = 0.1;
+    private double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.003;
     private final double H_MASS = 1.008;
     private final double NH3_MASS = 17.03052;
     private final double H2O_MASS = 18.01528;
@@ -49,6 +50,10 @@ public class ScoreConfig {
 
     public double getNH_MASSd2() {
         return NH_MASSd2;
+    }
+
+    public double getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() {
+        return DISTANCE_BETWEEN_ISOTOPIC_PEAKS;
     }
 
     public double getFM1() {
@@ -238,7 +243,7 @@ public class ScoreConfig {
             String key = (String) e.nextElement();
             String value = properties.getProperty(key);
             double vdouble = Double.parseDouble(value);
-            
+
             if (key.equals("F1")) {
                 this.FM1 = vdouble;
             } else if (key.equals("F2")) {
@@ -249,6 +254,8 @@ public class ScoreConfig {
                 this.FM4 = vdouble;
             } else if (key.equals("F5")) {
                 this.FM5 = vdouble;
+            } else if (key.equals("DISTANCE")) {
+                this.DISTANCE_BETWEEN_ISOTOPIC_PEAKS = vdouble;
             } else {
                 this.AA_MASS.add(vdouble);
             }
