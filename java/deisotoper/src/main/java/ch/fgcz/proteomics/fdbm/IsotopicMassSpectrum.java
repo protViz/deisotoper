@@ -23,11 +23,6 @@ public class IsotopicMassSpectrum {
         return isotopicmassspectrum;
     }
 
-    // TODO (LS): Who is calling this funciton?
-    public void setIsotopicMassSpectrum(List<IsotopicSet> isotopicMassSpectrum) {
-        this.isotopicmassspectrum = isotopicMassSpectrum;
-    }
-
     /**
      * Constructor with MassSpectrum input, uses other constructor to create the IsotopicSet and IsotopicClusters of these IsotopicSets.
      * 
@@ -50,7 +45,6 @@ public class IsotopicMassSpectrum {
         constructIsotopicMassSpectrum(peaklist, errortolerance, config);
     }
 
-    // TODO (LS) : what is the 1.003 number here? A: "The space between any pair of adjacent isotopic peaks in each set is 1.003/z (z = 1, 2, 3)"
     private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance, ScoreConfig config) {
         int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
@@ -89,38 +83,6 @@ public class IsotopicMassSpectrum {
             }
         }
 
-    }
-
-    // TODO (LS) move to tests.
-    public static void main(String[] args) {
-        String s = "TesterinoData.RData";
-
-        String typ = "MS2 Spectrum";
-        String searchengine = "mascot";
-        double[] mz = { 1, 1.5, 2, 3, 3.5, 4.5, 4.83, 5.15, 5.5, 6, 6.5, 7, 8, 9, 10 };
-        double[] intensity = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-        double peptidmass = 309.22;
-        double rt = 38383.34;
-        int chargestate = 2;
-        int id = 123;
-
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
-        MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-
-        IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01, new ScoreConfig(""));
-
-        for (IsotopicSet is : test.getIsotopicMassSpectrum()) {
-            System.out.println("(((" + is.getSetID() + ")))");
-            for (IsotopicCluster ic : is.getIsotopicSet()) {
-                System.out.print("((" + ic.getClusterID() + ")) (" + ic.getCharge() + ") ");
-                for (Peak p : ic.getIsotopicCluster()) {
-                    System.out.print(p.getMz() + " ");
-                }
-
-                System.out.println();
-            }
-            System.out.println();
-        }
     }
 
     public void makeStatistics(String date, int allpeaks) {

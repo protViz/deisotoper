@@ -429,4 +429,36 @@ public class IsotopicTest {
         // System.out.println("f4 execution time: " + Score.timescoref4 + "ms (" + (int) (Score.timescoref4 / time * 100) + "%)");
         // System.out.println("f5 execution time: " + Score.timescoref5 + "ms (" + (int) (Score.timescoref5 / time * 100) + "%)");
     }
+
+    @Test
+    public void testIsotopicMassSpectrum() {
+        String s = "TesterinoData.RData";
+
+        String typ = "MS2 Spectrum";
+        String searchengine = "mascot";
+        double[] mz = { 1, 1.5, 2, 3, 3.5, 4.5, 4.83, 5.15, 5.5, 6, 6.5, 7, 8, 9, 10 };
+        double[] intensity = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        double peptidmass = 309.22;
+        double rt = 38383.34;
+        int chargestate = 2;
+        int id = 123;
+
+        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
+        MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+
+        IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01, new ScoreConfig(""));
+
+        for (IsotopicSet is : test.getIsotopicMassSpectrum()) {
+            System.out.println("(((" + is.getSetID() + ")))");
+            for (IsotopicCluster ic : is.getIsotopicSet()) {
+                System.out.print("((" + ic.getClusterID() + ")) (" + ic.getCharge() + ") ");
+                for (Peak p : ic.getIsotopicCluster()) {
+                    System.out.print(p.getMz() + " ");
+                }
+
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
 }
