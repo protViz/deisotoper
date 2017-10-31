@@ -366,6 +366,8 @@ public class IsotopicClusterGraph {
      * @param peaklist
      */
     public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double error, Peaklist peaklist, ScoreConfig config) {
+        Score s = new Score(error, pepmass, chargestate, this.isotopicclustergraph, config);
+
         for (Connection e : this.isotopicclustergraph.edgeSet()) {
             double sumscore = 0;
             if (this.isotopicclustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
@@ -378,13 +380,13 @@ public class IsotopicClusterGraph {
                         // long startTime = System.currentTimeMillis();
 
                         // TODO (LS): construct once than use it.
-                        Score s = new Score(x, y, error, pepmass, chargestate, this.isotopicclustergraph.getEdgeTarget(e), e, this.isotopicclustergraph, config);
+                        double sres = s.calculateScore(x, y, this.isotopicclustergraph.getEdgeTarget(e), e);
 
                         // long endTime = System.currentTimeMillis();
 
                         // timescore2 = timescore2 + (endTime - startTime);
 
-                        sumscore += s.getScore();
+                        sumscore += sres;
                     }
                 }
                 e.setScore(sumscore);

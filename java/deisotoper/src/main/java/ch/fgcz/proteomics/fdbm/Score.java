@@ -8,27 +8,24 @@ package ch.fgcz.proteomics.fdbm;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class Score {
+    private double errorvalue;
+    private double pepmassvalue;
+    private double chargevalue;
+    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> icg;
+    private ScoreConfig config;
     // public static double timescoref1 = 0;
     // public static double timescoref2 = 0;
     // public static double timescoref3 = 0;
     // public static double timescoref4 = 0;
     // public static double timescoref5 = 0;
 
-    private double score;
-
-    public double getScore() {
-        return score;
+    public Score(double error, double mspepmass, double mscharge, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, ScoreConfig config) {
+        this.errorvalue = error;
+        this.pepmassvalue = mspepmass;
+        this.chargevalue = mscharge;
+        this.icg = isotopicclustergraph;
+        this.config = config;
     }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    // TODO (LS) pass ScoreConfig to constructor. Will save you an argument in each score function.
-    // TODO (LS) Score(Peak x, Peak y, double error, consturctor doing? move to function, compute overall score.
-    // move to function.
-    // Constructor might look Score(ScoreConfig, isotopicclustergraph , ).
-    // What is con?
 
     /**
      * To thoroughly assess each possible isotopic cluster, those five features above are combined in a score function.
@@ -43,18 +40,11 @@ public class Score {
      * @param isotopicclustergraph IsotopicClusterGraph
      * @return score
      */
-    public Score(Peak x, Peak y, double error, double mspepmass, double mscharge, IsotopicCluster icx, Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph,
-            ScoreConfig config) {
-        this.score = config.getFM1() * firstNonintensityFeature(x, y, error, config) + config.getFM2() * secondNonintensityFeature(x, y, error, mspepmass, mscharge, icx, config)
-                + config.getFM3() * thirdNonintensityFeature(x, y, error, config) + config.getFM4() * fourthNonintensityFeature(x, y, error, config)
-                + config.getFM5() * fifthIntensityFeature(con, isotopicclustergraph, config);
-    }
-
-    /**
-     * Empty constructor.
-     */
-    public Score() {
-        this.score = 0;
+    public double calculateScore(Peak x, Peak y, IsotopicCluster icx, Connection con) {
+        return this.config.getFM1() * firstNonintensityFeature(x, y, this.errorvalue, this.config)
+                + this.config.getFM2() * secondNonintensityFeature(x, y, this.errorvalue, this.pepmassvalue, this.chargevalue, icx, this.config)
+                + this.config.getFM3() * thirdNonintensityFeature(x, y, this.errorvalue, this.config) + this.config.getFM4() * fourthNonintensityFeature(x, y, this.errorvalue, this.config)
+                + this.config.getFM5() * fifthIntensityFeature(con, this.icg, this.config);
     }
 
     /**

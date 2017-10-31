@@ -35,7 +35,7 @@ public class ScoreTest {
     @Test
     public void testF1() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(125.86, 467.55, 1);
         double e = 0.3;
@@ -61,7 +61,7 @@ public class ScoreTest {
     @Test
     public void testF2() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(253.0, 467.55, 1);
         double pepmass = 188.038;
@@ -86,7 +86,7 @@ public class ScoreTest {
     @Test
     public void testF3() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(141.0, 467.55, 1);
         double e = 0.3;
@@ -110,7 +110,7 @@ public class ScoreTest {
     @Test
     public void testF4() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(138.0, 467.55, 1);
         double e = 0.3;
@@ -126,7 +126,7 @@ public class ScoreTest {
     @Test
     public void testF5() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         IsotopicClusterGraph icg = new IsotopicClusterGraph(
                 new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0), new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)), 0.01, 0, new ScoreConfig("")));
         Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
@@ -175,7 +175,7 @@ public class ScoreTest {
     @Test
     public void testDiff() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 1);
         double d1 = s.diff1(x, y, config);
@@ -205,7 +205,7 @@ public class ScoreTest {
     @Test
     public void testSum() {
         ScoreConfig config = new ScoreConfig("nofile");
-        Score s = new Score();
+        Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 0);
         double s1 = s.sum1(x, y, config);
