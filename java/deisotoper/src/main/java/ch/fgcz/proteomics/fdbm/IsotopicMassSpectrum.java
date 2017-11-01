@@ -5,15 +5,9 @@ package ch.fgcz.proteomics.fdbm;
  * @since 2017-09-18
  */
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicMassSpectrum {
@@ -83,26 +77,5 @@ public class IsotopicMassSpectrum {
             }
         }
 
-    }
-
-    public void makeStatistics(String date, int allpeaks) {
-        File file = new File("statistics_" + date.substring(0, 11) + ".csv");
-
-        int isotopicset = this.isotopicmassspectrum.size();
-        int isotopiccluster = 0;
-        int peaks = 0;
-
-        for (IsotopicSet s : this.isotopicmassspectrum) {
-            isotopiccluster += s.getIsotopicSet().size();
-            for (IsotopicCluster c : s.getIsotopicSet()) {
-                peaks += c.getIsotopicCluster().size();
-            }
-        }
-
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
-            out.println(isotopicset + "," + isotopiccluster + "," + peaks + "," + allpeaks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

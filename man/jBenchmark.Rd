@@ -5,7 +5,7 @@
 \title{Used for benchmarking. The input is a MGF and the output is also a MGF.}
 \usage{
 jBenchmark(input, output, save = FALSE, modus = "first",
-  aamassfile = "nofile", percent = 0, errortolerance = 0.3,
+  configfile = "nofile", percent = 0, errortolerance = 0.3,
   delta = 0.003)
 }
 \description{

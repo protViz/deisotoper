@@ -21,11 +21,6 @@ public class Peaklist {
         this.peaklist = peaklist;
     }
 
-    /**
-     * Converts from a MassSpectrum to a Peaklist
-     * 
-     * @param ms
-     */
     public Peaklist(MassSpectrum ms) {
         List<Peak> plist = new ArrayList<>();
 
@@ -36,17 +31,21 @@ public class Peaklist {
         this.peaklist = plist;
     }
 
-    /**
-     * Converts from two lists (mZ Values and Intensity Values) to a Peaklist.
-     * 
-     * @param mz
-     * @param intensity
-     */
     public Peaklist(List<Double> mz, List<Double> intensity) {
         List<Peak> plist = new ArrayList<>();
 
         for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
             plist.add(new Peak(mz.get(i), intensity.get(i), i));
+        }
+
+        this.peaklist = plist;
+    }
+
+    public Peaklist(List<Double> mz, List<Double> intensity, List<Double> isotope, List<Integer> charge) {
+        List<Peak> plist = new ArrayList<>();
+
+        for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
+            plist.add(new Peak(mz.get(i), intensity.get(i), isotope.get(i), charge.get(i), i));
         }
 
         this.peaklist = plist;

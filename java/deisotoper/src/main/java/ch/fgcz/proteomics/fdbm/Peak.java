@@ -8,7 +8,25 @@ package ch.fgcz.proteomics.fdbm;
 public class Peak {
     private double mz;
     private double intensity;
+    private double isotope;
+    private int charge;
     private int peakID;
+
+    public double getIsotope() {
+        return isotope;
+    }
+
+    public void setIsotope(double isotope) {
+        this.isotope = isotope;
+    }
+
+    public int getCharge() {
+        return charge;
+    }
+
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
 
     public int getPeakID() {
         return peakID;
@@ -30,15 +48,19 @@ public class Peak {
         this.intensity = intensity;
     }
 
-    /**
-     * Constructs the Peak Object.
-     * 
-     * @param mz
-     * @param intensity
-     */
     public Peak(double mz, double intensity, int peakID) {
         this.mz = mz;
         this.intensity = intensity;
         this.peakID = peakID;
+        this.charge = -1;
+        this.isotope = -1;
+    }
+
+    public Peak(double mz, double intensity, double isotope, int charge, int peakID) {
+        this.mz = mz;
+        this.intensity = intensity;
+        this.peakID = peakID;
+        this.charge = charge;
+        this.isotope = isotope;
     }
 }
