@@ -525,3 +525,16 @@ jScoreConfigAsCSV <- function(file){
   con <- textConnection(csv)
   read.csv(con, sep=',', header = TRUE)
 }
+
+CreateProperties <- function(filename) {
+  write(x = "# ScoreConfig", file = filename)
+}
+
+#' Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE
+#'
+#' @param filename 
+#' @param key 
+#' @param value 
+AddToProperties <- function(filename, key, value) {
+  write(x = paste(key, "=", value, sep = ""), file = filename, append = TRUE)
+}
