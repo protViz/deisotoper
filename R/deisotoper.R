@@ -476,3 +476,16 @@ jGetDotGraphFromIS <- function(isotopicset) {
   
   dot
 }
+
+jGetIS <- function(isotopicmassspectrum, index) {
+  islist <- ims$getIsotopicMassSpectrum()
+  is <- islist$get(as.integer(index))
+  
+  is
+}
+
+jGetDot <- function(isotopicmassspectrum, index) {
+  dot <- jGetIS(isotopicmassspectrum = isotopicmassspectrum, index = index)
+  
+  dot
+}
