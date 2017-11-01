@@ -19,44 +19,71 @@ shinyServer(function(input, output, session) {
     
     deisotoper:::jBenchmark(input = input$ipath, output = input$opath, modus = input$modus, configfile = "tmp.properties")
     
-    showNotification("Finished deisotoping!", type = "message", duration = 3)
+    showNotification("Finished deisotoping!", type = "message", duration = 1)
     
     if(file.exists("tmp.properties")) {
       file.remove("tmp.properties")
     }
   })
   
-  graph <- eventReactive(input$button2, {
+  msf <- eventReactive(input$button2, {
     name <- load(file = input$ipath)
     msm <- deisotoper:::jCreateMSM(get(name))
     
-    mslist <- msm$getMSlist()
-    ms <- mslist$get(as.integer(input$massspectrum))
-    ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "nofile")
-    dot <- deisotoper:::jGetDot(isotopicmassspectrum = ims, index = input$isotopicset)
-    
-    showNotification("Finished drawing!", type = "message", duration = 3)
-    
-    dot
+    msm
   })
   
   output$outputdiagram <- renderGrViz({
-    grViz({ graph() })
+    grViz({
+    mslist <- msf()$getMSlist()
+    ms <- mslist$get(as.integer(input$massspectrum))
+
+    ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "nofile")
+    dot <- deisotoper:::jGetDot(isotopicmassspectrum = ims, index = input$isotopicset)
+    
+    showNotification("Finished drawing!", type = "message", duration = 1)
+    
+    dot })
+  })
+
+  output$outputplot <- renderPlot({
+    mslist <- msf()$getMSlist()
+    ms <- mslist$get(as.integer(input$massspectrum))
+    
+    ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "nofile")
+    is <- deisotoper:::jGetIS(ims, input$isotopicset)
+    
+    islist <- as.list(is$getIsotopicSet())
+    
+    peaks <- c()
+    for(x in 1:length(islist)) {
+      peaks <- c(peaks, islist[[x]])
+    }
+    
+    min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2.5
+    max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2.5
+
+    plot(x = ms$getMzArray(), y = ms$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max))
+    axis(side=1, at = ms$getMzArray())
+    axis(side=2, at = ms$getIntensityArray())
+    
+    showNotification("Finished plotting!", type = "message", duration = 1)
   })
   
-  summary <- eventReactive(input$button3, {
+  mss <- eventReactive(input$button3, {
     name <- load(file = input$ipath)
     msm <- deisotoper:::jCreateMSM(get(name))
     
-    mslist <- msm$getMSlist()
-    ms <- mslist$get(as.integer(input$summaryindex))
-    
-    sum <- deisotoper:::jSummaryMS(ms)
-    
-    showNotification("Finished summarizing!", type = "message", duration = 3)
-    
-    sum
+    msm
   })
   
-  output$outputsummary <- renderTable({ summary() })
+  output$outputsummary <- renderTable({    
+    mslist <- mss()$getMSlist()
+  ms <- mslist$get(as.integer(input$summaryindex))
+  
+  sum <- deisotoper:::jSummaryMS(ms)
+  
+  showNotification("Finished summarizing!", type = "message", duration = 1)
+  
+  sum })
 })
