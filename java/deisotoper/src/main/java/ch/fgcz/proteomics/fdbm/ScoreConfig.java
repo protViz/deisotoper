@@ -12,8 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 public class ScoreConfig {
     private List<Double> AA_MASS = new ArrayList<>();
@@ -44,9 +48,42 @@ public class ScoreConfig {
     private final double NH_MASSd3 = NH_MASS / 2;
     private final double CO_MASSd2 = CO_MASS / 2;
     private final double CO_MASSd3 = CO_MASS / 3;
-    // private final static List<Peak> PHE_PATTERN = Arrays.asList(new Peak(147.06842, 100), new Peak(148.07178, 10.2), new Peak(149.07513, 0.6));
-    // private final static List<Peak> ASP_PATTERN = Arrays.asList(new Peak(115.02696, 100), new Peak(116.03032, 4.9), new Peak(117.0312, 0.7));
-    // private final static List<Peak> AVE_UPDATED_PATTERN = Arrays.asList(new Peak(0, 0));
+
+    public Map<String, Object> getScoreConfigAsMap() {
+        Map<String, Object> configmap = new HashMap<>();
+
+        // final
+        configmap.put("H_MASS", this.H_MASS);
+        configmap.put("NH3_MASS", this.NH3_MASS);
+        configmap.put("H2O_MASS", this.H2O_MASS);
+        configmap.put("NH_MASS", this.NH_MASS);
+        configmap.put("CO_MASS", this.CO_MASS);
+        configmap.put("PHE_MASS", this.PHE_MASS);
+        configmap.put("ASP_MASS", this.ASP_MASS);
+        configmap.put("AVE_UPDATED_MASS", this.AVE_UPDATED_MASS);
+        configmap.put("H_MASSx2", this.H_MASSx2);
+        configmap.put("H2O_MASSd2", this.H2O_MASSd2);
+        configmap.put("H2O_MASSd3", this.H2O_MASSd3);
+        configmap.put("NH3_MASSd2", this.NH3_MASSd2);
+        configmap.put("NH3_MASSd3", this.NH3_MASSd3);
+        configmap.put("NH_MASSd2", this.NH_MASSd2);
+        configmap.put("NH_MASSd3", this.NH_MASSd3);
+        configmap.put("CO_MASSd2", this.CO_MASSd2);
+        configmap.put("CO_MASSd3", this.CO_MASSd3);
+
+        // non final
+        configmap.put("DISTANCE_BETWEEN_ISOTOPIC_PEAKS", this.DISTANCE_BETWEEN_ISOTOPIC_PEAKS);
+        configmap.put("F1", this.FM1);
+        configmap.put("F2", this.FM2);
+        configmap.put("F3", this.FM3);
+        configmap.put("F4", this.FM4);
+        configmap.put("F5", this.FM5);
+        configmap.put("AA_MASS", this.AA_MASS);
+        configmap.put("AA_MASSd2", this.AA_MASS2);
+        configmap.put("AA_MASSd3", this.AA_MASS3);
+
+        return configmap;
+    }
 
     public double getNH_MASSd2() {
         return NH_MASSd2;

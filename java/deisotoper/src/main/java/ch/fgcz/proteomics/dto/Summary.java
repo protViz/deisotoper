@@ -20,7 +20,7 @@ public class Summary {
     public static String makeSummary(MassSpectrometryMeasurement m) {
         StringBuilder summary = new StringBuilder();
         String linesep = System.getProperty("line.separator");
-        summary.append("SpectrumID, Attribute, Value").append(linesep);
+        summary.append("SpectrumID,Attribute,Value").append(linesep);
 
         List<MassSpectrum> list = m.getMSlist();
         for (MassSpectrum spectrum : list) {
@@ -94,28 +94,9 @@ public class Summary {
                 summary.append(spectrum.getId()).append(",nr_z1,").append(z1sum).append(linesep);
                 summary.append(spectrum.getId()).append(",nr_z2,").append(z2sum).append(linesep);
                 summary.append(spectrum.getId()).append(",nr_z3,").append(z3sum).append(linesep);
-
             }
         }
 
         return summary.toString();
-    }
-
-    public static void main(String[] args) {
-        String s = "ZZ";
-        String typ = "XX";
-        String searchengine = "YY";
-        double[] mz = {};
-        double[] intensity = {};
-        double peptidmass = 0;
-        double rt = 0;
-        int chargestate = 2;
-        int id = 0;
-
-        MassSpectrometryMeasurement test = new MassSpectrometryMeasurement(s);
-        test.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
-
-        System.out.println(makeSummary(test));
-        // System.out.println(makeSummary(ch.fgcz.proteomics.fdbm.Deisotope.deisotopeMSM(test, false, "first", "AminoAcidMasses.ini")));
     }
 }

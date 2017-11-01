@@ -508,3 +508,17 @@ jGetMS <- function(massspectrum) {
   
   as.MS(MS)
 }
+
+jSummaryMSM <- function(file){
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", file)
+  
+  adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  
+  csv <- .jcall(adapter, "S", "getScoreConfigAsCSV", config)
+  con <- textConnection(csv)
+  read.csv(con, sep=',', header = TRUE)
+}

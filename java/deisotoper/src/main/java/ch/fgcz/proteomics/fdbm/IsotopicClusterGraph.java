@@ -14,7 +14,6 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class IsotopicClusterGraph {
-
     private double min = Double.MAX_VALUE;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(Connection.class);
 
@@ -38,19 +37,6 @@ public class IsotopicClusterGraph {
         List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
 
         return p.get(p.size() - 1);
-    }
-
-    /**
-     * @param source
-     * @param sink
-     * @return paths
-     */
-    public List<GraphPath<IsotopicCluster, Connection>> allPaths(IsotopicCluster source, IsotopicCluster sink) {
-        KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(this.isotopicclustergraph, source, 1000000);
-
-        List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
-
-        return p;
     }
 
     public String createDOTIsotopicClusterGraph() {

@@ -177,10 +177,8 @@ public class IsotopicTest {
         }
         System.out.println();
 
-        Deisotoper deiso = new Deisotoper();
-
         System.out.println("Output:");
-        for (MassSpectrum x : deiso.deisotopeMSM(msm, "mean", "xxx", 5, 0.3, 0.01).getMSlist()) {
+        for (MassSpectrum x : Deisotoper.deisotopeMSM(msm, "mean", "xxx", 5, 0.3, 0.01).getMSlist()) {
             for (int y = 0; y < x.getMz().size(); y++) {
                 System.out.print("M: " + x.getMz().get(y) + ", ");
                 System.out.print("Z: " + x.getCharge().get(y) + ", ");
@@ -410,8 +408,7 @@ public class IsotopicTest {
 
         long startTime = System.currentTimeMillis();
 
-        Deisotoper deiso = new Deisotoper();
-        MassSpectrometryMeasurement d = deiso.deisotopeMSM(msm, "first", "xxx", 5, 0.3, 0.01);
+        MassSpectrometryMeasurement d = Deisotoper.deisotopeMSM(msm, "first", "xxx", 5, 0.3, 0.01);
 
         long endTime = System.currentTimeMillis();
 

@@ -20,21 +20,21 @@ import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
-    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus, String file, double percent, double error, double delta) {
+    public static  MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus, String file, double percent, double error, double delta) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
         ScoreConfig config = new ScoreConfig(file);
 
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
-        for (MassSpectrum ms : input.getMSlist()) { // input.getMSlist().parallelStream().forEach((ms) -> {$
+        for (MassSpectrum ms : input.getMSlist()) {
             output.getMSlist().add(deisotopeMS(ms, modus, config, date, percent, error, delta));
         }
 
         return output;
     }
 
-    public MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, double percent, double error, double delta) {
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, double percent, double error, double delta) {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
         return deisotopeMS(input, modus, config, date, percent, error, delta);
@@ -42,7 +42,7 @@ public class Deisotoper {
 
     // TODO (LS): To many parameters, - e.g. move delta, error, percent, modus, config to Deisotoper constructor.
     // TODO (LS): To long, to complex, split into several functions.
-    public MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date, double percent, double error, double delta) {
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date, double percent, double error, double delta) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, delta, config);
 
         List<Double> mz = new ArrayList<>();
@@ -127,7 +127,7 @@ public class Deisotoper {
         }
     }
 
-    private IsotopicCluster getStart(IsotopicClusterGraph icg) {
+    private static IsotopicCluster getStart(IsotopicClusterGraph icg) {
         for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
             if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
                 return e;
@@ -136,7 +136,7 @@ public class Deisotoper {
         return null;
     }
 
-    private IsotopicCluster getEnd(IsotopicClusterGraph icg) {
+    private static IsotopicCluster getEnd(IsotopicClusterGraph icg) {
         for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
             if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
                 return e;
@@ -145,15 +145,11 @@ public class Deisotoper {
         return null;
     }
 
-    private IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
+    private static IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
         if (modus.equals("first")) {
-            return cluster.simpleAggregateFirst();
-        } else if (modus.equals("last")) {
-            return cluster.simpleAggregateLast();
-        } else if (modus.equals("mean")) {
-            return cluster.simpleAggregateMean();
+            return cluster.aggregateFirst();
         } else if (modus.equals("highest")) {
-            return cluster.advancedAggregateHighest();
+            return cluster.aggregateHighest();
         } else if (modus.equals("none")) {
             return cluster;
         } else {
