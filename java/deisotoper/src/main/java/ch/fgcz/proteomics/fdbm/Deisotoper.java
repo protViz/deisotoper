@@ -121,6 +121,7 @@ public class Deisotoper {
                     charge5.add(charge.get(i));
                 }
             }
+            
             return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz5, intensity5, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge5, isotope5);
         } else {
             return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz, intensity, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge, isotope);
