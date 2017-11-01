@@ -8,7 +8,7 @@ package ch.fgcz.proteomics.R;
 import ch.fgcz.proteomics.dto.*;
 
 public class DTOR {
-    public static String SummaryR(MassSpectrometryMeasurement m) {
+    public static String summaryR(MassSpectrometryMeasurement m) {
         return Summary.makeSummary(m);
     }
 
