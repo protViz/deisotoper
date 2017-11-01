@@ -365,80 +365,22 @@ jVersionMSM <- function() {
   version
 }
 
-
 #' Deisotopes a MSM.
 #'
 #' @return
-#' @export jDeisotopeMSMmspy
+#' @export jDeisotopeMSM
 #'
 #' @examples
 #'
 #' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 #' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 #'
-#' joMSMdeisotoped <- jDeisotopeMSMmspy(joMSM)
+#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
 #'
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSMmspy <- function(jobj) {
-  .jinit(parameters = "-XX:-UseGCOverheadLimit")
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jclassPath()
-  
-  d <- .jnew("ch.fgcz.proteomics.R.MSPYR")
-  
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj)
-  
-  output
-}
-
-#' Deconvolutes a MSM.
-#'
-#' @return
-#' @export jDeconvoluteMSMmspy
-#'
-#' @examples
-#'
-#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
-#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
-#'
-#' joMSMdeisotoped <- jDeisotopeMSMmspy(joMSM)
-#'
-#' joMSMsummary <- jSummaryMSM(joMSM)
-#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
-#' 
-#' joMSMdeconvoluted <- jDeconvoluteMSMmspy(joMSMdeisotoped)
-#' joMSMdeconvolutedsummary <- jSummaryMSM(joMSMdeconvoluted)
-#' 
-jDeconvoluteMSMmspy <- function(jobj) {
-  .jinit(parameters = "-XX:-UseGCOverheadLimit")
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jclassPath()
-  
-  d <- .jnew("ch.fgcz.proteomics.R.MSPYR")
-  
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deconvoluteMSMR", jobj)
-  
-  output
-}
-
-#' Deisotopes a MSM.
-#'
-#' @return
-#' @export jDeisotopeMSMfdbm
-#'
-#' @examples
-#'
-#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
-#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
-#'
-#' joMSMdeisotoped <- jDeisotopeMSMfdbm(joMSM)
-#'
-#' joMSMsummary <- jSummaryMSM(joMSM)
-#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
-#' 
-jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance=0.3, delta = 0.003) {
+jDeisotopeMSM <- function(jobj, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance=0.3, delta = 0.003) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -464,7 +406,7 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofil
 #' Deisotopes a MS.
 #'
 #' @return
-#' @export jDeisotopeMSfdbm
+#' @export jDeisotopeMS
 #'
 #' @examples
 #' 
@@ -474,9 +416,9 @@ jDeisotopeMSMfdbm <- function(jobj, save=FALSE, modus="first", aamassfile="nofil
 #' mslist<-joMSM$getMSlist()
 #' ms <- mslist$get(as.integer(0)) #index 0 of joMSM
 #' 
-#' msdeisotoped <- jDeisotopeMSfdbm(ms)
+#' msdeisotoped <- jDeisotopeMS(ms)
 #' 
-jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
+jDeisotopeMS <- function(ms, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -501,38 +443,12 @@ jDeisotopeMSfdbm <- function(ms, save=FALSE, modus="first", aamassfile="nofile",
   output
 }
 
-#' Deisotopes a MSM. Save and first parameters are for method fdbm.
-#' 
-#' @return
-#' @export jDeisotopeMSM
-#'
-#' @examples
-#' load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
-#' joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
-#'
-#' joMSMdeisotoped <- jDeisotopeMSM(joMSM)
-#'
-#' joMSMsummary <- jSummaryMSM(joMSM)
-#' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
-#' 
-jDeisotopeMSM <- function(jobj, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
-  if(method == "fdbm") {
-    output <- jDeisotopeMSMfdbm(jobj, save, modus, aamassfile, percent, errortolerance, delta)
-  } else if(method == "mspy") {
-    output <- jDeconvoluteMSMmspy(jDeisotopeMSMmspy(jobj))
-  } else {
-    stop("Wrong method!")
-  }
-  
-  output
-}
-
 #' Used for benchmarking. The input is a MGF and the output is also a MGF.
 #' 
 #' @return
 #' @export jBenchmark
 #' 
-jBenchmark <- function(input, output, method="fdbm", save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
+jBenchmark <- function(input, output, save=FALSE, modus="first", aamassfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
   name <- load(file = input)
-  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)),method = method, modus = modus, save = save, aamassfile = aamassfile, percent = percent, errortolerance = errortolerance, delta = delta)), filename = output)
+  mgf(jGetMSM(deisotoper:::jDeisotopeMSMfdbm(jobj = jCreateMSM(get(name)), modus = modus, save = save, aamassfile = aamassfile, percent = percent, errortolerance = errortolerance, delta = delta)), filename = output)
 }
