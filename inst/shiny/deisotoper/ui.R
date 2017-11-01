@@ -27,7 +27,8 @@ shinyUI(fluidPage(
                  hr(),
                  tableOutput("outputsummary")),
         tabPanel("Configuration", 
-                 textAreaInput("config", "Configuration", "", width = "100%", height = "700", resize = "none")
+                 htmlOutput("explanation", container = ),
+                 textAreaInput("config", "Configuration", "", width = "100%", height = "500", resize = "none")
         )
         )
       ))
