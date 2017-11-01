@@ -447,9 +447,9 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile") {
 #' @return
 #' @export jBenchmark
 #' 
-jBenchmark <- function(input, output, save=FALSE, modus="first", configfile="nofile") {
+jBenchmark <- function(input, output, modus="first", configfile="nofile") {
   name <- load(file = input)
-  mgf(jGetMSM(deisotoper:::jDeisotopeMSMfdbm(jobj = jCreateMSM(get(name)), modus = modus, save = save, configfile = configfile)), filename = output)
+  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)), modus = modus, configfile = configfile)), filename = output)
 }
 
 jCreateIMS <- function(massspectrum, configfile = "nofile") {
@@ -481,14 +481,14 @@ jGetDotGraphFromIS <- function(isotopicset) {
 }
 
 jGetIS <- function(isotopicmassspectrum, index) {
-  islist <- ims$getIsotopicMassSpectrum()
+  islist <- isotopicmassspectrum$getIsotopicMassSpectrum()
   is <- islist$get(as.integer(index))
   
   is
 }
 
 jGetDot <- function(isotopicmassspectrum, index) {
-  dot <- jGetIS(isotopicmassspectrum = isotopicmassspectrum, index = index)
+  dot <- jGetDotGraphFromIS(isotopicset = jGetIS(isotopicmassspectrum = isotopicmassspectrum, index = index))
   
   dot
 }
