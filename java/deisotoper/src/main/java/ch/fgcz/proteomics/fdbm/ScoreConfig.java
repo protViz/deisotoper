@@ -18,7 +18,31 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ScoreConfig {
-    private List<Double> AA_MASS = new ArrayList<>();
+    @SuppressWarnings("serial")
+    private List<Double> AA_MASS = new ArrayList<Double>() {
+        {
+            add(71.03711);
+            add(156.10111);
+            add(114.04293);
+            add(115.02694);
+            add(103.00919);
+            add(129.04259);
+            add(128.05858);
+            add(57.02146);
+            add(137.05891);
+            add(113.08406);
+            add(113.08406);
+            add(128.09496);
+            add(131.04049);
+            add(147.06841);
+            add(97.05276);
+            add(87.03203);
+            add(101.04768);
+            add(186.07931);
+            add(163.06333);
+            add(99.06841);
+        }
+    };
     private List<Double> AA_MASS2 = new ArrayList<>();
     private List<Double> AA_MASS3 = new ArrayList<>();
     private double min = 0;
@@ -267,38 +291,19 @@ public class ScoreConfig {
     }
 
     public ScoreConfig(String file) {
-        this.AA_MASS.removeAll(this.AA_MASS);
 
         Properties properties = new Properties();
         try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));) {
             properties.load(stream);
             stream.close();
+            this.AA_MASS.removeAll(this.AA_MASS);
+            this.AA_MASS2.removeAll(this.AA_MASS2);
+            this.AA_MASS3.removeAll(this.AA_MASS3);
         } catch (FileNotFoundException e) {
-            this.AA_MASS.add(71.03711);
-            this.AA_MASS.add(156.10111);
-            this.AA_MASS.add(114.04293);
-            this.AA_MASS.add(115.02694);
-            this.AA_MASS.add(103.00919);
-            this.AA_MASS.add(129.04259);
-            this.AA_MASS.add(128.05858);
-            this.AA_MASS.add(57.02146);
-            this.AA_MASS.add(137.05891);
-            this.AA_MASS.add(113.08406);
-            this.AA_MASS.add(113.08406);
-            this.AA_MASS.add(128.09496);
-            this.AA_MASS.add(131.04049);
-            this.AA_MASS.add(147.06841);
-            this.AA_MASS.add(97.05276);
-            this.AA_MASS.add(87.03203);
-            this.AA_MASS.add(101.04768);
-            this.AA_MASS.add(186.07931);
-            this.AA_MASS.add(163.06333);
-            this.AA_MASS.add(99.06841);
             System.err.println("WARNING: File not found, using standart amino acid masses instead!");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Enumeration<?> e = properties.propertyNames();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
