@@ -380,7 +380,7 @@ jVersionMSM <- function() {
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
 #' 
-jDeisotopeMSM <- function(jobj, modus="first", configfile="nofile", percent=0, errortolerance=0.3, delta = 0.003) {
+jDeisotopeMSM <- function(jobj, modus="first", configfile="nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -393,12 +393,12 @@ jDeisotopeMSM <- function(jobj, modus="first", configfile="nofile", percent=0, e
   .jclassPath()
   
   String <- J("java.lang.String")
-  m <- new( String, modus )
-  aamass <- new( String, configfile )
+  m <- new(String, modus)
+  config <- new(String, configfile)
   
   d <- .jnew("ch.fgcz.proteomics.R.FDBMR")
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj, m, aamass, percent, errortolerance, delta)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj, m, config)
   
   output
 }
@@ -418,7 +418,7 @@ jDeisotopeMSM <- function(jobj, modus="first", configfile="nofile", percent=0, e
 #' 
 #' msdeisotoped <- jDeisotopeMS(ms)
 #' 
-jDeisotopeMS <- function(ms, modus="first", configfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
+jDeisotopeMS <- function(ms, modus="first", configfile="nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -432,13 +432,12 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile", percent=0, erro
   
   String <- J("java.lang.String")
   m <- new( String, modus )
-  aamass <- new( String, configfile )
   
   d <- .jnew("ch.fgcz.proteomics.R.FDBMR")
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
   
-  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMSR", ms, m, config, percent, errortolerance, delta)
+  output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMSR", ms, m, config)
   
   output
 }
@@ -448,19 +447,23 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile", percent=0, erro
 #' @return
 #' @export jBenchmark
 #' 
-jBenchmark <- function(input, output, save=FALSE, modus="first", configfile="nofile", percent=0, errortolerance = 0.3, delta = 0.003) {
+jBenchmark <- function(input, output, save=FALSE, modus="first", configfile="nofile") {
   name <- load(file = input)
-  mgf(jGetMSM(deisotoper:::jDeisotopeMSMfdbm(jobj = jCreateMSM(get(name)), modus = modus, save = save, configfile = configfile, percent = percent, errortolerance = errortolerance, delta = delta)), filename = output)
+  mgf(jGetMSM(deisotoper:::jDeisotopeMSMfdbm(jobj = jCreateMSM(get(name)), modus = modus, save = save, configfile = configfile)), filename = output)
 }
 
-jCreateIMS <- function(massspectrum, errortolerance = 0.3, configfile = "nofile") {
+jCreateIMS <- function(massspectrum, configfile = "nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
   adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
   
-  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fdbm/IsotopicMassSpectrum;", "getIMS", massspectrum, errortolerance, configfile)
+  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  
+  error <- config$getErrortolerance()
+  
+  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fdbm/IsotopicMassSpectrum;", "getIMS", massspectrum, error, configfile)
   
   ims
 }

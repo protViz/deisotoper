@@ -20,7 +20,7 @@ import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
-    public static  MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus, String file, double percent, double error, double delta) {
+    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus, String file) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
 
         ScoreConfig config = new ScoreConfig(file);
@@ -28,22 +28,22 @@ public class Deisotoper {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
         for (MassSpectrum ms : input.getMSlist()) {
-            output.getMSlist().add(deisotopeMS(ms, modus, config, date, percent, error, delta));
+            output.getMSlist().add(deisotopeMS(ms, modus, config, date));
         }
 
         return output;
     }
 
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, double percent, double error, double delta) {
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config) {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
-        return deisotopeMS(input, modus, config, date, percent, error, delta);
+        return deisotopeMS(input, modus, config, date);
     }
 
     // TODO (LS): To many parameters, - e.g. move delta, error, percent, modus, config to Deisotoper constructor.
     // TODO (LS): To long, to complex, split into several functions.
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date, double percent, double error, double delta) {
-        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, delta, config);
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date) {
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
 
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
@@ -55,7 +55,7 @@ public class Deisotoper {
         for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
             IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-            icg.scoreIsotopicClusterGraph(input.getPeptideMass(), input.getChargeState(), error, new Peaklist(input.getMz(), input.getIntensity()), config);
+            icg.scoreIsotopicClusterGraph(input.getPeptideMass(), input.getChargeState(), config.getErrortolerance(), new Peaklist(input.getMz(), input.getIntensity()), config);
 
             GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
 
@@ -105,8 +105,8 @@ public class Deisotoper {
 
         Sort.keySort(mz, mz, intensity, isotope, charge);
 
-        if (percent != 0) {
-            double threshold = Collections.max(mz) * percent / 100;
+        if (config.getNoise() != 0) {
+            double threshold = Collections.max(mz) * config.getNoise() / 100;
 
             List<Double> mz5 = new ArrayList<>();
             List<Double> intensity5 = new ArrayList<>();

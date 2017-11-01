@@ -15,12 +15,12 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.*;
 
 public class FDBMR {
-    public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus, String file, double percent, double error, double delta) {
-        return Deisotoper.deisotopeMSM(input, modus, file, percent, error, delta);
+    public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus, String file) {
+        return Deisotoper.deisotopeMSM(input, modus, file);
     }
 
-    public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus, ScoreConfig config, double percent, double error, double delta) {
-        return Deisotoper.deisotopeMS(input, modus, config, percent, error, delta);
+    public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus, ScoreConfig config) {
+        return Deisotoper.deisotopeMS(input, modus, config);
     }
 
     public static IsotopicMassSpectrum getIMS(MassSpectrum input, double errortolerance, String file) {

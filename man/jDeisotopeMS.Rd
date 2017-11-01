@@ -4,8 +4,7 @@
 \alias{jDeisotopeMS}
 \title{Deisotopes a MS.}
 \usage{
-jDeisotopeMS(ms, modus = "first", configfile = "nofile", percent = 0,
-  errortolerance = 0.3, delta = 0.003)
+jDeisotopeMS(ms, modus = "first", configfile = "nofile")
 }
 \description{
 Deisotopes a MS.

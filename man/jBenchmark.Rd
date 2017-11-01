@@ -2,12 +2,11 @@
 % Please edit documentation in R/deisotoper.R
 \name{jBenchmark}
 \alias{jBenchmark}
-\title{Used for benchmarking. The input is a MGF and the output is also a MGF.}
+\title{Used for benchmarking. The input is a RData and the output is also a MGF.}
 \usage{
 jBenchmark(input, output, save = FALSE, modus = "first",
-  configfile = "nofile", percent = 0, errortolerance = 0.3,
-  delta = 0.003)
+  configfile = "nofile")
 }
 \description{
-Used for benchmarking. The input is a MGF and the output is also a MGF.
+Used for benchmarking. The input is a RData and the output is also a MGF.
 }

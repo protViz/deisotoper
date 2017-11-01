@@ -4,8 +4,7 @@
 \alias{jDeisotopeMSM}
 \title{Deisotopes a MSM.}
 \usage{
-jDeisotopeMSM(jobj, modus = "first", configfile = "nofile", percent = 0,
-  errortolerance = 0.3, delta = 0.003)
+jDeisotopeMSM(jobj, modus = "first", configfile = "nofile")
 }
 \description{
 Deisotopes a MSM.

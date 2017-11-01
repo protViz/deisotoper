@@ -31,6 +31,9 @@ public class ScoreConfig {
     private double FM4 = 0.1;
     private double FM5 = 0.1;
     private double DISTANCE_BETWEEN_ISOTOPIC_PEAKS = 1.003;
+    private double errortolerance = 0.3;
+    private double delta = 0.003;
+    private double noise = 0;
     private final double H_MASS = 1.008;
     private final double NH3_MASS = 17.03052;
     private final double H2O_MASS = 18.01528;
@@ -83,6 +86,34 @@ public class ScoreConfig {
         configmap.put("AA_MASSd3", this.AA_MASS3);
 
         return configmap;
+    }
+
+    public double getErrortolerance() {
+        return errortolerance;
+    }
+
+    public void setErrortolerance(double errortolerance) {
+        this.errortolerance = errortolerance;
+    }
+
+    public double getDelta() {
+        return delta;
+    }
+
+    public void setDelta(double delta) {
+        this.delta = delta;
+    }
+
+    public double getNoise() {
+        return noise;
+    }
+
+    public void setNoise(double noise) {
+        this.noise = noise;
+    }
+
+    public void setDISTANCE_BETWEEN_ISOTOPIC_PEAKS(double dISTANCE_BETWEEN_ISOTOPIC_PEAKS) {
+        DISTANCE_BETWEEN_ISOTOPIC_PEAKS = dISTANCE_BETWEEN_ISOTOPIC_PEAKS;
     }
 
     public double getNH_MASSd2() {
@@ -265,11 +296,6 @@ public class ScoreConfig {
             this.AA_MASS.add(186.07931);
             this.AA_MASS.add(163.06333);
             this.AA_MASS.add(99.06841);
-            this.FM1 = 0.8;
-            this.FM2 = 0.5;
-            this.FM3 = 0.1;
-            this.FM4 = 0.1;
-            this.FM5 = 0.1;
             System.err.println("WARNING: File not found, using standart amino acid masses instead!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -293,6 +319,12 @@ public class ScoreConfig {
                 this.FM5 = vdouble;
             } else if (key.equals("DISTANCE")) {
                 this.DISTANCE_BETWEEN_ISOTOPIC_PEAKS = vdouble;
+            } else if (key.equals("DELTA")) {
+                this.delta = vdouble;
+            } else if (key.equals("ERRORTOLERANCE")) {
+                this.errortolerance = vdouble;
+            } else if (key.equals("NOISE")) {
+                this.noise = vdouble;
             } else {
                 this.AA_MASS.add(vdouble);
             }
@@ -305,10 +337,5 @@ public class ScoreConfig {
 
         this.min = Collections.min(this.AA_MASS3);
         this.max = Collections.max(this.AA_MASS);
-
-        // for (double x : this.AA_MASS) {
-        // System.out.println("Values:" + x);
-        // }
-        // System.out.println(this.AA_MASS.size());
     }
 }
