@@ -35,22 +35,61 @@ shinyServer(function(input, output, session) {
   
   output$outputdiagram <- renderGrViz({
     grViz({
-    mslist <- msf()$getMSlist()
-    ms <- mslist$get(as.integer(input$massspectrum))
+      if(file.exists("tmp.properties")) {
+        file.remove("tmp.properties")
+      }
+      
+      deisotoper:::CreateProperties("tmp.properties")
+      
+      config <- unlist(strsplit(input$config, "\n"))
+      
+      if(input$config != ""){
+        for(x in 1:length(config)) {
+          string <- unlist(strsplit(config[x], "="))
+          deisotoper:::AddToProperties(filename = "tmp.properties", key = string[1], value = string[2])
+        }
+      } else {
+        write(x = "# This file is empty", file = "tmp.properties", append = TRUE)
+      }
+      
+      mslist <- msf()$getMSlist()
+      ms <- mslist$get(as.integer(input$massspectrum))
 
-    ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "nofile")
-    dot <- deisotoper:::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = input$isotopicset, configfile = "nofile")
+      ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "tmp.properties")
+      dot <- deisotoper:::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = input$isotopicset, configfile = "tmp.properties")
     
-    showNotification("Finished drawing!", type = "message", duration = 1)
+      showNotification("Finished drawing!", type = "message", duration = 1)
     
-    dot })
+      if(file.exists("tmp.properties")) {
+        file.remove("tmp.properties")
+      }
+      
+      dot
+      })
   })
 
   output$outputplot <- renderPlot({
+    if(file.exists("tmp.properties")) {
+      file.remove("tmp.properties")
+    }
+    
+    deisotoper:::CreateProperties("tmp.properties")
+    
+    config <- unlist(strsplit(input$config, "\n"))
+    
+    if(input$config != ""){
+      for(x in 1:length(config)) {
+        string <- unlist(strsplit(config[x], "="))
+        deisotoper:::AddToProperties(filename = "tmp.properties", key = string[1], value = string[2])
+      }
+    } else {
+      write(x = "# This file is empty", file = "tmp.properties", append = TRUE)
+    }
+    
     mslist <- msf()$getMSlist()
     ms <- mslist$get(as.integer(input$massspectrum))
     
-    ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "nofile")
+    ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "tmp.properties")
     is <- deisotoper:::jGetIS(ims, input$isotopicset)
     
     islist <- as.list(is$getIsotopicSet())
@@ -68,6 +107,10 @@ shinyServer(function(input, output, session) {
     axis(side=2, at = ms$getIntensityArray())
     
     showNotification("Finished plotting!", type = "message", duration = 1)
+    
+    if(file.exists("tmp.properties")) {
+      file.remove("tmp.properties")
+    }
   })
   
   mss <- eventReactive(input$button3, {

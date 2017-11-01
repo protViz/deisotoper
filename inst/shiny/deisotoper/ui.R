@@ -9,7 +9,6 @@ shinyUI(fluidPage(
         tabPanel(
           title = "Deisotoping", 
           textInput("opath", "Output-Path", "", width = "100%"),
-          textAreaInput("config", "Configuration", "", width = "100%", height = "400", resize = "none"),
           radioButtons("modus", label = "Deisotoping-Modus",
                        choices = list("aggregate first" = "first", "aggregate highest" = "highest"), selected = "first"),
           actionButton("button1", label = "start deisotoper"), 
@@ -26,7 +25,10 @@ shinyUI(fluidPage(
                  numericInput("summaryindex", "Mass Spectrum Index", value = 0, min = 0),
                  actionButton("button3", label = "make summary"),
                  hr(),
-                 tableOutput("outputsummary"))
+                 tableOutput("outputsummary")),
+        tabPanel("Configuration", 
+                 textAreaInput("config", "Configuration", "", width = "100%", height = "700", resize = "none")
+        )
         )
       ))
   ))
