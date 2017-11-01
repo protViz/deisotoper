@@ -489,3 +489,22 @@ jGetDot <- function(isotopicmassspectrum, index) {
   
   dot
 }
+
+jGetMS <- function(massspectrum) {
+  MS <- list(typ <- .jcall(massspectrum, "S", "getTyp"),
+  searchengine <- .jcall(massspectrum, "S", "getSearchEngine"),
+  id <- .jcall(massspectrum, "I", "getId"),
+  charge <- .jcall(massspectrum, "[I", "getChargeArray"),
+  isotope <- .jcall(massspectrum, "[D", "getIsotopeArray"),
+  list(mZ =.jcall(massspectrum, "[D", "getMzArray"),
+       intensity = .jcall(massspectrum, "[D", "getIntensityArray"),
+       rtinseconds = .jcall(massspectrum, "D", "getRt"),
+       pepmass = .jcall(massspectrum, "D", "getPeptideMass"),
+       id =  .jcall(massspectrum, "I", "getId"),
+       charge = .jcall(massspectrum, "I", "getChargeState"),
+       scans = .jcall(massspectrum, "I", "getId"),
+       title = paste('deisotoped', i))
+  )
+  
+  as.ms(MS)
+}
