@@ -296,9 +296,13 @@ public class ScoreConfig {
         try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));) {
             properties.load(stream);
             stream.close();
-            this.AA_MASS.removeAll(this.AA_MASS);
-            this.AA_MASS2.removeAll(this.AA_MASS2);
-            this.AA_MASS3.removeAll(this.AA_MASS3);
+            if (!properties.isEmpty()) {
+                this.AA_MASS.removeAll(this.AA_MASS);
+                this.AA_MASS2.removeAll(this.AA_MASS2);
+                this.AA_MASS3.removeAll(this.AA_MASS3);
+            } else {
+                System.err.println("WARNING: File is empty, using standart amino acid masses instead!");
+            }
         } catch (FileNotFoundException e) {
             System.err.println("WARNING: File not found, using standart amino acid masses instead!");
         } catch (IOException e) {
