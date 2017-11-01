@@ -443,7 +443,7 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile", percent=0, erro
   output
 }
 
-#' Used for benchmarking. The input is a MGF and the output is also a MGF.
+#' Used for benchmarking. The input is a RData and the output is also a MGF.
 #' 
 #' @return
 #' @export jBenchmark
