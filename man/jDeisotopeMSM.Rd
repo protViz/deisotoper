@@ -2,16 +2,16 @@
 % Please edit documentation in R/deisotoper.R
 \name{jDeisotopeMSM}
 \alias{jDeisotopeMSM}
-\title{Deisotopes a MSM. Save and first parameters are for method fdbm.}
+\title{Deisotopes a MSM.}
 \usage{
-jDeisotopeMSM(jobj, method = "fdbm", save = FALSE, modus = "first",
-  aamassfile = "nofile", percent = 0, errortolerance = 0.3,
-  delta = 0.01)
+jDeisotopeMSM(jobj, save = FALSE, modus = "first", aamassfile = "nofile",
+  percent = 0, errortolerance = 0.3, delta = 0.003)
 }
 \description{
-Deisotopes a MSM. Save and first parameters are for method fdbm.
+Deisotopes a MSM.
 }
 \examples{
+
 load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 
