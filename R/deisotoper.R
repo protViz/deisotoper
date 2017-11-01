@@ -509,7 +509,7 @@ jGetMS <- function(massspectrum) {
   as.MS(MS)
 }
 
-jSummaryMSM <- function(file){
+jScoreConfigAsCSV <- function(file){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
