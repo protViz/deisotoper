@@ -39,7 +39,7 @@ shinyServer(function(input, output, session) {
     ms <- mslist$get(as.integer(input$massspectrum))
 
     ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = "nofile")
-    dot <- deisotoper:::jGetDot(isotopicmassspectrum = ims, index = input$isotopicset)
+    dot <- deisotoper:::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = input$isotopicset, configfile = "nofile")
     
     showNotification("Finished drawing!", type = "message", duration = 1)
     

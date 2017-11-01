@@ -1,15 +1,12 @@
 package ch.fgcz.proteomics.R;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-10-31
  */
 
+import java.util.List;
+import java.util.Map;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.*;
@@ -28,8 +25,10 @@ public class FDBMR {
         return new IsotopicMassSpectrum(input, errortolerance, config);
     }
 
-    public static String getGraphFromIS(IsotopicSet is) {
+    public static String getGraphFromIS(IsotopicSet is, MassSpectrum ms, ScoreConfig config) {
         IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
+
+        icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), config.getErrortolerance(), new Peaklist(ms), config);
 
         return icg.createDOTIsotopicClusterGraph();
     }

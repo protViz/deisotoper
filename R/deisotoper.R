@@ -480,14 +480,16 @@ jCreateIMS <- function(massspectrum, configfile = "nofile") {
   ims
 }
 
-jGetDotGraphFromIS <- function(isotopicset) {
+jGetDotGraphFromIS <- function(massspectrum, isotopicset, configfile = "nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
   adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
   
-  dot <- .jcall(adapter, "S", "getGraphFromIS", isotopicset)
+  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  
+  dot <- .jcall(adapter, "S", "getGraphFromIS", isotopicset, massspectrum, config)
   
   dot
 }
@@ -499,8 +501,8 @@ jGetIS <- function(isotopicmassspectrum, index) {
   is
 }
 
-jGetDot <- function(isotopicmassspectrum, index) {
-  dot <- jGetDotGraphFromIS(isotopicset = jGetIS(isotopicmassspectrum = isotopicmassspectrum, index = index))
+jGetDot <- function(massspectrum, isotopicmassspectrum, index, configfile = "nofile") {
+  dot <- jGetDotGraphFromIS(massspectrum = massspectrum,isotopicset = jGetIS(isotopicmassspectrum = isotopicmassspectrum, index = index), configfile = configfile)
   
   dot
 }
