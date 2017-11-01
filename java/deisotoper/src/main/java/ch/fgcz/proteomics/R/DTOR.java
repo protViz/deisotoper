@@ -8,8 +8,15 @@ package ch.fgcz.proteomics.R;
 import ch.fgcz.proteomics.dto.*;
 
 public class DTOR {
-    public static String summaryR(MassSpectrometryMeasurement m) {
+    public static String summaryMSMR(MassSpectrometryMeasurement m) {
         return Summary.makeSummary(m);
+    }
+    
+    public static String summaryMSR(MassSpectrum m) {
+        MassSpectrometryMeasurement msm = new MassSpectrometryMeasurement("");
+        msm.getMSlist().add(m);
+        
+        return Summary.makeSummary(msm);
     }
 
     public static String serializeMSMToJsonR(String filename, MassSpectrometryMeasurement m) {

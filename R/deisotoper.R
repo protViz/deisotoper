@@ -46,7 +46,19 @@ jSummaryMSM <- function(jobj){
   
   sum <- .jnew("ch.fgcz.proteomics.R.DTOR")
   
-  summary <- .jcall(sum, "S", "summaryR", jobj)
+  summary <- .jcall(sum, "S", "summaryMSMR", jobj)
+  con <- textConnection(summary)
+  read.csv(con, sep=',', header = TRUE)
+}
+
+jSummaryMS <- function(jobj){
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  sum <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  
+  summary <- .jcall(sum, "S", "summaryMSR", jobj)
   con <- textConnection(summary)
   read.csv(con, sep=',', header = TRUE)
 }
