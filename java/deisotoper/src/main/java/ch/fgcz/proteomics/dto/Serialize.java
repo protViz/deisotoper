@@ -14,6 +14,9 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+// TODO (LS): What is serialized here?
+// Suggesstion : MassSpectrometricMeasurementSerializer
+// and name metods e.g. toJson instead of serializeMSMToJson
 public class Serialize {
     /**
      * Serializes a MassSpectrometryMeasurement Object to a JSON-file.

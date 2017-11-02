@@ -17,6 +17,7 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.dto.Serialize;
 import ch.fgcz.proteomics.fdbm.*;
 
+// TODO (LS) rename  Use of acronyms for class names should be avoided see: http://www.oracle.com/technetwork/java/codeconventions-135099.html
 public class FDBMR {
     public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus, String file) {
         return Deisotoper.deisotopeMSM(input, modus, file);
