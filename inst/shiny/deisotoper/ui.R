@@ -13,7 +13,7 @@ shinyUI(fluidPage(
                        choices = list("aggregate first" = "first", "aggregate highest" = "highest"), selected = "first"),
           actionButton("button1", label = "start deisotoper"), 
           hr()), 
-        tabPanel("Graph",
+        tabPanel("Graph & Plot",
                  numericInput("massspectrum", "Mass Spectrum Index", value = 0, min = 0),
                  numericInput("isotopicset", "Isotopic Set Index", value = 0, min = 0),
                  actionButton("button2", label = "draw graph"),
