@@ -7,6 +7,8 @@ package ch.fgcz.proteomics.R;
 
 import ch.fgcz.proteomics.dto.*;
 
+
+// TODO (LS) rename  Use of acronyms for class names should be avoided see: http://www.oracle.com/technetwork/java/codeconventions-135099.html
 public class DTOR {
     public static String summaryMSMR(MassSpectrometryMeasurement m) {
         return Summary.makeSummary(m);

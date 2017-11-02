@@ -5,6 +5,8 @@ package ch.fgcz.proteomics.dto;
  * @since 2017-08-28
  */
 
+
+
 public class JsonToSummary {
     public static void main(String[] args) {
         if (args.length != 0) {

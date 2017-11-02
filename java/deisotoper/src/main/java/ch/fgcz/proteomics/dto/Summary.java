@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO : It is not a DTO or data model.
+// So maybe dto is not the right name for the package.
+//
 public class Summary {
     /**
      * Creates a summary of a MassSpectrometryMeasurement Object and returns it in a CSV-formatted String.
