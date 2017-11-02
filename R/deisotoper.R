@@ -180,8 +180,6 @@ is.MSM <- function(x){
 #' }
 #' 
 jCreateMSM <- function (obj) {
-  
-  
   src <- deparse(substitute(obj))
   
  
@@ -563,4 +561,18 @@ jGetStatisticMSM <- function(msm, configfile = "nofile") {
   csv <- .jcall(adapter, "S", "getStatistic", msm, config)
   con <- textConnection(csv)
   read.csv(con, sep=',', header = TRUE)
+}
+
+# Input loaded Obj with [i] (example: obj[1])
+jCreateMS <- function(obj) {
+  if(length(obj) != 1) {
+    stop("Error: Object not compatible!")
+  }
+  
+  msm <- jCreateMSM(obj)
+  
+  mslist<-joMSM$getMSlist()
+  ms <- mslist$get(as.integer(0))
+  
+  ms
 }
