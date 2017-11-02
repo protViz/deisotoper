@@ -50,7 +50,7 @@ public class FDBMR {
             for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
                 numberic += is.getIsotopicSet().size();
                 for (IsotopicCluster ic : is.getIsotopicSet()) {
-                    numberipeaks = ic.getIsotopicCluster().size();
+                    numberipeaks += ic.getIsotopicCluster().size();
                 }
             }
         }

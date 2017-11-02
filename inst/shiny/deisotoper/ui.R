@@ -26,6 +26,11 @@ shinyUI(fluidPage(
                  actionButton("button3", label = "make summary"),
                  hr(),
                  tableOutput("outputsummary")),
+        tabPanel("Statistic",
+                 br(),
+                 actionButton("button4", label = "make statistic"),
+                 hr(),
+                 tableOutput("outputstatistic")),
         tabPanel("Configuration", 
                  htmlOutput("explanation", container = ),
                  textAreaInput("config", "Configuration", "", width = "100%", height = "500", resize = "none", placeholder = "For example:
