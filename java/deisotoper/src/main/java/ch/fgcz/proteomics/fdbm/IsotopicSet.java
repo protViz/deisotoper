@@ -83,18 +83,20 @@ public class IsotopicSet {
 
             @Override
             public int compare(IsotopicCluster o1, IsotopicCluster o2) {
+                // if (o1.getIsotopicCluster().size() == 2 && o2.getIsotopicCluster().size() == 3) {
+                // return 1;
+                // } else if (o1.getIsotopicCluster().size() == 3 && o2.getIsotopicCluster().size() == 2) {
+                // return -1;
+                // }
 
                 int result = Double.compare(o1.getIsotopicCluster().get(0).getMz(), o2.getIsotopicCluster().get(0).getMz());
 
                 if (result == 0) {
                     result = Double.compare(o1.getIsotopicCluster().get(1).getMz(), o2.getIsotopicCluster().get(1).getMz());
                     if (result == 0) {
-                        if (o1.getIsotopicCluster().size() == 3) {
-                            result = -1;
-                        } else if (o2.getIsotopicCluster().size() == 3) {
-                            result = 1;
-                        } else {
-                            result = 0;
+                        if (o1.getIsotopicCluster().size() == 3 && o2.getIsotopicCluster().size() == 3) {
+                            result = Double.compare(o1.getIsotopicCluster().get(2).getMz(), o2.getIsotopicCluster().get(2).getMz());
+                            return result;
                         }
                     }
                 }
@@ -104,6 +106,7 @@ public class IsotopicSet {
         });
 
         return list;
+
     }
 
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> list) {

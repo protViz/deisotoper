@@ -1,12 +1,12 @@
 package ch.fgcz.proteomics.R;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-10-31
  */
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +14,7 @@ import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
+import ch.fgcz.proteomics.dto.Serialize;
 import ch.fgcz.proteomics.fdbm.*;
 
 public class FDBMR {
@@ -105,5 +106,11 @@ public class FDBMR {
         }
 
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        MassSpectrometryMeasurement msm = Serialize.deserializeJsonToMSM("/srv/lucas1/eclipse-workspace/deisotoperJava/mgf2json (MSM)/20161010_04_TP_HeLa_200ng.json");
+
+        System.out.println(getStatistic(msm, new ScoreConfig("")));
     }
 }
