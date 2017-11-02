@@ -33,6 +33,36 @@ public class FDBMR {
         return icg.createDOTIsotopicClusterGraph();
     }
 
+    public static String getStatistic(MassSpectrometryMeasurement msm, ScoreConfig config) {
+        int numberms = msm.getMSlist().size();
+        int numberis = 0;
+        int numberic = 0;
+        int numberipeaks = 0;
+        int numberpeaks = 0;
+
+        for (MassSpectrum ms : msm.getMSlist()) {
+            numberpeaks += ms.getMz().size();
+
+            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getErrortolerance(), config);
+
+            numberis += ims.getIsotopicMassSpectrum().size();
+
+            for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+                numberic += is.getIsotopicSet().size();
+                for (IsotopicCluster ic : is.getIsotopicSet()) {
+                    numberipeaks = ic.getIsotopicCluster().size();
+                }
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String linesep = System.getProperty("line.separator");
+        sb.append("NumberOfMassSpectra,NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks").append(linesep);
+        sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(numberipeaks).append(",").append(numberpeaks);
+
+        return sb.toString();
+    }
+
     public static String getScoreConfigAsCSV(ScoreConfig config) {
         return makeCSV(config);
     }

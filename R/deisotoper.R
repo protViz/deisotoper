@@ -552,3 +552,16 @@ CreateProperties <- function(filename) {
 AddToProperties <- function(filename, key, value) {
   write(x = paste(key, "=", value, sep = ""), file = filename, append = TRUE)
 }
+
+jGetStatisticMSM <- function(msm, configfile = "nofile") {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  
+  adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  
+  csv <- .jcall(adapter, "S", "getStatistic", msm, config)
+  con <- textConnection(csv)
+  read.csv(con, sep=',', header = TRUE)
+}
