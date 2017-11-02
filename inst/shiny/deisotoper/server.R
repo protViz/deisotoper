@@ -113,7 +113,10 @@ shinyServer(function(input, output, session) {
 
     plot(x = ms$getMzArray(), y = ms$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max))
     axis(side=1, at = ms$getMzArray())
-    axis(side=2, at = ms$getIntensityArray())
+    axis(side=2, at = seq(0, max(ms$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
+    axis(side=2, at = seq(0, max(ms$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
+    axis(side=2, at = round(max(ms$getIntensityArray())), col = "red", col.axis="red", las = 1)
+    #axis(side=2, at = round(min(ms$getIntensityArray())), col = "blue", col.axis="blue", las = 1)
     
     showNotification("Finished plotting!", type = "message", duration = 1)
     
