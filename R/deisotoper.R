@@ -38,7 +38,6 @@
 #' 
 #'  bwplot(~Value | Attribute, data=X, scales = list(x = list(log = TRUE)))
 #'  }
-
 jSummaryMSM <- function(jobj){
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
