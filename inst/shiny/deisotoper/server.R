@@ -171,10 +171,11 @@ shinyServer(function(input, output, session) {
                             AMINOACID=123<br/>
                             F1=1.2<br/>
                             DELTA=0.01<br/>
-                            <br/>
+                            ...<br/>
                             List of fixed parameters who are predefined: F1, F2, F3, F4, F5, ERRORTOLERANCE, DELTA, NOISE and DISTANCE<br/>
                             Other parameters will be collected as amino acid masses. You can name them whatever you like. It is recommended that you use the 1 or 3 letter-code.<br/>
                             <br/>
-                            It is neccessary, that when you add one parameter, you must insert a full amino acid masses set plus the parameter you added! Otherwise only the given parameters will be taken and no amino acid masses!")
+                            It is neccessary, that when you add one parameter, you must insert a full amino acid masses set plus the parameter you added! Otherwise only the given parameters will be taken and no amino acid masses!<br/>
+                            <br/>If empty the predefined settings will be used!")
                                    )
 })
