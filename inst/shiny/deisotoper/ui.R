@@ -11,13 +11,13 @@ shinyUI(fluidPage(
           title = "Deisotoping (uses Config.)", 
           textInput("opath", "Output-Path", "", width = "100%", placeholder = "Insert absolute path for output of mgf-file here..."),
           radioButtons("modus", label = "Deisotoping-Modus",
-                       choices = list("aggregate first" = "first", "aggregate highest" = "highest"), selected = "first"),
+                       choices = list("aggregate first" = "first", "aggregate highest" = "highest"), selected = "first", inline = TRUE),
           actionButton("button1", label = "start deisotoper"), 
           hr()), 
         tabPanel("Graph & Plot (uses Config.)",
-                 numericInput("massspectrum", "Mass Spectrum Index", value = 0, min = 0),
-                 numericInput("isotopicset", "Isotopic Set Index", value = 0, min = 0),
-                 actionButton("button2", label = "draw graph"),
+                 div(style="display: inline-block;vertical-align:top", numericInput("massspectrum", "Mass Spectrum Index", value = 0, min = 0)),
+                 div(style="display: inline-block;vertical-align:top", numericInput("isotopicset", "Isotopic Set Index", value = 0, min = 0)),
+                 br(),actionButton("button2", label = "draw graph"),
                  hr(),
                  grVizOutput("outputdiagram"),
                  plotOutput("outputplot", height = 460)
@@ -40,7 +40,7 @@ shinyUI(fluidPage(
                                               F1=0.8
                                               F2=0.5
                                               F3=0.1
-                               DISTANCE=1.003"), hr()
+                               DISTANCE=1.003")
         )
         )
       ))
