@@ -49,7 +49,7 @@ public class FDBMR {
         for (MassSpectrum ms : msm.getMSlist()) {
             numberpeaks += ms.getMz().size();
 
-            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getErrortolerance(), config);
+            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getDelta(), config);
 
             numberis += ims.getIsotopicMassSpectrum().size();
 
