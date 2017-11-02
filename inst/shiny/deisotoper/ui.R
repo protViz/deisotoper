@@ -4,7 +4,7 @@ shinyUI(fluidPage(
     column(
       12,
       align="middle",
-      textInput("ipath", "Input-Path", "", width = "100%", placeholder = "Insert absolute path to RData-file here..."),
+      textInput("ipath", "Input-Path", "/srv/lucas1/Downloads/MascotDaemon/input/Rdata/HeLa/TP_HeLa_200ng.RData", width = "100%", placeholder = "Insert absolute path to RData-file here..."),
       tabsetPanel(
         tabPanel(
           title = "Deisotoping", 
