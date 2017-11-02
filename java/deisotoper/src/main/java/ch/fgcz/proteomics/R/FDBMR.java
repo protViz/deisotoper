@@ -69,7 +69,7 @@ public class FDBMR {
                     }
                 }
 
-                numberipeaks += peakic.size();
+                numberipeaks += result.size();
             }
         }
 
