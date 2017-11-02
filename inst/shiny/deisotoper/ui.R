@@ -4,11 +4,11 @@ shinyUI(fluidPage(
     column(
       12,
       align="middle",
-      textInput("ipath", "Input-Path", "/srv/lucas1/Downloads/MascotDaemon/input/Rdata/HeLa/TP_HeLa_200ng_bestCluster.RData", width = "100%"),
+      textInput("ipath", "Input-Path", "", width = "100%", placeholder = "Insert absolute path to RData-file here..."),
       tabsetPanel(
         tabPanel(
           title = "Deisotoping", 
-          textInput("opath", "Output-Path", "", width = "100%"),
+          textInput("opath", "Output-Path", "", width = "100%", placeholder = "Insert absolute path for output of mgf-file here..."),
           radioButtons("modus", label = "Deisotoping-Modus",
                        choices = list("aggregate first" = "first", "aggregate highest" = "highest"), selected = "first"),
           actionButton("button1", label = "start deisotoper"), 
