@@ -58,7 +58,7 @@ public class FDBMR {
         StringBuilder sb = new StringBuilder();
         String linesep = System.getProperty("line.separator");
         sb.append("NumberOfMassSpectra,NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks").append(linesep);
-        sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(numberipeaks).append(",").append(numberpeaks);
+        sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(",").append(numberipeaks).append(",").append(numberpeaks).append(linesep);
 
         return sb.toString();
     }
