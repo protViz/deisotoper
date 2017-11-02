@@ -28,7 +28,12 @@ shinyUI(fluidPage(
                  tableOutput("outputsummary")),
         tabPanel("Configuration", 
                  htmlOutput("explanation", container = ),
-                 textAreaInput("config", "Configuration", "", width = "100%", height = "500", resize = "none")
+                 textAreaInput("config", "Configuration", "", width = "100%", height = "500", resize = "none", placeholder = "For example:
+                               ALA=71.03711
+                                              F1=0.8
+                                              F2=0.5
+                                              F3=0.1
+                               DISTANCE=1.003")
         )
         )
       ))
