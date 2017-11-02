@@ -146,3 +146,4 @@ TP+AF8-HeLa+AF8-200ng+AF8-removedNoise5Percent+AF8-FDBM.mgf+AF8-Fusion,F258099.d
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA_pd/20161201_14_Mix1b_1_DDA.mgf_deisotoped,F258308.dat,258308,34751,10718,30.84
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA_pd/20161201_20_Mix1a_2_DDA.mgf_deisotoped,F258309.dat,258309,34433,11191,32.50
 /srv/lucas1/Downloads/MascotDaemon/input/mgf/DDA_pd/20161201_22_Mix1b_2_DDA.mgf_deisotoped,F258310.dat,258310,34467,10127,29.38
+TP_HELA_FixedBugInCompare.mgf_Fusion,F258379.dat,258379,27583,16920,61.34
