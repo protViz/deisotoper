@@ -63,4 +63,12 @@ public class Peak {
         this.charge = charge;
         this.isotope = isotope;
     }
+
+    public boolean equals(Peak p) {
+        if (this.getMz() == p.getMz() && this.getIntensity() == p.getIntensity() && this.getCharge() == p.getCharge() && this.getIsotope() == p.getIsotope()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

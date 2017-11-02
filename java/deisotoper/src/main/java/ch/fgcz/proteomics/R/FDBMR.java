@@ -1,5 +1,8 @@
 package ch.fgcz.proteomics.R;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-10-31
@@ -7,6 +10,8 @@ package ch.fgcz.proteomics.R;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fdbm.*;
@@ -49,9 +54,22 @@ public class FDBMR {
 
             for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
                 numberic += is.getIsotopicSet().size();
+                List<Peak> peakic = new ArrayList<>();
+
                 for (IsotopicCluster ic : is.getIsotopicSet()) {
-                    numberipeaks += ic.getIsotopicCluster().size();
+                    peakic.addAll(ic.getIsotopicCluster());
                 }
+
+                Set<Double> titles = new HashSet<Double>();
+                List<Peak> result = new ArrayList<Peak>();
+
+                for (Peak p : peakic) {
+                    if (titles.add(p.getMz())) {
+                        result.add(p);
+                    }
+                }
+
+                numberipeaks += peakic.size();
             }
         }
 
