@@ -576,3 +576,27 @@ jCreateMS <- function(obj) {
   
   ms
 }
+
+jReadMGF <- function(filename) {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  adapter <- .jnew("ch.fgcz.proteomics.R.MGFR")
+  
+  msm <- .jcall(adapter, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "readR", filename)
+  
+  msm
+}
+
+jWriteMGF <- function(filename, msm) {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  adapter <- .jnew("ch.fgcz.proteomics.R.MGFR")
+  
+  status <- .jcall(adapter, "B", "writeR", filename, msm)
+  
+  status
+}
