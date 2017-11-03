@@ -35,6 +35,8 @@ vignettes/*.pdf
 
 .idea/
 
+# Generated Java
+inst/java/*
 
 
 
