@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{as.MSM}
 \alias{as.MSM}
-\title{Coerce to MSM}
+\title{Coerce to MSM.}
 \usage{
 as.MSM(x)
 }

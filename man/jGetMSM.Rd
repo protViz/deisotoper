@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{jGetMSM}
 \alias{jGetMSM}
-\title{Title}
+\title{Gets the MSM from Java to R.}
 \usage{
 jGetMSM(jobj)
 }
@@ -10,10 +10,13 @@ jGetMSM(jobj)
 \item{jobj}{}
 }
 \description{
-Title
+Gets the MSM from Java to R.
 }
 \examples{
 load(system.file("extdata",
 name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+}
+\author{
+Lucas Schmidt
 }

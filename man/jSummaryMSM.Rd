@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{jSummaryMSM}
 \alias{jSummaryMSM}
-\title{Summary of a MSM object}
+\title{Summary of a MSM object.}
 \usage{
 jSummaryMSM(jobj)
 }
@@ -13,7 +13,7 @@ jSummaryMSM(jobj)
 a \code{\link{data.frame}}
 }
 \description{
-Summary of a MSM object
+Summary of a MSM object.
 }
 \examples{
 load(system.file("extdata",

@@ -6,11 +6,6 @@
 #' @param pkg 
 #'
 #' @importFrom utils packageVersion
-#' @return
-#' @export
-#' 
-#'
-#' @examples
 .onAttach <- function(lib, pkg){
 	if(interactive()){
 		version <- packageVersion('deisotoper')

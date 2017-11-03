@@ -6,11 +6,20 @@
 \usage{
 jDeisotopeMS(ms, modus = "first", configfile = "nofile")
 }
+\arguments{
+\item{ms}{}
+
+\item{modus}{}
+
+\item{configfile}{}
+}
+\value{
+deisotoped ms
+}
 \description{
 Deisotopes a MS.
 }
 \examples{
-
 load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 
@@ -18,5 +27,7 @@ mslist<-joMSM$getMSlist()
 ms <- mslist$get(as.integer(0)) #index 0 of joMSM
 
 msdeisotoped <- jDeisotopeMS(ms)
-
+}
+\author{
+Lucas Schmidt
 }

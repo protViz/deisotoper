@@ -2,10 +2,13 @@
 % Please edit documentation in R/deisotoper.R
 \name{jVersionMSM}
 \alias{jVersionMSM}
-\title{Returns Java version string}
+\title{Returns the version of the Java project}
 \usage{
 jVersionMSM()
 }
 \description{
-Returns Java version string
+Returns the version of the Java project
+}
+\author{
+Lucas Schmidt
 }

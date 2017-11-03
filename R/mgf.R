@@ -37,8 +37,6 @@
 #'
 #' @return \code{file.info(filename)}
 #' @export mgf
-#'
-#' @examples
 mgf <- function(obj, filename = paste(tempfile(), 'mgf', sep='.')){
   stopifnot(is.MSM(obj))
   message(paste("writing mgf to file", filename, "..."))

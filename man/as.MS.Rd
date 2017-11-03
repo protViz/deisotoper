@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{as.MS}
 \alias{as.MS}
-\title{Coerce to MS}
+\title{Coerce to MS.}
 \usage{
 as.MS(x)
 }

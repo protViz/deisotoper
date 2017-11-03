@@ -12,6 +12,6 @@ jReadJSON2MSM(filename = "test.json")
 \description{
 Deserializes a json into a MSM.
 }
-\examples{
-
+\author{
+Lucas Schmidt
 }

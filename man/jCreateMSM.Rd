@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{jCreateMSM}
 \alias{jCreateMSM}
-\title{creates Mass Spectrometry Measurement (MSM) Java object}
+\title{creates Mass Spectrometry Measurement (MSM) Java object .}
 \usage{
 jCreateMSM(obj)
 }
@@ -13,7 +13,7 @@ jCreateMSM(obj)
 returns a jcall object reference
 }
 \description{
-creates Mass Spectrometry Measurement (MSM) Java object
+creates Mass Spectrometry Measurement (MSM) Java object .
 }
 \examples{
 load(system.file("extdata",
@@ -27,7 +27,6 @@ joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
       
  jo <- jCreateMSM(as.psmSet.mzXML(openMSfile(mzXMLfilename)))
 }
-
 }
 \seealso{
 \code{\link{jSummaryMSM}}

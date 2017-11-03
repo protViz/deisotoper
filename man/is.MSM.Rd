@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{is.MSM}
 \alias{is.MSM}
-\title{Coerce to MSM}
+\title{Coerce to MSM.}
 \usage{
 is.MSM(x)
 }
