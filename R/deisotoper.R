@@ -463,7 +463,7 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile") {
 #' @param configfile 
 #'
 #' @return mgf
-#' @export jbenchmark
+#' @export jBenchmark
 #' @author Lucas Schmidt
 jBenchmark <- function(input, output, modus="first", configfile="nofile") {
   name <- load(file = input)
