@@ -5,10 +5,10 @@ package ch.fgcz.proteomics.R;
  * @since 2017-10-31
  */
 
-import ch.fgcz.proteomics.utilities.FindNN;
+import ch.fgcz.proteomics.utilities.FindNearestNeighbor;
 
 public class UtilitiesR {
     public static double[] findNNR(double[] vec, double[] q) {
-        return FindNN.findNN(vec, q);
+        return FindNearestNeighbor.findNN(vec, q);
     }
 }

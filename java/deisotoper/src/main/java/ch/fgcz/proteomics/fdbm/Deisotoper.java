@@ -40,8 +40,6 @@ public class Deisotoper {
         return deisotopeMS(input, modus, config, date);
     }
 
-    // TODO (LS): To many parameters, - e.g. move delta, error, percent, modus, config to Deisotoper constructor.
-    // TODO (LS): To long, to complex, split into several functions.
     public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
 
@@ -121,7 +119,7 @@ public class Deisotoper {
                     charge5.add(charge.get(i));
                 }
             }
-            
+
             return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz5, intensity5, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge5, isotope5);
         } else {
             return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz, intensity, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge, isotope);

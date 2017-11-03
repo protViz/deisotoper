@@ -14,11 +14,9 @@ import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.dto.Serialize;
 import ch.fgcz.proteomics.fdbm.*;
 
-// TODO (LS) rename  Use of acronyms for class names should be avoided see: http://www.oracle.com/technetwork/java/codeconventions-135099.html
-public class FDBMR {
+public class FeaturesDeisotopingBasedMethodR {
     public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus, String file) {
         return Deisotoper.deisotopeMSM(input, modus, file);
     }
@@ -107,11 +105,5 @@ public class FDBMR {
         }
 
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        MassSpectrometryMeasurement msm = Serialize.deserializeJsonToMSM("/srv/lucas1/eclipse-workspace/deisotoperJava/mgf2json (MSM)/20161010_04_TP_HeLa_200ng.json");
-
-        System.out.println(getStatistic(msm, new ScoreConfig("")));
     }
 }

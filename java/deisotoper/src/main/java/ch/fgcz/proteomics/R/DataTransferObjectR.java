@@ -7,8 +7,7 @@ package ch.fgcz.proteomics.R;
 
 import ch.fgcz.proteomics.dto.*;
 
-// TODO (LS) rename  Use of acronyms for class names should be avoided see: http://www.oracle.com/technetwork/java/codeconventions-135099.html
-public class DTOR {
+public class DataTransferObjectR {
     public static String summaryMSMR(MassSpectrometryMeasurement m) {
         return Summary.makeSummary(m);
     }
@@ -21,11 +20,11 @@ public class DTOR {
     }
 
     public static String serializeMSMToJsonR(String filename, MassSpectrometryMeasurement m) {
-        return Serialize.serializeMSMToJson(filename, m);
+        return MassSpectrometricMeasurementSerializer.serializeToJson(filename, m);
     }
 
     public static MassSpectrometryMeasurement deserializeJsonToMSMR(String filename) {
-        return Serialize.deserializeJsonToMSM(filename);
+        return MassSpectrometricMeasurementSerializer.deserializeFromJson(filename);
     }
 
     public static String versionR() {

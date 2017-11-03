@@ -9,8 +9,7 @@ import java.util.Arrays;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
-// TODO (LS) rename  Use of acronyms for class names should be avoided see: http://www.oracle.com/technetwork/java/codeconventions-135099.html
-public class FindNN {
+public class FindNearestNeighbor {
     /**
      * Finds the nearest neighbors. Applies the pattern on the data to find the nearest neighbors of the pattern.
      * 

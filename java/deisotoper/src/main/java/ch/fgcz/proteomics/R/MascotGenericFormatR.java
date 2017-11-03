@@ -10,7 +10,7 @@ import ch.fgcz.proteomics.mgf.WriteMGF;
  * @since 2017-11-03
  */
 
-public class MGFR {
+public class MascotGenericFormatR {
     public static MassSpectrometryMeasurement readR(String file) {
         return ReadMGF.read(file);
     }

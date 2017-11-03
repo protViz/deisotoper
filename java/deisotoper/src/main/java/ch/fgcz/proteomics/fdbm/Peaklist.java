@@ -17,11 +17,6 @@ public class Peaklist {
         return peaklist;
     }
 
-    //TODO (LS): Who is calling this function?
-    public void setPeaklist(List<Peak> peaklist) {
-        this.peaklist = peaklist;
-    }
-
     public Peaklist(MassSpectrum ms) {
         List<Peak> plist = new ArrayList<>();
 

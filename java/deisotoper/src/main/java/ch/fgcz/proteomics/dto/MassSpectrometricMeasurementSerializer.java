@@ -14,10 +14,7 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-// TODO (LS): What is serialized here?
-// Suggesstion : MassSpectrometricMeasurementSerializer
-// and name metods e.g. toJson instead of serializeMSMToJson
-public class Serialize {
+public class MassSpectrometricMeasurementSerializer {
     /**
      * Serializes a MassSpectrometryMeasurement Object to a JSON-file.
      * 
@@ -26,7 +23,7 @@ public class Serialize {
      * @return String
      * @see MassSpectrometryMeasurement
      */
-    public static String serializeMSMToJson(String filename, MassSpectrometryMeasurement m) {
+    public static String serializeToJson(String filename, MassSpectrometryMeasurement m) {
         Gson gson = new Gson();
 
         String jsonMSMlist = gson.toJson(m);
@@ -46,7 +43,7 @@ public class Serialize {
      * @param filename
      * @return MassSpectrometryMeasurement
      */
-    public static MassSpectrometryMeasurement deserializeJsonToMSM(String filename) {
+    public static MassSpectrometryMeasurement deserializeFromJson(String filename) {
         Gson gson = new Gson();
 
         String data = null;

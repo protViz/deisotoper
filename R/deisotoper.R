@@ -43,7 +43,7 @@ jSummaryMSM <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  sum <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
   
   summary <- .jcall(sum, "S", "summaryMSMR", jobj)
   con <- textConnection(summary)
@@ -62,7 +62,7 @@ jSummaryMS <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  sum <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
   
   summary <- .jcall(sum, "S", "summaryMSR", jobj)
   con <- textConnection(summary)
@@ -193,9 +193,9 @@ jCreateMSM <- function (obj) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  DTOR <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  DataTransferObjectR <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
   
-  MSM <- .jcall(DTOR, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "massSpectrometryMeasurementR", src)
+  MSM <- .jcall(DataTransferObjectR, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "massSpectrometryMeasurementR", src)
   
   lapply(obj, function(x) {
     if (is.null(x))
@@ -330,7 +330,7 @@ jWriteMSM2JSON <- function(jobj, filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  Serialize <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  Serialize <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
   
   json <- .jcall(Serialize, "S", "serializeMSMToJsonR", filename, jobj)
   
@@ -348,7 +348,7 @@ jReadJSON2MSM <- function(filename='test.json'){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/gson-2.8.1.jar")
   .jclassPath()
-  Serialize <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  Serialize <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
   
   MSM <- .jcall(Serialize, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deserializeJsonToMSMR", filename)
   
@@ -364,7 +364,7 @@ jVersionMSM <- function() {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("ch.fgcz.proteomics.R.DTOR")
+  MSM <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
   
   version <- .jcall(MSM, "S", "versionR")
   
@@ -405,7 +405,7 @@ jDeisotopeMSM <- function(jobj, modus="first", configfile="nofile") {
   m <- new(String, modus)
   config <- new(String, configfile)
   
-  d <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  d <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
   
   output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj, m, config)
   
@@ -445,7 +445,7 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile") {
   String <- J("java.lang.String")
   m <- new( String, modus )
   
-  d <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  d <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
   
@@ -483,7 +483,7 @@ jCreateIMS <- function(massspectrum, configfile = "nofile") {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
   
@@ -508,7 +508,7 @@ jGetDotGraphFromIS <- function(massspectrum, isotopicset, configfile = "nofile")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
   
@@ -587,7 +587,7 @@ jScoreConfigAsCSV <- function(file){
   
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", file)
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
   
   csv <- .jcall(adapter, "S", "getScoreConfigAsCSV", config)
   con <- textConnection(csv)
@@ -631,7 +631,7 @@ jGetStatisticMSM <- function(msm, configfile = "nofile") {
   .jclassPath()
   config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FDBMR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
   
   csv <- .jcall(adapter, "S", "getStatistic", msm, config)
   con <- textConnection(csv)
@@ -670,7 +670,7 @@ jReadMGF <- function(filename) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.MGFR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.MascotGenericFormatR")
   
   msm <- .jcall(adapter, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "readR", filename)
   
@@ -690,7 +690,7 @@ jWriteMGF <- function(filename, msm) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.MGFR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.MascotGenericFormatR")
   
   status <- .jcall(adapter, "Z", "writeR", filename, msm)
   

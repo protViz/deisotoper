@@ -10,7 +10,7 @@ package ch.fgcz.proteomics.dto;
 public class JsonToSummary {
     public static void main(String[] args) {
         if (args.length != 0) {
-            System.out.println((Summary.makeSummary(Serialize.deserializeJsonToMSM(args[0]))));
+            System.out.println((Summary.makeSummary(MassSpectrometricMeasurementSerializer.deserializeFromJson(args[0]))));
         } else {
             System.err.println("WARNING: The arguments are missing!");
         }
