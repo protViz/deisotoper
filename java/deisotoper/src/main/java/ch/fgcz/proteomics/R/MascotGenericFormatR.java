@@ -1,7 +1,7 @@
 package ch.fgcz.proteomics.R;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
-import ch.fgcz.proteomics.fdbm.Deisotoper;
+import ch.fgcz.proteomics.fbdm.Deisotoper;
 import ch.fgcz.proteomics.mgf.ReadMGF;
 import ch.fgcz.proteomics.mgf.WriteMGF;
 

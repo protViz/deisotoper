@@ -8,7 +8,7 @@ package ch.fgcz.proteomics.utilities;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class FindNNTest {
+public class FindNearestNeighborTest {
     @Test
     public void test() {
         // Test Data
@@ -33,7 +33,7 @@ public class FindNNTest {
 
         // Test 1
         double[] result1 = { 0, 0, 1, 1, 1 };
-        double[] findNN1 = FindNN.findNN(testq1, testvector1);
+        double[] findNN1 = FindNearestNeighbor.findNN(testq1, testvector1);
         assertEquals("Result must be same length!", result1.length, findNN1.length);
         for (int i = 0; i < result1.length; i++) {
             assertEquals("Every item must be same!", (int) findNN1[i], (int) result1[i]);
@@ -43,7 +43,7 @@ public class FindNNTest {
         int j = 0;
         int sum = 0;
         int sumj = 0;
-        for (double i : FindNN.findNN(testvector2, testvector2)) {
+        for (double i : FindNearestNeighbor.findNN(testvector2, testvector2)) {
             sum = (int) i + sum;
             sumj = j + sumj;
             assertEquals("i must be equals to j!", (int) i, j);
@@ -53,7 +53,7 @@ public class FindNNTest {
 
         // Test 3
         double[] result3 = { 0, 50, 50, 100, 100 };
-        double[] findNN3 = FindNN.findNN(testq3, testvector3);
+        double[] findNN3 = FindNearestNeighbor.findNN(testq3, testvector3);
         assertEquals("Result must be same length!", result3.length, findNN3.length);
         for (int i = 0; i < result3.length; i++) {
             assertEquals("Every item must be same!", (int) findNN3[i], (int) result3[i]);

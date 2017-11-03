@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.fdbm;
+package ch.fgcz.proteomics.fbdm;
 
 /**
  * @author Lucas Schmidt
@@ -16,7 +16,7 @@ import org.jgrapht.GraphPath;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fdbm.IsotopicClusterGraph;
+import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {

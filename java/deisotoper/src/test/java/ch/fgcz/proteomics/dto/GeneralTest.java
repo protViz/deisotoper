@@ -44,8 +44,8 @@ public class GeneralTest {
         }
 
         Summary.makeSummary(test);
-        Serialize.serializeMSMToJson("TestMSM.json", test);
-        MassSpectrometryMeasurement m = Serialize.deserializeJsonToMSM("TestMSM.json");
+        MassSpectrometricMeasurementSerializer.serializeToJson("TestMSM.json", test);
+        MassSpectrometryMeasurement m = MassSpectrometricMeasurementSerializer.deserializeFromJson("TestMSM.json");
 
         int n = 0;
         for (MassSpectrum i : m.getMSlist()) {

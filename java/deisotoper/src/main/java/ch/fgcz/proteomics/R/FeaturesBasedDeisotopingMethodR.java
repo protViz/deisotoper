@@ -14,9 +14,9 @@ import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fdbm.*;
+import ch.fgcz.proteomics.fbdm.*;
 
-public class FeaturesDeisotopingBasedMethodR {
+public class FeaturesBasedDeisotopingMethodR {
     public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus, String file) {
         return Deisotoper.deisotopeMSM(input, modus, file);
     }

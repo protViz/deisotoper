@@ -405,7 +405,7 @@ jDeisotopeMSM <- function(jobj, modus="first", configfile="nofile") {
   m <- new(String, modus)
   config <- new(String, configfile)
   
-  d <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
+  d <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
   output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrometryMeasurement;", "deisotopeMSMR", jobj, m, config)
   
@@ -445,9 +445,9 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile") {
   String <- J("java.lang.String")
   m <- new( String, modus )
   
-  d <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
+  d <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
-  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", configfile)
   
   output <- .jcall(d, "Lch/fgcz/proteomics/dto/MassSpectrum;", "deisotopeMSR", ms, m, config)
   
@@ -483,13 +483,13 @@ jCreateIMS <- function(massspectrum, configfile = "nofile") {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
-  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", configfile)
   
   error <- config$getErrortolerance()
   
-  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fdbm/IsotopicMassSpectrum;", "getIMS", massspectrum, error, configfile)
+  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fbdm/IsotopicMassSpectrum;", "getIMS", massspectrum, error, configfile)
   
   ims
 }
@@ -508,9 +508,9 @@ jGetDotGraphFromIS <- function(massspectrum, isotopicset, configfile = "nofile")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
-  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", configfile)
   
   dot <- .jcall(adapter, "S", "getGraphFromIS", isotopicset, massspectrum, config)
   
@@ -585,9 +585,9 @@ jScoreConfigAsCSV <- function(file){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", file)
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", file)
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
   csv <- .jcall(adapter, "S", "getScoreConfigAsCSV", config)
   con <- textConnection(csv)
@@ -629,9 +629,9 @@ jGetStatisticMSM <- function(msm, configfile = "nofile") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
-  config <- .jnew("ch.fgcz.proteomics.fdbm.ScoreConfig", configfile)
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", configfile)
   
-  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesDeisotopingBasedMethodR")
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
   csv <- .jcall(adapter, "S", "getStatistic", msm, config)
   con <- textConnection(csv)
