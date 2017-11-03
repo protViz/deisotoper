@@ -12,7 +12,7 @@ public class JsonToSummary {
         if (args.length != 0) {
             System.out.println((Summary.makeSummary(Serialize.deserializeJsonToMSM(args[0]))));
         } else {
-            System.err.println("The arguments are missing!");
+            System.err.println("WARNING: The arguments are missing!");
         }
     }
 }

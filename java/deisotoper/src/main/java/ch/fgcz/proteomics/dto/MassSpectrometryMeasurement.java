@@ -88,4 +88,8 @@ public class MassSpectrometryMeasurement {
     public static String version() {
         return "2017-09-22 (1) Lucas Schmidt";
     }
+
+    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
+        this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
+    }
 }
