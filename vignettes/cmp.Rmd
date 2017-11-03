@@ -34,7 +34,7 @@ S <- lapply(input, function(u){
   Sd1$status <- 'mspy'
   
   if(objN != "TP_HeLa_200ng_msdeconv") {
-    Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="fdbm"))
+    Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo))
     Sd2$file <- objN;
     Sd2$status <- 'fdbm'
   }

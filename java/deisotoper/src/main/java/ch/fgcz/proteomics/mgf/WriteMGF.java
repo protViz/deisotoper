@@ -19,7 +19,7 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 public class WriteMGF {
     private static boolean writeHeader(File file, MassSpectrometryMeasurement MSM) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
-            out.println("# deisotoped by fdbm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
+            out.println("# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
             out.println("COM=" + MSM.getSource());
         } catch (IOException e) {
             return false;
