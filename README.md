@@ -9,7 +9,7 @@ This package contains a Java implementation of
 
 
 
-### from [github](https://github.com/cpanse/deisotoper)
+### from [github](https://github.com/protViz/deisotoper)
 
 install the latest development version
 
