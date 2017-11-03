@@ -11,7 +11,7 @@ Author: Christian Panse [aut, cre] (0000-0003-1975-3064),
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	rJava (>= 0.9)
-Suggests: diagrammeR,
+Suggests: DiagrammeR,
   lattice, 
   roxygen2,
   protViz (>= 0.2.37),
