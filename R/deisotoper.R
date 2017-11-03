@@ -596,7 +596,7 @@ jWriteMGF <- function(filename, msm) {
   
   adapter <- .jnew("ch.fgcz.proteomics.R.MGFR")
   
-  status <- .jcall(adapter, "B", "writeR", filename, msm)
+  status <- .jcall(adapter, "Z", "writeR", filename, msm)
   
   status
 }
