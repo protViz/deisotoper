@@ -38,5 +38,10 @@ vignettes/*.pdf
 # Generated Java
 inst/java/*
 
-
-
+# Generated TeX
+vignettes/*.bbl
+vignettes/*.blg
+vignettes/*.log
+vignettes/*.synctex.gz
+vignettes/*.tex
+vignettes/*.toc
