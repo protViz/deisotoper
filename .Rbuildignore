@@ -6,3 +6,4 @@ LICENSE
 ^.*vignettes/cmp.Rmd$
 ^.*vignettes/report.*$
 ^.*vignettes/graph.*$
+^.*shiny/deisotoper/temp.*$

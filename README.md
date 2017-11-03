@@ -2,16 +2,14 @@
 
 This package contains a Java implementation of 
 
-* Alg 1
-* Alg 2
-* Alg 3
+* [Features Based Deisotoping Method](https://github.com/protViz/deisotoper/tree/master/java/deisotoper/src/main/java/ch/fgcz/proteomics/fbdm)
 
 
 ## Installation
 
 
 
-### from [github](https://github.com/cpanse/deisotoper)
+### from [github](https://github.com/protViz/deisotoper)
 
 install the latest development version
 
