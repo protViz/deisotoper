@@ -3,8 +3,8 @@
 #Usage (normal): ./bashBenchmark X Y Z (X, Y, Z are .mgf-files)
 #Usage (parallel): find FOLDER -name "*.mgf" | parallel ./bashBenchmark (FOLDER contains .mgf-files)
 
-RBENCHMARK="./rBenchmark.R"
-MGF2RDATA="./mgf2RData.pl"
+RBENCHMARK="./deisotoper_rBenchmark.R"
+MGF2RDATA="./deisotoper_mgf2RData.pl"
 
 function benchmark() {
 	in="$1"
