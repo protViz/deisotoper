@@ -43,7 +43,6 @@ public class WriteStdOut {
     }
 
     private static boolean writeConnect(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
-        // OutputStreamWriter osw = new OutputStreamWriter(System.out);
         boolean header = writeHeader(osw, MSM);
         boolean local = writeLocal(osw, MSM);
 
@@ -54,7 +53,8 @@ public class WriteStdOut {
         }
     }
 
-    public static boolean write(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
+    public static boolean write(MassSpectrometryMeasurement MSM) {
+        OutputStreamWriter osw = new OutputStreamWriter(System.out);
         return writeConnect(osw, MSM);
     }
 }

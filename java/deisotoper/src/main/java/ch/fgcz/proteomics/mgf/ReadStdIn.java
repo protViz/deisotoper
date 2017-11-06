@@ -16,7 +16,10 @@ import java.util.Scanner;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class ReadStdIn {
-    private static String readHeader(InputStreamReader isr) {
+    public static MassSpectrometryMeasurement read() {
+        InputStreamReader isr = new InputStreamReader(System.in);
+        String source = null;
+
         BufferedReader bufferedreader = new BufferedReader(isr);
         try {
             String line = bufferedreader.readLine();
@@ -26,7 +29,7 @@ public class ReadStdIn {
                 if (line.equals("BEGIN IONS")) {
                     break;
                 } else if (line.contains("COM")) {
-                    return partequal[1];
+                    source = partequal[1];
                 }
 
                 line = bufferedreader.readLine();
@@ -37,11 +40,15 @@ public class ReadStdIn {
             e.printStackTrace();
         }
 
-        return null;
-    }
+        if (source == null) {
+            source = "stdin";
+        }
 
-    private static MassSpectrometryMeasurement readLocal(InputStreamReader isr, MassSpectrometryMeasurement MSM) {
-        BufferedReader bufferedreader = new BufferedReader(isr);
+        // ______________________________________
+
+        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(source);
+
+        // ______________________________________
 
         try {
             String line = "";
@@ -90,22 +97,6 @@ public class ReadStdIn {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return MSM;
-    }
-
-    public static MassSpectrometryMeasurement read(InputStreamReader isr) {
-        // InputStreamReader isr = new InputStreamReader(System.in);
-
-        String source = readHeader(isr);
-
-        if (source == null) {
-            source = "stdin";
-        }
-
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(source);
-
-        MSM = readLocal(isr, MSM);
 
         return MSM;
     }
