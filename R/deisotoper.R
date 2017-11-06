@@ -652,7 +652,7 @@ jCreateMS <- function(obj) {
   
   msm <- jCreateMSM(obj)
   
-  mslist<-joMSM$getMSlist()
+  mslist<-msm$getMSlist()
   ms <- mslist$get(as.integer(0))
   
   ms

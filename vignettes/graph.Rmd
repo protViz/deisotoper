@@ -1,0 +1,29 @@
+---
+title: "deisotoper graph test"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=TRUE, warning=TRUE}
+library(deisotoper)
+library(DiagrammeR)
+
+input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData"
+
+objN <- load(con <- url(input));
+obj <- get(objN);
+
+ms <- jCreateMS(obj[44]);
+
+ims <- jCreateIMS(ms)
+
+dot <- deisotoper::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = 0);
+
+grViz(dot, width = 700)
+  
+```
