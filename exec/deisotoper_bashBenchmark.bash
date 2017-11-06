@@ -4,7 +4,7 @@
 #Usage (parallel): find FOLDER -name "*.mgf" | parallel ./bashBenchmark (FOLDER contains .mgf-files)
 
 RBENCHMARK="./deisotoper_rBenchmark.R"
-MGF2RDATA="./deisotoper_mgf2RData.pl"
+MGF2RDATA="./protViz_mgf2RData.pl"
 
 function benchmark() {
 	in="$1"
