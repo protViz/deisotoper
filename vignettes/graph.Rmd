@@ -14,8 +14,8 @@ library(deisotoper)
 
 input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData"
 
-id <- c(1, 44);
-index <- c(0, 0);
+id <- c(1, 44, 10000, 10001);
+index <- c(0, 0, 18, 18);
 
 objN <- load(con <- url(input));
 obj <- get(objN);
@@ -39,4 +39,14 @@ grViz(dot[1], width = 700)
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 library(DiagrammeR)
 grViz(dot[2], width = 700)
+```
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+library(DiagrammeR)
+grViz(dot[3], width = 700)
+```
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+library(DiagrammeR)
+grViz(dot[4], width = 700)
 ```
