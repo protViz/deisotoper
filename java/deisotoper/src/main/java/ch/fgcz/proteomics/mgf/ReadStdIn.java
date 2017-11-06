@@ -18,38 +18,10 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 public class ReadStdIn {
     public static MassSpectrometryMeasurement read() {
         InputStreamReader isr = new InputStreamReader(System.in);
-        String source = null;
+
+        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(null);
 
         BufferedReader bufferedreader = new BufferedReader(isr);
-        try {
-            String line = bufferedreader.readLine();
-            String[] partequal = line.split("=");
-
-            while (line != null) {
-                if (line.equals("BEGIN IONS")) {
-                    break;
-                } else if (line.contains("COM")) {
-                    source = partequal[1];
-                }
-
-                line = bufferedreader.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (source == null) {
-            source = "stdin";
-        }
-
-        // ______________________________________
-
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(source);
-
-        // ______________________________________
-
         try {
             String line = "";
             int chargestate = 0;
