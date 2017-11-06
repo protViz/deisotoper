@@ -15,16 +15,13 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class WriteStdOut {
-    private static boolean writeHeader(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
+    public static void write(MassSpectrometryMeasurement MSM) {
+        OutputStreamWriter osw = new OutputStreamWriter(System.out);
+
         PrintWriter out = new PrintWriter(new BufferedWriter(osw));
         out.println("# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
         out.println("COM=" + MSM.getSource());
 
-        return true;
-    }
-
-    private static boolean writeLocal(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
-        PrintWriter out = new PrintWriter(new BufferedWriter(osw));
         for (MassSpectrum MS : MSM.getMSlist()) {
             out.println("BEGIN IONS");
 
@@ -38,23 +35,5 @@ public class WriteStdOut {
             }
             out.println("END IONS");
         }
-
-        return true;
-    }
-
-    private static boolean writeConnect(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
-        boolean header = writeHeader(osw, MSM);
-        boolean local = writeLocal(osw, MSM);
-
-        if (local == false || header == false) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static boolean write(MassSpectrometryMeasurement MSM) {
-        OutputStreamWriter osw = new OutputStreamWriter(System.out);
-        return writeConnect(osw, MSM);
     }
 }
