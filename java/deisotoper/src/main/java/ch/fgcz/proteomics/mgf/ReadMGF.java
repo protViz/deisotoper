@@ -78,7 +78,7 @@ public class ReadMGF {
                 } else if (line.contains("PEPMASS")) {
                     String[] pepmasssplit = partequal[1].split(" ");
                     peptidmass = Double.parseDouble(pepmasssplit[0]);
-                } else if (isDouble(partspace[0])) {
+                } else if (isDouble(partspace[0]) && isDouble(partspace[1])) {
                     mz.add(Double.parseDouble(partspace[0]));
                     intensity.add(Double.parseDouble(partspace[1]));
                 }
@@ -96,7 +96,8 @@ public class ReadMGF {
 
     // STDIN
     private static String readHeader() {
-        try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in))) {
+        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+        try {
             String line = bufferedreader.readLine();
             String[] partequal = line.split("=");
 
@@ -120,7 +121,8 @@ public class ReadMGF {
 
     // STDIN
     private static MassSpectrometryMeasurement readLocal(MassSpectrometryMeasurement MSM) {
-        try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in))) {
+        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+        try {
             String line = bufferedreader.readLine();
             int chargestate = 0;
             int id = 0;
@@ -155,7 +157,7 @@ public class ReadMGF {
                 } else if (line.contains("PEPMASS")) {
                     String[] pepmasssplit = partequal[1].split(" ");
                     peptidmass = Double.parseDouble(pepmasssplit[0]);
-                } else if (isDouble(partspace[0])) {
+                } else if (isDouble(partspace[0]) && isDouble(partspace[1])) {
                     mz.add(Double.parseDouble(partspace[0]));
                     intensity.add(Double.parseDouble(partspace[1]));
                 }
