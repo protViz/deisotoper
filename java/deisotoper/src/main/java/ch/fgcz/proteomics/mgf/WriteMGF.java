@@ -65,8 +65,8 @@ public class WriteMGF {
     }
 
     // STDOUT
-    private static boolean writeHeader(MassSpectrometryMeasurement MSM) {
-        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    private static boolean writeHeader(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
+        PrintWriter out = new PrintWriter(new BufferedWriter(osw));
         out.println("# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
         out.println("COM=" + MSM.getSource());
 
@@ -74,8 +74,8 @@ public class WriteMGF {
     }
 
     // STDOUT
-    private static boolean writeLocal(MassSpectrometryMeasurement MSM) {
-        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+    private static boolean writeLocal(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
+        PrintWriter out = new PrintWriter(new BufferedWriter(osw));
         for (MassSpectrum MS : MSM.getMSlist()) {
             out.println("BEGIN IONS");
 
@@ -94,9 +94,10 @@ public class WriteMGF {
     }
 
     // STDOUT
-    private static boolean writeConnect(MassSpectrometryMeasurement MSM) {
-        boolean header = writeHeader(MSM);
-        boolean local = writeLocal(MSM);
+    private static boolean writeConnect(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
+        // OutputStreamWriter osw = new OutputStreamWriter(System.out);
+        boolean header = writeHeader(osw, MSM);
+        boolean local = writeLocal(osw, MSM);
 
         if (local == false || header == false) {
             return false;
@@ -118,7 +119,7 @@ public class WriteMGF {
     }
 
     // STDOUT
-    public static boolean write(MassSpectrometryMeasurement MSM) {
-        return writeConnect(MSM);
+    public static boolean write(OutputStreamWriter osw, MassSpectrometryMeasurement MSM) {
+        return writeConnect(osw, MSM);
     }
 }

@@ -95,8 +95,8 @@ public class ReadMGF {
     }
 
     // STDIN
-    private static String readHeader() {
-        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+    private static String readHeader(InputStreamReader isr) {
+        BufferedReader bufferedreader = new BufferedReader(isr);
         try {
             String line = bufferedreader.readLine();
             String[] partequal = line.split("=");
@@ -120,8 +120,8 @@ public class ReadMGF {
     }
 
     // STDIN
-    private static MassSpectrometryMeasurement readLocal(MassSpectrometryMeasurement MSM) {
-        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+    private static MassSpectrometryMeasurement readLocal(InputStreamReader isr, MassSpectrometryMeasurement MSM) {
+        BufferedReader bufferedreader = new BufferedReader(isr);
 
         try {
             String line = "";
@@ -164,8 +164,6 @@ public class ReadMGF {
                         intensity.add(Double.parseDouble(partspace[1]));
                     }
                 }
-
-                System.out.println(line);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -192,8 +190,10 @@ public class ReadMGF {
     }
 
     // STDIN
-    public static MassSpectrometryMeasurement read() {
-        String source = readHeader();
+    public static MassSpectrometryMeasurement read(InputStreamReader isr) {
+        // InputStreamReader isr = new InputStreamReader(System.in);
+
+        String source = readHeader(isr);
 
         if (source == null) {
             source = "stdin";
@@ -201,7 +201,7 @@ public class ReadMGF {
 
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(source);
 
-        MSM = readLocal(MSM);
+        MSM = readLocal(isr, MSM);
 
         return MSM;
     }
