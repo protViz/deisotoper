@@ -157,7 +157,7 @@ public class ReadMGF {
                 } else if (line.contains("PEPMASS")) {
                     String[] pepmasssplit = partequal[1].split(" ");
                     peptidmass = Double.parseDouble(pepmasssplit[0]);
-                } else if (isDouble(partspace[0]) && isDouble(partspace[1])) {
+                } else if (isDouble(partspace[0]) && isDouble(partspace[1]) && partspace.length == 2) {
                     mz.add(Double.parseDouble(partspace[0]));
                     intensity.add(Double.parseDouble(partspace[1]));
                 }
