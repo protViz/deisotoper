@@ -11,19 +11,32 @@ vignette: >
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
-library(DiagrammeR)
 
 input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData"
+
+id <- c(1, 44);
+index <- c(0, 0);
 
 objN <- load(con <- url(input));
 obj <- get(objN);
 
-ms <- jCreateMS(obj[44]);
-
-ims <- jCreateIMS(ms)
-
-dot <- deisotoper::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = 0);
-
-grViz(dot, width = 700)
+dot <-c();
   
+for(i in 1:length(id)) {
+  ms <- jCreateMS(obj[id[i]]);
+
+  ims <- jCreateIMS(ms)
+
+  dot <- c(dot, deisotoper::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = index[i]));
+}
+```
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+library(DiagrammeR)
+grViz(dot[1], width = 700)
+```
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+library(DiagrammeR)
+grViz(dot[2], width = 700)
 ```
