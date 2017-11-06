@@ -18,17 +18,15 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 public class ReadMGF {
     private static String readHeader(String file) {
         try (BufferedReader bufferedreader = new BufferedReader(new FileReader(file))) {
-            String line = bufferedreader.readLine();
+            String line = "";
             String[] partequal = line.split("=");
 
-            while (line != null) {
+            while ((line = bufferedreader.readLine()) != null) {
                 if (line.equals("BEGIN IONS")) {
                     break;
                 } else if (line.contains("COM")) {
                     return partequal[1];
                 }
-
-                line = bufferedreader.readLine();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -41,7 +39,7 @@ public class ReadMGF {
 
     private static MassSpectrometryMeasurement readLocal(String file, MassSpectrometryMeasurement MSM) {
         try (BufferedReader bufferedreader = new BufferedReader(new FileReader(file))) {
-            String line = bufferedreader.readLine();
+            String line = "";
             int chargestate = 0;
             int id = 0;
             String searchengine = null;
@@ -51,7 +49,7 @@ public class ReadMGF {
             List<Double> mz = new ArrayList<>();
             List<Double> intensity = new ArrayList<>();
 
-            while (line != null) {
+            while ((line = bufferedreader.readLine()) != null) {
                 String[] partequal = line.split("=");
                 String[] partspace = line.split(" ");
 
@@ -79,8 +77,6 @@ public class ReadMGF {
                     mz.add(Double.parseDouble(partspace[0]));
                     intensity.add(Double.parseDouble(partspace[1]));
                 }
-
-                line = bufferedreader.readLine();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
