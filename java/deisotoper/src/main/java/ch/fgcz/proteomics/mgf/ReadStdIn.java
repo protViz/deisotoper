@@ -1,5 +1,10 @@
 package ch.fgcz.proteomics.mgf;
 
+/**
+ * @author Lucas Schmidt
+ * @since 2017-11-06
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
