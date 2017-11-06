@@ -122,8 +122,9 @@ public class ReadMGF {
     // STDIN
     private static MassSpectrometryMeasurement readLocal(MassSpectrometryMeasurement MSM) {
         BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+
         try {
-            String line = bufferedreader.readLine();
+            String line = "";
             int chargestate = 0;
             int id = 0;
             String searchengine = null;
@@ -133,7 +134,7 @@ public class ReadMGF {
             List<Double> mz = new ArrayList<>();
             List<Double> intensity = new ArrayList<>();
 
-            while (line != null) {
+            while ((line = bufferedreader.readLine()) != null) {
                 String[] partequal = line.split("=");
                 String[] partspace = line.split(" ");
 
@@ -157,12 +158,14 @@ public class ReadMGF {
                 } else if (line.contains("PEPMASS")) {
                     String[] pepmasssplit = partequal[1].split(" ");
                     peptidmass = Double.parseDouble(pepmasssplit[0]);
-                } else if (isDouble(partspace[0]) && isDouble(partspace[1]) && partspace.length == 2) {
-                    mz.add(Double.parseDouble(partspace[0]));
-                    intensity.add(Double.parseDouble(partspace[1]));
+                } else if (partspace.length > 1) {
+                    if (isDouble(partspace[0]) && isDouble(partspace[1])) {
+                        mz.add(Double.parseDouble(partspace[0]));
+                        intensity.add(Double.parseDouble(partspace[1]));
+                    }
                 }
 
-                line = bufferedreader.readLine();
+                System.out.println(line);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
