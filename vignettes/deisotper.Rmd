@@ -28,4 +28,3 @@ bwplot(Value ~ Attribute,
        data=jSummaryMSM(MSM),
        scales = list(y = list(log = TRUE), x = list(rot = 45)))
 ```
-
