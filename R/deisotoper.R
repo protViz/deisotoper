@@ -488,9 +488,9 @@ jCreateIMS <- function(massspectrum, configfile = "nofile") {
   
   config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", configfile)
   
-  error <- config$getDelta()
+  delta <- config$getDelta()
   
-  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fbdm/IsotopicMassSpectrum;", "getIMS", massspectrum, error, configfile)
+  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fbdm/IsotopicMassSpectrum;", "getIMS", massspectrum, delta, configfile)
   
   ims
 }
