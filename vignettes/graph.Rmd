@@ -1,5 +1,5 @@
 ---
-title: "Deisotoper Graphs"
+title: "Deisotoper: Isotopic Cluster Graphs"
 author: "Lucas Schmidt"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

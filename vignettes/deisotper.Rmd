@@ -1,6 +1,6 @@
 ---
-title: "primer deisotoper"
-author: "Christian Panse"
+title: "Deisotoper: Summary"
+author: "Christian Panse, Lucas Schmidt"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
