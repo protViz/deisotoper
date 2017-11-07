@@ -28,7 +28,7 @@ vignette: >
 First install the dependencies.
 
 ```{r eval=FALSE}
-install.packages(c('rJava', 'devtools', DiagrammeR, lattice, roxygen2, protViz, shiny, testthat, mzR, knitr))
+install.packages(c('rJava', 'devtools', 'DiagrammeR', 'lattice', 'roxygen2', 'protViz', 'shiny', 'testthat', 'mzR', 'knitr'))
 ```
 
 Then use the deisotoper_0.0.1.tar.gz file to install the deisotoper package.
@@ -40,19 +40,118 @@ install.packages("~/deisotoper_0.0.1.tar.gz", repos = NULL, type = "source")
 
 # Usage
 
+Load the package in R and load some sample data.
+
+```{r}
+library(deisotoper)
+
+load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+```
+
+
 ## Creating a MassSpectrometryMeasurement or MassSpectrum Java-Object
+
+### MassSpectrometryMeasurement
+
+To create a MassSpectrometryMeasurement Java-Object (MSM), you use the jCreateMSM function.
+
+```{r}
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+```
+
+
+### MassSpectrum
+
+To create a MassSpectrum Java-Object (MS), you use the jCreateMS function.
+
+```{r}
+MS <- jCreateMS(TP_HeLa_200ng_filtered_pd21[1])
+```
+
 
 ## Deisotoping a MassSpectrometryMeasurement or MassSpectrum Java-Object
 
+### MassSpectrometryMeasurement
+
+To deisotope a MSM, you use the jDeisotopeMSM function.
+
+```{r}
+MSMd <- jDeisotopeMSM(MSM)
+```
+
+
+### MassSpectrum
+
+To deisotope a MS, you use the jDeisotopeMS function.
+
+```{r}
+MSd <- jDeisotopeMS(MS)
+```
+
+
 ## Getting the data back in R from a MassSpectrometryMeasurement or MassSpectrum Java-Object
+
+Now we want to get the deisotoped data back to R.
+
+
+### MassSpectrometryMeasurement
+
+To get a MSM into R, you use the jGetMSM function.
+
+```{r echo=TRUE, warning=FALSE}
+MSMr <- jGetMSM(MSMd)
+```
+
+
+### MassSpectrum
+
+To get a MS into R, you use the jGetMS function.
+
+```{r echo=TRUE, warning=FALSE}
+MSr <- jGetMS(MSd)
+```
+
 
 ## Getting a IsotopicClusterGraph as DOT-graph
 
+To get a IsotopicClusterGraph from a single IsotopicSet as a DOT-Graph, you use the jGetDot function. In this example, we take the MS from above and create a IMS from it, then we choose to get the DOT-graph for the first IsotopicSet (index 0).
+
+```{r}
+index <- 0
+IMS <- jCreateIMS(MS)
+DOT <- jGetDot(MS, IMS, index)
+```
+
 ## Analizing data
+
+Now we want to analize the data.
+
 
 ### Make a summary of a MassSpectrometryMeasurement or MassSpectrum Java-Object
 
+Therefore we create a summary of the created MSM.
+
+```{r}
+summaryMSM <- jSummaryMSM(MSM)
+```
+
+This is also possible for only one MS.
+
+```{r}
+summaryMS <- jSummaryMS(MS)
+```
+
+
 ### Make a statistic a MassSpectrometryMeasurement Java-Object
+
+For the whole MSM we can calculate also a statistic.
+
+```{r}
+statisticMSM <- jGetStatisticMSM(MSM)
+```
+
+
+## Advanced deisotoping (configuration)
 
 # Examples
 
