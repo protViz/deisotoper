@@ -355,18 +355,18 @@ jReadJSON2MSM <- function(filename='test.json'){
   MSM
 }
 
-#' Returns the version of the Java project
+#' Returns the version of the Java packages
 #'
-#' @export jVersionMSM
+#' @export jVersion
 #' @author Lucas Schmidt
-jVersionMSM <- function() {
+jVersion <- function() {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  MSM <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
+  version <- .jnew("ch.fgcz.proteomics.Version")
   
-  version <- .jcall(MSM, "S", "versionR")
+  version <- .jcall(version, "S", "version")
   
   version
 }

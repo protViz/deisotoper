@@ -27,10 +27,6 @@ public class DataTransferObjectR {
         return MassSpectrometricMeasurementSerializer.deserializeFromJson(filename);
     }
 
-    public static String versionR() {
-        return MassSpectrometryMeasurement.version();
-    }
-
     public static MassSpectrometryMeasurement massSpectrometryMeasurementR(String src) {
         return new MassSpectrometryMeasurement(src);
     }
