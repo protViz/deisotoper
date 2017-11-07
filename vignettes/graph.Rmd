@@ -11,6 +11,7 @@ vignette: >
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
+library(DiagrammeR)
 
 input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData"
 
@@ -32,21 +33,17 @@ for(i in 1:length(id)) {
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-library(DiagrammeR)
 grViz(dot[1], width = 700)
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-library(DiagrammeR)
 grViz(dot[2], width = 700)
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-library(DiagrammeR)
 grViz(dot[3], width = 700)
 ```
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-library(DiagrammeR)
 grViz(dot[4], width = 700)
 ```

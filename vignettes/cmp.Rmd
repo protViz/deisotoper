@@ -14,7 +14,6 @@ vignette: >
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
-#library(parallel)
 
 input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData",
   "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_pd21.RData",
@@ -29,21 +28,15 @@ S <- lapply(input, function(u){
   S$file <- objN;
   S$status <- 'input'
   
-  Sd1 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="mspy"))
-  Sd1$file <- objN;
-  Sd1$status <- 'mspy'
-  
   if(objN != "TP_HeLa_200ng_msdeconv") {
-    Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo))
-    Sd2$file <- objN;
-    Sd2$status <- 'fdbm'
+    Sd1 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jobj = jo))
+    Sd1$file <- objN;
+    Sd1$status <- 'fdbm'
   }
   
   # mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
-  if(exists("Sd2")) {
-    rbind(S, Sd1, Sd2)
-  } else {
-    rbind(S, Sd1)
+  if(exists("Sd1")) {
+    rbind(S, Sd1) 
   }
 })
 
