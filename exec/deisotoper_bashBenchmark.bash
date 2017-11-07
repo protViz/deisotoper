@@ -3,7 +3,7 @@
 #Usage (normal): ./bashBenchmark X Y Z (X, Y, Z are .mgf-files)
 #Usage (parallel): find FOLDER -name "*.mgf" | parallel ./bashBenchmark (FOLDER contains .mgf-files)
 
-RBENCHMARK="./deisotoper_rBenchmark.R"
+RBENCHMARK="./deisotoper_bashBenchmarkAdapter.R"
 PROTVIZ=$(Rscript -e 'find.package("protViz")' | cut -d '"' -f2)
 MGF2RDATA="${PROTVIZ}/protViz_mgf2RData.pl"
 
