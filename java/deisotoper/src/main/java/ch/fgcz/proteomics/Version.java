@@ -7,27 +7,27 @@ package ch.fgcz.proteomics;
 
 public class Version {
     private static String versionOfDTO() {
-        return "Package: DTO, Date: 2017-11-07, Author: Lucas Schmidt";
+        return "Java Package: DTO, Date: 2017-11-07, Author: Lucas Schmidt";
     }
 
     private static String versionOfFBDM() {
-        return "Package: FBDM, Date: 2017-11-07, Author: Lucas Schmidt";
+        return "Java Package: FBDM, Date: 2017-11-07, Author: Lucas Schmidt";
     }
 
     private static String versionOfMSPY() {
-        return "Package: MSPY, Date: 2017-11-07, Author: Lucas Schmidt";
+        return "Java Package: MSPY, Date: 2017-11-07, Author: Lucas Schmidt";
     }
 
     private static String versionOfMGF() {
-        return "Package: MGF, sDate: 2017-11-07, Author: Lucas Schmidt";
+        return "Java Package: MGF, sDate: 2017-11-07, Author: Lucas Schmidt";
     }
 
     private static String versionOfRAdapter() {
-        return "Package: RAdapter, Date: 2017-11-07, Author: Lucas Schmidt";
+        return "Java Package: RAdapter, Date: 2017-11-07, Author: Lucas Schmidt";
     }
 
     private static String versionOfUtilities() {
-        return "Package: Utilities, Date: 2017-11-07, Author: Lucas Schmidt";
+        return "Java Package: Utilities, Date: 2017-11-07, Author: Lucas Schmidt";
     }
 
     public static String version() {
@@ -39,7 +39,7 @@ public class Version {
         sb.append(versionOfMSPY()).append(linesep);
         sb.append(versionOfMGF()).append(linesep);
         sb.append(versionOfRAdapter()).append(linesep);
-        sb.append(versionOfUtilities()).append(linesep);
+        sb.append(versionOfUtilities());
 
         return sb.toString();
     }
