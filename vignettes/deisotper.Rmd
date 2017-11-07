@@ -10,23 +10,22 @@ vignette: >
 ---
 
 
-# Create Java MSM object
+# Create MSM Java-Object
 
-```{r}
+```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
-load(system.file("extdata",
-   name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
-joMSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 ```
 
 
-# MSM Summary
+# Plot Of The Summary
 
-```{r fig.retina=3, fig.height=6, fig.width=7}
+```{r fig.cap="Plotted summary of the MSM object",  fig.retina=3, fig.height=6, fig.width=7}
 library(lattice)
 
 bwplot(Value ~ Attribute, 
-       data=jSummaryMSM(joMSM),
+       data=jSummaryMSM(MSM),
        scales = list(y = list(log = TRUE), x = list(rot = 45)))
 ```
 
