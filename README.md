@@ -23,6 +23,15 @@ install_git('https://github.com/protViz/deisotoper', build_vignettes = TRUE, qui
 sudo R CMD javareconf
 ```
 
+### from deisotoper_0.0.1.tar.gz
+
+install the latest JDK and R. Then run in R:
+
+```
+install.packages(c('rJava', 'devtools', DiagrammeR, lattice, roxygen2, protViz, shiny, testthat, mzR, knitr))
+install.packages("~/deisotoper_0.0.1.tar.gz", repos = NULL, type = "source")
+```
+
 ## Documentation
 
 The package ships with a package vignette (`browseVignettes('deisotoper')` 
