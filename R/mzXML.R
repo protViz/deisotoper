@@ -22,12 +22,12 @@
 #'      pch=22)
 #' } 
 as.psmSet.mzXML <- function(obj){
-  idx <- which(sapply(1:length(obj), function(x){header(obj, x)$msLevel}) == 2)
+  idx <- which(sapply(1:length(obj), function(x){mzR::header(obj, x)$msLevel}) == 2)
   
   rv <- lapply(idx, function(id){
     
-    h <- header(obj, id)
-    p <- peaks(obj, id)
+    h <- mzR::header(obj, id)
+    p <- mzR::peaks(obj, id)
     
     rv <- list(mZ = p[,1],
          intensity = p[,2],

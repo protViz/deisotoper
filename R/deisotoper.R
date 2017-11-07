@@ -293,7 +293,7 @@ jGetMSM <- function(jobj) {
   
   MSlist <- .jcall(jobj, "Ljava/util/List;", "getMSlist")
   
-  MSlistR <- rJava:::as.list.jobjRef(MSlist)
+  MSlistR <- as.list(MSlist)
   
   MSM <- lapply(1: length(MSlistR), function(i){
     
@@ -467,7 +467,7 @@ jDeisotopeMS <- function(ms, modus="first", configfile="nofile") {
 #' @author Lucas Schmidt
 jBenchmark <- function(input, output, modus="first", configfile="nofile") {
   name <- load(file = input)
-  mgf(jGetMSM(deisotoper:::jDeisotopeMSM(jobj = jCreateMSM(get(name)), modus = modus, configfile = configfile)), filename = output)
+  mgf(jGetMSM(jDeisotopeMSM(jobj = jCreateMSM(get(name)), modus = modus, configfile = configfile)), filename = output)
 }
 
 #' Creates a isotopicmassspectrum from a massspectrum

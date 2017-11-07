@@ -17,7 +17,8 @@ Suggests: DiagrammeR,
   roxygen2,
   protViz (>= 0.2.37),
   shiny,
-  testthat
+  testthat,
+  mzR
 SystemRequirements: Java (>= 6.0), GNU make
 Description: implements a deisotoper algorithm.
 License: GPL-3
