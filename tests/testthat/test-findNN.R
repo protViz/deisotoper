@@ -21,7 +21,5 @@ test_that("test deisotoper::findNN", {
 
    result <- c(1, 51, 51, 101, 101)
 
-   lapply((deisotoper::findNN( query, DB)) == result, expect_true)
-
-
+   lapply((deisotoper::findNN(query, DB)) == result, expect_true)
 })

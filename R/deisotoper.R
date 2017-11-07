@@ -100,14 +100,16 @@ jSummaryMS <- function(jobj){
 #' 
 #' # should be 0
 #' unique(DB[findNN(DB,DB)] - DB)
-findNN <- function (q, vec, check = FALSE) {
+findNN <- function (q, vec) {
   .jinit()
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
 
   jFindNN <- .jnew("ch.fgcz.proteomics.R.UtilitiesR")
   
-  idx <- (.jcall(jFindNN, "[D", "findNNR", as.double(vec), as.double(q)) + 1)
+  idx <- .jcall(jFindNN, "[D", "findNNR", as.double(q), as.double(vec))
+  
+  idx
 }
 
 #' Coerce to MS.

@@ -32,7 +32,7 @@ public class FindNearestNeighborTest {
         double[] testq3 = { -1000, 0, 0.001, 10, 10000 };
 
         // Test 1
-        double[] result1 = { 0, 0, 1, 1, 1 };
+        double[] result1 = { 1, 1, 2, 2, 2 };
         double[] findNN1 = FindNearestNeighbor.findNN(testq1, testvector1);
         assertEquals("Result must be same length!", result1.length, findNN1.length);
         for (int i = 0; i < result1.length; i++) {
@@ -40,7 +40,7 @@ public class FindNearestNeighborTest {
         }
 
         // Test 2
-        int j = 0;
+        int j = 1;
         int sum = 0;
         int sumj = 0;
         for (double i : FindNearestNeighbor.findNN(testvector2, testvector2)) {
@@ -52,7 +52,7 @@ public class FindNearestNeighborTest {
         assertEquals("Sum of testvector2 must be equals to sum of j!", sum, sumj);
 
         // Test 3
-        double[] result3 = { 0, 50, 50, 100, 100 };
+        double[] result3 = { 1, 51, 51, 101, 101 };
         double[] findNN3 = FindNearestNeighbor.findNN(testq3, testvector3);
         assertEquals("Result must be same length!", result3.length, findNN3.length);
         for (int i = 0; i < result3.length; i++) {
