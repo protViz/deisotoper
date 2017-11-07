@@ -1,0 +1,10 @@
+language: r
+sudo: required
+
+r_packages:
+  -  lattice
+  -  roxygen2
+  -  protViz
+  -  shiny
+  -  testhat
+warnings_are_errors: false
