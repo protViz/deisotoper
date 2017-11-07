@@ -1,6 +1,6 @@
 #R
 
-#' Title
+#' When loading the library
 #'
 #' @param lib 
 #' @param pkg 

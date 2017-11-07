@@ -4,7 +4,6 @@
 # $Id: PTM_MarkerFinder.R 6318 2014-04-02 13:02:51Z cpanse $
 # $Date: 2014-04-02 15:02:51 +0200 (Wed, 02 Apr 2014) $
 
-
 .write_mgf_header <- function(filename){
     FILE <- file(filename, "a")
     
