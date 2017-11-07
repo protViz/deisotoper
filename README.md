@@ -16,7 +16,7 @@ install the latest development version
 ```
 install.packages(c('rJava', 'devtools'))
 library(devtools)
-install_git('https://github.com/cpanse/deisotoper', build_vignettes = TRUE, quiet = FALSE)
+install_git('https://github.com/protViz/deisotoper', build_vignettes = TRUE, quiet = FALSE)
 ```
 
 ```
