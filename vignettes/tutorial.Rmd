@@ -93,7 +93,6 @@ MSd <- jDeisotopeMS(MS)
 
 Now we want to get the deisotoped data back to R.
 
-
 ### MassSpectrometryMeasurement
 
 To get a MSM into R, you use the jGetMSM function.
@@ -122,10 +121,10 @@ IMS <- jCreateIMS(MS)
 DOT <- jGetDot(MS, IMS, index)
 ```
 
+
 ## Analizing data
 
 Now we want to analize the data.
-
 
 ### Make a summary of a MassSpectrometryMeasurement or MassSpectrum Java-Object
 
