@@ -36,9 +36,9 @@ vignettes/*.pdf
 .idea/
 
 # Generated TeX
-vignettes/*.bbl
-vignettes/*.blg
-vignettes/*.log
-vignettes/*.synctex.gz
-vignettes/*.tex
-vignettes/*.toc
+inst/doc/*.bbl
+inst/doc/*.blg
+inst/doc/*.log
+inst/doc/*.synctex.gz
+inst/doc/*.tex
+inst/doc/*.toc
