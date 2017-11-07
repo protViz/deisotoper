@@ -15,34 +15,20 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class MassSpectrometricMeasurementSerializer {
-    /**
-     * Serializes a MassSpectrometryMeasurement Object to a JSON-file.
-     * 
-     * @param filename
-     * @param m
-     * @return String
-     * @see MassSpectrometryMeasurement
-     */
-    public static String serializeToJson(String filename, MassSpectrometryMeasurement m) {
+    public static String serializeToJson(String filename, MassSpectrometryMeasurement msm) {
         Gson gson = new Gson();
 
-        String jsonMSMlist = gson.toJson(m);
+        String data = gson.toJson(msm);
 
         try (PrintWriter out = new PrintWriter(filename)) {
-            out.println(jsonMSMlist);
+            out.println(data);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return jsonMSMlist;
+        return data;
     }
 
-    /**
-     * Deserializes a JSON-file to a MassSpectrometryMeasurement Object.
-     * 
-     * @param filename
-     * @return MassSpectrometryMeasurement
-     */
     public static MassSpectrometryMeasurement deserializeFromJson(String filename) {
         Gson gson = new Gson();
 

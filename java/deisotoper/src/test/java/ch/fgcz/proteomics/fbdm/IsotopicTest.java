@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.dto.Summary;
+import ch.fgcz.proteomics.utilities.Summary;
 
 public class IsotopicTest {
     private Peaklist peaklist;

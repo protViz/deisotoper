@@ -13,12 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Convert {
-    /**
-     * This function uses a mMass msd-file to produce a peaklist.
-     * 
-     * @param file
-     * @return Peaklist
-     */
     public static Peaklist msdToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
@@ -57,8 +51,6 @@ public class Convert {
     }
 
     /**
-     * This function uses the peak section of one spectrum out of a mgf-file to produce a peaklist.
-     * 
      * Attention: The input from a file must be in this format:
      * 
      * MZ INTENSITY
@@ -76,9 +68,6 @@ public class Convert {
      * 127.26 4848.43
      * 
      * ...
-     * 
-     * @param file
-     * @return Peaklist
      */
     public static Peaklist mgfToPeaklist(String file) {
         List<Double> mz = new ArrayList<>();

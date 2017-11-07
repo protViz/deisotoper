@@ -24,14 +24,14 @@ public class IsotopicSet {
         return isotopicset;
     }
 
-    public IsotopicSet(List<Peak> isotopicset, double errortolerance, int setid, ScoreConfig config) {
+    public IsotopicSet(List<Peak> isotopicset, double delta, int setid, ScoreConfig config) {
         List<IsotopicCluster> is = new ArrayList<>();
 
-        is = loop(is, isotopicset, 3, errortolerance, config);
+        is = loop(is, isotopicset, 3, delta, config);
 
-        is = loop(is, isotopicset, 2, errortolerance, config);
+        is = loop(is, isotopicset, 2, delta, config);
 
-        is = loop(is, isotopicset, 1, errortolerance, config);
+        is = loop(is, isotopicset, 1, delta, config);
 
         is = removeMultipleIsotopicCluster(is);
 
@@ -47,7 +47,7 @@ public class IsotopicSet {
         this.setID = setid;
     }
 
-    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double errortolerance, ScoreConfig config) {
+    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double delta, ScoreConfig config) {
         for (Peak a : isotopicset) {
             for (Peak b : isotopicset) {
                 double distanceab = b.getMz() - a.getMz();
@@ -56,14 +56,13 @@ public class IsotopicSet {
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
-                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance < distanceab && distanceab < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance) {
+                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta < distanceab && distanceab < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta) {
                         ic.add(a);
                         ic.add(b);
                     }
 
-                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance < distancebc && distancebc < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance
-                            && ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance) * 2 < distanceac
-                            && distanceac < ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance) * 2) {
+                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta < distancebc && distancebc < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta
+                            && ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta) * 2 < distanceac && distanceac < ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta) * 2) {
                         ic.add(c);
                     }
 

@@ -13,11 +13,6 @@ public class Score {
     private double chargevalue;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> icg;
     private ScoreConfig config;
-    // public static double timescoref1 = 0;
-    // public static double timescoref2 = 0;
-    // public static double timescoref3 = 0;
-    // public static double timescoref4 = 0;
-    // public static double timescoref5 = 0;
 
     public Score(double error, double mspepmass, double mscharge, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, ScoreConfig config) {
         this.errorvalue = error;
@@ -27,19 +22,6 @@ public class Score {
         this.config = config;
     }
 
-    /**
-     * To thoroughly assess each possible isotopic cluster, those five features above are combined in a score function.
-     * 
-     * @param x Peak
-     * @param y Peak
-     * @param error Errortolerance
-     * @param mspepmass PeptidMass of MS
-     * @param mscharge ChargeState of MS
-     * @param icx IsotopicCluster which contains x
-     * @param con Connection
-     * @param isotopicclustergraph IsotopicClusterGraph
-     * @return score
-     */
     public double calculateScore(Peak x, Peak y, IsotopicCluster icx, Connection con) {
         return this.config.getFM1() * firstNonintensityFeature(x, y, this.errorvalue, this.config)
                 + this.config.getFM2() * secondNonintensityFeature(x, y, this.errorvalue, this.pepmassvalue, this.chargevalue, icx, this.config)
@@ -47,105 +29,39 @@ public class Score {
                 + this.config.getFM5() * fifthIntensityFeature(con, this.icg, this.config);
     }
 
-    /**
-     * diff1 considers that two fragment ions represented by x and y have the same charge state.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double diff1(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() - y.getMz();
     }
 
-    /**
-     * diff2 considers that the fragment ion represented by x is doubly charged and that represented by y is singly charged.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double diff2(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() - ((y.getMz() + config.getH_MASS()) / 2);
     }
 
-    /**
-     * diff3 considers that the fragment ion represented by x is triply charged and that represented by y is singly charged.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double diff3(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() - ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
-    /**
-     * diff4 considers that fragment ion represented by x is triply charged and that represented by y is doubly charged.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double diff4(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() - (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    /**
-     * sum1 considers that two fragment ions represented by x and y have the same charge state.
-     * 
-     * @param x
-     * @param y
-     * @return
-     */
     protected double sum1(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() + y.getMz();
     }
 
-    /**
-     * sum2 considers that the fragment ion represented by x is doubly charged and that represented by y is singly charged.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double sum2(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() + ((y.getMz() + config.getH_MASS()) / 2);
     }
 
-    /**
-     * sum3 considers that the fragment ion represented by x is triply charged and that represented by y is singly charged.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double sum3(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() + ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
-    /**
-     * sum4 considers that fragment ion represented by x is triply charged and that represented by y is doubly charged.
-     * 
-     * @param Peak of the IsotopicCluster x
-     * @param Peak of the MassSpectrum y
-     * @return
-     */
     protected double sum4(Peak x, Peak y, ScoreConfig config) {
         return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    /**
-     * The first nonintensity feature is based on the number collection of peaks y whose mass differences with x approximate the residue mass of one of the twenty amino acids.
-     * 
-     * @param x Peak
-     * @param y Peak
-     * @param errortolerance Errortolerance
-     * @return F1
-     */
     protected int firstNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
-        // long startTime = System.currentTimeMillis();
-
         int F1 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -176,50 +92,13 @@ public class Score {
                         || (aa3me < d3xy && d3xy < aa3pe) || (aa3me < d3yx && d3yx < aa3pe) || (aa3me < d4xy && d4xy < aa3pe) || (aa3me < d4yx && d4yx < aa3pe)) {
                     F1++;
                 }
-
-                // if (aame < d1xy && d1xy < aape) {
-                // F1++;
-                // } else if (aa2me < d1xy && d1xy < aa2pe) {
-                // F1++;
-                // } else if (aa3me < d1xy && d1xy < aa3pe) {
-                // F1++;
-                // } else if (aa2me < d2xy && d2xy < aa2pe) {
-                // F1++;
-                // } else if (aa2me < d2yx && d2yx < aa2pe) {
-                // F1++;
-                // } else if (aa3me < d3xy && d3xy < aa3pe) {
-                // F1++;
-                // } else if (aa3me < d3yx && d3yx < aa3pe) {
-                // F1++;
-                // } else if (aa3me < d4xy && d4xy < aa3pe) {
-                // F1++;
-                // } else if (aa3me < d4yx && d4yx < aa3pe) {
-                // F1++;
-                // }
             }
         }
-
-        // long endTime = System.currentTimeMillis();
-
-        // timescoref1 = timescoref1 + (endTime - startTime);
 
         return F1;
     }
 
-    /**
-     * The second nonintensity feature is based on the number collection of peaks y representing fragment ions that complement with fragment ion represented by x.
-     * 
-     * @param x Peak
-     * @param y Peak
-     * @param errortolerance Errortolerance
-     * @param pepmass PeptidMass of MS
-     * @param charge ChargeState of MS
-     * @param ic IsotopicCluster
-     * @return F2
-     */
     protected int secondNonintensityFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge, IsotopicCluster ic, ScoreConfig config) {
-        // long startTime = System.currentTimeMillis();
-
         int F2 = 0;
         int i = 0;
         for (Peak c : ic.getIsotopicCluster()) {
@@ -257,25 +136,10 @@ public class Score {
             F2++;
         }
 
-        // long endTime = System.currentTimeMillis();
-
-        // timescoref2 = timescoref2 + (endTime - startTime);
-
         return F2;
     }
 
-    /**
-     * The third nonintensity feature considers that the side chains of some amino acids residues of fragment ions can lose a water molecule (H2O) or an ammonia molecule (NH3). The number of peaks y
-     * whose mass differences with x approximate the mass of a water molecule (H2O) or an ammonia molecule (NH3) is collected.
-     * 
-     * @param x Peak
-     * @param y Peak
-     * @param errortolerance Errortolerance
-     * @return F3
-     */
     protected int thirdNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
-        // long startTime = System.currentTimeMillis();
-
         int F3 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -324,25 +188,10 @@ public class Score {
             F3++;
         }
 
-        // long endTime = System.currentTimeMillis();
-
-        // timescoref3 = timescoref3 + (endTime - startTime);
-
         return F3;
     }
 
-    /**
-     * The fourth nonintensity feature considers two supportive ions a-ions and z-ions which can be used to indicate the existence of the corresponding b-ions and y-ions. The number of peaks
-     * representing these kinds of supportive ions is collected.
-     * 
-     * @param x Peak
-     * @param y Peak
-     * @param errortolerance Errortolerance
-     * @return F4
-     */
     protected int fourthNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
-        // long startTime = System.currentTimeMillis();
-
         int F4 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -391,35 +240,19 @@ public class Score {
             F4++;
         }
 
-        // long endTime = System.currentTimeMillis();
-
-        // timescoref4 = timescoref4 + (endTime - startTime);
-
         return F4;
     }
 
     // NOT FINISHED YET
-    /**
-     * The intensity feature determines if the experimental isotopic distribution of one possible isotopic cluster matches with the theoretical isotopic distribution or not with the consideration of
-     * the relationship between adjacent isotopic clusters in the graph.
-     * 
-     * @param con Connection
-     * @param isotopicclustergraph IsotopicClusterGraph
-     * @return F5
-     */
     protected int fifthIntensityFeature(Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, ScoreConfig config) {
-        // long startTime = System.currentTimeMillis();
-
         int F5 = 0;
+
         double threshold = 0.3;
 
         int i = 0;
         for (Peak p : isotopicclustergraph.getEdgeTarget(con).getIsotopicCluster()) {
-            // System.out.println("PEAK: " + p.getMz() + " MZ, " + p.getIntensity() + " INTENSITY");
             double T_MIN = (p.getMz() / config.getASP_MASS()) * p.getIntensity();
-            // System.out.println("T_MIN: " + T_MIN);
             double T_MEAN = (p.getMz() / config.getAVE_UPDATED_MASS()) * p.getIntensity();
-            // System.out.println("T_MEAN: " + T_MEAN);
             double T_MEAN_OVERLAP = 0;
             if (isotopicclustergraph.getEdgeSource(con).getIsotopicCluster() != null) {
                 if (i < isotopicclustergraph.getEdgeSource(con).getIsotopicCluster().size()) {
@@ -429,32 +262,22 @@ public class Score {
                             / config.getAVE_UPDATED_MASS()) * p.getIntensity();
                 }
             }
-            // System.out.println("T_MEAN_OVERLAP: " + T_MEAN_OVERLAP);
             double T_MAX = (p.getMz() / config.getPHE_MASS()) * p.getIntensity();
-            // System.out.println("T_MAX: " + T_MAX);
 
             if (con.getColor() == "black") {
-                // System.out.println("black: " + Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN);
                 if (Math.min(Math.abs(p.getIntensity() - T_MIN), Math.abs(p.getIntensity() - T_MAX)) / T_MEAN <= threshold) {
                     F5++;
                 }
             }
 
             if (con.getColor() == "red") {
-                // System.out.println("red: " + Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)));
                 if (Math.min(Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MIN), Math.abs((p.getIntensity() - T_MEAN_OVERLAP) - T_MAX)) / T_MEAN <= threshold) {
                     F5++;
-                    // System.out.println("RED ADDED");
                 }
             }
             i++;
         }
 
-        // long endTime = System.currentTimeMillis();
-
-        // timescoref5 = timescoref5 + (endTime - startTime);
-
-        // System.out.println("SCORE: " + F5.size());
         return F5;
     }
 }

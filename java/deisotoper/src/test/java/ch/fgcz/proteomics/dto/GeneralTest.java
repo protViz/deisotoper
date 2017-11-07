@@ -8,6 +8,7 @@ package ch.fgcz.proteomics.dto;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import ch.fgcz.proteomics.utilities.Summary;
 
 public class GeneralTest {
     @Test

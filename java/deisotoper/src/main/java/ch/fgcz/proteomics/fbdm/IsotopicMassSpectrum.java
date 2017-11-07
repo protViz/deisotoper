@@ -17,29 +17,17 @@ public class IsotopicMassSpectrum {
         return isotopicmassspectrum;
     }
 
-    /**
-     * Constructor with MassSpectrum input, uses other constructor to create the IsotopicSet and IsotopicClusters of these IsotopicSets.
-     * 
-     * @param massspectrum
-     * @param errortolerance
-     */
-    public IsotopicMassSpectrum(MassSpectrum massspectrum, double errortolerance, ScoreConfig config) {
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, ScoreConfig config) {
         Peaklist peaklist = new Peaklist(massspectrum);
 
-        constructIsotopicMassSpectrum(peaklist, errortolerance, config);
+        constructIsotopicMassSpectrum(peaklist, delta, config);
     }
 
-    /**
-     * Constructor with Peaklist input.
-     * 
-     * @param peaklist
-     * @param errortolerance
-     */
-    public IsotopicMassSpectrum(Peaklist peaklist, double errortolerance, ScoreConfig config) {
-        constructIsotopicMassSpectrum(peaklist, errortolerance, config);
+    public IsotopicMassSpectrum(Peaklist peaklist, double delta, ScoreConfig config) {
+        constructIsotopicMassSpectrum(peaklist, delta, config);
     }
 
-    private void constructIsotopicMassSpectrum(Peaklist peaklist, double errortolerance, ScoreConfig config) {
+    private void constructIsotopicMassSpectrum(Peaklist peaklist, double delta, ScoreConfig config) {
         int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
             List<Peak> isotopicset = new ArrayList<>();
@@ -49,7 +37,7 @@ public class IsotopicMassSpectrum {
                 double distance = peaklist.getPeaklist().get(i + 1).getMz() - peaklist.getPeaklist().get(i).getMz();
 
                 for (int charge = 1; charge <= 3; charge++) {
-                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - errortolerance < distance && distance < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + errortolerance) {
+                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta < distance && distance < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta) {
                         if (isotopicset.size() == 0) {
                             isotopicset.add((peaklist.getPeaklist().get(i)));
                         }
@@ -66,7 +54,7 @@ public class IsotopicMassSpectrum {
             }
 
             if (1 < isotopicset.size()) {
-                IsotopicSet is = new IsotopicSet(isotopicset, errortolerance, id, config);
+                IsotopicSet is = new IsotopicSet(isotopicset, delta, id, config);
                 id++;
 
                 this.isotopicmassspectrum.add(is);

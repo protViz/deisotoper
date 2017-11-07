@@ -16,14 +16,6 @@ public class Mspy {
     public static final double ELECTRON_MASS = 0.00054857990924;
     public static final double H_MASS = 1.008;
 
-    /**
-     * @param peaklist
-     * @param maxcharge
-     * @param mztolerance
-     * @param inttolerance
-     * @param isotopeshift
-     * @return deisotoped peaklist
-     */
     public static List<Peak> deisotope(List<Peak> peaklist, int maxcharge, double mztolerance, double inttolerance, double isotopeshift) {
         List<Integer> charges = new ArrayList<>();
 
@@ -108,7 +100,7 @@ public class Mspy {
                 }
 
                 if (valid) {
-                    if (z < 4) { // BUGFIX BUT NOT REALLY A FIX (ONLY KILLS THE PROBLEM AND DOES NOT FIX IT REALLY)
+                    if (z < 4) {
                         parent.setIsotope(0);
                         parent.setCharge(z);
                         break;
@@ -126,13 +118,6 @@ public class Mspy {
         return list;
     }
 
-    /**
-     * @param mass
-     * @param charge
-     * @param currentcharge
-     * @param masstype
-     * @return calculated mass
-     */
     private static double calculateMass(double mass, int charge, int currentcharge, int masstype) {
         int agentcharge = 1;
         double agentmass = H_MASS;
@@ -151,10 +136,6 @@ public class Mspy {
         return (mass + agentmass * agentcount2) / Math.abs(charge);
     }
 
-    /**
-     * @param peaklist
-     * @return formatted peaklist
-     */
     public static List<Peak> removeEmptyPeaks(List<Peak> peaklist) {
         List<Peak> peaklistout = new ArrayList<>();
 
@@ -167,10 +148,6 @@ public class Mspy {
         return peaklistout;
     }
 
-    /**
-     * @param mass
-     * @return pattern
-     */
     private static List<Double> initPattern(int mass) {
         List<List<Double>> patternLookupTable = new ArrayList<>();
 
@@ -254,10 +231,6 @@ public class Mspy {
         return patternLookupTable.get(mass);
     }
 
-    /**
-     * @param peaklist
-     * @return deconvoluted peaklist
-     */
     public static List<Peak> deconvolute(List<Peak> peaklist, int masstype) {
         List<Peak> buff = new ArrayList<>();
         List<Peak> peaklistcopy = new ArrayList<>();
@@ -267,40 +240,29 @@ public class Mspy {
         }
 
         for (Peak peak : peaklistcopy) {
-            // System.out.println("MZ: " + peak.getMz() + ", INTENSITY:" + peak.getIntensity() + ", CHARGE:" + peak.getCharge() + ", ISOTOPE:" + peak.getIsotope());
 
             if (peak.getCharge() == -1) {
-                // System.out.println("for|if| continue");
                 continue;
             } else if (peak.getCharge() == 1) {
                 buff.add(peak);
-                // System.out.println("for|else if| add peak to buff");
             } else {
                 if (peak.getFwhm() != -1) {
                     peak.setFwhm(Math.abs(peak.getFwhm() * peak.getCharge()));
-                    // System.out.println("for|else|if| set fwhm");
                 }
 
                 if (peak.getCharge() < 0) {
                     peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype));
                     peak.setCharge(-1);
-                    // System.out.println("for|else|if| set mz to calcMass: " + calculateMass(peak.getMz(), -1, peak.getCharge(), masstype));
-                    // System.out.println("for|else|if| set charge to -1");
                 } else {
                     peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype));
                     peak.setCharge(1);
-                    // System.out.println("for|else|else| set mz to calcMass: " + calculateMass(peak.getMz(), 1, peak.getCharge(), masstype));
-                    // System.out.println("for|else|else| set charge to 1");
                 }
 
                 buff.add(peak);
-                // System.out.println("for|else| add peak to buff");
             }
         }
 
         peaklist = buff;
-        // System.out.println("peaklist = buff");
-        // System.out.println();
 
         peaklist = sortPeaklist(peaklist);
 

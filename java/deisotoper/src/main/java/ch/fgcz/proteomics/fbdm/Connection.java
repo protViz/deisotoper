@@ -8,9 +8,6 @@ package ch.fgcz.proteomics.fbdm;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 public class Connection extends DefaultWeightedEdge {
-    /**
-        *
-        */
     private static final long serialVersionUID = 1L;
     private String color;
     private double score;
@@ -34,10 +31,5 @@ public class Connection extends DefaultWeightedEdge {
     public Connection(String color) {
         this.color = color;
         this.score = 0;
-    }
-
-    @Override
-    public String toString() {
-        return "" + (double) Math.round(this.score * 10000d) / 10000d;
     }
 }

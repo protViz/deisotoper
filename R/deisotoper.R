@@ -43,7 +43,7 @@ jSummaryMSM <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
+  sum <- .jnew("ch.fgcz.proteomics.R.UtilitiesR")
   
   summary <- .jcall(sum, "S", "summaryMSMR", jobj)
   con <- textConnection(summary)
@@ -62,7 +62,7 @@ jSummaryMS <- function(jobj){
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  sum <- .jnew("ch.fgcz.proteomics.R.DataTransferObjectR")
+  sum <- .jnew("ch.fgcz.proteomics.R.UtilitiesR")
   
   summary <- .jcall(sum, "S", "summaryMSR", jobj)
   con <- textConnection(summary)

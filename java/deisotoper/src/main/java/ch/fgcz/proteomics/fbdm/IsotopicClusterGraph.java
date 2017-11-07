@@ -25,18 +25,12 @@ public class IsotopicClusterGraph {
         this.isotopicclustergraph = isotopicclustergraph;
     }
 
-    /**
-     * @param source
-     * @param sink
-     * @param icg
-     * @return best path of the IsotopicClusterGraph
-     */
     public GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink) {
         KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(this.isotopicclustergraph, source, 1000000);
 
-        List<GraphPath<IsotopicCluster, Connection>> p = paths.getPaths(sink);
+        List<GraphPath<IsotopicCluster, Connection>> path = paths.getPaths(sink);
 
-        return p.get(p.size() - 1);
+        return path.get(path.size() - 1);
     }
 
     public String createDOTIsotopicClusterGraph() {
@@ -82,131 +76,105 @@ public class IsotopicClusterGraph {
         return sb.toString();
     }
 
-    /**
-     * @param is
-     */
     public IsotopicClusterGraph(IsotopicSet is) {
         this.min = Double.MAX_VALUE;
         is.getIsotopicSet().add(new IsotopicCluster("start"));
 
-        for (IsotopicCluster n : is.getIsotopicSet()) {
-            for (IsotopicCluster m : is.getIsotopicSet()) {
-                String color = calculateConnection(n, m);
+        for (IsotopicCluster ic1 : is.getIsotopicSet()) {
+            for (IsotopicCluster ic2 : is.getIsotopicSet()) {
+                String color = calculateConnection(ic1, ic2);
 
                 // Start
-                if (color != null && n.getIsotopicCluster() == null && m.getIsotopicCluster() != null) {
-                    connectClusters(n, m, color);
+                if (color != null && ic1.getIsotopicCluster() == null && ic2.getIsotopicCluster() != null) {
+                    connectClusters(ic1, ic2, color);
                 }
 
                 // Other
-                if (color != null && n.getIsotopicCluster() != null && m.getIsotopicCluster() != null) {
-                    connectClusters(n, m, color);
+                if (color != null && ic1.getIsotopicCluster() != null && ic2.getIsotopicCluster() != null) {
+                    connectClusters(ic1, ic2, color);
                 }
             }
         }
 
         // End
         List<IsotopicCluster> list = new ArrayList<>();
-        for (IsotopicCluster e : this.isotopicclustergraph.vertexSet()) {
+        for (IsotopicCluster ic3 : this.isotopicclustergraph.vertexSet()) {
             int edgecount = 0;
-            for (IsotopicCluster f : this.isotopicclustergraph.vertexSet()) {
-                edgecount += this.isotopicclustergraph.getAllEdges(e, f).size();
+            for (IsotopicCluster ic4 : this.isotopicclustergraph.vertexSet()) {
+                edgecount += this.isotopicclustergraph.getAllEdges(ic3, ic4).size();
             }
 
             if (edgecount == 0) {
-                list.add(e);
+                list.add(ic3);
             }
         }
 
-        for (IsotopicCluster e : list) {
-            connectClusters(e, new IsotopicCluster("end"), "black");
+        for (IsotopicCluster ic5 : list) {
+            connectClusters(ic5, new IsotopicCluster("end"), "black");
         }
     }
 
-    /**
-     * @param icg
-     * @param pepmass
-     * @param chargestate
-     * @param error
-     * @param peaklist
-     */
-    public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double error, Peaklist peaklist, ScoreConfig config) {
-        Score s = new Score(error, pepmass, chargestate, this.isotopicclustergraph, config);
+    public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double errorolerance, Peaklist peaklist, ScoreConfig config) {
+        Score s = new Score(errorolerance, pepmass, chargestate, this.isotopicclustergraph, config);
 
-        for (Connection e : this.isotopicclustergraph.edgeSet()) {
+        for (Connection con : this.isotopicclustergraph.edgeSet()) {
             double sumscore = 0;
-            if (this.isotopicclustergraph.getEdgeTarget(e).getIsotopicCluster() != null) {
-                for (Peak x : this.isotopicclustergraph.getEdgeTarget(e).getIsotopicCluster()) {
+            if (this.isotopicclustergraph.getEdgeTarget(con).getIsotopicCluster() != null) {
+                for (Peak x : this.isotopicclustergraph.getEdgeTarget(con).getIsotopicCluster()) {
                     for (Peak y : peaklist.getPeaklist()) {
                         if (x.getMz() > y.getMz()) {
                             continue;
                         }
 
-                        double sres = s.calculateScore(x, y, this.isotopicclustergraph.getEdgeTarget(e), e);
+                        double sres = s.calculateScore(x, y, this.isotopicclustergraph.getEdgeTarget(con), con);
 
                         sumscore += sres;
                     }
                 }
-                e.setScore(sumscore);
-                this.isotopicclustergraph.setEdgeWeight(e, sumscore);
+                con.setScore(sumscore);
+                this.isotopicclustergraph.setEdgeWeight(con, sumscore);
             }
         }
     }
 
-    /**
-     * @param cluster1
-     * @param cluster2
-     * @param graph
-     * @param color
-     * @return
-     */
-    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color) {
-        this.isotopicclustergraph.addVertex(cluster1);
-        this.isotopicclustergraph.addVertex(cluster2);
+    private void connectClusters(IsotopicCluster ic1, IsotopicCluster ic2, String color) {
+        this.isotopicclustergraph.addVertex(ic1);
+        this.isotopicclustergraph.addVertex(ic2);
 
         Connection connection = new Connection(color);
-        this.isotopicclustergraph.addEdge(cluster1, cluster2, connection);
+        this.isotopicclustergraph.addEdge(ic1, ic2, connection);
     }
 
-    /**
-     * Returns the color of the connection between cluster1 and cluster2. If the clusters are not connected it returns null;
-     * 
-     * @param cluster1
-     * @param cluster2
-     * @return color
-     */
-    private String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
-        if (cluster1.getIsotopicCluster() != null) {
-            if (cluster1.getIsotopicCluster().get(0).getMz() < this.min) {
-                this.min = cluster1.getIsotopicCluster().get(0).getMz();
+    private String calculateConnection(IsotopicCluster ic1, IsotopicCluster ic2) {
+        if (ic1.getIsotopicCluster() != null) {
+            if (ic1.getIsotopicCluster().get(0).getMz() < this.min) {
+                this.min = ic1.getIsotopicCluster().get(0).getMz();
             }
         }
 
-        if (cluster1.getStatus() == "start" && cluster2.getIsotopicCluster() != null && cluster1.getIsotopicCluster() == null && cluster2.getIsotopicCluster().get(0).getMz() == this.min) {
+        if (ic1.getStatus() == "start" && ic2.getIsotopicCluster() != null && ic1.getIsotopicCluster() == null && ic2.getIsotopicCluster().get(0).getMz() == this.min) {
             return "black";
         }
 
-        if (cluster1.getIsotopicCluster() == null || cluster2.getIsotopicCluster() == null) {
+        if (ic1.getIsotopicCluster() == null || ic2.getIsotopicCluster() == null) {
             return null;
         }
 
-        if (cluster1.getIsotopicCluster().get(cluster1.getIsotopicCluster().size() - 1).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
+        if (ic1.getIsotopicCluster().get(ic1.getIsotopicCluster().size() - 1).getMz() < ic2.getIsotopicCluster().get(0).getMz()) {
             return "black";
         }
 
-        if (cluster1.getIsotopicCluster().get(0).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
-            if (cluster1.getIsotopicCluster().size() == 2) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+        if (ic1.getIsotopicCluster().get(0).getMz() < ic2.getIsotopicCluster().get(0).getMz()) {
+            if (ic1.getIsotopicCluster().size() == 2) {
+                if (ic1.getIsotopicCluster().get(1).getMz() == ic2.getIsotopicCluster().get(0).getMz()) {
                     return "red";
                 }
-            } else if (cluster1.getIsotopicCluster().size() == 3) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
-                        || cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+            } else if (ic1.getIsotopicCluster().size() == 3) {
+                if (ic1.getIsotopicCluster().get(1).getMz() == ic2.getIsotopicCluster().get(0).getMz() || ic1.getIsotopicCluster().get(2).getMz() == ic2.getIsotopicCluster().get(0).getMz()) {
                     return "red";
                 }
-            } else if (cluster1.getIsotopicCluster().size() == 3) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
-                        && cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(1).getMz()) {
+            } else if (ic1.getIsotopicCluster().size() == 3) {
+                if (ic1.getIsotopicCluster().get(1).getMz() == ic2.getIsotopicCluster().get(0).getMz() && ic1.getIsotopicCluster().get(2).getMz() == ic2.getIsotopicCluster().get(1).getMz()) {
                     return "red";
                 }
             }

@@ -10,14 +10,6 @@ import java.util.Arrays;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class FindNearestNeighbor {
-    /**
-     * Finds the nearest neighbors. Applies the pattern on the data to find the nearest neighbors of the pattern.
-     * 
-     * @param pattern
-     * @param data
-     * @return index array
-     * @see MassSpectrometryMeasurement
-     */
     public static double[] findNN(double[] pattern, double[] data) {
         double[] index = new double[pattern.length];
 

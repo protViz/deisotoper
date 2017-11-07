@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.dto;
+package ch.fgcz.proteomics.utilities;
 
 /**
  * @author Lucas Schmidt
@@ -9,23 +9,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// TODO : It is not a DTO or data model.
-// So maybe dto is not the right name for the package.
-//
+import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpectrum;
+
 public class Summary {
-    /**
-     * Creates a summary of a MassSpectrometryMeasurement Object and returns it in a CSV-formatted String.
-     * 
-     * @param MassSpectrometryMeasurement
-     * @return String
-     * @see MassSpectrometryMeasurement
-     */
-    public static String makeSummary(MassSpectrometryMeasurement m) {
+    public static String makeSummary(MassSpectrometryMeasurement msm) {
         StringBuilder summary = new StringBuilder();
         String linesep = System.getProperty("line.separator");
         summary.append("SpectrumID,Attribute,Value").append(linesep);
 
-        List<MassSpectrum> list = m.getMSlist();
+        List<MassSpectrum> list = msm.getMSlist();
         for (MassSpectrum spectrum : list) {
             List<Double> dist = new ArrayList<>();
 
