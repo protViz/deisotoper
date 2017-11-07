@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-## Create DOT Graphs
+# Create DOT Graphs
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
@@ -36,7 +36,7 @@ for(i in 1:length(id)) {
 ```
 
 
-## Display DOT Graphs
+# Display DOT Graphs
 
 ```{r fig.cap="Graph of mass spectrum 1, isotopic set 0"}
 grViz(dot[1], width = 700)

@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-## Create MSM Java-Object And Make Summaries
+# Create MSM Java-Object And Make Summaries
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
@@ -37,9 +37,9 @@ S <- lapply(input, function(u){
 S <- do.call('rbind', S)
 ```
 
-## Plot Of The Summaries
+# Plot Of The Summaries
 
-### Number Of Peaks
+## Number Of Peaks
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 library(lattice)
@@ -48,7 +48,7 @@ histogram(~Value | file * status, data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
-### Minimal Peak Distance
+## Minimal Peak Distance
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "min_peak_distance")
@@ -56,7 +56,7 @@ histogram(~Value | file * status,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
-### Maximal Peak Distance
+## Maximal Peak Distance
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "max_peak_distance")
@@ -64,7 +64,7 @@ histogram(~Value | file * status,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
-### Sum Of Intensities
+## Sum Of Intensities
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "sum_intensity")
@@ -72,7 +72,7 @@ histogram(~Value | file* status,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
-### Minimal Intensity
+## Minimal Intensity
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "min_intensity")
@@ -80,7 +80,7 @@ histogram(~Value | file * status ,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
-### Maximal Intensity
+## Maximal Intensity
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "max_intensity")
