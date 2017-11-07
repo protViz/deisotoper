@@ -7,9 +7,9 @@
 mgf(obj, filename = paste(tempfile(), "mgf", sep = "."))
 }
 \arguments{
-\item{obj}{}
+\item{obj}{data frame}
 
-\item{filename}{}
+\item{filename}{mgf}
 }
 \value{
 \code{file.info(filename)}

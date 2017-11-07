@@ -7,7 +7,7 @@
 jSummaryMS(jobj)
 }
 \arguments{
-\item{jobj}{}
+\item{jobj}{a MassSpectrum Java-Object}
 }
 \value{
 csv

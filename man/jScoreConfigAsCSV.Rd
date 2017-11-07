@@ -7,7 +7,7 @@
 jScoreConfigAsCSV(file)
 }
 \arguments{
-\item{file}{}
+\item{file}{properties file}
 }
 \value{
 csv

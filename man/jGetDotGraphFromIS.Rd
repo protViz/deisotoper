@@ -7,11 +7,11 @@
 jGetDotGraphFromIS(massspectrum, isotopicset, configfile = "nofile")
 }
 \arguments{
-\item{massspectrum}{}
+\item{massspectrum}{a MassSpectrum Java-Object}
 
-\item{isotopicset}{}
+\item{isotopicset}{a IsotopicSet Java-Object}
 
-\item{configfile}{}
+\item{configfile}{properties file}
 }
 \value{
 dot graph

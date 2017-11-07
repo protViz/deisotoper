@@ -7,7 +7,7 @@
 as.MSM(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{a MassSpectrometryMeasurement Java-Object}
 }
 \value{
 \code{TRUE} or \code{FALSE}

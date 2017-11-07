@@ -31,8 +31,8 @@
 
 #' write Mascot Generic File (MGF)
 #'
-#' @param obj 
-#' @param filename 
+#' @param obj data frame
+#' @param filename mgf
 #'
 #' @return \code{file.info(filename)}
 #' @export mgf

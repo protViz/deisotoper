@@ -7,7 +7,7 @@
 jCreateMS(obj)
 }
 \arguments{
-\item{obj}{}
+\item{obj}{part of a \code{protViz""psmSet} object}
 }
 \value{
 ms

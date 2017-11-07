@@ -7,7 +7,7 @@
 CreateProperties(filename)
 }
 \arguments{
-\item{filename}{}
+\item{filename}{properties file}
 }
 \description{
 Creates a properties file as config.

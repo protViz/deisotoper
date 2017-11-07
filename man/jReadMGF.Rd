@@ -7,7 +7,7 @@
 jReadMGF(filename)
 }
 \arguments{
-\item{filename}{}
+\item{filename}{mgf}
 }
 \value{
 msm

@@ -7,9 +7,9 @@
 jGetStatisticMSM(msm, configfile = "nofile")
 }
 \arguments{
-\item{msm}{}
+\item{msm}{a MassSpectrometryMeasurement Java-Object}
 
-\item{configfile}{}
+\item{configfile}{properties file}
 }
 \value{
 csv

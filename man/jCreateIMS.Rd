@@ -7,9 +7,9 @@
 jCreateIMS(massspectrum, configfile = "nofile")
 }
 \arguments{
-\item{massspectrum}{}
+\item{massspectrum}{a MassSpectrum Java-Object}
 
-\item{configfile}{}
+\item{configfile}{properties file}
 }
 \value{
 ims

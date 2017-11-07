@@ -7,7 +7,7 @@
 jGetMSM(jobj)
 }
 \arguments{
-\item{jobj}{}
+\item{jobj}{a MassSpectrometryMeasurement Java-Object}
 }
 \description{
 Gets the MSM from Java to R.

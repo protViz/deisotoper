@@ -7,9 +7,9 @@
 jGetIS(isotopicmassspectrum, index)
 }
 \arguments{
-\item{isotopicmassspectrum}{}
+\item{isotopicmassspectrum}{a IsotopicMassSpectrum Java-Object}
 
-\item{index}{}
+\item{index}{index of IsotopicSet}
 }
 \value{
 is

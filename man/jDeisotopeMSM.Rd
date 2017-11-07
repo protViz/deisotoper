@@ -7,11 +7,11 @@
 jDeisotopeMSM(jobj, modus = "first", configfile = "nofile")
 }
 \arguments{
-\item{jobj}{}
+\item{jobj}{a MassSpectrometryMeasurement Java-Object}
 
-\item{modus}{}
+\item{modus}{modus of aggregation}
 
-\item{configfile}{}
+\item{configfile}{properties file}
 }
 \value{
 deisotoped MSM

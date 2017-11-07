@@ -7,11 +7,11 @@
 jDeisotopeMS(ms, modus = "first", configfile = "nofile")
 }
 \arguments{
-\item{ms}{}
+\item{ms}{a MassSpectrum Java-Object}
 
-\item{modus}{}
+\item{modus}{modus of aggregation}
 
-\item{configfile}{}
+\item{configfile}{properties file}
 }
 \value{
 deisotoped ms

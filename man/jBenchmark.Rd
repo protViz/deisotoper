@@ -7,13 +7,13 @@
 jBenchmark(input, output, modus = "first", configfile = "nofile")
 }
 \arguments{
-\item{input}{}
+\item{input}{RData}
 
-\item{output}{}
+\item{output}{mgf}
 
-\item{modus}{}
+\item{modus}{modus of aggregation}
 
-\item{configfile}{}
+\item{configfile}{properties file}
 }
 \value{
 mgf

@@ -7,7 +7,7 @@
 jGetMS(massspectrum)
 }
 \arguments{
-\item{massspectrum}{}
+\item{massspectrum}{a MassSpectrum Java-Object}
 }
 \description{
 Gets the MS from Java to R.

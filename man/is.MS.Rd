@@ -7,7 +7,7 @@
 is.MS(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{a MassSpectrum Java-Object}
 }
 \value{
 \code{TRUE} or \code{FALSE}

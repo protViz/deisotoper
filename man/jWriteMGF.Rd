@@ -7,9 +7,9 @@
 jWriteMGF(filename, msm)
 }
 \arguments{
-\item{filename}{}
+\item{filename}{mgf}
 
-\item{msm}{}
+\item{msm}{a MassSpectrometryMeasurement Java-Object}
 }
 \value{
 status
