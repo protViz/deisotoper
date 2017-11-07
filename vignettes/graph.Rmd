@@ -16,7 +16,7 @@ vignette: >
 library(deisotoper)
 library(DiagrammeR)
 
-input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData"
+input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData" #REMOVE AND USE PACKAGE LOAD
 
 id <- c(1, 44, 10000, 10001);
 index <- c(0, 0, 18, 18);
