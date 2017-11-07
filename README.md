@@ -14,7 +14,7 @@ This package contains a Java implementation of
 install the latest development version
 
 ```
-install.packages(c('rJava, 'devtools'))
+install.packages(c('rJava', 'devtools'))
 library(devtools)
 install_git('https://github.com/cpanse/deisotoper', build_vignettes = TRUE, quiet = FALSE)
 ```
