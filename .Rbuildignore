@@ -9,3 +9,4 @@ LICENSE
 ^.*vignettes/.*.html$
 ^.*shiny/deisotoper/temp.*$
 ^.*inst/doc/.*.tex$
+^.*travis.*
