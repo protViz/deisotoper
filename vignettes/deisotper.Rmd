@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-# Create MSM Java-Object
+## Create MSM Java-Object
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
@@ -19,7 +19,7 @@ MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
 ```
 
 
-# Plot Of The Summary
+## Plot Of The Summary
 
 ```{r fig.cap="Plotted summary of the MSM object",  fig.retina=3, fig.height=6, fig.width=7}
 library(lattice)
