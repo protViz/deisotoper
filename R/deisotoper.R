@@ -73,7 +73,6 @@ jSummaryMS <- function(jobj){
 #'
 #' @param q a double vector which can be considered as query objects.
 #' @param vec a sorted double vector which can be considered as a data base.
-#' @param check boolean enables test if \code{vec} is sorted. default is \code{FALSE}
 #'
 #' @description Given a vector of sorted double values \code{vec} of size
 #' \code{n} and a vector of \code{m} query objects \code{q}.

@@ -4,14 +4,12 @@
 \alias{findNN}
 \title{find index of nearest neighbor.}
 \usage{
-findNN(q, vec, check = FALSE)
+findNN(q, vec)
 }
 \arguments{
 \item{q}{a double vector which can be considered as query objects.}
 
 \item{vec}{a sorted double vector which can be considered as a data base.}
-
-\item{check}{boolean enables test if \code{vec} is sorted. default is \code{FALSE}}
 }
 \value{
 an integer vector
