@@ -23,7 +23,7 @@ install_git('https://github.com/protViz/deisotoper', build_vignettes = TRUE, qui
 sudo R CMD javareconf
 ```
 
-### from [fgcz-ms.uzh.ch/~lucas/deisotoper_0.0.1.tar.gz](fgcz-ms.uzh.ch/~lucas/deisotoper_0.0.1.tar.gz)
+### from [deisotoper_0.0.1.tar.gz](http://fgcz-ms.uzh.ch/~lucas/deisotoper_0.0.1.tar.gz)
 
 install the latest JDK and R. Then run in R:
 
