@@ -45,7 +45,7 @@ Load the package in R and load some sample data.
 ```{r}
 library(deisotoper)
 
-load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
 ```
 
 
@@ -169,51 +169,103 @@ There are fixed and non-fixed parameters, from which you can choose. The fixed p
 ```{r echo=FALSE, results='asis'}
 library(knitr)
 kable(c(F1=0.8,
-F2=0.5,
-F3=0.1,
-F4=0.1,
-F5=0.1,
-DISTANCE=1.003,
-DELTA=0.003,
-ERRORTOLERANCE=0.3,
-NOISE=0))
+        F2=0.5,
+        F3=0.1,
+        F4=0.1,
+        F5=0.1,
+        DISTANCE=1.003,
+        DELTA=0.003,
+        ERRORTOLERANCE=0.3,
+        NOISE=0))
 ```
 
 When you use no properties file for your deisotoping process, then the standart will be used which is configurates as follows:
 
 ```{r echo=FALSE, results='asis'}
 kable(c(ALA=71.03711,
-ARG=156.10111,
-ASN=114.04293,
-ASP=115.02694,
-CYS=103.00919,
-GLU=129.04259,
-GLN=128.05858,
-GLY=57.02146,
-HIS=137.05891,
-ILE=113.08406,
-LEU=113.08406,
-LYS=128.09496,
-MET=131.04049,
-PHE=147.06841,
-PRO=97.05276,
-SER=87.03203,
-THR=101.04768,
-TRP=186.07931,
-TYR=163.06333,
-VAL=99.06841,
-F1=0.8,
-F2=0.5,
-F3=0.1,
-F4=0.1,
-F5=0.1,
-DISTANCE=1.003,
-DELTA=0.003,
-ERRORTOLERANCE=0.3,
-NOISE=0))
+        ARG=156.10111,
+        ASN=114.04293,
+        ASP=115.02694,
+        CYS=103.00919,
+        GLU=129.04259,
+        GLN=128.05858,
+        GLY=57.02146,
+        HIS=137.05891,
+        ILE=113.08406,
+        LEU=113.08406,
+        LYS=128.09496,
+        MET=131.04049,
+        PHE=147.06841,
+        PRO=97.05276,
+        SER=87.03203,
+        THR=101.04768,
+        TRP=186.07931,
+        TYR=163.06333,
+        VAL=99.06841,
+        F1=0.8,
+        F2=0.5,
+        F3=0.1,
+        F4=0.1,
+        F5=0.1,
+        DISTANCE=1.003,
+        DELTA=0.003,
+        ERRORTOLERANCE=0.3,
+        NOISE=0))
 ```
 
 **Attention**: When you change **one** parameter or want to change one, you must define a complete parameter file with **all** amino acids!
 
 
+## Write the data down in mgf-format
+
+You can use the jWriteMGF function or the mgf function. The jWriteMGF functions uses a MSM and a filename to write the data down and the mgf function uses the data which you got from jGetMSM into R and also a filename.
+
+```{r eval=FALSE}
+jWriteMGF(msm = MSMd, filename = "test.mgf")
+
+mgf(obj = MSMr, filename = "test.mgf")
+```
+
+
 # Examples
+
+```{r eval=FALSE}
+# Creation of MSM Java-Object
+load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+
+# Creation of properties file
+CreateProperties("test.properties")
+AddToProperties("test.properties", key = "F1", value = 1.0)
+AddToProperties("test.properties", key = "F2", value = 0.3)
+AddToProperties("test.properties", key = "F3", value = 0.15)
+AddToProperties("test.properties", key = "DELTA", value = 0.004)
+AddToProperties("test.properties", key = "GLY", value = 57.02146)
+AddToProperties("test.properties", key = "HIS", value = 137.05891)
+AddToProperties("test.properties", key = "ILE", value = 113.08406)
+AddToProperties("test.properties", key = "LYS", value = 128.09496)
+
+# Deisotoping process
+MSMd <- jDeisotopeMSM(MSM)
+
+# Save the deisotoped MSM on the disk 
+jWriteMGF("test.mgf", MSMd)
+```
+
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+library(lattice)
+
+load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+X <- jSummaryMSM(MSM)
+
+xyplot(Value ~ SpectrumID | Attribute, data = X, pch = '.')
+xyplot(Value ~ SpectrumID | Attribute, data = X, scales = list(y = list(log=TRUE)))
+
+histogram(~Value | Attribute, data = X)
+histogram(~Value | Attribute, data = X, scales = list(x = list(log = TRUE)))
+histogram(~Value | Attribute, data = X, scales = list(x = list(log = TRUE)), type = 'count')
+
+bwplot(~Value | Attribute, data = X, scales = list(x = list(log = TRUE)))
+```
