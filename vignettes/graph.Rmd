@@ -16,21 +16,19 @@ vignette: >
 library(deisotoper)
 library(DiagrammeR)
 
-input <- "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData" #REMOVE AND USE PACKAGE LOAD
+objN <- load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+obj <- get(objN)
 
-id <- c(1, 44, 10000, 10001);
-index <- c(0, 0, 18, 18);
-
-objN <- load(con <- url(input));
-obj <- get(objN);
+id <- c(1, 3, 3, 6);
+index <- c(7, 5, 9, 3);
 
 dot <-c();
-  
+
 for(i in 1:length(id)) {
   ms <- jCreateMS(obj[id[i]]);
-
+  
   ims <- jCreateIMS(ms)
-
+  
   dot <- c(dot, deisotoper::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = index[i]));
 }
 ```
@@ -38,18 +36,18 @@ for(i in 1:length(id)) {
 
 # Display DOT Graphs
 
-```{r fig.cap="Graph of mass spectrum 1, isotopic set 0"}
+```{r fig.cap="Graph of mass spectrum 1, isotopic set 7"}
 grViz(dot[1], width = 700)
 ```
 
-```{r fig.cap="Graph of mass spectrum 44, isotopic set 0"}
+```{r fig.cap="Graph of mass spectrum 3, isotopic set 5"}
 grViz(dot[2], width = 700)
 ```
 
-```{r fig.cap="Graph of mass spectrum 10000, isotopic set 18"}
+```{r fig.cap="Graph of mass spectrum 3, isotopic set 9"}
 grViz(dot[3], width = 700)
 ```
 
-```{r fig.cap="Graph of mass spectrum 10001, isotopic set 18"}
+```{r fig.cap="Graph of mass spectrum 6, isotopic set 3"}
 grViz(dot[4], width = 700)
 ```

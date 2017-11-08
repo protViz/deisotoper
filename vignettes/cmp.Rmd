@@ -15,19 +15,17 @@ vignette: >
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
 
-input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData", #REMOVE AND USE PACKAGE LOAD
-  "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_pd21.RData") #REMOVE AND USE PACKAGE LOAD
+input <- c(load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper")))
 
 S <- lapply(input, function(u){ 
-  objN <- load(con <- url(u)); 
-  jo <- jCreateMSM(get(objN)); 
+  jo <- jCreateMSM(get(u)); 
   
   S <- jSummaryMSM(jo); 
-  S$file <- objN;
+  S$file <- u;
   S$status <- 'input'
   
   Sd1 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jobj = jo))
-  Sd1$file <- objN;
+  Sd1$file <- u;
   Sd1$status <- 'fdbm'
   
   rbind(S, Sd1) 
