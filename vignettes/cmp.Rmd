@@ -15,7 +15,7 @@ vignette: >
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
 
-input <- c(load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper")), load(system.file("extdata", name = 'TP_HeLa_200ng_short.RData', package = "deisotoper")))
+input <- c(load(system.file("extdata", name = 'Mix1a_1_DDA_FIRST100MS.RData', package = "deisotoper")), load(system.file("extdata", name = 'Mix1a_1_DDA_PD_DECONVOLUTED_FIRST100MS.RData', package = "deisotoper")))
 
 S <- lapply(input, function(u){ 
   jo <- jCreateMSM(get(u)); 
