@@ -229,6 +229,9 @@ mgf(obj = MSMr, filename = "test.mgf")
 
 # Examples
 
+For example you would like to load a RData object into R, transfer it into Java via MSM and then deisotope it with custom settings and write the results back on the disk. 
+In this example there are only 4 amino acid masses used for scoring. Plus the predefined parameters, which where modified, but not all were modified, only F1, F2, F3 and DELTA. The rest of the predefined parameters stay the same.
+
 ```{r eval=FALSE}
 # Creation of MSM Java-Object
 load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
@@ -246,12 +249,13 @@ AddToProperties("test.properties", key = "ILE", value = 113.08406)
 AddToProperties("test.properties", key = "LYS", value = 128.09496)
 
 # Deisotoping process
-MSMd <- jDeisotopeMSM(MSM)
+MSMd <- jDeisotopeMSM(MSM, configfile = "test.properties")
 
 # Save the deisotoped MSM on the disk 
 jWriteMGF("test.mgf", MSMd)
 ```
 
+Now we want to evaluate the loaded data. Therefore we load a RData object into R, transfer it into Java via MSM and then summarize it and plot the summary.
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 library(lattice)
