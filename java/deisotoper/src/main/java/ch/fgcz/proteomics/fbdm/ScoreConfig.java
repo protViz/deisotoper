@@ -56,6 +56,7 @@ public class ScoreConfig {
     private double errortolerance = 0.3;
     private double delta = 0.003;
     private double noise = 0;
+    private boolean decharging = false;
     private final double H_MASS = 1.008;
     private final double NH3_MASS = 17.03052;
     private final double H2O_MASS = 18.01528;
@@ -108,6 +109,14 @@ public class ScoreConfig {
         configmap.put("AA_MASSd3", this.AA_MASS3);
 
         return configmap;
+    }
+
+    public boolean isDecharging() {
+        return decharging;
+    }
+
+    public void setDecharging(boolean decharging) {
+        this.decharging = decharging;
     }
 
     public double getErrortolerance() {
@@ -332,6 +341,12 @@ public class ScoreConfig {
                 this.errortolerance = vdouble;
             } else if (key.equals("NOISE")) {
                 this.noise = vdouble;
+            } else if (key.equals("DECHARGE")) {
+                if (value.equals("TRUE")) {
+                    this.decharging = true;
+                } else if (value.equals("FALSE")) {
+                    this.decharging = false;
+                }
             } else {
                 this.AA_MASS.add(vdouble);
             }

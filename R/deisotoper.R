@@ -605,7 +605,7 @@ CreateProperties <- function(filename) {
 }
 
 
-#' Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE.
+#' Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE and DECHARGE (TRUE or FALSE).
 #'
 #' @param filename properties file
 #' @param key name of key

@@ -101,28 +101,54 @@ public class Deisotoper {
             }
         }
 
-        Sort.keySort(mz, mz, intensity, isotope, charge);
+        List<Double> mz6 = new ArrayList<>();
+        List<Double> intensity6 = new ArrayList<>();
+        List<Double> isotope6 = new ArrayList<>();
+        List<Integer> charge6 = new ArrayList<>();
+
+        if (config.isDecharging()) {
+            for (int i = 0; i < mz.size(); i++) {
+                if (charge.get(i) > 1) {
+                    mz6.add(mz.get(i) * charge.get(i) - (charge.get(i) - 1) * config.getH_MASS());
+                    intensity6.add(intensity.get(i));
+                    isotope6.add(isotope.get(i));
+                    charge6.add(1);
+                } else {
+                    mz6.add(mz.get(i));
+                    intensity6.add(intensity.get(i));
+                    isotope6.add(isotope.get(i));
+                    charge6.add(charge.get(i));
+                }
+            }
+        } else {
+            mz6.addAll(mz);
+            intensity6.addAll(intensity);
+            isotope6.addAll(isotope);
+            charge6.addAll(charge);
+        }
+
+        Sort.keySort(mz6, mz6, intensity6, isotope6, charge6);
 
         if (config.getNoise() != 0) {
-            double threshold = Collections.max(mz) * config.getNoise() / 100;
+            double threshold = Collections.max(intensity6) * config.getNoise() / 100;
 
             List<Double> mz5 = new ArrayList<>();
             List<Double> intensity5 = new ArrayList<>();
             List<Double> isotope5 = new ArrayList<>();
             List<Integer> charge5 = new ArrayList<>();
 
-            for (int i = 0; i < mz.size(); i++) {
-                if (threshold < mz.get(i)) {
-                    mz5.add(mz.get(i));
-                    intensity5.add(intensity.get(i));
-                    isotope5.add(isotope.get(i));
-                    charge5.add(charge.get(i));
+            for (int i = 0; i < intensity6.size(); i++) {
+                if (threshold < intensity6.get(i)) {
+                    mz5.add(mz6.get(i));
+                    intensity5.add(intensity6.get(i));
+                    isotope5.add(isotope6.get(i));
+                    charge5.add(charge6.get(i));
                 }
             }
 
             return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz5, intensity5, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge5, isotope5);
         } else {
-            return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz, intensity, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge, isotope);
+            return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz6, intensity6, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge6, isotope6);
         }
     }
 

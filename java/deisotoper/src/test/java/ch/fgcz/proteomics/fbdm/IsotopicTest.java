@@ -24,17 +24,17 @@ public class IsotopicTest {
     @Before
     public void setUp() {
         // Example
-        List<Double> mz = Arrays.asList(0.2, 1.0, 2.0, 2.5, 3.0, 10.0);
+        List<Double> mz = Arrays.asList(0.2, 1.001, 2.002, 2.503, 3.003, 10.0);
         List<Double> intensity = Arrays.asList(0.5, 2.0, 1.0, 1.0, 1.0, 3.0);
         peaklist = new Peaklist(mz, intensity);
 
         // Possible Cluster for the example
-        A = Arrays.asList(new Peak(1.0, 2.0, 0), new Peak(2.0, 1.0, 0), new Peak(3.0, 1.0, 0));
-        B = Arrays.asList(new Peak(1.0, 2.0, 0), new Peak(2.0, 1.0, 0));
-        C = Arrays.asList(new Peak(2.0, 1.0, 0), new Peak(2.5, 1.0, 0), new Peak(3.0, 1.0, 0));
-        D = Arrays.asList(new Peak(2.0, 1.0, 0), new Peak(2.5, 1.0, 0));
-        E = Arrays.asList(new Peak(2.0, 1.0, 0), new Peak(3.0, 1.0, 0));
-        F = Arrays.asList(new Peak(2.5, 1.0, 0), new Peak(3.0, 1.0, 0));
+        A = Arrays.asList(new Peak(1.001, 2.0, 0), new Peak(2.002, 1.0, 0));
+        B = Arrays.asList(new Peak(1.001, 2.0, 0), new Peak(2.002, 1.0, 0), new Peak(3.003, 1.0, 0));
+        C = Arrays.asList(new Peak(2.002, 1.0, 0), new Peak(2.503, 1.0, 0));
+        D = Arrays.asList(new Peak(2.002, 1.0, 0), new Peak(2.503, 1.0, 0), new Peak(3.003, 1.0, 0));
+        E = Arrays.asList(new Peak(2.002, 1.0, 0), new Peak(3.003, 1.0, 0));
+        F = Arrays.asList(new Peak(2.503, 1.0, 0), new Peak(3.003, 1.0, 0));
     }
 
     @Test
@@ -58,6 +58,12 @@ public class IsotopicTest {
     public void testIsotopeCluster() {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new ScoreConfig(""));
         for (IsotopicSet i : ims.getIsotopicMassSpectrum()) {
+            System.out.println(i.getIsotopicSet().get(0).getIsotopicCluster().toString());
+            System.out.println(i.getIsotopicSet().get(1).getIsotopicCluster().toString());
+            System.out.println(i.getIsotopicSet().get(2).getIsotopicCluster().toString());
+            System.out.println(i.getIsotopicSet().get(3).getIsotopicCluster().toString());
+            System.out.println(i.getIsotopicSet().get(4).getIsotopicCluster().toString());
+            System.out.println(i.getIsotopicSet().get(5).getIsotopicCluster().toString());
             assertPeaklistEquals(A, i.getIsotopicSet().get(0).getIsotopicCluster());
             assertPeaklistEquals(B, i.getIsotopicSet().get(1).getIsotopicCluster());
             assertPeaklistEquals(C, i.getIsotopicSet().get(2).getIsotopicCluster());
@@ -68,7 +74,9 @@ public class IsotopicTest {
     }
 
     private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
-        for (int i = 0; i < list.size() || i < list2.size(); i++) {
+        assertEquals(list.size(), list2.size());
+
+        for (int i = 0; i < list.size() && i < list2.size(); i++) {
             assertEquals("Mz-values should be same! " + list.get(i).getMz() + " - " + list2.get(i).getMz(), list.get(i).getMz(), list2.get(i).getMz(), 0.001);
             assertEquals("Intensity-values should be same! " + list.get(i).getIntensity() + " - " + list2.get(i).getIntensity(), list.get(i).getIntensity(), list2.get(i).getIntensity(), 0);
         }
@@ -178,7 +186,7 @@ public class IsotopicTest {
         System.out.println();
 
         System.out.println("Output:");
-        for (MassSpectrum x : Deisotoper.deisotopeMSM(msm, "mean", "xxx").getMSlist()) {
+        for (MassSpectrum x : Deisotoper.deisotopeMSM(msm, "first", "xxx").getMSlist()) {
             for (int y = 0; y < x.getMz().size(); y++) {
                 System.out.print("M: " + x.getMz().get(y) + ", ");
                 System.out.print("Z: " + x.getCharge().get(y) + ", ");
