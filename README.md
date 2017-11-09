@@ -3,6 +3,7 @@
 This package contains a Java implementation of 
 
 * [Features Based Deisotoping Method](https://github.com/protViz/deisotoper/tree/master/java/deisotoper/src/main/java/ch/fgcz/proteomics/fbdm)
+* [mMass](http://www.mmass.org/) (mspy)
 
 
 ## Installation
