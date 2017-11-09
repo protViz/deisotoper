@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^.*git.*
 ^java.*
-LICENSE
+^LICENSE
 ^.*vignettes/cmp.Rmd$
 ^.*vignettes/report.*$
 ^.*vignettes/graph.*$
