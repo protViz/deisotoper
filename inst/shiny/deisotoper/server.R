@@ -110,6 +110,8 @@ shinyServer(function(input, output, session) {
     
     min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2.5
     max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2.5
+    
+    delta <- delta(ms$getMzArray())
 
     plot(x = ms$getMzArray(), y = ms$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max))
     axis(side=1, at = ms$getMzArray())
@@ -117,6 +119,14 @@ shinyServer(function(input, output, session) {
     axis(side=2, at = seq(0, max(ms$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
     axis(side=2, at = round(max(ms$getIntensityArray())), col = "red", col.axis="red", las = 1)
     #axis(side=2, at = round(min(ms$getIntensityArray())), col = "blue", col.axis="blue", las = 1)
+    
+    for(x in 1:length(delta)) {
+      if(x %% 2 == 0) {
+        text(x = ms$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(ms$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+      } else {
+        text(x = ms$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(ms$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+      }
+    }
     
     showNotification("Finished plotting!", type = "message", duration = 1)
     

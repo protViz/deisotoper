@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsotopicCluster {
-    private final static double H_MASS = 1.008;
     private List<Peak> isotopiccluster = new ArrayList<>();
     private int charge;
     private String status;
@@ -75,7 +74,6 @@ public class IsotopicCluster {
             this.isotopiccluster.remove(1);
         }
 
-        this.isotopiccluster.get(0).setMz(this.isotopiccluster.get(0).getMz() * this.charge - (this.charge - 1) * H_MASS);
         return this;
     }
 

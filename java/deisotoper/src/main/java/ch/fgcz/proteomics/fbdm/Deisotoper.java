@@ -106,7 +106,7 @@ public class Deisotoper {
         List<Double> isotope6 = new ArrayList<>();
         List<Integer> charge6 = new ArrayList<>();
 
-        if (config.isDecharging()) {
+        if (config.isDecharging() == true) {
             for (int i = 0; i < mz.size(); i++) {
                 if (charge.get(i) > 1) {
                     mz6.add(mz.get(i) * charge.get(i) - (charge.get(i) - 1) * config.getH_MASS());
