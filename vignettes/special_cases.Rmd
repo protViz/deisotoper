@@ -1,0 +1,49 @@
+---
+title: "Deisotoper: Special Cases Of Spectra"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Special Cases Of Spectra}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Loading the test data
+
+```{r}
+library(deisotoper)
+
+TP <- load(system.file("extdata", name = 'TP_HeLa_200ng_short.RData', package = "deisotoper"))
+TPPD <- load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+DDA <- load(system.file("extdata", name = 'Mix1a_1_DDA_FIRST100MS.RData', package = "deisotoper"))
+DDAPD <- load(system.file("extdata", name = 'Mix1a_1_DDA_PD_DECONVOLUTED_FIRST100MS.RData', package = "deisotoper"))
+
+TPMSM <- jCreateMSM(get(TP))
+TPPDMSM <- jCreateMSM(get(TPPD))
+DDAMSM <- jCreateMSM(get(DDA))
+DDAPDMSM <- jCreateMSM(get(DDAPD))
+```
+
+
+# Differences between before and after deisotoping
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+MS <- TPMSM$getMSlist()$get(as.integer(0))
+MSd <- jDeisotopeMS(MS)
+
+for(i in 1:length(MS$getMzArray())) {
+  print(paste(MS$getMzArray()[[i]], "-" ,MS$getIntensityArray()[[i]]))
+}
+for(i in 1:length(MSd$getMzArray())) {
+  print(paste(MSd$getMzArray()[[i]], "-" ,MSd$getIntensityArray()[[i]]))
+}
+
+print(MSd$getChargeArray())
+
+plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity")
+
+plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity")
+
+```
