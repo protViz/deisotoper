@@ -35,10 +35,13 @@ DDAPDMSM <- jCreateMSM(get(DDAPD))
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 MS <- TPMSM$getMSlist()$get(as.integer(0))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
 
 
@@ -47,10 +50,13 @@ plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ",
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 MS <- TPMSM$getMSlist()$get(as.integer(1))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
 
 
@@ -61,10 +67,13 @@ plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ",
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 MS <- TPPDMSM$getMSlist()$get(as.integer(0))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng_filtered_pd21")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng_filtered_pd21 deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
 
 
@@ -73,55 +82,70 @@ plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ",
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 MS <- TPPDMSM$getMSlist()$get(as.integer(1))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng_filtered_pd21")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "TP_HeLa_200ng_filtered_pd21 deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
 
 
 ## Differences between before and after deisotoping compared with proteom discoverer deconvoluted (DDA)
 
-### First mass spectrum
+### Sixty-first mass spectrum
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- DDAMSM$getMSlist()$get(as.integer(0))
-MSPD <- DDAPDMSM$getMSlist()$get(as.integer(0))
+MS <- DDAMSM$getMSlist()$get(as.integer(61))
+MSPD <- DDAPDMSM$getMSlist()$get(as.integer(61))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()), setdiff(MS$getMzArray(), MSPD$getMzArray()), setdiff(MSPD$getMzArray(), MS$getMzArray()), setdiff(MSd$getMzArray(), MSPD$getMzArray()), setdiff(MSPD$getMzArray(), MSd$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSPD$getMzArray(), y = MSPD$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA proteom discoverer deconvolutied")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
 
 
-### Second mass spectrum
+### Sixty-third mass spectrum
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- DDAMSM$getMSlist()$get(as.integer(1))
-MSPD <- DDAPDMSM$getMSlist()$get(as.integer(1))
+MS <- DDAMSM$getMSlist()$get(as.integer(63))
+MSPD <- DDAPDMSM$getMSlist()$get(as.integer(63))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()), setdiff(MS$getMzArray(), MSPD$getMzArray()), setdiff(MSPD$getMzArray(), MS$getMzArray()), setdiff(MSd$getMzArray(), MSPD$getMzArray()), setdiff(MSPD$getMzArray(), MSd$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSPD$getMzArray(), y = MSPD$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA proteom discoverer deconvolutied")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
 
 
-### Third mass spectrum
+### Seventy-sixth mass spectrum
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- DDAMSM$getMSlist()$get(as.integer(2))
-MSPD <- DDAPDMSM$getMSlist()$get(as.integer(2))
+MS <- DDAMSM$getMSlist()$get(as.integer(76))
+MSPD <- DDAPDMSM$getMSlist()$get(as.integer(76))
 MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()), setdiff(MS$getMzArray(), MSPD$getMzArray()), setdiff(MSPD$getMzArray(), MS$getMzArray()), setdiff(MSd$getMzArray(), MSPD$getMzArray()), setdiff(MSPD$getMzArray(), MSd$getMzArray()))
 
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
 
 plot(x = MSPD$getMzArray(), y = MSPD$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "Mix1a_1_DDA proteom discoverer deconvolutied")
+abline(v=diff, col="#FF000033", lwd = 2)
 ```
