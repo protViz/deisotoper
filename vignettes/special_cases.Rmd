@@ -33,17 +33,7 @@ DDAPDMSM <- jCreateMSM(get(DDAPD))
 MS <- TPMSM$getMSlist()$get(as.integer(0))
 MSd <- jDeisotopeMS(MS)
 
-for(i in 1:length(MS$getMzArray())) {
-  print(paste(MS$getMzArray()[[i]], "-" ,MS$getIntensityArray()[[i]]))
-}
-for(i in 1:length(MSd$getMzArray())) {
-  print(paste(MSd$getMzArray()[[i]], "-" ,MSd$getIntensityArray()[[i]]))
-}
-
-print(MSd$getChargeArray())
-
 plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity")
 
 plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity")
-
 ```
