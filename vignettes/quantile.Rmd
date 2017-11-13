@@ -17,6 +17,7 @@ The quantile test data contains 20 mass spectra which are from four different qu
 
 ```{r}
 library(deisotoper)
+library(DiagrammeR)
 
 QUANTILE <- load(system.file("extdata", name = 'FourQuantileTestDataDDA.RData', package = "deisotoper"))
 
@@ -28,15 +29,54 @@ QUANTILEMSM <- jCreateMSM(get(QUANTILE))
 
 Differences between non deisotoped and deisotoped spectra are marked in red.
 
-```{r fig.retina=3, fig.width=8, fig.height=5}
-for(i in 0:19) {
+```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+size <- QUANTILEMSM$getMSlist()$size() - 1
+
+for(i in 0:size) {
   MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
+  IMS <- jCreateIMS(MS)
   MSd <- jDeisotopeMS(MS)
   diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
-
+  
   plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", i+1, sep = ""))
-
+  
   plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", i+1, " deisotoped", sep = ""))
   abline(v=diff, col="#FF000033", lwd = 2)
+  
+  delta <- c()
+  for(i in 2:length(MS$getMzArray())) {
+    m <- MS$getMzArray()[[i]] - MS$getMzArray()[[i - 1]]
+    delta <- c(delta, round(m, digits = 5))
+  }
+  
+  size2 <- IMS$getIsotopicMassSpectrum()$size() - 1
+  if(IMS$getIsotopicMassSpectrum()$size() > 1) {
+    for(j in 0:size2) {
+      is <- deisotoper:::jGetIS(IMS, j)
+      
+      islist <- as.list(is$getIsotopicSet())
+      
+      peaks <- c()
+      for(x in 1:length(islist)) {
+        peaks <- c(peaks, islist[[x]])
+      }
+      
+      min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
+      max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2
+      
+      plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Isotopic Set Number ", j+1, sep = ""))
+      axis(side=1, at = MS$getMzArray())
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
+      
+      for(x in 1:length(delta)) {
+        if(x %% 2 == 0) {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        } else {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        }
+      }
+    }
+  }
 }
 ```
