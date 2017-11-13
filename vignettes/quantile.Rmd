@@ -13,6 +13,8 @@ vignette: >
 
 ## Loading the quantile test data
 
+The quantile test data contains 20 mass spectra which are from four different quantiles.
+
 ```{r}
 library(deisotoper)
 
@@ -24,76 +26,17 @@ QUANTILEMSM <- jCreateMSM(get(QUANTILE))
 
 ## Differences between before and after deisotoping
 
-### First Spectra
+Differences between non deisotoped and deisotoped spectra are marked in red.
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- QUANTILEMSM$getMSlist()$get(as.integer(0))
-MSd <- jDeisotopeMS(MS)
-diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+for(i in 0:19) {
+  MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
+  MSd <- jDeisotopeMS(MS)
+  diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
 
-plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
-abline(v=diff, col="#FF000033", lwd = 2)
+  plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", i+1, sep = ""))
 
-plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
-abline(v=diff, col="#FF000033", lwd = 2)
-```
-
-
-### Second Spectra
-
-```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- QUANTILEMSM$getMSlist()$get(as.integer(1))
-MSd <- jDeisotopeMS(MS)
-diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
-
-plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
-abline(v=diff, col="#FF000033", lwd = 2)
-
-plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
-abline(v=diff, col="#FF000033", lwd = 2)
-```
-
-
-### Third Spectra
-
-```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- QUANTILEMSM$getMSlist()$get(as.integer(2))
-MSd <- jDeisotopeMS(MS)
-diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
-
-plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
-abline(v=diff, col="#FF000033", lwd = 2)
-
-plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
-abline(v=diff, col="#FF000033", lwd = 2)
-```
-
-
-### Fourth Spectra
-
-```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- QUANTILEMSM$getMSlist()$get(as.integer(3))
-MSd <- jDeisotopeMS(MS)
-diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
-
-plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
-abline(v=diff, col="#FF000033", lwd = 2)
-
-plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
-abline(v=diff, col="#FF000033", lwd = 2)
-```
-
-
-### Fifth Spectra
-
-```{r fig.retina=3, fig.width=8, fig.height=5}
-MS <- QUANTILEMSM$getMSlist()$get(as.integer(4))
-MSd <- jDeisotopeMS(MS)
-diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
-
-plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
-abline(v=diff, col="#FF000033", lwd = 2)
-
-plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
-abline(v=diff, col="#FF000033", lwd = 2)
+  plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", i+1, " deisotoped", sep = ""))
+  abline(v=diff, col="#FF000033", lwd = 2)
+}
 ```
