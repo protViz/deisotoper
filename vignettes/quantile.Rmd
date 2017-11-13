@@ -31,6 +31,8 @@ QUANTILEMSM <- jCreateMSM(get(QUANTILE))
 names <- c(21369, 22316, 15078, 22953, 14987, 2270, 11881, 15609, 5702, 13056, 1737, 3681, 3971, 7988, 7988, 2496, 8951, 624, 2117, 18394)
 ```
 
+![](http://fgcz-ms.uzh.ch/~lucas/image_resources/quantiles.png){ width=100% }
+
 
 ## Differences between before and after deisotoping
 
