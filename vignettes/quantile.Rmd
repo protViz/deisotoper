@@ -9,15 +9,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Quantiles
 
-## Loading the quantile test data
+## The quantile test data
 
 The quantile test data contains 20 mass spectra which are from four different quantiles.
 
-```{r}
+The Spectra used for the quantiles are:
+
+1. Quantile: 21369, 22316, 15078, 22953 and 14987
+2. Quantile: 2270, 11881, 15609, 5702, 13056
+3. Quantile: 1737, 3681, 3971, 7988, 7988
+4. Quantile: 2496, 8951, 624, 2117, 18394
+
+```{r echo=FALSE}
 library(deisotoper)
-library(DiagrammeR)
 
 QUANTILE <- load(system.file("extdata", name = 'FourQuantileTestDataDDA.RData', package = "deisotoper"))
 
