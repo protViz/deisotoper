@@ -16,10 +16,10 @@ The quantile test data contains 20 mass spectra which are from four different qu
 
 The Spectra used for the quantiles are:
 
-1. Quantile: 21369, 22316, 15078, 22953 and 14987
-2. Quantile: 2270, 11881, 15609, 5702, 13056
-3. Quantile: 1737, 3681, 3971, 7988, 7988
-4. Quantile: 2496, 8951, 624, 2117, 18394
+1. Quantile: 21369, 22316, 15078, 22953 and 14987 (High Mascot score)
+2. Quantile: 2270, 11881, 15609, 5702, 13056 (Mid to high Mascot score)
+3. Quantile: 1737, 3681, 3971, 7988, 7988 (Mid Mascot score)
+4. Quantile: 2496, 8951, 624, 2117, 18394 (Low to mid Mascot score (at least over 25))
 
 ```{r echo=FALSE}
 library(deisotoper)
@@ -27,6 +27,8 @@ library(deisotoper)
 QUANTILE <- load(system.file("extdata", name = 'FourQuantileTestDataDDA.RData', package = "deisotoper"))
 
 QUANTILEMSM <- jCreateMSM(get(QUANTILE))
+
+names <- c(21369, 22316, 15078, 22953, 14987, 2270, 11881, 15609, 5702, 13056, 1737, 3681, 3971, 7988, 7988, 2496, 8951, 624, 2117, 18394)
 ```
 
 
@@ -34,18 +36,19 @@ QUANTILEMSM <- jCreateMSM(get(QUANTILE))
 
 Differences between non deisotoped and deisotoped spectra are marked in red.
 
-```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
-size <- QUANTILEMSM$getMSlist()$size() - 1
+### First quantile
 
-for(i in 0:size) {
+```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+for(i in 0:4) {
+  index <- i + 1
   MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
   IMS <- jCreateIMS(MS)
   MSd <- jDeisotopeMS(MS)
   diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
   
-  plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", i+1, sep = ""))
+  plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], sep = ""))
   
-  plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", i+1, " deisotoped", sep = ""))
+  plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], " deisotoped", sep = ""))
   abline(v=diff, col="#FF000033", lwd = 2)
   
   delta <- c()
@@ -69,7 +72,170 @@ for(i in 0:size) {
       min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
       max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2
       
-      plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Isotopic Set Number ", j+1, sep = ""))
+      plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Spectra Number ", names[index], ", Isotopic Set Number ", j+1, sep = ""))
+      axis(side=1, at = MS$getMzArray())
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
+      
+      for(x in 1:length(delta)) {
+        if(x %% 2 == 0) {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        } else {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        }
+      }
+    }
+  }
+}
+```
+
+
+### Second quantile
+
+```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+for(i in 5:9) {
+  index <- i + 1
+  MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
+  IMS <- jCreateIMS(MS)
+  MSd <- jDeisotopeMS(MS)
+  diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+  
+  plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], sep = ""))
+  
+  plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], " deisotoped", sep = ""))
+  abline(v=diff, col="#FF000033", lwd = 2)
+  
+  delta <- c()
+  for(i in 2:length(MS$getMzArray())) {
+    m <- MS$getMzArray()[[i]] - MS$getMzArray()[[i - 1]]
+    delta <- c(delta, round(m, digits = 5))
+  }
+  
+  size2 <- IMS$getIsotopicMassSpectrum()$size() - 1
+  if(IMS$getIsotopicMassSpectrum()$size() > 1) {
+    for(j in 0:size2) {
+      is <- deisotoper:::jGetIS(IMS, j)
+      
+      islist <- as.list(is$getIsotopicSet())
+      
+      peaks <- c()
+      for(x in 1:length(islist)) {
+        peaks <- c(peaks, islist[[x]])
+      }
+      
+      min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
+      max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2
+      
+      plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Spectra Number ", names[index], ", Isotopic Set Number ", j+1, sep = ""))
+      axis(side=1, at = MS$getMzArray())
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
+      
+      for(x in 1:length(delta)) {
+        if(x %% 2 == 0) {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        } else {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        }
+      }
+    }
+  }
+}
+```
+
+
+### Third quantile
+
+```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+for(i in 10:14) {
+  index <- i + 1
+  MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
+  IMS <- jCreateIMS(MS)
+  MSd <- jDeisotopeMS(MS)
+  diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+  
+  plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], sep = ""))
+  
+  plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], " deisotoped", sep = ""))
+  abline(v=diff, col="#FF000033", lwd = 2)
+  
+  delta <- c()
+  for(i in 2:length(MS$getMzArray())) {
+    m <- MS$getMzArray()[[i]] - MS$getMzArray()[[i - 1]]
+    delta <- c(delta, round(m, digits = 5))
+  }
+  
+  size2 <- IMS$getIsotopicMassSpectrum()$size() - 1
+  if(IMS$getIsotopicMassSpectrum()$size() > 1) {
+    for(j in 0:size2) {
+      is <- deisotoper:::jGetIS(IMS, j)
+      
+      islist <- as.list(is$getIsotopicSet())
+      
+      peaks <- c()
+      for(x in 1:length(islist)) {
+        peaks <- c(peaks, islist[[x]])
+      }
+      
+      min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
+      max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2
+      
+      plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Spectra Number ", names[index], ", Isotopic Set Number ", j+1, sep = ""))
+      axis(side=1, at = MS$getMzArray())
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
+      axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
+      
+      for(x in 1:length(delta)) {
+        if(x %% 2 == 0) {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        } else {
+          text(x = MS$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(MS$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+        }
+      }
+    }
+  }
+}
+```
+
+
+### Fourth quantile
+
+```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+
+for(i in 15:19) {
+  index <- i + 1
+  MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
+  IMS <- jCreateIMS(MS)
+  MSd <- jDeisotopeMS(MS)
+  diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+  
+  plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], sep = ""))
+  
+  plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], " deisotoped", sep = ""))
+  abline(v=diff, col="#FF000033", lwd = 2)
+  
+  delta <- c()
+  for(i in 2:length(MS$getMzArray())) {
+    m <- MS$getMzArray()[[i]] - MS$getMzArray()[[i - 1]]
+    delta <- c(delta, round(m, digits = 5))
+  }
+  
+  size2 <- IMS$getIsotopicMassSpectrum()$size() - 1
+  if(IMS$getIsotopicMassSpectrum()$size() > 1) {
+    for(j in 0:size2) {
+      is <- deisotoper:::jGetIS(IMS, j)
+      
+      islist <- as.list(is$getIsotopicSet())
+      
+      peaks <- c()
+      for(x in 1:length(islist)) {
+        peaks <- c(peaks, islist[[x]])
+      }
+      
+      min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
+      max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2
+      
+      plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Spectra Number ", names[index], ", Isotopic Set Number ", j+1, sep = ""))
       axis(side=1, at = MS$getMzArray())
       axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
       axis(side=2, at = seq(0, max(MS$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
