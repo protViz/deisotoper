@@ -1,17 +1,17 @@
 ---
-title: "Deisotoper: Special Cases Of Spectra"
+title: "Deisotoper: Quantiles"
 author: "Lucas Schmidt"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Special Cases Of Spectra}
+  %\VignetteIndexEntry{Quantiles}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-# Differences
+# Quantiles
 
-## Loading the test data
+## Loading the quantile test data
 
 ```{r}
 library(deisotoper)
@@ -24,10 +24,70 @@ QUANTILEMSM <- jCreateMSM(get(QUANTILE))
 
 ## Differences between before and after deisotoping
 
-### First Quantile - First Spectra
+### First Spectra
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 MS <- QUANTILEMSM$getMSlist()$get(as.integer(0))
+MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+
+plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
+abline(v=diff, col="#FF000033", lwd = 2)
+
+plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
+```
+
+
+### Second Spectra
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+MS <- QUANTILEMSM$getMSlist()$get(as.integer(1))
+MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+
+plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
+abline(v=diff, col="#FF000033", lwd = 2)
+
+plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
+```
+
+
+### Third Spectra
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+MS <- QUANTILEMSM$getMSlist()$get(as.integer(2))
+MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+
+plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
+abline(v=diff, col="#FF000033", lwd = 2)
+
+plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
+```
+
+
+### Fourth Spectra
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+MS <- QUANTILEMSM$getMSlist()$get(as.integer(3))
+MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+
+plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
+abline(v=diff, col="#FF000033", lwd = 2)
+
+plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
+```
+
+
+### Fifth Spectra
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+MS <- QUANTILEMSM$getMSlist()$get(as.integer(4))
 MSd <- jDeisotopeMS(MS)
 diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
 
