@@ -1,0 +1,39 @@
+---
+title: "Deisotoper: Special Cases Of Spectra"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Special Cases Of Spectra}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Differences
+
+## Loading the test data
+
+```{r}
+library(deisotoper)
+
+QUANTILE <- load(system.file("extdata", name = 'FourQuantileTestDataDDA.RData', package = "deisotoper"))
+
+QUANTILEMSM <- jCreateMSM(get(QUANTILE))
+```
+
+
+## Differences between before and after deisotoping
+
+### First Quantile - First Spectra
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+MS <- QUANTILEMSM$getMSlist()$get(as.integer(0))
+MSd <- jDeisotopeMS(MS)
+diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+
+plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra")
+abline(v=diff, col="#FF000033", lwd = 2)
+
+plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = "First Quantile - First Spectra - deisotoped")
+abline(v=diff, col="#FF000033", lwd = 2)
+```
