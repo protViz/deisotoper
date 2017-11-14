@@ -9,4 +9,5 @@ r_packages:
   - shiny
   - testthat
   - knitr
+  - rmarkdown
 warnings_are_errors: false
