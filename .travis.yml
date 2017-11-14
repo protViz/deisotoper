@@ -1,10 +1,13 @@
 language: r
-sudo: required
+cache: packages
 
 r_packages:
-  -  lattice
-  -  roxygen2
-  -  protViz
-  -  shiny
-  -  testhat
+  - DiagrammeR
+  - lattice 
+  - roxygen2
+  - protViz
+  - shiny
+  - testthat
+  - mzR
+  - knitr
 warnings_are_errors: false
