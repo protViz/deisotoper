@@ -300,7 +300,6 @@ public class ScoreConfig {
     }
 
     public ScoreConfig(String file) {
-
         Properties properties = new Properties();
         try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));) {
             properties.load(stream);
@@ -309,6 +308,7 @@ public class ScoreConfig {
                 this.AA_MASS.removeAll(this.AA_MASS);
                 this.AA_MASS2.removeAll(this.AA_MASS2);
                 this.AA_MASS3.removeAll(this.AA_MASS3);
+                System.out.println("SUCCESS: File found...");
             } else {
                 System.err.println("WARNING: File is empty, using standart amino acid masses instead!");
             }
@@ -325,28 +325,38 @@ public class ScoreConfig {
 
             if (key.equals("F1")) {
                 this.FM1 = vdouble;
+                System.out.println("F1 set to " + vdouble);
             } else if (key.equals("F2")) {
                 this.FM2 = vdouble;
+                System.out.println("F2 set to " + vdouble);
             } else if (key.equals("F3")) {
                 this.FM3 = vdouble;
+                System.out.println("F3 set to " + vdouble);
             } else if (key.equals("F4")) {
                 this.FM4 = vdouble;
+                System.out.println("F4 set to " + vdouble);
             } else if (key.equals("F5")) {
                 this.FM5 = vdouble;
+                System.out.println("F5 set to " + vdouble);
             } else if (key.equals("DISTANCE")) {
                 this.DISTANCE_BETWEEN_ISOTOPIC_PEAKS = vdouble;
+                System.out.println("DISTANCE set to " + vdouble);
             } else if (key.equals("DELTA")) {
                 this.delta = vdouble;
+                System.out.println("DELTA set to " + vdouble);
             } else if (key.equals("ERRORTOLERANCE")) {
                 this.errortolerance = vdouble;
+                System.out.println("ERRORTOLERANCE set to " + vdouble);
             } else if (key.equals("NOISE")) {
                 this.noise = vdouble;
+                System.out.println("NOISE set to " + vdouble);
             } else if (key.equals("DECHARGE")) {
                 if (value.equals("1")) {
                     this.decharging = true;
                 } else if (value.equals("0")) {
                     this.decharging = false;
                 }
+                System.out.println("DECHARGE set to " + this.decharging);
             } else {
                 this.AA_MASS.add(vdouble);
             }
@@ -359,7 +369,5 @@ public class ScoreConfig {
 
         this.min = Collections.min(this.AA_MASS3);
         this.max = Collections.max(this.AA_MASS);
-        
-        System.err.println("File found... (DECHARGING: " + this.isDecharging() + ")");
     }
 }
