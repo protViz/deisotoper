@@ -8,6 +8,5 @@ r_packages:
   - protViz
   - shiny
   - testthat
-  - mzR
   - knitr
 warnings_are_errors: false
