@@ -2,12 +2,12 @@
 % Please edit documentation in R/deisotoper.R
 \name{is.MS}
 \alias{is.MS}
-\title{Coerce to MS}
+\title{Coerce to MS.}
 \usage{
 is.MS(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{a MassSpectrum Java-Object}
 }
 \value{
 \code{TRUE} or \code{FALSE}

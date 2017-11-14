@@ -4,7 +4,6 @@
 # $Id: PTM_MarkerFinder.R 6318 2014-04-02 13:02:51Z cpanse $
 # $Date: 2014-04-02 15:02:51 +0200 (Wed, 02 Apr 2014) $
 
-
 .write_mgf_header <- function(filename){
     FILE <- file(filename, "a")
     
@@ -32,13 +31,11 @@
 
 #' write Mascot Generic File (MGF)
 #'
-#' @param obj 
-#' @param filename 
+#' @param obj data frame
+#' @param filename mgf
 #'
 #' @return \code{file.info(filename)}
 #' @export mgf
-#'
-#' @examples
 mgf <- function(obj, filename = paste(tempfile(), 'mgf', sep='.')){
   stopifnot(is.MSM(obj))
   message(paste("writing mgf to file", filename, "..."))

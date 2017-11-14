@@ -1,0 +1,52 @@
+---
+title: "Deisotoper: Mascot Score Plot"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Mascot Score Plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Load the Mascot files
+
+```{r}
+DDA <- get(load(con <- url("http://fgcz-ms.uzh.ch/~lucas/dat_resources/Mix1a_1_DDA.RData")))
+
+DDA_DEISOTOPED <- get(load(con <- url("http://fgcz-ms.uzh.ch/~lucas/dat_resources/Mix1a_1_DDA_deisotoped.RData")))
+
+pep_score1 <- protViz:::.get_q_peptide(DDA, attribute = 'pep_score')
+pep_score2 <- protViz:::.get_q_peptide(DDA_DEISOTOPED, attribute = 'pep_score')
+```
+
+
+## PSM Score Plot
+
+```{r fig.width=8, fig.height=8}
+index1 <- order(as.numeric(pep_score1), decreasing = FALSE)
+index2 <- order(as.numeric(pep_score2), decreasing = FALSE)
+plot(pep_score1[index1], col="#0000FF55", type="p", cex = 0.8, ylab = "Mascot-Score", xlab = "Index", pch = 16, xlim = c(0, 20000))
+points(pep_score2[index2], col="#FF000055", type="p", cex = 0.8, pch = 16)
+mtext(text ="DDA original Mascot-Scores", line = 2, adj = 0, col="blue")
+mtext(text ="DDA deisotoped Mascot-Scores", line = 1, adj = 0, col="red")
+abline(a = 25, b = 0, col="#000000")
+```
+
+
+## Scatterplot
+
+```{r fig.width=8, fig.height=8}
+index<- c(1:length(pep_score1))
+plot(x = index, y = pep_score1, col="#0000FF55", type="p", cex = 0.8, ylab = "Mascot-Score", xlab = "Index", pch = 16)
+points(x = index, y = pep_score2, col="#FF000055", type="p", cex = 0.8, pch = 16)
+abline(a = 25, b = 0, col="#000000")
+mtext(text ="DDA original Mascot-Scores", line = 2, adj = 0, col="blue")
+mtext(text ="DDA deisotoped Mascot-Scores", line = 1, adj = 0, col="red")
+```
+
+
+```{r fig.width=8, fig.height=8}
+plot(x = pep_score1, y = pep_score2, col="#00000055", type="p", cex = 0.8, xlab = "Mascot-Score", ylab = "Mascot-Score", pch = 16)
+abline(1, 1, col="#FF0000")
+```

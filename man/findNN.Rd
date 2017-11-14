@@ -2,16 +2,14 @@
 % Please edit documentation in R/deisotoper.R
 \name{findNN}
 \alias{findNN}
-\title{find index of nearest neighbor}
+\title{find index of nearest neighbor.}
 \usage{
-findNN(q, vec, check = FALSE)
+findNN(q, vec)
 }
 \arguments{
 \item{q}{a double vector which can be considered as query objects.}
 
 \item{vec}{a sorted double vector which can be considered as a data base.}
-
-\item{check}{boolean enables test if \code{vec} is sorted. default is \code{FALSE}}
 }
 \value{
 an integer vector
@@ -32,19 +30,15 @@ the nearest neighbor index \code{o} so that the following remains true:
 \code{findNN} has \eqn{O(m * log(n))} time complexity.
 }
 \examples{
-
-
 (NNidx <- findNN(q<-c(1, 1.0001, 1.24, 1.26), DB<-seq(1,5,by=0.25)))
 (NNidx == c(1,1,2,2))
 
 # should be 0
 unique(DB[findNN(DB,DB)] - DB)
-
-
 }
 \seealso{
 \code{protViz::findNN}'s cpluplus implementation.
 }
 \author{
-Christian Panse
+Lucas Schmidt, Christian Panse
 }

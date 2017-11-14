@@ -2,7 +2,9 @@
 ^\.Rproj\.user$
 ^.*git.*
 ^java.*
-LICENSE
-^.*vignettes/cmp.Rmd$
+^LICENSE
 ^.*vignettes/report.*$
-^.*vignettes/graph.*$
+^.*vignettes/.*.html$
+^.*shiny/deisotoper/temp.*$
+^.*inst/doc/.*.tex$
+^.*travis.*

@@ -146,23 +146,11 @@ public class MassSpectrum {
     }
 
     /**
-     * Constructs a MassSpectrum Object.
-     * 
-     * 
      * Why did we use two List<Double> instead of a Map<Double, Double> or a List<Peak>?
      * 
      * Firstly the Map<Double, Double> hasn't index operations and then it's hard to work with it in the future and also there would be problems if a key occurs more than one time. Secondly the
      * List<Peak> would be a very big performance leak. The List<Peak> contains Peaks and each of these Peaks is a Object. Therefore, assumed we have for example 30000 MassSpectrum Objects and 300
      * Peak Objects in one average List<Peak>, there would be 9000000 Objects. In some tests with that structure we got many Java out of memory Errors.
-     * 
-     * @param typ
-     * @param searchEngine
-     * @param mz
-     * @param intensity
-     * @param peptidmass
-     * @param rt
-     * @param chargestate
-     * @param id
      */
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
         if (!isSorted(mz)) {
@@ -179,20 +167,6 @@ public class MassSpectrum {
         this.setId(id);
     }
 
-    /**
-     * Constructs a MassSpectrum Object with a List of isotopes and a List of charges.
-     * 
-     * @param typ
-     * @param searchEngine
-     * @param mz
-     * @param intensity
-     * @param peptidmass
-     * @param rt
-     * @param chargestate
-     * @param id
-     * @param charge
-     * @param isotope
-     */
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
             throw new IllegalArgumentException("The mZ-values are not sorted");
@@ -210,12 +184,6 @@ public class MassSpectrum {
         this.setId(id);
     }
 
-    /**
-     * Checks whether a list is sorted or not.
-     * 
-     * @param list
-     * @return boolean
-     */
     private static boolean isSorted(List<Double> list) {
         return list.stream().sorted().collect(Collectors.toList()).equals(list);
     }

@@ -7,11 +7,11 @@
 jReadJSON2MSM(filename = "test.json")
 }
 \arguments{
-\item{filename}{}
+\item{filename}{from where it should deserialized}
 }
 \description{
 Deserializes a json into a MSM.
 }
-\examples{
-
+\author{
+Lucas Schmidt
 }

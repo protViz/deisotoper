@@ -2,17 +2,20 @@
 % Please edit documentation in R/deisotoper.R
 \name{AddToProperties}
 \alias{AddToProperties}
-\title{Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE}
+\title{Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE.}
 \usage{
 AddToProperties(filename, key, value)
 }
 \arguments{
-\item{filename}{}
+\item{filename}{properties file}
 
-\item{key}{}
+\item{key}{name of key}
 
-\item{value}{}
+\item{value}{value}
 }
 \description{
-Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE
+Key can be: Any Amino Acid (Short form, 1 or 3 letter-code), F1, F2, F3, F4, F5, DISTANCE, DELTA, ERRORTOLERANCE, NOISE.
+}
+\author{
+Lucas Schmidt
 }

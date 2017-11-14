@@ -1,0 +1,12 @@
+language: r
+cache: packages
+
+r_packages:
+  - DiagrammeR
+  - lattice 
+  - roxygen2
+  - protViz
+  - shiny
+  - testthat
+  - knitr
+warnings_are_errors: false

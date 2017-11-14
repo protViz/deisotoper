@@ -1,57 +1,43 @@
 ---
-title: "deisotoper cmp test data"
-author: "Christian Panse"
+title: "Deisotoper: Comparation Of Test Data"
+author: "Christian Panse, Lucas Schmidt"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Comparation Of Test Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 
-# Create Java MSM object
+# Create MSM Java-Object And Make Summaries
 
 ```{r echo=TRUE, warning=TRUE}
 library(deisotoper)
-#library(parallel)
 
-input <- c("http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng.RData",
-  "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_pd21.RData",
-  "http://fgcz-ms.uzh.ch/~cpanse/R257544/TP_HeLa_200ng_msdeconv.RData")
-
+input <- c(load(system.file("extdata", name = 'Mix1a_1_DDA_FIRST100MS.RData', package = "deisotoper")), load(system.file("extdata", name = 'Mix1a_1_DDA_PD_DECONVOLUTED_FIRST100MS.RData', package = "deisotoper")))
 
 S <- lapply(input, function(u){ 
-  objN <- load(con <- url(u)); 
-  jo <- jCreateMSM(get(objN)); 
+  jo <- jCreateMSM(get(u)); 
   
   S <- jSummaryMSM(jo); 
-  S$file <- objN;
+  S$file <- u;
   S$status <- 'input'
   
-  Sd1 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="mspy"))
-  Sd1$file <- objN;
-  Sd1$status <- 'mspy'
+  Sd1 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jobj = jo))
+  Sd1$file <- u;
+  Sd1$status <- 'fdbm'
   
-  if(objN != "TP_HeLa_200ng_msdeconv") {
-    Sd2 <- jSummaryMSM(jD <- deisotoper:::jDeisotopeMSM(jo, method="fdbm"))
-    Sd2$file <- objN;
-    Sd2$status <- 'fdbm'
-  }
-  
-  # mgf(jGetMSM(jD), filename = paste("/tmp/", objN, ".mgf", sep=''))
-  if(exists("Sd2")) {
-    rbind(S, Sd1, Sd2)
-  } else {
-    rbind(S, Sd1)
-  }
+  rbind(S, Sd1) 
 })
 
 
 S <- do.call('rbind', S)
 ```
 
-# summary plots
+# Plot Of The Summaries
+
+## Number Of Peaks
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 library(lattice)
@@ -60,12 +46,15 @@ histogram(~Value | file * status, data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
+## Minimal Peak Distance
+
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "min_peak_distance")
 histogram(~Value | file * status,  data=S[filter, ], 
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
+## Maximal Peak Distance
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "max_peak_distance")
@@ -73,6 +62,7 @@ histogram(~Value | file * status,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
+## Sum Of Intensities
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "sum_intensity")
@@ -80,12 +70,15 @@ histogram(~Value | file* status,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
+## Minimal Intensity
+
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "min_intensity")
 histogram(~Value | file * status ,  data=S[filter, ],
           scales = list(x=list(log=TRUE)), type='count')
 ```
 
+## Maximal Intensity
 
 ```{r fig.retina=3, fig.width=8, fig.height=5}
 filter <- (S$Attribute == "max_intensity")

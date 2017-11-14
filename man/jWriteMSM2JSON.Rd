@@ -7,11 +7,13 @@
 jWriteMSM2JSON(jobj, filename = "test.json")
 }
 \arguments{
-\item{filename}{}
+\item{jobj}{a MassSpectrometryMeasurement Java-Object}
+
+\item{filename}{where it should serialized}
 }
 \description{
 Serializes a MSM into a json.
 }
-\examples{
-
+\author{
+Lucas Schmidt
 }

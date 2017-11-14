@@ -110,10 +110,23 @@ shinyServer(function(input, output, session) {
     
     min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2.5
     max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2.5
+    
+    delta <- delta(ms$getMzArray())
 
     plot(x = ms$getMzArray(), y = ms$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max))
     axis(side=1, at = ms$getMzArray())
-    axis(side=2, at = ms$getIntensityArray())
+    axis(side=2, at = seq(0, max(ms$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
+    axis(side=2, at = seq(0, max(ms$getIntensityArray()) + 10000, by = 8000), las = 1, tick = FALSE)
+    axis(side=2, at = round(max(ms$getIntensityArray())), col = "red", col.axis="red", las = 1)
+    #axis(side=2, at = round(min(ms$getIntensityArray())), col = "blue", col.axis="blue", las = 1)
+    
+    for(x in 1:length(delta)) {
+      if(x %% 2 == 0) {
+        text(x = ms$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.3 * max(ms$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+      } else {
+        text(x = ms$getMzArray()[[x]] + delta[[x]] * 0.5 , y = 0.35 * max(ms$getIntensityArray(), na.rm=TRUE), labels = delta[[x]], cex = 0.8)
+      }
+    }
     
     showNotification("Finished plotting!", type = "message", duration = 1)
     
@@ -179,15 +192,15 @@ shinyServer(function(input, output, session) {
     stats 
   })
   
-  output$explanation <- renderText(HTML("The configuration must be in the following format:<br/>
+  output$explanation <- renderText(HTML("<div align='left'>The configuration must be in the following format:<br/>
                             AMINOACID=123<br/>
                             F1=1.2<br/>
                             DELTA=0.01<br/>
-                            ...<br/>
-                            List of fixed parameters who are predefined: F1, F2, F3, F4, F5, ERRORTOLERANCE, DELTA, NOISE and DISTANCE<br/>
+                            ...<br/><br/>
+                            List of fixed parameters who are predefined: F1, F2, F3, F4, F5, ERRORTOLERANCE, DELTA, NOISE, DISTANCE and DECHARGE (0 or 1)<br/>
                             Other parameters will be collected as amino acid masses. You can name them whatever you like. It is recommended that you use the 1 or 3 letter-code.<br/>
                             <br/>
                             It is neccessary, that when you add one parameter, you must insert a full amino acid masses set plus the parameter you added! Otherwise only the given parameters will be taken and no amino acid masses!<br/>
-                            <br/>If empty the predefined settings will be used!")
+                            <br/>If empty the predefined settings will be used!</div>")
                                    )
 })

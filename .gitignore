@@ -36,6 +36,10 @@ vignettes/*.pdf
 
 .idea/
 
-
-
-
+# Generated TeX
+inst/doc/*.bbl
+inst/doc/*.blg
+inst/doc/*.log
+inst/doc/*.synctex.gz
+inst/doc/*.tex
+inst/doc/*.toc

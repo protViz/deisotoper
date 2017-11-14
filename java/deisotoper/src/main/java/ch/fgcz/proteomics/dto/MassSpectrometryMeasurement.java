@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
-
-    private List<MassSpectrum> massspectrumlist = new ArrayList<>();
+    private List<MassSpectrum> mslist = new ArrayList<>();
     private String source;
 
     public String getSource() {
@@ -22,36 +21,18 @@ public class MassSpectrometryMeasurement {
     }
 
     public List<MassSpectrum> getMSlist() {
-        return massspectrumlist;
+        return mslist;
     }
 
     public void setMSlist(List<MassSpectrum> list) {
-        this.massspectrumlist = list;
+        this.mslist = list;
     }
 
-    /**
-     * Constructs a MassSpectrometryMeasurement object.
-     *
-     * @param src
-     */
-    public MassSpectrometryMeasurement(String src) {
-        List<MassSpectrum> list = new ArrayList<>();
-        this.setSource(src);
-        this.setMSlist(list);
+    public MassSpectrometryMeasurement(String source) {
+        this.setSource(source);
+        this.setMSlist(new ArrayList<>());
     }
 
-    /**
-     * Fills the generated List<MassSpectrum> with input data.
-     *
-     * @param typ
-     * @param searchEngine
-     * @param mz
-     * @param intensity
-     * @param peptideMass
-     * @param rt
-     * @param chargeState
-     * @param id
-     */
     public void addMS(String typ, String searchEngine, double[] mz, double[] intensity, double peptideMass, double rt, int chargeState, int id) {
         List<Double> mzValues = new ArrayList<>();
         List<Double> intensityValues = new ArrayList<>();
@@ -64,28 +45,11 @@ public class MassSpectrometryMeasurement {
         this.getMSlist().add(new MassSpectrum(typ, searchEngine, mzValues, intensityValues, peptideMass, rt, chargeState, id));
     }
 
-    /**
-     * Fills the generated List<MassSpectrum> with input data.
-     *
-     * @param typ
-     * @param searchengine
-     * @param mz
-     * @param intensity
-     * @param peptidmass
-     * @param rt
-     * @param chargestate
-     * @param id
-     * @param charge
-     * @param isotope
-     */
-    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
-        this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, charge, isotope));
+    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id) {
+        this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
     }
 
-    /**
-     * @return version
-     */
-    public static String version() {
-        return "2017-09-22 (1) Lucas Schmidt";
+    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass, double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
+        this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, charge, isotope));
     }
 }

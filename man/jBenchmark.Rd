@@ -4,9 +4,23 @@
 \alias{jBenchmark}
 \title{Used for benchmarking. The input is a RData and the output is also a MGF.}
 \usage{
-jBenchmark(input, output, save = FALSE, modus = "first",
-  configfile = "nofile")
+jBenchmark(input, output, modus = "first", configfile = "nofile")
+}
+\arguments{
+\item{input}{RData}
+
+\item{output}{mgf}
+
+\item{modus}{modus of aggregation}
+
+\item{configfile}{properties file}
+}
+\value{
+mgf
 }
 \description{
 Used for benchmarking. The input is a RData and the output is also a MGF.
+}
+\author{
+Lucas Schmidt
 }

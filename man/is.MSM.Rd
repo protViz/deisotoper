@@ -2,12 +2,12 @@
 % Please edit documentation in R/deisotoper.R
 \name{is.MSM}
 \alias{is.MSM}
-\title{Coerce to MSM}
+\title{Coerce to MSM.}
 \usage{
 is.MSM(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{a MassSpectrometryMeasurement Java-Object}
 }
 \value{
 \code{TRUE} or \code{FALSE}

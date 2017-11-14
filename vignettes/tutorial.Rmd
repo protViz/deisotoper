@@ -1,0 +1,275 @@
+---
+title: "Deisotoper: Tutorial"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Installation
+
+## Needed software
+
+- Java JDK 8 (64 bit)
+- R 3.4.2 (64 bit)
+
+
+## Additional software
+
+- R Studio (64 bit)
+
+
+## Installation
+
+First install the dependencies.
+
+```{r eval=FALSE}
+install.packages(c('rJava', 'devtools', 'DiagrammeR', 'lattice', 'roxygen2', 'protViz', 'shiny', 'testthat', 'mzR', 'knitr'))
+```
+
+Then use the deisotoper_0.0.1.tar.gz file to install the deisotoper package.
+
+```{r eval=FALSE}
+install.packages("~/deisotoper_0.0.1.tar.gz", repos = NULL, type = "source")
+```
+
+
+# Usage
+
+Load the package in R and load some sample data.
+
+```{r}
+library(deisotoper)
+
+load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+```
+
+
+## Creating a MassSpectrometryMeasurement or MassSpectrum Java-Object
+
+### MassSpectrometryMeasurement
+
+To create a MassSpectrometryMeasurement Java-Object (MSM), you use the jCreateMSM function.
+
+```{r}
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+```
+
+
+### MassSpectrum
+
+To create a MassSpectrum Java-Object (MS), you use the jCreateMS function.
+
+```{r}
+MS <- jCreateMS(TP_HeLa_200ng_filtered_pd21[1])
+```
+
+
+## Deisotoping a MassSpectrometryMeasurement or MassSpectrum Java-Object
+
+### MassSpectrometryMeasurement
+
+To deisotope a MSM, you use the jDeisotopeMSM function.
+
+```{r}
+MSMd <- jDeisotopeMSM(MSM)
+```
+
+
+### MassSpectrum
+
+To deisotope a MS, you use the jDeisotopeMS function.
+
+```{r}
+MSd <- jDeisotopeMS(MS)
+```
+
+
+## Getting the data back in R from a MassSpectrometryMeasurement or MassSpectrum Java-Object
+
+Now we want to get the deisotoped data back to R.
+
+### MassSpectrometryMeasurement
+
+To get a MSM into R, you use the jGetMSM function.
+
+```{r echo=TRUE, warning=FALSE}
+MSMr <- jGetMSM(MSMd)
+```
+
+
+### MassSpectrum
+
+To get a MS into R, you use the jGetMS function.
+
+```{r echo=TRUE, warning=FALSE}
+MSr <- jGetMS(MSd)
+```
+
+
+## Getting a IsotopicClusterGraph as DOT-graph
+
+To get a IsotopicClusterGraph from a single IsotopicSet as a DOT-Graph, you use the jGetDot function. In this example, we take the MS from above and create a IMS from it, then we choose to get the DOT-graph for the first IsotopicSet (index 0).
+
+```{r}
+index <- 0
+IMS <- jCreateIMS(MS)
+DOT <- jGetDot(MS, IMS, index)
+```
+
+
+## Analizing data
+
+Now we want to analize the data.
+
+### Make a summary of a MassSpectrometryMeasurement or MassSpectrum Java-Object
+
+Therefore we create a summary of the created MSM.
+
+```{r}
+summaryMSM <- jSummaryMSM(MSM)
+```
+
+This is also possible for only one MS.
+
+```{r}
+summaryMS <- jSummaryMS(MS)
+```
+
+
+### Make a statistic a MassSpectrometryMeasurement Java-Object
+
+For the whole MSM we can calculate also a statistic.
+
+```{r}
+statisticMSM <- jGetStatisticMSM(MSM)
+```
+
+
+## Advanced deisotoping (configuration)
+
+To configurate a properties file, there are some functions for it. To create a properties file, you use the CreateProperties function and to add properties to it you use the AddToProperties function.
+
+```{r eval=FALSE}
+CreateProperties("Test.properties")
+# Add amino acids
+AddToProperties("Test.properties", key = "AMINOACID", value = 123.4)
+AddToProperties("Test.properties", key = "AMINOACID", value = 234.5)
+# Change the modifiers
+AddToProperties("Test.properties", key = "F1", value = 1.1)
+AddToProperties("Test.properties", key = "DISTANCE", value = 1.0)
+```
+
+There are fixed and non-fixed parameters, from which you can choose. The fixed parameters are (which are predefined):
+
+```{r echo=FALSE, results='asis'}
+library(knitr)
+kable(c(F1=0.8,
+        F2=0.5,
+        F3=0.1,
+        F4=0.1,
+        F5=0.1,
+        DISTANCE=1.003,
+        DELTA=0.003,
+        ERRORTOLERANCE=0.3,
+        NOISE=0))
+```
+
+When you use no properties file for your deisotoping process, then the standart will be used which is configurates as follows:
+
+```{r echo=FALSE, results='asis'}
+kable(c(ALA=71.03711,
+        ARG=156.10111,
+        ASN=114.04293,
+        ASP=115.02694,
+        CYS=103.00919,
+        GLU=129.04259,
+        GLN=128.05858,
+        GLY=57.02146,
+        HIS=137.05891,
+        ILE=113.08406,
+        LEU=113.08406,
+        LYS=128.09496,
+        MET=131.04049,
+        PHE=147.06841,
+        PRO=97.05276,
+        SER=87.03203,
+        THR=101.04768,
+        TRP=186.07931,
+        TYR=163.06333,
+        VAL=99.06841,
+        F1=0.8,
+        F2=0.5,
+        F3=0.1,
+        F4=0.1,
+        F5=0.1,
+        DISTANCE=1.003,
+        DELTA=0.003,
+        ERRORTOLERANCE=0.3,
+        NOISE=0))
+```
+
+**Attention**: When you change **one** parameter or want to change one, you must define a complete parameter file with **all** amino acids!
+
+
+## Write the data down in mgf-format
+
+You can use the jWriteMGF function or the mgf function. The jWriteMGF functions uses a MSM and a filename to write the data down and the mgf function uses the data which you got from jGetMSM into R and also a filename.
+
+```{r eval=FALSE}
+jWriteMGF(msm = MSMd, filename = "test.mgf")
+
+mgf(obj = MSMr, filename = "test.mgf")
+```
+
+
+# Examples
+
+For example you would like to load a RData object into R, transfer it into Java via MSM and then deisotope it with custom settings and write the results back on the disk. 
+In this example there are only 4 amino acid masses used for scoring. Plus the predefined parameters, which where modified, but not all were modified, only F1, F2, F3 and DELTA. The rest of the predefined parameters stay the same.
+
+```{r eval=FALSE}
+# Creation of MSM Java-Object
+load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+
+# Creation of properties file
+CreateProperties("test.properties")
+AddToProperties("test.properties", key = "F1", value = 1.0)
+AddToProperties("test.properties", key = "F2", value = 0.3)
+AddToProperties("test.properties", key = "F3", value = 0.15)
+AddToProperties("test.properties", key = "DELTA", value = 0.004)
+AddToProperties("test.properties", key = "GLY", value = 57.02146)
+AddToProperties("test.properties", key = "HIS", value = 137.05891)
+AddToProperties("test.properties", key = "ILE", value = 113.08406)
+AddToProperties("test.properties", key = "LYS", value = 128.09496)
+
+# Deisotoping process
+MSMd <- jDeisotopeMSM(MSM, configfile = "test.properties")
+
+# Save the deisotoped MSM on the disk 
+jWriteMGF("test.mgf", MSMd)
+```
+
+Now we want to evaluate the loaded data. Therefore we load a RData object into R, transfer it into Java via MSM and then summarize it and plot the summary.
+
+```{r fig.retina=3, fig.width=8, fig.height=5}
+library(lattice)
+
+load(system.file("extdata", name = 'TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+MSM <- jCreateMSM(TP_HeLa_200ng_filtered_pd21)
+X <- jSummaryMSM(MSM)
+
+xyplot(Value ~ SpectrumID | Attribute, data = X, pch = '.')
+xyplot(Value ~ SpectrumID | Attribute, data = X, scales = list(y = list(log=TRUE)))
+
+histogram(~Value | Attribute, data = X)
+histogram(~Value | Attribute, data = X, scales = list(x = list(log = TRUE)))
+histogram(~Value | Attribute, data = X, scales = list(x = list(log = TRUE)), type = 'count')
+
+bwplot(~Value | Attribute, data = X, scales = list(x = list(log = TRUE)))
+```
