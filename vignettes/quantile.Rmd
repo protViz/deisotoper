@@ -38,7 +38,7 @@ names <- c(21369, 22316, 15078, 22953, 14987, 2270, 11881, 15609, 5702, 13056, 1
 
 Differences between non deisotoped and deisotoped spectra are marked in red.
 
-```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE}
 loop <- function(start, stop) {
   for(i in start:stop) {
     index <- i + 1
@@ -99,21 +99,21 @@ loop <- function(start, stop) {
 
 ### First quantile
 
-```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE}
 loop(0, 4)
 ```
 
 
 ### Second quantile
 
-```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE}
 loop(5, 9)
 ```
 
 
 ### Third quantile
 
-```{r fig.retina=3, fig.width=8, fig.height=5, echo=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE}
 loop(10, 14)
 ```
 
