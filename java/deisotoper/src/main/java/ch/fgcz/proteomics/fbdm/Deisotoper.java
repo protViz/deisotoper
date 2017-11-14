@@ -40,6 +40,7 @@ public class Deisotoper {
         return deisotopeMS(input, modus, config, date);
     }
 
+    //TODO (LS): refactor method.
     public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
 
