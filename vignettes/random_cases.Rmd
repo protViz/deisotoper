@@ -1,10 +1,10 @@
 ---
-title: "Deisotoper: Special Cases Of Spectra"
+title: "Deisotoper: Random Cases Of Spectra"
 author: "Lucas Schmidt"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Special Cases Of Spectra}
+  %\VignetteIndexEntry{Random Cases Of Spectra}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
