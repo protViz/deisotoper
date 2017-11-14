@@ -1,0 +1,12 @@
+---
+title: "Deisotoper: Mascot Score Plot"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Mascot Score Plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
