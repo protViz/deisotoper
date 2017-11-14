@@ -21,7 +21,7 @@ The Spectra used for the quantiles are:
 3. Quantile: 1737, 3681, 3971, 7988, 7988 (Mid Mascot score)
 4. Quantile: 2496, 8951, 624, 2117, 18394 (Low to mid Mascot score (at least over 25))
 
-```{r}
+```{r, echo=FALSE}
 library(deisotoper)
 
 QUANTILE <- load(system.file("extdata", name = 'FourQuantileTestDataDDA.RData', package = "deisotoper"))

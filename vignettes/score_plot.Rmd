@@ -9,4 +9,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## Load the Mascot files
 
+```{r}
+DDA <- get(load(con <- url("http://fgcz-ms.uzh.ch/~lucas/dat_resources/F258665.RData")))
+
+DDA_DEISOTOPED <- get(load(con <- url("http://fgcz-ms.uzh.ch/~lucas/dat_resources/F258639.RData")))
+```
+
+
+## PSM Score Plot
+
+```{r fig.width=8, fig.height=5}
+pep_score1 <- protViz:::.get_q_peptide(DDA, attribute = 'pep_score')
+pep_score2 <- protViz:::.get_q_peptide(DDA_DEISOTOPED, attribute = 'pep_score')
+index1 <- order(as.numeric(protViz:::.get_q_peptide(DDA, attribute = 'pep_score')), decreasing = TRUE)
+index2 <- order(as.numeric(protViz:::.get_q_peptide(DDA_DEISOTOPED, attribute = 'pep_score')), decreasing = TRUE)
+plot(pep_score1[index1],col="#0000FF", type="p", cex = 0.8, ylab = "Mascot-Score", xlab = "Index", pch = 16)
+points(pep_score2[index2],col="#FF0000", type="p", cex = 0.8, pch = 16)
+mtext(text ="DDA original Mascot-Scores", line = 2, adj = 0, col="blue")
+mtext(text ="DDA deisotoped Mascot-Scores", line = 1, adj = 0, col="red")
+```
