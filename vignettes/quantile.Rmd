@@ -45,12 +45,18 @@ loop <- function(start, stop) {
     MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
     IMS <- jCreateIMS(MS)
     MSd <- jDeisotopeMS(MS)
+    MSd2 <- jDeisotopeMS(MS, configfile = "/srv/lucas1/deisotoper/properties/StandartDecharge.properties")
     diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
+    diff2 <- c(setdiff(MS$getMzArray(), MSd2$getMzArray()), setdiff(MSd2$getMzArray(), MS$getMzArray()))
     
     plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], sep = ""))
     
     plot(x = MSd$getMzArray(), y = MSd$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], " deisotoped", sep = ""))
     abline(v=diff, col="#FF000033", lwd = 2)
+    
+    plot(x = MSd2$getMzArray(), y = MSd2$getIntensityArray(), type = "h", xlab = "mZ", ylab = "Intensity", main = paste("Spectra Number ", names[index], " deisotoped and decharged", sep = ""))
+    abline(v=diff2, col="#FF000033", lwd = 2)
+    
     
     delta <- c()
     for(i in 2:length(MS$getMzArray())) {

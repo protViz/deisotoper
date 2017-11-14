@@ -342,9 +342,9 @@ public class ScoreConfig {
             } else if (key.equals("NOISE")) {
                 this.noise = vdouble;
             } else if (key.equals("DECHARGE")) {
-                if (value.equals(1)) {
+                if (value.equals("1")) {
                     this.decharging = true;
-                } else if (value.equals(0)) {
+                } else if (value.equals("0")) {
                     this.decharging = false;
                 }
             } else {
@@ -359,5 +359,7 @@ public class ScoreConfig {
 
         this.min = Collections.min(this.AA_MASS3);
         this.max = Collections.max(this.AA_MASS);
+        
+        System.err.println("File found... (DECHARGING: " + this.isDecharging() + ")");
     }
 }
