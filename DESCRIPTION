@@ -18,7 +18,6 @@ Suggests: DiagrammeR,
   protViz (>= 0.2.37),
   shiny,
   testthat,
-  mzR,
   knitr
 SystemRequirements: Java (>= 6.0), GNU make
 Description: implements a deisotoper algorithm.
