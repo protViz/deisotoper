@@ -48,5 +48,5 @@ mtext(text ="DDA deisotoped Mascot-Scores", line = 1, adj = 0, col="red")
 
 ```{r fig.width=8, fig.height=8}
 plot(x = pep_score1, y = pep_score2, col="#00000055", type="p", cex = 0.8, xlab = "Mascot-Score", ylab = "Mascot-Score", pch = 16)
-abline(1, 1, col="#FF0000")
+abline(0, 1, col="#FF0000")
 ```

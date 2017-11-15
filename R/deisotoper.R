@@ -666,6 +666,23 @@ jWriteMGF <- function(filename, msm) {
   status
 }
 
+#' Creates a Configuration (Java Object).
+#'
+#' @param aa Amino Acid Masses Vector
+#' @param F1 Multiplier F1
+#' @param F2 Multiplier F2
+#' @param F3 Multiplier F3
+#' @param F4 Multiplier F4
+#' @param F5 Multiplier F5
+#' @param DELTA Delta for clustering
+#' @param ERRORTOLERANCE Errortolerance for scoring
+#' @param DISTANCE Distance between two peaks
+#' @param NOISE Noise filtering
+#' @param DECHARGE Logical parameter, if decharge or not
+#'
+#' @return Configuration
+#' @export jCreateConfiguration
+#' @author Lucas Schmidt
 jCreateConfiguration <- function(aa = c(), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, DELTA = 0.003, ERRORTOLERANCE = 0.3, DISTANCE = 1.003, NOISE = 0.0, DECHARGE = FALSE) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
