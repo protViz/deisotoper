@@ -15,13 +15,28 @@ vignette: >
 DDA <- get(load(con <- url("http://fgcz-ms.uzh.ch/~lucas/dat_resources/Mix1a_1_DDA.RData")))
 
 DDA_DEISOTOPED <- get(load(con <- url("http://fgcz-ms.uzh.ch/~lucas/dat_resources/Mix1a_1_DDA_deisotoped.RData")))
-
+rt1 <- protViz:::.get_(DDA, 'RTINSECONDS')
+rt2 <- protViz:::.get_(DDA_DEISOTOPED, 'RTINSECONDS')
 pep_score1 <- protViz:::.get_q_peptide(DDA, attribute = 'pep_score')
 pep_score2 <- protViz:::.get_q_peptide(DDA_DEISOTOPED, attribute = 'pep_score')
 ```
 
 
 ## PSM Score Plot
+
+```{r fig.width=8, fig.height=8}
+indexrt1 <- order(as.numeric(rt1), decreasing = FALSE)
+indexrt2 <- order(as.numeric(rt2), decreasing = FALSE)
+indexs1 <- order(as.numeric(pep_score1), decreasing = TRUE)
+indexs2 <- order(as.numeric(pep_score2), decreasing = TRUE)
+
+plot(rt1[indexrt1], pep_score1[indexs1], col="#0000FF55", type="p", cex = 0.8, ylab = "Mascot-Score", xlab = "Rt in seconds", pch = 16)
+points(rt2[indexrt2], pep_score2[indexs2], col="#FF000055", type="p", cex = 0.8, pch = 16)
+mtext(text ="DDA original Mascot-Scores", line = 2, adj = 0, col="blue")
+mtext(text ="DDA deisotoped Mascot-Scores", line = 1, adj = 0, col="red")
+abline(a = 25, b = 0, col="#000000")
+```
+
 
 ```{r fig.width=8, fig.height=8}
 index1 <- order(as.numeric(pep_score1), decreasing = TRUE)
