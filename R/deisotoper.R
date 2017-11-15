@@ -681,3 +681,20 @@ jCreateConfiguration <- function(aa = c(), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.
   
   config
 }
+
+test <- function() {
+  DATA <- load(system.file("extdata", name='TP_HeLa_200ng_filtered_pd21.RData', package = "deisotoper"))
+  
+  MSM <- jCreateMSM(get(DATA))
+  
+  CONFIG <- jCreateConfiguration(DECHARGE = TRUE)
+  
+  MSMd <- jDeisotopeMSM(MSM, configuration = CONFIG)
+  
+  SUMMARY <- jSummaryMSM(MSM)
+  SUMMARYd <- jSummaryMSM(MSMd)
+  
+  MSMr <- jGetMSM(MSMd)
+  
+  c(MSMr, SUMMARY, SUMMARYd)
+}
