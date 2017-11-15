@@ -390,7 +390,7 @@ jVersion <- function() {
 #'
 #' joMSMsummary <- jSummaryMSM(joMSM)
 #' joMSMdeisotopedsummary <- jSummaryMSM(joMSMdeisotoped)
-jDeisotopeMSM <- function(jobj, modus="first", configuration) {
+jDeisotopeMSM <- function(jobj, modus="first", configuration = jCreateConfiguration()) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -430,7 +430,7 @@ jDeisotopeMSM <- function(jobj, modus="first", configuration) {
 #' ms <- mslist$get(as.integer(0)) #index 0 of joMSM
 #' 
 #' msdeisotoped <- jDeisotopeMS(ms)
-jDeisotopeMS <- function(ms, modus="first", configuration) {
+jDeisotopeMS <- function(ms, modus="first", configuration = jCreateConfiguration()) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jaddClassPath("inst/java/antlr4-runtime-4.5.3.jar")
@@ -462,7 +462,7 @@ jDeisotopeMS <- function(ms, modus="first", configuration) {
 #' @return mgf
 #' @export jBenchmark
 #' @author Lucas Schmidt
-jBenchmark <- function(input, output, modus = "first", configuration) {
+jBenchmark <- function(input, output, modus = "first", configuration= jCreateConfiguration()) {
   name <- load(file = input)
   mgf(jGetMSM(jDeisotopeMSM(jobj = jCreateMSM(get(name)), modus = modus, configuration = configuration)), filename = output)
 }
@@ -475,7 +475,7 @@ jBenchmark <- function(input, output, modus = "first", configuration) {
 #' @return ims
 #' @export jCreateIMS
 #' @author Lucas Schmidt
-jCreateIMS <- function(massspectrum, configuration, modus = "first") {
+jCreateIMS <- function(massspectrum, configuration = jCreateConfiguration(), modus = "first") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
@@ -500,7 +500,7 @@ jCreateIMS <- function(massspectrum, configuration, modus = "first") {
 #' @return dot graph
 #' @export jGetDotGraphFromIS
 #' @author Lucas Schmidt
-jGetDotGraphFromIS <- function(massspectrum, isotopicset, configuration) {
+jGetDotGraphFromIS <- function(massspectrum, isotopicset, configuration = jCreateConfiguration()) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
@@ -537,7 +537,7 @@ jGetIS <- function(isotopicmassspectrum, index) {
 #' @return dot graph
 #' @export jGetDot
 #' @author Lucas Schmidt
-jGetDot <- function(massspectrum, isotopicmassspectrum, index, configuration) {
+jGetDot <- function(massspectrum, isotopicmassspectrum, index, configuration = jCreateConfiguration()) {
   dot <- jGetDotGraphFromIS(massspectrum = massspectrum, isotopicset = jGetIS(isotopicmassspectrum = isotopicmassspectrum, index = index), configuration = configuration)
   
   dot
@@ -597,7 +597,7 @@ jGetMS <- function(massspectrum) {
 #' @return csv
 #' @export jGetStatisticMSM
 #' @author Lucas Schmidt
-jGetStatisticMSM <- function(msm, configuration) {
+jGetStatisticMSM <- function(msm, configuration = jCreateConfiguration()) {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
