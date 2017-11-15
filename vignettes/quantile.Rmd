@@ -45,7 +45,7 @@ loop <- function(start, stop) {
     MS <- QUANTILEMSM$getMSlist()$get(as.integer(i))
     IMS <- jCreateIMS(MS)
     MSd <- jDeisotopeMS(MS)
-    MSd2 <- jDeisotopeMS(MS, configfile = "/srv/lucas1/deisotoper/properties/StandartDecharge.properties")
+    MSd2 <- jDeisotopeMS(MS, configuration = jCreateConfiguration(DECHARGE = TRUE))
     diff <- c(setdiff(MS$getMzArray(), MSd$getMzArray()), setdiff(MSd$getMzArray(), MS$getMzArray()))
     diff2 <- c(setdiff(MS$getMzArray(), MSd2$getMzArray()), setdiff(MSd2$getMzArray(), MS$getMzArray()))
     
@@ -77,7 +77,7 @@ loop <- function(start, stop) {
         }
         
         min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
-        max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2
+        max <- 2000 + 2 # peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz()
         
         plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Spectra Number ", names[index], ", Isotopic Set Number ", j+1, sep = ""))
         axis(side=1, at = MS$getMzArray())

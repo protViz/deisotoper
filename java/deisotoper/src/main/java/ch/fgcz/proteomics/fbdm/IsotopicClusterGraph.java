@@ -33,7 +33,7 @@ public class IsotopicClusterGraph {
         return path.get(path.size() - 1);
     }
 
-    public String createDOTIsotopicClusterGraph() {
+    public String toDOTGraph() {
         StringBuilder sb = new StringBuilder();
         String linesep = System.getProperty("line.separator");
 

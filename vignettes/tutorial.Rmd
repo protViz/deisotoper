@@ -9,6 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+THE TUTORIAL IS OUTDATED AND MUST BE RENEWED!!!!
 
 # Installation
 

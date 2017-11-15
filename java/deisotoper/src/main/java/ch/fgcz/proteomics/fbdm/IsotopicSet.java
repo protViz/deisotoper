@@ -27,11 +27,11 @@ public class IsotopicSet {
     public IsotopicSet(List<Peak> isotopicset, double delta, int setid, Configuration config) {
         List<IsotopicCluster> is = new ArrayList<>();
 
-        is = loop(is, isotopicset, 3, delta, config);
+        is = collectClusterForEachCharge(is, isotopicset, 3, delta, config);
 
-        is = loop(is, isotopicset, 2, delta, config);
+        is = collectClusterForEachCharge(is, isotopicset, 2, delta, config);
 
-        is = loop(is, isotopicset, 1, delta, config);
+        is = collectClusterForEachCharge(is, isotopicset, 1, delta, config);
 
         is = removeMultipleIsotopicCluster(is);
 
@@ -47,7 +47,7 @@ public class IsotopicSet {
         this.setID = setid;
     }
 
-    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double delta, Configuration config) {
+    public List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double delta, Configuration config) {
         for (Peak a : isotopicset) {
             for (Peak b : isotopicset) {
                 double distanceab = b.getMz() - a.getMz();

@@ -33,7 +33,7 @@ public class FeaturesBasedDeisotopingMethodR {
 
         icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), config.getErrortolerance(), new Peaklist(ms), config);
 
-        return icg.createDOTIsotopicClusterGraph();
+        return icg.toDOTGraph();
     }
 
     public static String getStatistic(MassSpectrometryMeasurement msm, Configuration config) {
