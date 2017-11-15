@@ -10,7 +10,7 @@ shinyServer(function(input, output, session) {
     deisotoper:::CreateProperties(properties)
     
     config <- unlist(strsplit(input$config, "\n"))
-  
+    
     if(input$config != ""){
       for(x in 1:length(config)) {
         string <- unlist(strsplit(config[x], "="))
@@ -60,20 +60,20 @@ shinyServer(function(input, output, session) {
       
       mslist <- msf()$getMSlist()
       ms <- mslist$get(as.integer(input$massspectrum))
-
+      
       ims <- deisotoper:::jCreateIMS(massspectrum = ms, configfile = properties)
       dot <- deisotoper:::jGetDot(massspectrum = ms, isotopicmassspectrum = ims, index = input$isotopicset, configfile = properties)
-    
+      
       showNotification("Finished drawing!", type = "message", duration = 1)
-    
+      
       if(file.exists(properties)) {
         file.remove(properties)
       }
       
       dot
-      })
+    })
   })
-
+  
   output$outputplot <- renderPlot({
     dir.create("temp")
     properties <- as.character(paste("temp/",generateRandomString(), ".properties", sep = ""))
@@ -112,7 +112,7 @@ shinyServer(function(input, output, session) {
     max <- peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz() + 2.5
     
     delta <- delta(ms$getMzArray())
-
+    
     plot(x = ms$getMzArray(), y = ms$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max))
     axis(side=1, at = ms$getMzArray())
     axis(side=2, at = seq(0, max(ms$getIntensityArray()) + 10000, by = 2000), labels = FALSE)
@@ -144,13 +144,13 @@ shinyServer(function(input, output, session) {
   
   output$outputsummary <- renderTable({    
     mslist <- mss()$getMSlist()
-  ms <- mslist$get(as.integer(input$summaryindex))
-  
-  sum <- deisotoper:::jSummaryMS(ms)
-  
-  showNotification("Finished summarizing!", type = "message", duration = 1)
-  
-  sum })
+    ms <- mslist$get(as.integer(input$summaryindex))
+    
+    sum <- deisotoper:::jSummaryMS(ms)
+    
+    showNotification("Finished summarizing!", type = "message", duration = 1)
+    
+    sum })
   
   mss2 <- eventReactive(input$button4, {
     name <- load(file = input$ipath)
@@ -191,16 +191,4 @@ shinyServer(function(input, output, session) {
     
     stats 
   })
-  
-  output$explanation <- renderText(HTML("<div align='left'>The configuration must be in the following format:<br/>
-                            AMINOACID=123<br/>
-                            F1=1.2<br/>
-                            DELTA=0.01<br/>
-                            ...<br/><br/>
-                            List of fixed parameters who are predefined: F1, F2, F3, F4, F5, ERRORTOLERANCE, DELTA, NOISE, DISTANCE and DECHARGE (0 or 1)<br/>
-                            Other parameters will be collected as amino acid masses. You can name them whatever you like. It is recommended that you use the 1 or 3 letter-code.<br/>
-                            <br/>
-                            It is neccessary, that when you add one parameter, you must insert a full amino acid masses set plus the parameter you added! Otherwise only the given parameters will be taken and no amino acid masses!<br/>
-                            <br/>If empty the predefined settings will be used!</div>")
-                                   )
 })

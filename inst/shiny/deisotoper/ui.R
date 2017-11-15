@@ -21,7 +21,7 @@ shinyUI(fluidPage(
                  hr(),
                  grVizOutput("outputdiagram"),
                  plotOutput("outputplot", height = 460)
-                 ),
+        ),
         tabPanel("Summary",
                  numericInput("summaryindex", "Mass Spectrum Index", value = 0, min = 0),
                  actionButton("button3", label = "make summary"),
@@ -33,15 +33,14 @@ shinyUI(fluidPage(
                  hr(),
                  tableOutput("outputstatistic")),
         tabPanel("Configuration", 
-                 htmlOutput("explanation"),
-                 hr(),
                  textAreaInput("config", "Configuration", "", width = "100%", height = "500", resize = "none", placeholder = "For example:
                                ALA=71.03711
                                               F1=0.8
                                               F2=0.5
                                               F3=0.1
-                               DISTANCE=1.003")
+                               DISTANCE=1.003"), 
+                 hr()
         )
-        )
-      ))
-  ))
+      )
+    ))
+))
