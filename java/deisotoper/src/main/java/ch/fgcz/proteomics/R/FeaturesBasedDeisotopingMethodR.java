@@ -13,89 +13,103 @@ import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fbdm.*;
+import ch.fgcz.proteomics.fbdm.Cache;
+import ch.fgcz.proteomics.fbdm.Configuration;
+import ch.fgcz.proteomics.fbdm.Deisotoper;
+import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
+import ch.fgcz.proteomics.fbdm.IsotopicMassSpectrum;
+import ch.fgcz.proteomics.fbdm.IsotopicSet;
+import ch.fgcz.proteomics.fbdm.IsotopicCluster;
+import ch.fgcz.proteomics.fbdm.Peak;
+import ch.fgcz.proteomics.fbdm.Peaklist;
 
 public class FeaturesBasedDeisotopingMethodR {
-    public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus, Configuration config) {
-        return Deisotoper.deisotopeMSM(input, modus, config);
+    public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus,
+	    Configuration config) {
+	return Deisotoper.deisotopeMSM(input, modus, config);
     }
 
     public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus, Configuration config) {
-        return Deisotoper.deisotopeMS(input, modus, config).getMassSpectrumDeisotoped();
+	return Deisotoper.deisotopeMS(input, modus, config).getMassSpectrumDeisotoped();
     }
 
     public static IsotopicMassSpectrum getIMS(MassSpectrum input, String modus, Configuration config) {
-        return Deisotoper.deisotopeMS(input, modus, config).getIsotopicMassSpectrum();
+	return Deisotoper.deisotopeMS(input, modus, config).getIsotopicMassSpectrum();
     }
 
     public static String getGraphFromIS(IsotopicSet is, MassSpectrum ms, Configuration config) {
-        IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
+	IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
 
-        icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), config.getErrortolerance(), new Peaklist(ms), config);
+	icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), config.getErrortolerance(),
+		new Peaklist(ms), config);
 
-        return icg.toDOTGraph();
+	return icg.toDOTGraph();
     }
 
     public static String getStatistic(MassSpectrometryMeasurement msm, Configuration config) {
-        int numberms = msm.getMSlist().size();
-        int numberis = 0;
-        int numberic = 0;
-        int numberipeaks = 0;
-        int numberpeaks = 0;
+	int numberms = msm.getMSlist().size();
+	int numberis = 0;
+	int numberic = 0;
+	int numberipeaks = 0;
+	int numberpeaks = 0;
 
-        for (MassSpectrum ms : msm.getMSlist()) {
-            numberpeaks += ms.getMz().size();
+	for (MassSpectrum ms : msm.getMSlist()) {
+	    numberpeaks += ms.getMz().size();
 
-            IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getDelta(), config);
+	    IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getDelta(), config);
 
-            numberis += ims.getIsotopicMassSpectrum().size();
+	    numberis += ims.getIsotopicMassSpectrum().size();
 
-            for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-                numberic += is.getIsotopicSet().size();
-                List<Peak> peakic = new ArrayList<>();
+	    for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+		numberic += is.getIsotopicSet().size();
+		List<Peak> peakic = new ArrayList<>();
 
-                for (IsotopicCluster ic : is.getIsotopicSet()) {
-                    peakic.addAll(ic.getIsotopicCluster());
-                }
+		for (IsotopicCluster ic : is.getIsotopicSet()) {
+		    peakic.addAll(ic.getIsotopicCluster());
+		}
 
-                Set<Double> titles = new HashSet<Double>();
-                List<Peak> result = new ArrayList<Peak>();
+		Set<Double> titles = new HashSet<Double>();
+		List<Peak> result = new ArrayList<Peak>();
 
-                for (Peak p : peakic) {
-                    if (titles.add(p.getMz())) {
-                        result.add(p);
-                    }
-                }
+		for (Peak p : peakic) {
+		    if (titles.add(p.getMz())) {
+			result.add(p);
+		    }
+		}
 
-                numberipeaks += result.size();
-            }
-        }
+		numberipeaks += result.size();
+	    }
+	}
 
-        StringBuilder sb = new StringBuilder();
-        String linesep = System.getProperty("line.separator");
-        sb.append("NumberOfMassSpectra,NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks").append(linesep);
-        sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(",").append(numberipeaks).append(",").append(numberpeaks).append(linesep);
+	StringBuilder sb = new StringBuilder();
+	String linesep = System.getProperty("line.separator");
+	sb.append(
+		"NumberOfMassSpectra,NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks")
+		.append(linesep);
+	sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(",").append(numberipeaks)
+		.append(",").append(numberpeaks).append(linesep);
 
-        return sb.toString();
+	return sb.toString();
     }
 
-    public static Configuration createConfigurationR(double[] aa, double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE,
-            boolean DECHARGE) {
-        List<Double> AA_MASS = new ArrayList<>();
+    public static Configuration createConfigurationR(double[] aa, double F1, double F2, double F3, double F4, double F5,
+	    double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
+	List<Double> AA_MASS = new ArrayList<>();
 
-        for (int i = 0; i < aa.length; i++) {
-            AA_MASS.add(aa[i]);
-        }
+	for (int i = 0; i < aa.length; i++) {
+	    AA_MASS.add(aa[i]);
+	}
 
-        return new Configuration(AA_MASS, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
+	return new Configuration(AA_MASS, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
     }
 
-    public static Configuration createConfigurationR(double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
-        return new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
+    public static Configuration createConfigurationR(double F1, double F2, double F3, double F4, double F5,
+	    double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
+	return new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
     }
 
     public static Cache getCacheR(MassSpectrum ms, String modus, Configuration config) {
-        return Deisotoper.deisotopeMS(ms, modus, config);
+	return Deisotoper.deisotopeMS(ms, modus, config);
     }
 
     // public static String getScoreConfigAsCSV(Configuration config) {
