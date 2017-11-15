@@ -77,7 +77,7 @@ loop <- function(start, stop) {
         }
         
         min <- peaks[[1]]$getIsotopicCluster()$get(as.integer(0))$getMz() - 2
-        max <- 2000 + 2 # peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz()
+        max <- min + 5 + 2 # peaks[[length(peaks)]]$getIsotopicCluster()$get(as.integer(peaks[[length(peaks)]]$getIsotopicCluster()$size() - 1))$getMz()
         
         plot(x = MS$getMzArray(), y = MS$getIntensityArray(), type = "h", axes = FALSE, xlab = "mZ", ylab = "Intensity", xlim = c(min, max), main = paste("Spectra Number ", names[index], ", Isotopic Set Number ", j+1, sep = ""))
         axis(side=1, at = MS$getMzArray())
