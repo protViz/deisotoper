@@ -462,7 +462,7 @@ jDeisotopeMS <- function(ms, modus="first", configuration) {
 #' @return mgf
 #' @export jBenchmark
 #' @author Lucas Schmidt
-jBenchmark <- function(input, output, modus="first", configuration) {
+jBenchmark <- function(input, output, modus = "first", configuration) {
   name <- load(file = input)
   mgf(jGetMSM(jDeisotopeMSM(jobj = jCreateMSM(get(name)), modus = modus, configuration = configuration)), filename = output)
 }
@@ -475,16 +475,18 @@ jBenchmark <- function(input, output, modus="first", configuration) {
 #' @return ims
 #' @export jCreateIMS
 #' @author Lucas Schmidt
-jCreateIMS <- function(massspectrum, configuration) {
+jCreateIMS <- function(massspectrum, configuration, modus = "first") {
   .jinit(parameters = "-XX:-UseGCOverheadLimit")
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
   adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
   
-  delta <- configuration$getDelta()
   
-  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fbdm/IsotopicMassSpectrum;", "getIMS", massspectrum, delta, configuration)
+  String <- J("java.lang.String")
+  m <- new( String, modus )
+  
+  ims <- .jcall(adapter, "Lch/fgcz/proteomics/fbdm/IsotopicMassSpectrum;", "getIMS", massspectrum, m, configuration)
   
   ims
 }

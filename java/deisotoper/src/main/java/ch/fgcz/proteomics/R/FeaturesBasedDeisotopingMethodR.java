@@ -21,11 +21,11 @@ public class FeaturesBasedDeisotopingMethodR {
     }
 
     public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus, Configuration config) {
-        return Deisotoper.deisotopeMS(input, modus, config);
+        return Deisotoper.deisotopeMS(input, modus, config).getMassSpectrumDeisotoped();
     }
 
-    public static IsotopicMassSpectrum getIMS(MassSpectrum input, double errortolerance, Configuration config) {
-        return new IsotopicMassSpectrum(input, errortolerance, config);
+    public static IsotopicMassSpectrum getIMS(MassSpectrum input, String modus, Configuration config) {
+        return Deisotoper.deisotopeMS(input, modus, config).getIsotopicMassSpectrum();
     }
 
     public static String getGraphFromIS(IsotopicSet is, MassSpectrum ms, Configuration config) {

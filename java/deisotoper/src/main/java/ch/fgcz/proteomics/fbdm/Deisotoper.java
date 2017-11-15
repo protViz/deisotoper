@@ -26,21 +26,26 @@ public class Deisotoper {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
         for (MassSpectrum ms : input.getMSlist()) {
-            output.getMSlist().add(deisotopeMS(ms, modus, config, date));
+
+            output.getMSlist().add(deisotopeMS(ms, modus, config, date).getMassSpectrumDeisotoped());
         }
 
         return output;
     }
 
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config) {
+    public static Cache deisotopeMS(MassSpectrum input, String modus, Configuration config) {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
         return deisotopeMS(input, modus, config, date);
     }
 
     // TODO (LS): refactor method.
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config, String date) {
+    public static Cache deisotopeMS(MassSpectrum input, String modus, Configuration config, String date) {
+        Cache cache = new Cache();
+        cache.setMassSpectrum(input);
+
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
+        cache.setIsotopicMassSpectrum(ims);
 
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
@@ -89,6 +94,9 @@ public class Deisotoper {
             charge.addAll(charge2);
 
             mz3.addAll(mz4);
+
+            cache.addIsotopicClusterGraph(icg);
+            cache.addBestPath(bp);
         }
 
         for (int i = 0; i < input.getMz().size(); i++) {
@@ -128,6 +136,7 @@ public class Deisotoper {
 
         Sort.keySort(mz6, mz6, intensity6, isotope6, charge6);
 
+        MassSpectrum msdeisotoped;
         if (config.getNoise() != 0) {
             double threshold = Collections.max(intensity6) * config.getNoise() / 100;
 
@@ -145,10 +154,13 @@ public class Deisotoper {
                 }
             }
 
-            return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz5, intensity5, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge5, isotope5);
+            msdeisotoped = new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz5, intensity5, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge5, isotope5);
         } else {
-            return new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz6, intensity6, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge6, isotope6);
+            msdeisotoped = new MassSpectrum(input.getTyp(), input.getSearchEngine(), mz6, intensity6, input.getPeptideMass(), input.getRt(), input.getChargeState(), input.getId(), charge6, isotope6);
         }
+
+        cache.setMassSpectrumDeisotoped(msdeisotoped);
+        return cache;
     }
 
     private static IsotopicCluster getStart(IsotopicClusterGraph icg) {
