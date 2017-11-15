@@ -12,3 +12,25 @@ delta <- function(mz) {
   
   return(delta)
 }
+
+formatAA <- function(aa) {
+  a <- strsplit(aa, ",")
+           
+  aamasses <- a[[1]]
+  
+  aamasses2 <- c()
+  for(i in 1:length(aamasses)) {
+    aamasses2 <- c(aamasses2, as.double(aamasses[i]))
+  }
+  
+  aamasses2
+}
+
+formatDECHARGE <- function(decharge) {
+  boolean <- FALSE
+  if(decharge == "TRUE"){
+    boolean <- TRUE
+  }
+  
+  boolean
+}

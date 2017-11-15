@@ -33,12 +33,17 @@ shinyUI(fluidPage(
                  hr(),
                  tableOutput("outputstatistic")),
         tabPanel("Configuration", 
-                 textAreaInput("config", "Configuration", "", width = "100%", height = "500", resize = "none", placeholder = "For example:
-                               ALA=71.03711
-                                              F1=0.8
-                                              F2=0.5
-                                              F3=0.1
-                               DISTANCE=1.003"), 
+                 textInput("F1", "F1", "", width = "100%", placeholder = ""), 
+                 textInput("F2", "F2", "", width = "100%", placeholder = ""), 
+                 textInput("F3", "F3", "", width = "100%", placeholder = ""), 
+                 textInput("F4", "F4", "", width = "100%", placeholder = ""), 
+                 textInput("F5", "F5", "", width = "100%", placeholder = ""), 
+                 textInput("DELTA", "Delta", "", width = "100%", placeholder = "The delta is used at clustering"), 
+                 textInput("DISTANCE", "Distance between two peaks", "", width = "100%", placeholder = "The distance is used at clustering"), 
+                 textInput("ERRORTOLERANCE", "Errortolerance", "", width = "100%", placeholder = "The errortolerance is used at scoring"), 
+                 textInput("NOISE", "Noise filtering", "", width = "100%", placeholder = "Value between 0 and 100 in percent (0 is disabled)"), 
+                 textInput("DECHARGE", "Decharge", "", width = "100%", placeholder = "TRUE or FALSE"), 
+                 textInput("AAMASS", "Amino Acid Masses", "", width = "100%", placeholder = "Comma seperated values (minimum two or more), for example: 123,124,145"), 
                  hr()
         )
       )
