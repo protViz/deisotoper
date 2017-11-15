@@ -94,6 +94,10 @@ public class FeaturesBasedDeisotopingMethodR {
         return new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
     }
 
+    public static Cache getCacheR(MassSpectrum ms, String modus, Configuration config) {
+        return Deisotoper.deisotopeMS(ms, modus, config);
+    }
+
     // public static String getScoreConfigAsCSV(Configuration config) {
     // return makeCSV(config);
     // }
