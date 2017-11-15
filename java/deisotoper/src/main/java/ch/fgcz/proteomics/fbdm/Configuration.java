@@ -291,6 +291,29 @@ public class Configuration {
         this.max = Collections.max(this.AA_MASS);
     }
 
+    public Configuration(double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
+        this.FM1 = F1;
+        this.FM2 = F2;
+        this.FM3 = F3;
+        this.FM4 = F4;
+        this.FM5 = F5;
+        this.delta = DELTA;
+        this.errortolerance = ERRORTOLERANCE;
+        this.Distance = DISTANCE;
+        this.noise = NOISE;
+        this.decharge = DECHARGE;
+        this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276,
+                87.03203, 101.04768, 186.07931, 163.06333, 99.06841);
+
+        for (Double x : this.AA_MASS) {
+            this.AA_MASS2.add(x / 2);
+            this.AA_MASS3.add(x / 3);
+        }
+
+        this.min = Collections.min(this.AA_MASS3);
+        this.max = Collections.max(this.AA_MASS);
+    }
+
     public Configuration(List<Double> AA_MASS, double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
         this.FM1 = F1;
         this.FM2 = F2;
