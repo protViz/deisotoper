@@ -12,9 +12,9 @@ public class Score {
     private double pepmassvalue;
     private double chargevalue;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> icg;
-    private ScoreConfig config;
+    private Configuration config;
 
-    public Score(double error, double mspepmass, double mscharge, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, ScoreConfig config) {
+    public Score(double error, double mspepmass, double mscharge, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, Configuration config) {
         this.errorvalue = error;
         this.pepmassvalue = mspepmass;
         this.chargevalue = mscharge;
@@ -29,39 +29,39 @@ public class Score {
                 + this.config.getFM5() * fifthIntensityFeature(con, this.icg, this.config);
     }
 
-    protected double diff1(Peak x, Peak y, ScoreConfig config) {
+    protected double diff1(Peak x, Peak y, Configuration config) {
         return x.getMz() - y.getMz();
     }
 
-    protected double diff2(Peak x, Peak y, ScoreConfig config) {
+    protected double diff2(Peak x, Peak y, Configuration config) {
         return x.getMz() - ((y.getMz() + config.getH_MASS()) / 2);
     }
 
-    protected double diff3(Peak x, Peak y, ScoreConfig config) {
+    protected double diff3(Peak x, Peak y, Configuration config) {
         return x.getMz() - ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
-    protected double diff4(Peak x, Peak y, ScoreConfig config) {
+    protected double diff4(Peak x, Peak y, Configuration config) {
         return x.getMz() - (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    protected double sum1(Peak x, Peak y, ScoreConfig config) {
+    protected double sum1(Peak x, Peak y, Configuration config) {
         return x.getMz() + y.getMz();
     }
 
-    protected double sum2(Peak x, Peak y, ScoreConfig config) {
+    protected double sum2(Peak x, Peak y, Configuration config) {
         return x.getMz() + ((y.getMz() + config.getH_MASS()) / 2);
     }
 
-    protected double sum3(Peak x, Peak y, ScoreConfig config) {
+    protected double sum3(Peak x, Peak y, Configuration config) {
         return x.getMz() + ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
-    protected double sum4(Peak x, Peak y, ScoreConfig config) {
+    protected double sum4(Peak x, Peak y, Configuration config) {
         return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    protected int firstNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
+    protected int firstNonintensityFeature(Peak x, Peak y, double errortolerance, Configuration config) {
         int F1 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -98,7 +98,7 @@ public class Score {
         return F1;
     }
 
-    protected int secondNonintensityFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge, IsotopicCluster ic, ScoreConfig config) {
+    protected int secondNonintensityFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge, IsotopicCluster ic, Configuration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : ic.getIsotopicCluster()) {
@@ -114,7 +114,7 @@ public class Score {
         double s3yx = sum3(y, x, config);
         double s4xy = sum4(x, y, config);
         double s4yx = sum4(y, x, config);
-        double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() * i;
+        double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * config.getDistance() * i;
 
         if (m2i + config.getH_MASSx2() - errortolerance < s1xy && s1xy < m2i + config.getH_MASSx2() + errortolerance) {
             F2++;
@@ -139,7 +139,7 @@ public class Score {
         return F2;
     }
 
-    protected int thirdNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
+    protected int thirdNonintensityFeature(Peak x, Peak y, double errortolerance, Configuration config) {
         int F3 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -191,7 +191,7 @@ public class Score {
         return F3;
     }
 
-    protected int fourthNonintensityFeature(Peak x, Peak y, double errortolerance, ScoreConfig config) {
+    protected int fourthNonintensityFeature(Peak x, Peak y, double errortolerance, Configuration config) {
         int F4 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -244,7 +244,7 @@ public class Score {
     }
 
     // NOT FINISHED YET
-    protected int fifthIntensityFeature(Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, ScoreConfig config) {
+    protected int fifthIntensityFeature(Connection con, DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, Configuration config) {
         int F5 = 0;
 
         double threshold = 0.3;

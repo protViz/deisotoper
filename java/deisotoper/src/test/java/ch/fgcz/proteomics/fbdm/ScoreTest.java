@@ -6,9 +6,6 @@ package ch.fgcz.proteomics.fbdm;
  */
 
 import static org.junit.Assert.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -34,7 +31,7 @@ public class ScoreTest {
      */
     @Test
     public void testF1() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(125.86, 467.55, 1);
@@ -60,7 +57,7 @@ public class ScoreTest {
      */
     @Test
     public void testF2() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(253.0, 467.55, 1);
@@ -85,7 +82,7 @@ public class ScoreTest {
      */
     @Test
     public void testF3() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(141.0, 467.55, 1);
@@ -109,7 +106,7 @@ public class ScoreTest {
      */
     @Test
     public void testF4() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(138.0, 467.55, 1);
@@ -125,10 +122,10 @@ public class ScoreTest {
      */
     @Test
     public void testF5() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         IsotopicClusterGraph icg = new IsotopicClusterGraph(
-                new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0), new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)), 0.01, 0, new ScoreConfig("")));
+                new IsotopicSet(Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0), new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)), 0.01, 0, new Configuration()));
         Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
 
         double score = s.fifthIntensityFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
@@ -143,20 +140,9 @@ public class ScoreTest {
      */
     @Test
     public void testScoreConfig() {
-        File file = new File("AminoAcidMassesTest.properties");
+        Configuration config = new Configuration();
 
-        try (PrintWriter writer = new PrintWriter(file)) {
-            writer.println("X=12345");
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        ScoreConfig config = new ScoreConfig(file.getName());
-
-        assertEquals(config.getAA_MASS().get(0), 12345, 0);
-
-        file.delete();
+        assertEquals(config.getDelta(), 0.003, 0);
     }
 
     /**
@@ -174,7 +160,7 @@ public class ScoreTest {
      */
     @Test
     public void testDiff() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 1);
@@ -204,7 +190,7 @@ public class ScoreTest {
      */
     @Test
     public void testSum() {
-        ScoreConfig config = new ScoreConfig("nofile");
+        Configuration config = new Configuration();
         Score s = new Score(0, 0, 0, null, config);
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 0);

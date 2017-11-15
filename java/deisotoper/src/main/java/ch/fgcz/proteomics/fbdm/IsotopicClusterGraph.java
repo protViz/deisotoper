@@ -114,7 +114,7 @@ public class IsotopicClusterGraph {
         }
     }
 
-    public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double errorolerance, Peaklist peaklist, ScoreConfig config) {
+    public void scoreIsotopicClusterGraph(double pepmass, int chargestate, double errorolerance, Peaklist peaklist, Configuration config) {
         Score s = new Score(errorolerance, pepmass, chargestate, this.isotopicclustergraph, config);
 
         for (Connection con : this.isotopicclustergraph.edgeSet()) {

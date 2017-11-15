@@ -20,10 +20,8 @@ import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus, String file) {
+    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus, Configuration config) {
         MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
-
-        ScoreConfig config = new ScoreConfig(file);
 
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
@@ -34,14 +32,14 @@ public class Deisotoper {
         return output;
     }
 
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config) {
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config) {
         String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
         return deisotopeMS(input, modus, config, date);
     }
 
-    //TODO (LS): refactor method.
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, ScoreConfig config, String date) {
+    // TODO (LS): refactor method.
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config, String date) {
         IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
 
         List<Double> mz = new ArrayList<>();
@@ -107,7 +105,7 @@ public class Deisotoper {
         List<Double> isotope6 = new ArrayList<>();
         List<Integer> charge6 = new ArrayList<>();
 
-        if (config.isDecharging() == true) {
+        if (config.isDecharge() == true) {
             for (int i = 0; i < mz.size(); i++) {
                 if (charge.get(i) > 1) {
                     mz6.add(mz.get(i) * charge.get(i) - (charge.get(i) - 1) * config.getH_MASS());

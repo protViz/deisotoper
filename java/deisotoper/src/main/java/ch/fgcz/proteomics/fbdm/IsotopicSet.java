@@ -24,7 +24,7 @@ public class IsotopicSet {
         return isotopicset;
     }
 
-    public IsotopicSet(List<Peak> isotopicset, double delta, int setid, ScoreConfig config) {
+    public IsotopicSet(List<Peak> isotopicset, double delta, int setid, Configuration config) {
         List<IsotopicCluster> is = new ArrayList<>();
 
         is = loop(is, isotopicset, 3, delta, config);
@@ -47,7 +47,7 @@ public class IsotopicSet {
         this.setID = setid;
     }
 
-    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double delta, ScoreConfig config) {
+    public List<IsotopicCluster> loop(List<IsotopicCluster> is, List<Peak> isotopicset, int charge, double delta, Configuration config) {
         for (Peak a : isotopicset) {
             for (Peak b : isotopicset) {
                 double distanceab = b.getMz() - a.getMz();
@@ -56,13 +56,13 @@ public class IsotopicSet {
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
-                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta < distanceab && distanceab < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta) {
+                    if ((config.getDistance() / charge) - delta < distanceab && distanceab < (config.getDistance() / charge) + delta) {
                         ic.add(a);
                         ic.add(b);
                     }
 
-                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta < distancebc && distancebc < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta
-                            && ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta) * 2 < distanceac && distanceac < ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta) * 2) {
+                    if ((config.getDistance() / charge) - delta < distancebc && distancebc < (config.getDistance() / charge) + delta
+                            && ((config.getDistance() / charge) - delta) * 2 < distanceac && distanceac < ((config.getDistance() / charge) + delta) * 2) {
                         ic.add(c);
                     }
 

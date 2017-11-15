@@ -17,17 +17,17 @@ public class IsotopicMassSpectrum {
         return isotopicmassspectrum;
     }
 
-    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, ScoreConfig config) {
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, Configuration config) {
         Peaklist peaklist = new Peaklist(massspectrum);
 
         constructIsotopicMassSpectrum(peaklist, delta, config);
     }
 
-    public IsotopicMassSpectrum(Peaklist peaklist, double delta, ScoreConfig config) {
+    public IsotopicMassSpectrum(Peaklist peaklist, double delta, Configuration config) {
         constructIsotopicMassSpectrum(peaklist, delta, config);
     }
 
-    private void constructIsotopicMassSpectrum(Peaklist peaklist, double delta, ScoreConfig config) {
+    private void constructIsotopicMassSpectrum(Peaklist peaklist, double delta, Configuration config) {
         int id = 0;
         for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
             List<Peak> isotopicset = new ArrayList<>();
@@ -37,7 +37,7 @@ public class IsotopicMassSpectrum {
                 double distance = peaklist.getPeaklist().get(i + 1).getMz() - peaklist.getPeaklist().get(i).getMz();
 
                 for (int charge = 1; charge <= 3; charge++) {
-                    if ((config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) - delta < distance && distance < (config.getDISTANCE_BETWEEN_ISOTOPIC_PEAKS() / charge) + delta) {
+                    if ((config.getDistance() / charge) - delta < distance && distance < (config.getDistance() / charge) + delta) {
                         if (isotopicset.size() == 0) {
                             isotopicset.add((peaklist.getPeaklist().get(i)));
                         }

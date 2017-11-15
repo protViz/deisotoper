@@ -39,7 +39,7 @@ public class IsotopicTest {
 
     @Test
     public void testIsotopeSet() {
-        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new ScoreConfig(""));
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new Configuration());
 
         assertEquals("Created IsotopicMassSpectrum should have one IsotopicSet", ims.getIsotopicMassSpectrum().size(), 1);
         assertEquals("Created IsotopicSet should have six IsotopicCluster", ims.getIsotopicMassSpectrum().get(0).getIsotopicSet().size(), 6);
@@ -56,7 +56,7 @@ public class IsotopicTest {
 
     @Test
     public void testIsotopeCluster() {
-        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new ScoreConfig(""));
+        IsotopicMassSpectrum ims = new IsotopicMassSpectrum(peaklist, 0.01, new Configuration());
         for (IsotopicSet i : ims.getIsotopicMassSpectrum()) {
             System.out.println(i.getIsotopicSet().get(0).getIsotopicCluster().toString());
             System.out.println(i.getIsotopicSet().get(1).getIsotopicCluster().toString());
@@ -186,7 +186,7 @@ public class IsotopicTest {
         System.out.println();
 
         System.out.println("Output:");
-        for (MassSpectrum x : Deisotoper.deisotopeMSM(msm, "first", "xxx").getMSlist()) {
+        for (MassSpectrum x : Deisotoper.deisotopeMSM(msm, "first", new Configuration()).getMSlist()) {
             for (int y = 0; y < x.getMz().size(); y++) {
                 System.out.print("M: " + x.getMz().get(y) + ", ");
                 System.out.print("Z: " + x.getCharge().get(y) + ", ");
@@ -416,7 +416,7 @@ public class IsotopicTest {
 
         long startTime = System.currentTimeMillis();
 
-        MassSpectrometryMeasurement d = Deisotoper.deisotopeMSM(msm, "first", "xxx");
+        MassSpectrometryMeasurement d = Deisotoper.deisotopeMSM(msm, "first", new Configuration());
 
         long endTime = System.currentTimeMillis();
 
@@ -451,7 +451,7 @@ public class IsotopicTest {
         MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(s);
         MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
 
-        IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01, new ScoreConfig(""));
+        IsotopicMassSpectrum test = new IsotopicMassSpectrum(MSM.getMSlist().get(0), 0.01, new Configuration());
 
         for (IsotopicSet is : test.getIsotopicMassSpectrum()) {
             System.out.println("(((" + is.getSetID() + ")))");
