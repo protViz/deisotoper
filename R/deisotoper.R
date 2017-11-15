@@ -712,8 +712,8 @@ test <- function() {
   
   SUMMARY <- jSummaryMSM(MSM)
   SUMMARYd <- jSummaryMSM(MSMd)
-  
   MSMr <- jGetMSM(MSMd)
+  STATISTIC <- jGetStatisticMSM(MSM, CONFIG)
   
-  list(result = MSMr, summary = SUMMARY, summarydeisotoped = SUMMARYd)
+  list(result = MSMr, summary = SUMMARY, summarydeisotoped = SUMMARYd, statistic = STATISTIC)
 }

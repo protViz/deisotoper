@@ -2,15 +2,15 @@ shinyServer(function(input, output, session) {
   observeEvent(input$button1, {
     config <- deisotoper:::jCreateConfiguration(
       aa = formatAA(input$AAMASS),
-      F1 = as.double(input$F1),
-      F2 = as.double(input$F2),
-      F3 = as.double(input$F3),
-      F4 = as.double(input$F4),
-      F5 = as.double(input$F5),
-      DELTA = as.double(input$DELTA),
-      ERRORTOLERANCE = as.double(input$ERRORTOLERANCE),
-      DISTANCE = as.double(input$DISTANCE),
-      NOISE = as.double(input$NOISE),
+      F1 = formatF1(input$F1),
+      F2 = formatF2(input$F2),
+      F3 = formatF3(input$F3),
+      F4 = formatF4(input$F4),
+      F5 = formatF5(input$F5),
+      DELTA = formatDELTA(input$DELTA),
+      ERRORTOLERANCE = formatERROR(input$ERRORTOLERANCE),
+      DISTANCE = formatDISTANCE(input$DISTANCE),
+      NOISE = formatNOISE(input$NOISE),
       DECHARGE = formatDECHARGE(input$DECHARGE))
     
     deisotoper:::jBenchmark(input = input$ipath, output = input$opath, modus = input$modus, configuration = config)
@@ -29,15 +29,15 @@ shinyServer(function(input, output, session) {
     grViz({
       config <- deisotoper:::jCreateConfiguration(
         aa = formatAA(input$AAMASS),
-        F1 = as.double(input$F1),
-        F2 = as.double(input$F2),
-        F3 = as.double(input$F3),
-        F4 = as.double(input$F4),
-        F5 = as.double(input$F5),
-        DELTA = as.double(input$DELTA),
-        ERRORTOLERANCE = as.double(input$ERRORTOLERANCE),
-        DISTANCE = as.double(input$DISTANCE),
-        NOISE = as.double(input$NOISE),
+        F1 = formatF1(input$F1),
+        F2 = formatF2(input$F2),
+        F3 = formatF3(input$F3),
+        F4 = formatF4(input$F4),
+        F5 = formatF5(input$F5),
+        DELTA = formatDELTA(input$DELTA),
+        ERRORTOLERANCE = formatERROR(input$ERRORTOLERANCE),
+        DISTANCE = formatDISTANCE(input$DISTANCE),
+        NOISE = formatNOISE(input$NOISE),
         DECHARGE = formatDECHARGE(input$DECHARGE))
       
       mslist <- msf()$getMSlist()
@@ -55,15 +55,15 @@ shinyServer(function(input, output, session) {
   output$outputplot <- renderPlot({
     config <- deisotoper:::jCreateConfiguration(
       aa = formatAA(input$AAMASS),
-      F1 = as.double(input$F1),
-      F2 = as.double(input$F2),
-      F3 = as.double(input$F3),
-      F4 = as.double(input$F4),
-      F5 = as.double(input$F5),
-      DELTA = as.double(input$DELTA),
-      ERRORTOLERANCE = as.double(input$ERRORTOLERANCE),
-      DISTANCE = as.double(input$DISTANCE),
-      NOISE = as.double(input$NOISE),
+      F1 = formatF1(input$F1),
+      F2 = formatF2(input$F2),
+      F3 = formatF3(input$F3),
+      F4 = formatF4(input$F4),
+      F5 = formatF5(input$F5),
+      DELTA = formatDELTA(input$DELTA),
+      ERRORTOLERANCE = formatERROR(input$ERRORTOLERANCE),
+      DISTANCE = formatDISTANCE(input$DISTANCE),
+      NOISE = formatNOISE(input$NOISE),
       DECHARGE = formatDECHARGE(input$DECHARGE))
     
     mslist <- msf()$getMSlist()
@@ -129,15 +129,15 @@ shinyServer(function(input, output, session) {
   output$outputstatistic <- renderTable({
     config <- deisotoper:::jCreateConfiguration(
       aa = formatAA(input$AAMASS),
-      F1 = as.double(input$F1),
-      F2 = as.double(input$F2),
-      F3 = as.double(input$F3),
-      F4 = as.double(input$F4),
-      F5 = as.double(input$F5),
-      DELTA = as.double(input$DELTA),
-      ERRORTOLERANCE = as.double(input$ERRORTOLERANCE),
-      DISTANCE = as.double(input$DISTANCE),
-      NOISE = as.double(input$NOISE),
+      F1 = formatF1(input$F1),
+      F2 = formatF2(input$F2),
+      F3 = formatF3(input$F3),
+      F4 = formatF4(input$F4),
+      F5 = formatF5(input$F5),
+      DELTA = formatDELTA(input$DELTA),
+      ERRORTOLERANCE = formatERROR(input$ERRORTOLERANCE),
+      DISTANCE = formatDISTANCE(input$DISTANCE),
+      NOISE = formatNOISE(input$NOISE),
       DECHARGE = formatDECHARGE(input$DECHARGE))
     
     msm <- mss2()

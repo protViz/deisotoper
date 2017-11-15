@@ -28,9 +28,148 @@ formatAA <- function(aa) {
 
 formatDECHARGE <- function(decharge) {
   boolean <- FALSE
-  if(decharge == "TRUE"){
+  if(decharge == "TRUE") {
     boolean <- TRUE
+  } else if (decharge == "") {
+    boolean <- FALSE
+  } else {
+    stop("Format error at decharge!")
   }
   
   boolean
+}
+
+formatF1 <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.8
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at F1!")
+  }
+  
+  d2
+}
+
+formatF2 <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.5
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at F2!")
+  }
+  
+  d2
+}
+
+formatF3 <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.1
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at F3!")
+  }
+  
+  d2
+}
+
+formatF4 <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.1
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at F4!")
+  }
+  
+  d2
+}
+
+formatF5 <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.1
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at F5!")
+  }
+  
+  d2
+}
+
+formatDELTA <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.003
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at delta!")
+  }
+  
+  d2
+}
+
+formatERROR <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.3
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at errortolerance!")
+  }
+  
+  d2
+}
+
+formatDISTANCE <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 1.003
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at distance!")
+  }
+  
+  d2
+}
+
+formatNOISE <- function(d) {
+  d2 <- 0
+  if(d != "") {
+    d2 <- as.double(d)
+  } else {
+    d2 <- 0.0
+  }
+  
+  if(is.na(d2)) {
+    stop("Format error at noise!")
+  }
+  
+  d2
 }
