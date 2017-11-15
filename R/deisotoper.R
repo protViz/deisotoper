@@ -696,5 +696,5 @@ test <- function() {
   
   MSMr <- jGetMSM(MSMd)
   
-  c(MSMr, SUMMARY, SUMMARYd)
+  list(result = MSMr, summary = SUMMARY, summarydeisotoped = SUMMARYd)
 }
