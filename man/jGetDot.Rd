@@ -4,7 +4,7 @@
 \alias{jGetDot}
 \title{Creates the dot graph from the given massspectrum and the given isotopicset.}
 \usage{
-jGetDot(massspectrum, isotopicmassspectrum, index, configfile = "nofile")
+jGetDot(massspectrum, isotopicmassspectrum, index, configuration)
 }
 \arguments{
 \item{massspectrum}{a IsotopicMassSpectrum Java-Object}

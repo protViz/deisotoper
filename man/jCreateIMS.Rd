@@ -4,7 +4,7 @@
 \alias{jCreateIMS}
 \title{Creates a isotopicmassspectrum from a massspectrum}
 \usage{
-jCreateIMS(massspectrum, configfile = "nofile")
+jCreateIMS(massspectrum, configuration)
 }
 \arguments{
 \item{massspectrum}{a MassSpectrum Java-Object}

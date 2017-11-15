@@ -8,3 +8,4 @@
 ^.*shiny/deisotoper/temp.*$
 ^.*inst/doc/.*.tex$
 ^.*travis.*
+^.*vignettes/.*$

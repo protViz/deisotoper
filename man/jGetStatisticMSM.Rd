@@ -2,9 +2,29 @@
 % Please edit documentation in R/deisotoper.R
 \name{jGetStatisticMSM}
 \alias{jGetStatisticMSM}
-\title{Returns a statistic as CSV}
+\title{#' Returns the ScoreConfig which is in the properties file as a CSV.
+#'
+#' @param file properties file
+#'
+#' @return csv
+#' @export jScoreConfigAsCSV
+#' @author Lucas Schmidt
+jScoreConfigAsCSV <- function(file){
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", file)
+  
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
+  
+  csv <- .jcall(adapter, "S", "getScoreConfigAsCSV", config)
+  con <- textConnection(csv)
+  read.csv(con, sep=',', header = TRUE)
+}
+Returns a statistic as CSV}
 \usage{
-jGetStatisticMSM(msm, configfile = "nofile")
+jGetStatisticMSM(msm, configuration)
 }
 \arguments{
 \item{msm}{a MassSpectrometryMeasurement Java-Object}
@@ -15,6 +35,26 @@ jGetStatisticMSM(msm, configfile = "nofile")
 csv
 }
 \description{
+#' Returns the ScoreConfig which is in the properties file as a CSV.
+#'
+#' @param file properties file
+#'
+#' @return csv
+#' @export jScoreConfigAsCSV
+#' @author Lucas Schmidt
+jScoreConfigAsCSV <- function(file){
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  config <- .jnew("ch.fgcz.proteomics.fbdm.ScoreConfig", file)
+  
+  adapter <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotopingMethodR")
+  
+  csv <- .jcall(adapter, "S", "getScoreConfigAsCSV", config)
+  con <- textConnection(csv)
+  read.csv(con, sep=',', header = TRUE)
+}
 Returns a statistic as CSV
 }
 \author{
