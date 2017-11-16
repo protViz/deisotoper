@@ -14,7 +14,6 @@ import java.util.Set;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.Configuration;
-import ch.fgcz.proteomics.fbdm.Deisotoper;
 import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.fbdm.IsotopicMassSpectrum;
 import ch.fgcz.proteomics.fbdm.IsotopicSet;
@@ -23,14 +22,26 @@ import ch.fgcz.proteomics.fbdm.Peak;
 import ch.fgcz.proteomics.fbdm.Peaklist;
 
 public class FeaturesBasedDeisotopingMethodR {
-    public static MassSpectrometryMeasurement deisotopeMSMR(MassSpectrometryMeasurement input, String modus,
-	    Configuration config) {
-	return Deisotoper.deisotopeMSM(input, modus, config);
-    }
+    // public static MassSpectrometryMeasurement
+    // deisotopeMSMR(MassSpectrometryMeasurement input, String modus,
+    // Configuration config) {
+    // MassSpectrometryMeasurement output = new
+    // MassSpectrometryMeasurement(input.getSource() + "_output");
+    //
+    // String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+    //
+    // for (MassSpectrum ms : input.getMSlist()) {
+    //
+    // output.getMSlist().add(deisotopeMS(ms, modus, config, date));
+    // }
+    //
+    // return new Deisotoper().deisotopeMSM(input, modus, config);
+    // }
 
-    public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus, Configuration config) {
-	return Deisotoper.deisotopeMS(input, modus, config);
-    }
+    // public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus,
+    // Configuration config) {
+    // return new Deisotoper().deisotopeMS(input, modus, config);
+    // }
 
     // public static IsotopicMassSpectrum getIMS(MassSpectrum input, String modus,
     // Configuration config) {

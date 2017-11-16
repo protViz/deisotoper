@@ -5,56 +5,57 @@ package ch.fgcz.proteomics.fbdm;
  * @since 2017-09-21
  */
 
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.jgrapht.GraphPath;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus,
-	    Configuration config) {
-	MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
+    private Configuration config;
 
-	String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-
-	for (MassSpectrum ms : input.getMSlist()) {
-
-	    output.getMSlist().add(deisotopeMS(ms, modus, config, date));
-	}
-
-	return output;
+    public Configuration getConfiguration() {
+	return config;
     }
 
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config) {
-	String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-
-	return deisotopeMS(input, modus, config, date);
+    public void setConfiguration(Configuration config) {
+	this.config = config;
     }
 
-    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config, String date) {
-	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
+    // public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement
+    // input, String modus,
+    // Configuration config) {
+    //
+    //
+    // String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+    //
+    // for (MassSpectrum ms : input.getMSlist()) {
+    //
+    // output.getMSlist().add(deisotopeMS(ms, modus, config, date));
+    // }
+    //
+    // return output;
+    // }
 
-	ListMassSpectrum list = makeGraph(input, ims, modus, config);
+    public MassSpectrum deisotopeMS(MassSpectrum input, String modus) {
+	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, this.config.getDelta(), this.config);
 
-	ListMassSpectrum list3 = decharge(list, config);
+	ListMassSpectrum list = makeGraph(input, ims, modus, this.config);
+
+	ListMassSpectrum list3 = decharge(list, this.config);
 
 	Sort.keySort(list3.getMz(), list3.getMz(), list3.getIntensity(), list3.getIsotope(), list3.getCharge());
 
-	MassSpectrum msdeisotoped = noiseFiltering(input, list3, config);
+	MassSpectrum msdeisotoped = noiseFiltering(input, list3, this.config);
 
 	return msdeisotoped;
     }
 
-    private static MassSpectrum noiseFiltering(MassSpectrum ms, ListMassSpectrum list, Configuration config) {
+    private MassSpectrum noiseFiltering(MassSpectrum ms, ListMassSpectrum list, Configuration config) {
 	MassSpectrum msdeisotoped;
 	if (config.getNoise() != 0) {
 	    double threshold = Collections.max(list.getIntensity()) * config.getNoise() / 100;
@@ -83,7 +84,7 @@ public class Deisotoper {
 	return msdeisotoped;
     }
 
-    private static ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus,
+    private ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus,
 	    Configuration config) {
 	ListMassSpectrum list = new ListMassSpectrum();
 
@@ -141,7 +142,7 @@ public class Deisotoper {
 	return list;
     }
 
-    private static ListMassSpectrum decharge(ListMassSpectrum list, Configuration config) {
+    private ListMassSpectrum decharge(ListMassSpectrum list, Configuration config) {
 	ListMassSpectrum list2 = new ListMassSpectrum();
 
 	if (config.isDecharge() == true) {
@@ -169,7 +170,7 @@ public class Deisotoper {
 	return list2;
     }
 
-    private static IsotopicCluster getStart(IsotopicClusterGraph icg) {
+    private IsotopicCluster getStart(IsotopicClusterGraph icg) {
 	for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
 	    if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
 		return e;
@@ -178,7 +179,7 @@ public class Deisotoper {
 	return null;
     }
 
-    private static IsotopicCluster getEnd(IsotopicClusterGraph icg) {
+    private IsotopicCluster getEnd(IsotopicClusterGraph icg) {
 	for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
 	    if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
 		return e;
@@ -187,7 +188,7 @@ public class Deisotoper {
 	return null;
     }
 
-    private static IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
+    private IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
 	if (modus.equals("first")) {
 	    return cluster.aggregateFirst();
 	} else if (modus.equals("highest")) {
