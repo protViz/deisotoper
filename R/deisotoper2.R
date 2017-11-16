@@ -41,11 +41,28 @@ getDOTGraphs <- function(deisotoper) {
 summary <- function(deisotoper) {
   Summary <- .jcall(deisotoper$javaRef, "S", "getSummary")
   
-  Summary
+  con <- textConnection(Summary)
+  read.csv(con, sep=',', header = TRUE)
 }
 
 .plotDOT <- function(DOT) {
   grViz(DOT)
+}
+
+.plot <- function(massspectrum1, massspectrum2) {
+  maxintensity1 <- max(massspectrum1$intensity)
+  maxintensity2 <- max(massspectrum2$intensity)
+  
+  if(maxintensity1 <= maxintensity2) {
+    plot(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99", axes = FALSE, xlim = c(0, 2000))
+    lines(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099")
+  } else if (maxintensity1 > maxintensity2) {
+    plot(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099", axes = FALSE, xlim = c(0, 2000))
+    lines(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99")
+  }
+  
+  axis(side=1, at = c(massspectrum1$mZ, massspectrum2$mZ))
+  axis(side=2, at = seq(0, max(maxintensity1, maxintensity2) + 10000, by = 10000))
 }
 
 is.MS <- function(x){
