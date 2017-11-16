@@ -140,7 +140,7 @@ public class ScoreTest {
 			0.01, 0, new Configuration()));
 	Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
 
-	double score = Score.fifthScoringFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
+	double score = Score5.fifthScoringFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
 
 	assertEquals(score, 0, 0);
     }

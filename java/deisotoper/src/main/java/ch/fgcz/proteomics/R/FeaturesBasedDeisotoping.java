@@ -145,10 +145,10 @@ public class FeaturesBasedDeisotoping {
 
 	double[] aa = { 123.2, 1234.4 };
 
-	dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, true);
+	dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.0, 0, true);
 
-	double[] mz = { 1.0001, 2.0002, 4.0000054, 5, 82, 82.5 };
-	double[] intensity = { 1, 2, 4, 5, 33, 32 };
+	double[] mz = { 642.572, 643.054, 643.569, 644.062, 644.557 };
+	double[] intensity = { 17000, 25000, 12000, 9000, 4000 };
 
 	dtoper.setMz(mz);
 	dtoper.setIntensity(intensity);

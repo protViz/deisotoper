@@ -49,7 +49,7 @@ public class IsotopicMassSpectrum {
 	    }
 
 	    if (1 < isotopicset.size()) {
-		// rangeCheck(isotopicset, config);
+		rangeCheck(isotopicset, config);
 		IsotopicSet is = new IsotopicSet(isotopicset, delta, id, config);
 		id++;
 
@@ -65,15 +65,20 @@ public class IsotopicMassSpectrum {
     private static void rangeCheck(List<Peak> peaks, Configuration config) {
 	for (int i = 0; i < peaks.size() - 1; i++) {
 	    double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
-	    System.out.println(distance);
+
+	    boolean b = false;
 	    for (int charge = 1; charge <= 3; charge++) {
-		if (!((config.getDistance() - config.getDelta() < Math.abs(distance) / charge
-			&& Math.abs(distance) / charge < config.getDistance() + config.getDelta()))) {
-		    try {
-			throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
-		    } catch (Exception e) {
-			e.printStackTrace();
-		    }
+		if (((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
+			&& Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+		    b = true;
+		}
+	    }
+
+	    if (b == false) {
+		try {
+		    throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 	    }
 	}
