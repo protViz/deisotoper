@@ -24,12 +24,12 @@ public class Score {
     }
 
     public double calculateScore(Peak x, Peak y, IsotopicCluster icx, Connection con) {
-	return this.config.getFM1() * firstNonintensityFeature(x, y, this.errorvalue, this.config)
-		+ this.config.getFM2() * secondNonintensityFeature(x, y, this.errorvalue, this.pepmassvalue,
+	return this.config.getFM1() * firstScoringFeature(x, y, this.errorvalue, this.config)
+		+ this.config.getFM2() * secondScoringFeature(x, y, this.errorvalue, this.pepmassvalue,
 			this.chargevalue, icx, this.config)
-		+ this.config.getFM3() * thirdNonintensityFeature(x, y, this.errorvalue, this.config)
-		+ this.config.getFM4() * fourthNonintensityFeature(x, y, this.errorvalue, this.config)
-		+ this.config.getFM5() * fifthIntensityFeature(con, this.icg, this.config);
+		+ this.config.getFM3() * thirdScoringFeature(x, y, this.errorvalue, this.config)
+		+ this.config.getFM4() * fourthScoringFeature(x, y, this.errorvalue, this.config)
+		+ this.config.getFM5() * fifthScoringFeature(con, this.icg, this.config);
     }
 
     protected static double diff1(Peak x, Peak y, Configuration config) {
@@ -64,7 +64,7 @@ public class Score {
 	return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    public static int firstNonintensityFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    public static int firstScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
 	int F1 = 0;
 
 	double d1xy = Math.abs(diff1(x, y, config));
@@ -104,7 +104,7 @@ public class Score {
 	return F1;
     }
 
-    public static int secondNonintensityFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge,
+    public static int secondScoringFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge,
 	    IsotopicCluster ic, Configuration config) {
 	int F2 = 0;
 	int i = 0;
@@ -154,7 +154,7 @@ public class Score {
 	return F2;
     }
 
-    public static int thirdNonintensityFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    public static int thirdScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
 	int F3 = 0;
 
 	double d1xy = Math.abs(diff1(x, y, config));
@@ -206,7 +206,7 @@ public class Score {
 	return F3;
     }
 
-    public static int fourthNonintensityFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    public static int fourthScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
 	int F4 = 0;
 
 	double d1xy = Math.abs(diff1(x, y, config));
@@ -259,7 +259,7 @@ public class Score {
     }
 
     // NOT FINISHED YET
-    public static int fifthIntensityFeature(Connection con,
+    public static int fifthScoringFeature(Connection con,
 	    DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, Configuration config) {
 	int F5 = 0;
 

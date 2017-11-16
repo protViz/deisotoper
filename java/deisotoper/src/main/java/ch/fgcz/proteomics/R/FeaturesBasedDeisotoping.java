@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.Configuration;
 import ch.fgcz.proteomics.fbdm.Deisotoper;
@@ -20,7 +19,7 @@ import ch.fgcz.proteomics.fbdm.Peak;
  * @since 2017-11-16
  */
 
-public class FeaturesBasedDeisotopingR {
+public class FeaturesBasedDeisotoping {
     private Deisotoper deisotoper = new Deisotoper();
     private MassSpectrum massSpectrum = new MassSpectrum();
     private MassSpectrum resultSpectrum = new MassSpectrum();
@@ -142,7 +141,7 @@ public class FeaturesBasedDeisotopingR {
     }
 
     public static void main(String[] args) {
-	FeaturesBasedDeisotopingR dtoper = new FeaturesBasedDeisotopingR();
+	FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
 
 	double[] aa = { 123.2, 1234.4 };
 

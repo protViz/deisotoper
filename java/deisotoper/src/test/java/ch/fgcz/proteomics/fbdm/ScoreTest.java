@@ -42,7 +42,7 @@ public class ScoreTest {
 	Peak y = new Peak(125.86, 467.55, 1);
 	double e = 0.3;
 
-	double score1 = Score.firstNonintensityFeature(x, y, e, config);
+	double score1 = Score.firstScoringFeature(x, y, e, config);
 
 	assertEquals(score1, 3, 0);
     }
@@ -73,7 +73,7 @@ public class ScoreTest {
 	IsotopicCluster ic = new IsotopicCluster(
 		Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1);
 
-	double score = Score.secondNonintensityFeature(x, y, e, pepmass, charge, ic, config);
+	double score = Score.secondScoringFeature(x, y, e, pepmass, charge, ic, config);
 
 	assertEquals(score, 1, 0);
     }
@@ -97,7 +97,7 @@ public class ScoreTest {
 	Peak y = new Peak(141.0, 467.55, 1);
 	double e = 0.3;
 
-	double score = Score.thirdNonintensityFeature(x, y, e, config);
+	double score = Score.thirdScoringFeature(x, y, e, config);
 
 	assertEquals(score, 1, 0);
     }
@@ -122,7 +122,7 @@ public class ScoreTest {
 	Peak y = new Peak(138.0, 467.55, 1);
 	double e = 0.3;
 
-	double score = Score.fourthNonintensityFeature(x, y, e, config);
+	double score = Score.fourthScoringFeature(x, y, e, config);
 
 	assertEquals(score, 1, 0);
     }
@@ -140,7 +140,7 @@ public class ScoreTest {
 			0.01, 0, new Configuration()));
 	Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
 
-	double score = Score.fifthIntensityFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
+	double score = Score.fifthScoringFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
 
 	assertEquals(score, 0, 0);
     }
