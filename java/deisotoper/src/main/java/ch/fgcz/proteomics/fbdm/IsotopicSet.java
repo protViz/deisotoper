@@ -83,17 +83,14 @@ public class IsotopicSet {
     }
 
     private static void rangeCheck(List<Peak> peaks, Configuration config, int charge) {
-	int j = 1;
-	for (int i = 0; i < peaks.size(); i++) {
-	    double distance = peaks.get(j).getMz() - peaks.get(i).getMz();
-	    if (distance != 0) {
-		if (!((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
-			&& Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
-		    try {
-			throw new Exception("Wrong distance at IsotopicCluster creation! (" + distance + ")");
-		    } catch (Exception e) {
-			e.printStackTrace();
-		    }
+	for (int i = 0; i < peaks.size() - 1; i++) {
+	    double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
+	    if (!((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
+		    && Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+		try {
+		    throw new Exception("Wrong distance at IsotopicCluster creation! (" + distance + ")");
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 	    }
 	}

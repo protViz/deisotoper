@@ -49,7 +49,7 @@ public class IsotopicMassSpectrum {
 	    }
 
 	    if (1 < isotopicset.size()) {
-		rangeCheck(isotopicset, config);
+		// rangeCheck(isotopicset, config);
 		IsotopicSet is = new IsotopicSet(isotopicset, delta, id, config);
 		id++;
 
@@ -63,16 +63,12 @@ public class IsotopicMassSpectrum {
     }
 
     private static void rangeCheck(List<Peak> peaks, Configuration config) {
-	int j = 1;
-	for (int i = 0; i < peaks.size(); i++) {
-	    double distance = peaks.get(j).getMz() - peaks.get(i).getMz();
-	    if (distance != 0) {
-		if (!((config.getDistance() - config.getDelta() < Math.abs(distance)
-			&& Math.abs(distance) < config.getDistance() + config.getDelta())
-			|| (config.getDistance() / 2 - config.getDelta() < Math.abs(distance)
-				&& Math.abs(distance) < config.getDistance() / 2 + config.getDelta())
-			|| (config.getDistance() / 3 - config.getDelta() < Math.abs(distance)
-				&& Math.abs(distance) < config.getDistance() / 3 + config.getDelta()))) {
+	for (int i = 0; i < peaks.size() - 1; i++) {
+	    double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
+	    System.out.println(distance);
+	    for (int charge = 1; charge <= 3; charge++) {
+		if (!((config.getDistance() - config.getDelta() < Math.abs(distance) / charge
+			&& Math.abs(distance) / charge < config.getDistance() + config.getDelta()))) {
 		    try {
 			throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
 		    } catch (Exception e) {
