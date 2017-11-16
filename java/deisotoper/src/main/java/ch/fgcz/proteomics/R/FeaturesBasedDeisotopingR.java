@@ -12,7 +12,7 @@ import ch.fgcz.proteomics.fbdm.Deisotoper;
  * @since 2017-11-16
  */
 
-public class FeaturesBasedDeisotoping {
+public class FeaturesBasedDeisotopingR {
     private Deisotoper deisotoper;
     private MassSpectrum massSpectrum;
     private MassSpectrum resultSpectrum;
