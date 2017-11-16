@@ -13,7 +13,6 @@ import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fbdm.Cache;
 import ch.fgcz.proteomics.fbdm.Configuration;
 import ch.fgcz.proteomics.fbdm.Deisotoper;
 import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
@@ -30,12 +29,13 @@ public class FeaturesBasedDeisotopingMethodR {
     }
 
     public static MassSpectrum deisotopeMSR(MassSpectrum input, String modus, Configuration config) {
-	return Deisotoper.deisotopeMS(input, modus, config).getMassSpectrumDeisotoped();
+	return Deisotoper.deisotopeMS(input, modus, config);
     }
 
-    public static IsotopicMassSpectrum getIMS(MassSpectrum input, String modus, Configuration config) {
-	return Deisotoper.deisotopeMS(input, modus, config).getIsotopicMassSpectrum();
-    }
+    // public static IsotopicMassSpectrum getIMS(MassSpectrum input, String modus,
+    // Configuration config) {
+    // return Deisotoper.deisotopeMS(input, modus, config);
+    // }
 
     public static String getGraphFromIS(IsotopicSet is, MassSpectrum ms, Configuration config) {
 	IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
@@ -106,10 +106,6 @@ public class FeaturesBasedDeisotopingMethodR {
     public static Configuration createConfigurationR(double F1, double F2, double F3, double F4, double F5,
 	    double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
 	return new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
-    }
-
-    public static Cache getCacheR(MassSpectrum ms, String modus, Configuration config) {
-	return Deisotoper.deisotopeMS(ms, modus, config);
     }
 
     // public static String getScoreConfigAsCSV(Configuration config) {

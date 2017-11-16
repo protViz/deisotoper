@@ -28,26 +28,22 @@ public class Deisotoper {
 
 	for (MassSpectrum ms : input.getMSlist()) {
 
-	    output.getMSlist().add(deisotopeMS(ms, modus, config, date).getMassSpectrumDeisotoped());
+	    output.getMSlist().add(deisotopeMS(ms, modus, config, date));
 	}
 
 	return output;
     }
 
-    public static Cache deisotopeMS(MassSpectrum input, String modus, Configuration config) {
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config) {
 	String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
 
 	return deisotopeMS(input, modus, config, date);
     }
 
-    public static Cache deisotopeMS(MassSpectrum input, String modus, Configuration config, String date) {
-	Cache cache = new Cache();
-	cache.setMassSpectrum(input);
-
+    public static MassSpectrum deisotopeMS(MassSpectrum input, String modus, Configuration config, String date) {
 	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, config.getDelta(), config);
-	cache.setIsotopicMassSpectrum(ims);
 
-	ListMassSpectrum list = makeGraph(input, ims, modus, config, cache);
+	ListMassSpectrum list = makeGraph(input, ims, modus, config);
 
 	ListMassSpectrum list3 = decharge(list, config);
 
@@ -55,8 +51,7 @@ public class Deisotoper {
 
 	MassSpectrum msdeisotoped = noiseFiltering(input, list3, config);
 
-	cache.setMassSpectrumDeisotoped(msdeisotoped);
-	return cache;
+	return msdeisotoped;
     }
 
     private static MassSpectrum noiseFiltering(MassSpectrum ms, ListMassSpectrum list, Configuration config) {
@@ -89,7 +84,7 @@ public class Deisotoper {
     }
 
     private static ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus,
-	    Configuration config, Cache cache) {
+	    Configuration config) {
 	ListMassSpectrum list = new ListMassSpectrum();
 
 	List<Double> mz = new ArrayList<>();
@@ -132,9 +127,6 @@ public class Deisotoper {
 	    list.getCharge().addAll(list2.getCharge());
 
 	    mz.addAll(mz2);
-
-	    cache.addIsotopicClusterGraph(icg);
-	    cache.addBestPath(bp);
 	}
 
 	for (int i = 0; i < input.getMz().size(); i++) {
