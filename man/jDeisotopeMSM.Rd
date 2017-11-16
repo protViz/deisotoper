@@ -4,7 +4,7 @@
 \alias{jDeisotopeMSM}
 \title{Deisotopes a MSM.}
 \usage{
-jDeisotopeMSM(jobj, modus = "first", configuration)
+jDeisotopeMSM(jobj, modus = "first", configuration = jCreateConfiguration())
 }
 \arguments{
 \item{jobj}{a MassSpectrometryMeasurement Java-Object}

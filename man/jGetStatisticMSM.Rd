@@ -24,7 +24,7 @@ jScoreConfigAsCSV <- function(file){
 }
 Returns a statistic as CSV}
 \usage{
-jGetStatisticMSM(msm, configuration)
+jGetStatisticMSM(msm, configuration = jCreateConfiguration())
 }
 \arguments{
 \item{msm}{a MassSpectrometryMeasurement Java-Object}

@@ -4,7 +4,8 @@
 \alias{jGetDotGraphFromIS}
 \title{Wrapper function to get a dot graph from a single isotopicset.}
 \usage{
-jGetDotGraphFromIS(massspectrum, isotopicset, configuration)
+jGetDotGraphFromIS(massspectrum, isotopicset,
+  configuration = jCreateConfiguration())
 }
 \arguments{
 \item{massspectrum}{a MassSpectrum Java-Object}

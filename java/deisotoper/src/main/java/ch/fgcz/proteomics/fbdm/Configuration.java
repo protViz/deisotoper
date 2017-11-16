@@ -340,6 +340,19 @@ public class Configuration {
 	this.max = Collections.max(this.AA_MASS);
     }
 
+    @Override
+    public String toString() {
+	return "Configuration [AA_MASS=" + AA_MASS + ", AA_MASS2=" + AA_MASS2 + ", AA_MASS3=" + AA_MASS3 + ", min="
+		+ min + ", max=" + max + ", FM1=" + FM1 + ", FM2=" + FM2 + ", FM3=" + FM3 + ", FM4=" + FM4 + ", FM5="
+		+ FM5 + ", Distance=" + Distance + ", errortolerance=" + errortolerance + ", delta=" + delta
+		+ ", noise=" + noise + ", decharge=" + decharge + ", H_MASS=" + H_MASS + ", NH3_MASS=" + NH3_MASS
+		+ ", H2O_MASS=" + H2O_MASS + ", NH_MASS=" + NH_MASS + ", CO_MASS=" + CO_MASS + ", PHE_MASS=" + PHE_MASS
+		+ ", ASP_MASS=" + ASP_MASS + ", AVE_UPDATED_MASS=" + AVE_UPDATED_MASS + ", H_MASSx2=" + H_MASSx2
+		+ ", H2O_MASSd2=" + H2O_MASSd2 + ", H2O_MASSd3=" + H2O_MASSd3 + ", NH3_MASSd2=" + NH3_MASSd2
+		+ ", NH3_MASSd3=" + NH3_MASSd3 + ", NH_MASSd2=" + NH_MASSd2 + ", NH_MASSd3=" + NH_MASSd3
+		+ ", CO_MASSd2=" + CO_MASSd2 + ", CO_MASSd3=" + CO_MASSd3 + "]";
+    }
+
     // public ScoreConfig(String file) {
     // Properties properties = new Properties();
     // try (BufferedInputStream stream = new BufferedInputStream(new

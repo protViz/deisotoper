@@ -144,7 +144,7 @@ public class MassSpectrum {
     public void setChargeState(int chargestate) {
 	this.chargeState = chargestate;
     }
-    
+
     public MassSpectrum() {
     }
 

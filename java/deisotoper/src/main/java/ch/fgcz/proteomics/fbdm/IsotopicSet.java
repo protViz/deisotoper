@@ -71,6 +71,7 @@ public class IsotopicSet {
 		    }
 
 		    if (ic.size() == 2 || ic.size() == 3) {
+			rangeCheck(ic, config, charge);
 			IsotopicCluster cluster = new IsotopicCluster(ic, charge);
 			is.add(cluster);
 		    }
@@ -81,9 +82,25 @@ public class IsotopicSet {
 	return is;
     }
 
+    private static void rangeCheck(List<Peak> peaks, Configuration config, int charge) {
+	int j = 1;
+	for (int i = 0; i < peaks.size(); i++) {
+	    double distance = peaks.get(j).getMz() - peaks.get(i).getMz();
+	    if (distance != 0) {
+		if (!((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
+			&& Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+		    try {
+			throw new Exception("Wrong distance at IsotopicCluster creation! (" + distance + ")");
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		}
+	    }
+	}
+    }
+
     private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> list) {
 	Collections.sort(list, new Comparator<IsotopicCluster>() {
-
 	    @Override
 	    public int compare(IsotopicCluster o1, IsotopicCluster o2) {
 		// if (o1.getIsotopicCluster().size() == 2 && o2.getIsotopicCluster().size() ==
@@ -114,7 +131,6 @@ public class IsotopicSet {
 	});
 
 	return list;
-
     }
 
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> list) {

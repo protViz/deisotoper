@@ -145,10 +145,10 @@ public class FeaturesBasedDeisotoping {
 
 	double[] aa = { 123.2, 1234.4 };
 
-	dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false);
+	dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, true);
 
-	double[] mz = { 1, 2, 4, 5, 82 };
-	double[] intensity = { 1, 2, 4, 5, 33 };
+	double[] mz = { 1.0001, 2.0002, 4.0000054, 5, 82, 82.5 };
+	double[] intensity = { 1, 2, 4, 5, 33, 32 };
 
 	dtoper.setMz(mz);
 	dtoper.setIntensity(intensity);
@@ -160,17 +160,25 @@ public class FeaturesBasedDeisotoping {
 	double[] mzout = dtoper.getMz();
 	double[] intensityout = dtoper.getIntensity();
 
-	System.out.println("finished");
+	System.out.println("Output Peaklist:");
 	for (int i = 0; i < mzout.length || i < intensityout.length; i++) {
 	    System.out.print(mzout[i] + " ");
 	    System.out.println(intensityout[i]);
 	}
 
+	System.out.println();
+
 	String[] dot = dtoper.getDOT();
 
 	String summary = dtoper.getSummary();
 
-	System.out.println(dot[0]);
+	for (int i = 0; i < dot.length; i++) {
+	    System.out.println(dot[i]);
+	    System.out.println();
+	}
 	System.out.println(summary);
+
+	System.out.println();
+	System.out.println(dtoper.getConfiguration());
     }
 }

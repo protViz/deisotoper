@@ -4,7 +4,8 @@
 \alias{jBenchmark}
 \title{Used for benchmarking. The input is a RData and the output is also a MGF.}
 \usage{
-jBenchmark(input, output, modus = "first", configuration)
+jBenchmark(input, output, modus = "first",
+  configuration = jCreateConfiguration())
 }
 \arguments{
 \item{input}{RData}
