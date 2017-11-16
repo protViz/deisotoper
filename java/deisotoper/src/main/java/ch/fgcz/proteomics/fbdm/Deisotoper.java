@@ -113,11 +113,12 @@ public class Deisotoper {
 
 	    for (IsotopicCluster cluster : bp.getVertexList()) {
 		if (cluster.getIsotopicCluster() != null) {
-
 		    for (Peak p : cluster.getIsotopicCluster()) {
 			mz2.add(p.getMz());
 		    }
 
+		    System.out.println(cluster.toString());
+		    
 		    aggregation(cluster, modus);
 
 		    int position = 1;

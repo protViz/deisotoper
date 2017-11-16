@@ -146,6 +146,16 @@ public class MassSpectrum {
     }
 
     public MassSpectrum() {
+	this.setMz(null);
+	this.setIntensity(null);
+	this.setCharge(null);
+	this.setIsotope(null);
+	this.setTyp(null);
+	this.setSearchEngine(null);
+	this.setPeptideMass(0);
+	this.setRt(0);
+	this.setChargeState(0);
+	this.setId(0);
     }
 
     /**
