@@ -13,23 +13,23 @@ public class Connection extends DefaultWeightedEdge {
     private double score;
 
     public double getScore() {
-        return score;
+	return score;
     }
 
     public void setScore(double score) {
-        this.score = score;
+	this.score = score;
     }
 
     public String getColor() {
-        return color;
+	return color;
     }
 
     public void setColor(String color) {
-        this.color = color;
+	this.color = color;
     }
 
     public Connection(String color) {
-        this.color = color;
-        this.score = 0;
+	this.color = color;
+	this.score = 0;
     }
 }

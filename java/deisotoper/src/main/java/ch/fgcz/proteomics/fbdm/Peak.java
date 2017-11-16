@@ -13,62 +13,63 @@ public class Peak {
     private int peakID;
 
     public double getIsotope() {
-        return isotope;
+	return isotope;
     }
 
     public void setIsotope(double isotope) {
-        this.isotope = isotope;
+	this.isotope = isotope;
     }
 
     public int getCharge() {
-        return charge;
+	return charge;
     }
 
     public void setCharge(int charge) {
-        this.charge = charge;
+	this.charge = charge;
     }
 
     public int getPeakID() {
-        return peakID;
+	return peakID;
     }
 
     public double getMz() {
-        return mz;
+	return mz;
     }
 
     public void setMz(double mz) {
-        this.mz = mz;
+	this.mz = mz;
     }
 
     public double getIntensity() {
-        return intensity;
+	return intensity;
     }
 
     public void setIntensity(double intensity) {
-        this.intensity = intensity;
+	this.intensity = intensity;
     }
 
     public Peak(double mz, double intensity, int peakID) {
-        this.mz = mz;
-        this.intensity = intensity;
-        this.peakID = peakID;
-        this.charge = -1;
-        this.isotope = -1;
+	this.mz = mz;
+	this.intensity = intensity;
+	this.peakID = peakID;
+	this.charge = -1;
+	this.isotope = -1;
     }
 
     public Peak(double mz, double intensity, double isotope, int charge, int peakID) {
-        this.mz = mz;
-        this.intensity = intensity;
-        this.peakID = peakID;
-        this.charge = charge;
-        this.isotope = isotope;
+	this.mz = mz;
+	this.intensity = intensity;
+	this.peakID = peakID;
+	this.charge = charge;
+	this.isotope = isotope;
     }
 
     public boolean equals(Peak p) {
-        if (this.getMz() == p.getMz() && this.getIntensity() == p.getIntensity() && this.getCharge() == p.getCharge() && this.getIsotope() == p.getIsotope()) {
-            return true;
-        } else {
-            return false;
-        }
+	if (this.getMz() == p.getMz() && this.getIntensity() == p.getIntensity() && this.getCharge() == p.getCharge()
+		&& this.getIsotope() == p.getIsotope()) {
+	    return true;
+	} else {
+	    return false;
+	}
     }
 }

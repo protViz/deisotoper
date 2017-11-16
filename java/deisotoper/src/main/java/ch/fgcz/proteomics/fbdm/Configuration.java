@@ -81,264 +81,269 @@ public class Configuration {
     // }
 
     public boolean isDecharge() {
-        return decharge;
+	return decharge;
     }
 
     public void setDecharge(boolean decharging) {
-        this.decharge = decharging;
+	this.decharge = decharging;
     }
 
     public double getErrortolerance() {
-        return errortolerance;
+	return errortolerance;
     }
 
     public void setErrortolerance(double errortolerance) {
-        this.errortolerance = errortolerance;
+	this.errortolerance = errortolerance;
     }
 
     public double getDelta() {
-        return delta;
+	return delta;
     }
 
     public void setDelta(double delta) {
-        this.delta = delta;
+	this.delta = delta;
     }
 
     public double getNoise() {
-        return noise;
+	return noise;
     }
 
     public void setNoise(double noise) {
-        this.noise = noise;
+	this.noise = noise;
     }
 
     public void setDistance(double dISTANCE_BETWEEN_ISOTOPIC_PEAKS) {
-        Distance = dISTANCE_BETWEEN_ISOTOPIC_PEAKS;
+	Distance = dISTANCE_BETWEEN_ISOTOPIC_PEAKS;
     }
 
     public double getNH_MASSd2() {
-        return NH_MASSd2;
+	return NH_MASSd2;
     }
 
     public double getDistance() {
-        return Distance;
+	return Distance;
     }
 
     public double getFM1() {
-        return FM1;
+	return FM1;
     }
 
     public void setFM1(double fM1) {
-        FM1 = fM1;
+	FM1 = fM1;
     }
 
     public double getFM2() {
-        return FM2;
+	return FM2;
     }
 
     public void setFM2(double fM2) {
-        FM2 = fM2;
+	FM2 = fM2;
     }
 
     public double getFM3() {
-        return FM3;
+	return FM3;
     }
 
     public void setFM3(double fM3) {
-        FM3 = fM3;
+	FM3 = fM3;
     }
 
     public double getFM4() {
-        return FM4;
+	return FM4;
     }
 
     public void setFM4(double fM4) {
-        FM4 = fM4;
+	FM4 = fM4;
     }
 
     public double getFM5() {
-        return FM5;
+	return FM5;
     }
 
     public void setFM5(double fM5) {
-        FM5 = fM5;
+	FM5 = fM5;
     }
 
     public double getNH_MASSd3() {
-        return NH_MASSd3;
+	return NH_MASSd3;
     }
 
     public double getCO_MASSd2() {
-        return CO_MASSd2;
+	return CO_MASSd2;
     }
 
     public double getCO_MASSd3() {
-        return CO_MASSd3;
+	return CO_MASSd3;
     }
 
     public double getH2O_MASSd2() {
-        return H2O_MASSd2;
+	return H2O_MASSd2;
     }
 
     public double getH2O_MASSd3() {
-        return H2O_MASSd3;
+	return H2O_MASSd3;
     }
 
     public double getNH3_MASSd2() {
-        return NH3_MASSd2;
+	return NH3_MASSd2;
     }
 
     public double getNH3_MASSd3() {
-        return NH3_MASSd3;
+	return NH3_MASSd3;
     }
 
     public double getH_MASSx2() {
-        return H_MASSx2;
+	return H_MASSx2;
     }
 
     public double getH_MASS() {
-        return H_MASS;
+	return H_MASS;
     }
 
     public double getNH3_MASS() {
-        return NH3_MASS;
+	return NH3_MASS;
     }
 
     public double getH2O_MASS() {
-        return H2O_MASS;
+	return H2O_MASS;
     }
 
     public double getNH_MASS() {
-        return NH_MASS;
+	return NH_MASS;
     }
 
     public double getCO_MASS() {
-        return CO_MASS;
+	return CO_MASS;
     }
 
     public double getPHE_MASS() {
-        return PHE_MASS;
+	return PHE_MASS;
     }
 
     public double getASP_MASS() {
-        return ASP_MASS;
+	return ASP_MASS;
     }
 
     public double getAVE_UPDATED_MASS() {
-        return AVE_UPDATED_MASS;
+	return AVE_UPDATED_MASS;
     }
 
     public double getMin() {
-        return min;
+	return min;
     }
 
     public void setMin(double min) {
-        this.min = min;
+	this.min = min;
     }
 
     public double getMax() {
-        return max;
+	return max;
     }
 
     public void setMax(double max) {
-        this.max = max;
+	this.max = max;
     }
 
     public List<Double> getAA_MASS() {
-        return AA_MASS;
+	return AA_MASS;
     }
 
     public void setAA_MASS(List<Double> aA_MASS) {
-        AA_MASS = aA_MASS;
+	AA_MASS = aA_MASS;
     }
 
     public List<Double> getAA_MASS2() {
-        return AA_MASS2;
+	return AA_MASS2;
     }
 
     public void setAA_MASS2(List<Double> aA_MASS2) {
-        AA_MASS2 = aA_MASS2;
+	AA_MASS2 = aA_MASS2;
     }
 
     public List<Double> getAA_MASS3() {
-        return AA_MASS3;
+	return AA_MASS3;
     }
 
     public void setAA_MASS3(List<Double> aA_MASS3) {
-        AA_MASS3 = aA_MASS3;
+	AA_MASS3 = aA_MASS3;
     }
 
     public Configuration() {
-        this.FM1 = 0.8;
-        this.FM2 = 0.5;
-        this.FM3 = 0.1;
-        this.FM4 = 0.1;
-        this.FM5 = 0.1;
-        this.delta = 0.003;
-        this.errortolerance = 0.3;
-        this.Distance = 1.003;
-        this.noise = 0;
-        this.decharge = false;
-        this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276,
-                87.03203, 101.04768, 186.07931, 163.06333, 99.06841);
+	this.FM1 = 0.8;
+	this.FM2 = 0.5;
+	this.FM3 = 0.1;
+	this.FM4 = 0.1;
+	this.FM5 = 0.1;
+	this.delta = 0.003;
+	this.errortolerance = 0.3;
+	this.Distance = 1.003;
+	this.noise = 0;
+	this.decharge = false;
+	this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858,
+		57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203,
+		101.04768, 186.07931, 163.06333, 99.06841);
 
-        for (Double x : this.AA_MASS) {
-            this.AA_MASS2.add(x / 2);
-            this.AA_MASS3.add(x / 3);
-        }
+	for (Double x : this.AA_MASS) {
+	    this.AA_MASS2.add(x / 2);
+	    this.AA_MASS3.add(x / 3);
+	}
 
-        this.min = Collections.min(this.AA_MASS3);
-        this.max = Collections.max(this.AA_MASS);
+	this.min = Collections.min(this.AA_MASS3);
+	this.max = Collections.max(this.AA_MASS);
     }
 
-    public Configuration(double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
-        this.FM1 = F1;
-        this.FM2 = F2;
-        this.FM3 = F3;
-        this.FM4 = F4;
-        this.FM5 = F5;
-        this.delta = DELTA;
-        this.errortolerance = ERRORTOLERANCE;
-        this.Distance = DISTANCE;
-        this.noise = NOISE;
-        this.decharge = DECHARGE;
-        this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276,
-                87.03203, 101.04768, 186.07931, 163.06333, 99.06841);
+    public Configuration(double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE,
+	    double DISTANCE, double NOISE, boolean DECHARGE) {
+	this.FM1 = F1;
+	this.FM2 = F2;
+	this.FM3 = F3;
+	this.FM4 = F4;
+	this.FM5 = F5;
+	this.delta = DELTA;
+	this.errortolerance = ERRORTOLERANCE;
+	this.Distance = DISTANCE;
+	this.noise = NOISE;
+	this.decharge = DECHARGE;
+	this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858,
+		57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203,
+		101.04768, 186.07931, 163.06333, 99.06841);
 
-        for (Double x : this.AA_MASS) {
-            this.AA_MASS2.add(x / 2);
-            this.AA_MASS3.add(x / 3);
-        }
+	for (Double x : this.AA_MASS) {
+	    this.AA_MASS2.add(x / 2);
+	    this.AA_MASS3.add(x / 3);
+	}
 
-        this.min = Collections.min(this.AA_MASS3);
-        this.max = Collections.max(this.AA_MASS);
+	this.min = Collections.min(this.AA_MASS3);
+	this.max = Collections.max(this.AA_MASS);
     }
 
-    public Configuration(List<Double> AA_MASS, double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
-        this.FM1 = F1;
-        this.FM2 = F2;
-        this.FM3 = F3;
-        this.FM4 = F4;
-        this.FM5 = F5;
-        this.delta = DELTA;
-        this.errortolerance = ERRORTOLERANCE;
-        this.Distance = DISTANCE;
-        this.noise = NOISE;
-        this.decharge = DECHARGE;
-        this.AA_MASS = AA_MASS;
+    public Configuration(List<Double> AA_MASS, double F1, double F2, double F3, double F4, double F5, double DELTA,
+	    double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
+	this.FM1 = F1;
+	this.FM2 = F2;
+	this.FM3 = F3;
+	this.FM4 = F4;
+	this.FM5 = F5;
+	this.delta = DELTA;
+	this.errortolerance = ERRORTOLERANCE;
+	this.Distance = DISTANCE;
+	this.noise = NOISE;
+	this.decharge = DECHARGE;
+	this.AA_MASS = AA_MASS;
 
-        for (Double x : this.AA_MASS) {
-            this.AA_MASS2.add(x / 2);
-            this.AA_MASS3.add(x / 3);
-        }
+	for (Double x : this.AA_MASS) {
+	    this.AA_MASS2.add(x / 2);
+	    this.AA_MASS3.add(x / 3);
+	}
 
-        this.min = Collections.min(this.AA_MASS3);
-        this.max = Collections.max(this.AA_MASS);
+	this.min = Collections.min(this.AA_MASS3);
+	this.max = Collections.max(this.AA_MASS);
     }
 
     // public ScoreConfig(String file) {
     // Properties properties = new Properties();
-    // try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));) {
+    // try (BufferedInputStream stream = new BufferedInputStream(new
+    // FileInputStream(file));) {
     // properties.load(stream);
     // stream.close();
     // if (!properties.isEmpty()) {
@@ -347,10 +352,12 @@ public class Configuration {
     // this.AA_MASS3.removeAll(this.AA_MASS3);
     // System.out.println("SUCCESS: File found...");
     // } else {
-    // System.err.println("WARNING: File is empty, using standart amino acid masses instead!");
+    // System.err.println("WARNING: File is empty, using standart amino acid masses
+    // instead!");
     // }
     // } catch (FileNotFoundException e) {
-    // System.err.println("WARNING: File not found, using standart amino acid masses instead!");
+    // System.err.println("WARNING: File not found, using standart amino acid masses
+    // instead!");
     // } catch (IOException e) {
     // e.printStackTrace();
     // }

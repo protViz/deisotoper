@@ -6,6 +6,7 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.Configuration;
 import ch.fgcz.proteomics.fbdm.Deisotoper;
+import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 
 /**
  * @author Lucas Schmidt
@@ -75,5 +76,17 @@ public class FeaturesBasedDeisotopingR {
 
     public void deisotope(String modus) {
 	this.resultSpectrum = this.deisotoper.deisotopeMS(massSpectrum, modus);
+    }
+
+    public String[] getDOT() {
+	String[] dotgraphs = new String[this.deisotoper.getIcgList().size()];
+
+	int i = 0;
+	for (IsotopicClusterGraph icg : this.deisotoper.getIcgList()) {
+	    dotgraphs[i] = icg.toDOTGraph();
+	    i++;
+	}
+
+	return dotgraphs;
     }
 }

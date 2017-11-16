@@ -17,6 +17,7 @@ import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
     private Configuration config;
+    private List<IsotopicClusterGraph> icglist;
 
     public Configuration getConfiguration() {
 	return config;
@@ -24,6 +25,10 @@ public class Deisotoper {
 
     public void setConfiguration(Configuration config) {
 	this.config = config;
+    }
+
+    public List<IsotopicClusterGraph> getIcgList() {
+	return icglist;
     }
 
     // public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement
@@ -86,6 +91,8 @@ public class Deisotoper {
 
     private ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus,
 	    Configuration config) {
+	this.icglist.removeAll(this.icglist);
+
 	ListMassSpectrum list = new ListMassSpectrum();
 
 	List<Double> mz = new ArrayList<>();
@@ -95,6 +102,8 @@ public class Deisotoper {
 
 	    icg.scoreIsotopicClusterGraph(input.getPeptideMass(), input.getChargeState(), config.getErrortolerance(),
 		    new Peaklist(input.getMz(), input.getIntensity()), config);
+
+	    this.icglist.add(icg);
 
 	    GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
 

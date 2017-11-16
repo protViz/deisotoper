@@ -14,29 +14,29 @@ import java.util.Map;
 
 public class Sort {
     public static <T extends Comparable<T>> void keySort(final List<T> key, List<?>... lists) {
-        List<Integer> indicearray = new ArrayList<Integer>();
-        for (int i = 0; i < key.size(); i++)
-            indicearray.add(i);
+	List<Integer> indicearray = new ArrayList<Integer>();
+	for (int i = 0; i < key.size(); i++)
+	    indicearray.add(i);
 
-        Collections.sort(indicearray, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer i, Integer j) {
-                return key.get(i).compareTo(key.get(j));
-            }
-        });
+	Collections.sort(indicearray, new Comparator<Integer>() {
+	    @Override
+	    public int compare(Integer i, Integer j) {
+		return key.get(i).compareTo(key.get(j));
+	    }
+	});
 
-        Map<Integer, Integer> swap = new HashMap<Integer, Integer>(indicearray.size());
+	Map<Integer, Integer> swap = new HashMap<Integer, Integer>(indicearray.size());
 
-        for (int i = 0; i < indicearray.size(); i++) {
-            int k = indicearray.get(i);
-            while (swap.containsKey(k))
-                k = swap.get(k);
+	for (int i = 0; i < indicearray.size(); i++) {
+	    int k = indicearray.get(i);
+	    while (swap.containsKey(k))
+		k = swap.get(k);
 
-            swap.put(i, k);
-        }
+	    swap.put(i, k);
+	}
 
-        for (Map.Entry<Integer, Integer> e : swap.entrySet())
-            for (List<?> list : lists)
-                Collections.swap(list, e.getKey(), e.getValue());
+	for (Map.Entry<Integer, Integer> e : swap.entrySet())
+	    for (List<?> list : lists)
+		Collections.swap(list, e.getKey(), e.getValue());
     }
 }
