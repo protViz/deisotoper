@@ -45,6 +45,12 @@ summary <- function(deisotoper) {
   read.csv(con, sep=',', header = TRUE)
 }
 
+getConfig <- function(deisotoper) {
+  config <- .jcall(deisotoper$javaRef, "S", "getConfiguration")
+  
+  config
+}
+
 .plotDOT <- function(DOT) {
   grViz(DOT)
 }
