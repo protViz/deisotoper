@@ -52,7 +52,7 @@ getConfig <- function(deisotoper) {
 }
 
 .plotDOT <- function(DOT) {
-  grViz(DOT)
+  DiagrammeR::grViz(DOT)
 }
 
 .plot <- function(massspectrum1, massspectrum2) {
