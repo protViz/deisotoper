@@ -38,6 +38,12 @@ getDOTGraphs <- function(deisotoper) {
   DOT
 }
 
+summary <- function() {
+  Summary <- .jcall(deisotoper$javaRef, "S", "getSummary")
+  
+  Summary
+}
+
 is.MS <- function(x){
   if (sum(c("title", "rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
     warning('attributed check failed.')

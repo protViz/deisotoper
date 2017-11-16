@@ -17,7 +17,7 @@ import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
     private Configuration config;
-    private List<IsotopicClusterGraph> icglist;
+    private List<IsotopicClusterGraph> icglist = new ArrayList<>();
 
     public Configuration getConfiguration() {
 	return config;

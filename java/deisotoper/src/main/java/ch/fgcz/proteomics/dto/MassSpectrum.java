@@ -144,6 +144,9 @@ public class MassSpectrum {
     public void setChargeState(int chargestate) {
 	this.chargeState = chargestate;
     }
+    
+    public MassSpectrum() {
+    }
 
     /**
      * Why did we use two List<Double> instead of a Map<Double, Double> or a
