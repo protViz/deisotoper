@@ -44,6 +44,10 @@ summary <- function(deisotoper) {
   Summary
 }
 
+.plotDOT <- function(DOT) {
+  grViz(DOT)
+}
+
 is.MS <- function(x){
   if (sum(c("title", "rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
     warning('attributed check failed.')
