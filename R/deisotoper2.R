@@ -38,7 +38,7 @@ getDOTGraphs <- function(deisotoper) {
   DOT
 }
 
-summary <- function() {
+summary <- function(deisotoper) {
   Summary <- .jcall(deisotoper$javaRef, "S", "getSummary")
   
   Summary
