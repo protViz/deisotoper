@@ -93,6 +93,7 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
                mZ = mzout, 
                intensity = intensityout,
                id = massspectrum$id))
+  
   return(MS)
 }
 
@@ -112,7 +113,6 @@ getDOTGraphs <- function(deisotoper) {
 
 getAnnotatedSpectrum <- function(deisotoper) {
   AS <- .jcall(deisotoper$javaRef, "S", "getAnnotatedSpectrum")
-  
   
   con <- textConnection(AS)
   read.csv(con, sep=',', header = TRUE)

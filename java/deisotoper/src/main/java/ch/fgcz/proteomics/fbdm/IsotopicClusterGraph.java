@@ -39,7 +39,7 @@ public class IsotopicClusterGraph {
 	}
 	if (weights.size() == 1 && path.size() != 1) {
 	    System.err.println(
-		    "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct!");
+		    "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct! This could have a minimal impact on the results.");
 	}
 
 	return path.get(path.size() - 1);
