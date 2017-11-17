@@ -96,6 +96,10 @@ public class FeaturesBasedDeisotoping {
 	return dotgraphs;
     }
 
+    public String getAnnotatedSpectrum() {
+	return this.deisotoper.getAnnotatedSpectrum();
+    }
+
     public String getSummary() {
 	MassSpectrum ms = this.massSpectrum;
 	int numberis = 0;

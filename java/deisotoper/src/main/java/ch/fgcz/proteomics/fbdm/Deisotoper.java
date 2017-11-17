@@ -18,6 +18,7 @@ import ch.fgcz.proteomics.utilities.Sort;
 public class Deisotoper {
     private Configuration config;
     private List<IsotopicClusterGraph> icglist = new ArrayList<>();
+    private String annotatedSpectrum;
 
     public Configuration getConfiguration() {
 	return config;
@@ -29,6 +30,10 @@ public class Deisotoper {
 
     public List<IsotopicClusterGraph> getIcgList() {
 	return icglist;
+    }
+
+    public String getAnnotatedSpectrum() {
+	return annotatedSpectrum;
     }
 
     // public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement
@@ -48,6 +53,8 @@ public class Deisotoper {
 
     public MassSpectrum deisotopeMS(MassSpectrum input, String modus) {
 	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, this.config.getDelta(), this.config);
+
+	saveAnnotatedSpectrum(ims);
 
 	ListMassSpectrum list = makeGraph(input, ims, modus, this.config);
 
@@ -94,7 +101,6 @@ public class Deisotoper {
 	this.icglist.removeAll(this.icglist);
 
 	ListMassSpectrum list = new ListMassSpectrum();
-
 	List<Double> mz = new ArrayList<>();
 
 	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
@@ -150,6 +156,25 @@ public class Deisotoper {
 	}
 
 	return list;
+    }
+
+    private void saveAnnotatedSpectrum(IsotopicMassSpectrum ims) {
+	StringBuilder sb = new StringBuilder();
+	String linesep = System.getProperty("line.separator");
+
+	sb.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(linesep);
+
+	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+	    for (IsotopicCluster ic : is.getIsotopicSet()) {
+		for (Peak p : ic.getIsotopicCluster()) {
+		    sb.append(is.getSetID()).append(",").append(ic.getClusterID()).append(",").append(p.getPeakID())
+			    .append(",").append(ic.getCharge()).append(",").append(p.getMz()).append(",")
+			    .append(p.getIntensity()).append(linesep);
+		}
+	    }
+	}
+
+	this.annotatedSpectrum = sb.toString();
     }
 
     private ListMassSpectrum decharge(ListMassSpectrum list, Configuration config) {
