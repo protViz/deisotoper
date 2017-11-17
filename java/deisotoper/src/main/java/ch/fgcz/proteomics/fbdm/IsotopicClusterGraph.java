@@ -31,13 +31,6 @@ public class IsotopicClusterGraph {
 
 	List<GraphPath<IsotopicCluster, Connection>> path = paths.getPaths(source, sink);
 
-	for (GraphPath<IsotopicCluster, Connection> p : path) {
-	    System.out.println("WEIGHT: " + p.getWeight());
-	    for (IsotopicCluster ic : p.getVertexList()) {
-		System.out.println(ic.toString());
-	    }
-	}
-
 	return path.get(path.size() - 1);
     }
 

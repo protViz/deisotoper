@@ -123,8 +123,6 @@ public class Deisotoper {
 			mz2.add(p.getMz());
 		    }
 
-		    System.out.println("bp " + cluster.toString()); // REMOVE AFTER DEBUG
-
 		    aggregation(cluster, modus);
 
 		    int position = 1;
