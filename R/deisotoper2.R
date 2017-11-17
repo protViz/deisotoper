@@ -41,7 +41,9 @@ getDOTGraphs <- function(deisotoper) {
 getAnnotatedSpectrum <- function(deisotoper) {
   AS <- .jcall(deisotoper$javaRef, "S", "getAnnotatedSpectrum")
   
-  AS
+  
+  con <- textConnection(AS)
+  read.csv(con, sep=',', header = TRUE)
 }
 
 summary <- function(deisotoper) {
