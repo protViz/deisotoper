@@ -100,14 +100,6 @@ public class IsotopicSet {
 	Collections.sort(list, new Comparator<IsotopicCluster>() {
 	    @Override
 	    public int compare(IsotopicCluster o1, IsotopicCluster o2) {
-		// if (o1.getIsotopicCluster().size() == 2 && o2.getIsotopicCluster().size() ==
-		// 3) {
-		// return 1;
-		// } else if (o1.getIsotopicCluster().size() == 3 &&
-		// o2.getIsotopicCluster().size() == 2) {
-		// return -1;
-		// }
-
 		int result = Double.compare(o1.getIsotopicCluster().get(0).getMz(),
 			o2.getIsotopicCluster().get(0).getMz());
 

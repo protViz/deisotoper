@@ -6,13 +6,12 @@ package ch.fgcz.proteomics.fbdm;
  */
 
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.KShortestPaths;
+import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("deprecation")
 public class IsotopicClusterGraph {
     private double min = Double.MAX_VALUE;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
@@ -28,10 +27,16 @@ public class IsotopicClusterGraph {
     }
 
     public GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster source, IsotopicCluster sink) {
-	KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<IsotopicCluster, Connection>(
-		this.isotopicclustergraph, source, 1000000);
+	KShortestPaths<IsotopicCluster, Connection> paths = new KShortestPaths<>(this.isotopicclustergraph, 999999);
 
-	List<GraphPath<IsotopicCluster, Connection>> path = paths.getPaths(sink);
+	List<GraphPath<IsotopicCluster, Connection>> path = paths.getPaths(source, sink);
+
+	for (GraphPath<IsotopicCluster, Connection> p : path) {
+	    System.out.println("WEIGHT: " + p.getWeight());
+	    for (IsotopicCluster ic : p.getVertexList()) {
+		System.out.println(ic.toString());
+	    }
+	}
 
 	return path.get(path.size() - 1);
     }
@@ -123,8 +128,9 @@ public class IsotopicClusterGraph {
 	    }
 	}
 
+	IsotopicCluster end = new IsotopicCluster("end");
 	for (IsotopicCluster ic5 : list) {
-	    connectClusters(ic5, new IsotopicCluster("end"), "black");
+	    connectClusters(ic5, end, "black");
 	}
     }
 
