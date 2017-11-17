@@ -48,15 +48,39 @@ deisotoper <- function(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 10
 }
 
 deisotope <- function(deisotoper, massspectrum, modus = "first") {
+  if(!("mZ" %in% names(massspectrum))) {
+    stop("mZ values are missing!")
+  }
+  
+  if(!("intensity" %in% names(massspectrum))) {
+    stop("Intensity values are missing!")
+  }
+  
+  if(length(massspectrum$mZ) <= 1) {
+    stop("mZ must contain 2 or more values!")
+  }
+  
+  if(length(massspectrum$intensity) <= 1) {
+    stop("Intensity must contain 2 or more values!")
+  }
+  
+  if(!("pepmass" %in% names(massspectrum))) {
+    stop("Peptid mass is missing!")
+  }
+  
+  if(!("charge" %in% names(massspectrum))) {
+    stop("Charge is missing!")
+  }
+  
+  if(!(modus == "first" || modus == "highest" || modus == "none")) {
+    stop("Modus is incorrect. Available modi: 'first', 'highest', 'none'")
+  }
+  
   .jcall(deisotoper$javaRef, "V", "setMz", massspectrum$mZ)
   .jcall(deisotoper$javaRef, "V", "setIntensity", massspectrum$intensity)
   .jcall(deisotoper$javaRef, "V", "setPepMass", massspectrum$pepmass)
   .jcall(deisotoper$javaRef, "V", "setCharge", as.integer(massspectrum$charge))
   .jcall(deisotoper$javaRef, "V", "deisotope", modus)
-  
-  if(!(modus == "first" || modus == "highest" || modus == "none")) {
-    stop("Modus is incorrect. Available modi: 'first', 'highest', 'none'")
-  }
   
   mzout <- .jcall(deisotoper$javaRef, "[D", "getMz")
   intensityout <- .jcall(deisotoper$javaRef, "[D", "getIntensity")
