@@ -157,6 +157,8 @@ public class Deisotoper {
     }
 
     private void saveAnnotatedSpectrum(IsotopicMassSpectrum ims) {
+	this.annotatedSpectrum = null;
+
 	StringBuilder sb = new StringBuilder();
 	String linesep = System.getProperty("line.separator");
 
