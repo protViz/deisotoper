@@ -54,6 +54,10 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
   .jcall(deisotoper$javaRef, "V", "setCharge", as.integer(massspectrum$charge))
   .jcall(deisotoper$javaRef, "V", "deisotope", modus)
   
+  if(!(modus == "first" || modus == "highest" || modus == "none")) {
+    stop("Modus is incorrect. Available modi: 'first', 'highest', 'none'")
+  }
+  
   mzout <- .jcall(deisotoper$javaRef, "[D", "getMz")
   intensityout <- .jcall(deisotoper$javaRef, "[D", "getIntensity")
   
