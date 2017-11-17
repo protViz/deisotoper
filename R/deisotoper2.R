@@ -2,10 +2,45 @@ deisotoper <- function(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 10
                                    87.03203, 101.04768, 186.07931, 163.06333, 99.06841), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, DELTA = 0.003, ERRORTOLERANCE = 0.3, DISTANCE = 1.003, NOISE = 0.0, DECHARGE = FALSE) {
   dtoper <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotoping")
   
-  x <- DISTANCE/3 - DISTANCE/6
+  if(0.5 > DISTANCE || DISTANCE > 1.5) {
+    stop("DISTANCE can not be lower than 0.5 and grater than 1.5!")
+  }
   
-  if(DELTA > x) {
-    stop("DELTA can not be greater than DISTANCE/3 - DISTANCE/6")
+  DCHECK <- DISTANCE/3 - DISTANCE/6
+  if(DELTA > DCHECK) {
+    stop("DELTA can not be greater than DISTANCE/3 - DISTANCE/6!")
+  }
+  
+  if(length(AA_MASS) <= 1) {
+    stop("AA_MASS must contain 2 or more amino acid masses!")
+  }
+  
+  if(0 > ERRORTOLERANCE || ERRORTOLERANCE > 1) {
+    stop("ERRORTOLERANCE can not be lower than 0 and grater than 1!")
+  }
+  
+  if(0 > NOISE || NOISE > 100) {
+    stop("NOISE can not be lower than 0 and grater than 100! (0 = deactivated)")
+  }
+  
+  if(0 > F1) {
+    stop("F1 can not be lower than 0!")
+  }
+  
+  if(0 > F2) {
+    stop("F2 can not be lower than 0!")
+  }
+  
+  if(0 > F3) {
+    stop("F3 can not be lower than 0!")
+  }
+  
+  if(0 > F4) {
+    stop("F4 can not be lower than 0!")
+  }
+  
+  if(0 > F5) {
+    stop("F5 can not be lower than 0!")
   }
   
   .jcall(dtoper, "V", "setConfiguration", AA_MASS, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE)
