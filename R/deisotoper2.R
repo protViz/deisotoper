@@ -38,6 +38,12 @@ getDOTGraphs <- function(deisotoper) {
   DOT
 }
 
+getAnnotatedSpectrum <- function(deisotoper) {
+  AS <- .jcall(deisotoper$javaRef, "S", "getAnnotatedSpectrum")
+  
+  AS
+}
+
 summary <- function(deisotoper) {
   Summary <- .jcall(deisotoper$javaRef, "S", "getSummary")
   
