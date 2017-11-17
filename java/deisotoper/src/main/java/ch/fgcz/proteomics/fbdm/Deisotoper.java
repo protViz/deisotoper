@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.jgrapht.GraphPath;
 
+import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
@@ -36,20 +37,18 @@ public class Deisotoper {
 	return annotatedSpectrum;
     }
 
-    // public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement
-    // input, String modus,
-    // Configuration config) {
-    //
-    //
-    // String date = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-    //
-    // for (MassSpectrum ms : input.getMSlist()) {
-    //
-    // output.getMSlist().add(deisotopeMS(ms, modus, config, date));
-    // }
-    //
-    // return output;
-    // }
+    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus,
+	    Configuration config) {
+	MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource());
+
+	this.config = config;
+
+	for (MassSpectrum ms : input.getMSlist()) {
+	    output.getMSlist().add(deisotopeMS(ms, modus));
+	}
+
+	return output;
+    }
 
     public MassSpectrum deisotopeMS(MassSpectrum input, String modus) {
 	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, this.config.getDelta(), this.config);
