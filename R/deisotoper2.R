@@ -23,12 +23,14 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
                mZ = mzout, 
                intensity = intensityout,
                id = massspectrum$id))
-  return(as.MS(MS))
+  return(MS)
 }
 
-
 deisotope.list <- function(deisotoper, psmset, modus = "first") {
-  res <- lapply(psmset, deisotope)
+  res <- list()
+  for(i in 1:length(psmset)) {
+    res <- c(res, list(deisotope(deisotoper = deisotoper, massspectrum = psmset[[i]], modus = modus)))
+  }
   return(res)
 }
 
@@ -81,65 +83,4 @@ getConfig <- function(deisotoper) {
   
   axis(side=1, at = c(massspectrum1$mZ, massspectrum2$mZ))
   axis(side=2, at = seq(0, max(maxintensity1, maxintensity2) + 10000, by = 10000))
-}
-
-is.MS <- function(x){
-  if (sum(c("title", "rtinseconds", "charge","scan","pepmass","mZ","intensity") %in% names(x)) != 7){
-    warning('attributed check failed.')
-    #return (FALSE)
-  }
-  
-  if (!is.vector(x$mZ) || !is.numeric(x$mZ) || is.unsorted(x$mZ)){
-    warning('mZ value check failed.')
-    warning(x$mZ)
-    return(FALSE)
-  }
-  
-  if (!is.vector(x$intensity) || !is.numeric(x$intensity)){
-    warning('intensity check failed.')
-    return(FALSE)
-  }
-  
-  if (!is.numeric(x$pepmass) || !is.numeric(x$rtinseconds) || !is.numeric(x$charge) || !is.numeric(x$id)){
-    warning('pepmass, rtinseconds, ... check failed.')
-    return (FALSE)
-  }
-  
-  TRUE
-}
-
-as.MS<- function(x){
-  if ('mZ' %in% names(x) && length(x$mZ) < 2){
-    return (NULL)
-  }
-  if (!('pepmass' %in% names(x)) || is.na(x$pepmass)){
-    x$pepmass <- 100.0
-  }
-  
-  if (!('title' %in% names(x)) || is.na(x$title) ){
-    x$title <- "no title"
-  }
-  
-  if (!('rtinseconds' %in% names(x)) || is.na(x$rtinseconds) ){
-    x$rtinseconds <- 1
-  }
-  
-  if ( !('charge' %in% names(x)) || is.na(x$charge) ){
-    x$charge <- 1
-  }
-  
-  if ( !('id' %in% names(x)) || is.na(x$id)){
-    x$id <- 1
-  }
-  
-  
-  if(is.unsorted(x$mZ)){
-    idx<-order(x$mZ)
-    x$mZ <- x$mZ[idx]
-    x$intensity <- x$intensity[idx]
-  }
-  
-  stopifnot(is.MS(x))
-  
-  x
 }

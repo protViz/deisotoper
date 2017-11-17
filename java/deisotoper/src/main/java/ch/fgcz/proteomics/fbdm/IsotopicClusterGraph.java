@@ -33,11 +33,11 @@ public class IsotopicClusterGraph {
 
 	List<GraphPath<IsotopicCluster, Connection>> path = paths.getPaths(source, sink);
 
-	Set<Double> weights = new HashSet();
+	Set<Double> weights = new HashSet<Double>();
 	for (GraphPath<IsotopicCluster, Connection> p : path) {
 	    weights.add(p.getWeight());
 	}
-	if (weights.size() == 1) {
+	if (weights.size() == 1 && path.size() != 1) {
 	    System.err.println(
 		    "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct!");
 	}
