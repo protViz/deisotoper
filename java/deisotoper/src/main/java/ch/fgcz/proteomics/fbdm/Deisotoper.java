@@ -123,7 +123,7 @@ public class Deisotoper {
 			mz2.add(p.getMz());
 		    }
 
-		    aggregation(cluster, modus);
+		    cluster.aggregation(modus);
 
 		    int position = 1;
 		    for (Peak p : cluster.getIsotopicCluster()) {
@@ -221,17 +221,5 @@ public class Deisotoper {
 	    }
 	}
 	return null;
-    }
-
-    private IsotopicCluster aggregation(IsotopicCluster cluster, String modus) {
-	if (modus.equals("first")) {
-	    return cluster.aggregateFirst();
-	} else if (modus.equals("highest")) {
-	    return cluster.aggregateHighest();
-	} else if (modus.equals("none")) {
-	    return cluster;
-	} else {
-	    throw new IllegalArgumentException("Modus not found (" + modus + ")");
-	}
     }
 }

@@ -100,6 +100,18 @@ public class IsotopicCluster {
 	return intensitysum;
     }
 
+    public IsotopicCluster aggregation(String modus) {
+	if (modus.equals("first")) {
+	    return this.aggregateFirst();
+	} else if (modus.equals("highest")) {
+	    return this.aggregateHighest();
+	} else if (modus.equals("none")) {
+	    return this;
+	} else {
+	    throw new IllegalArgumentException("Modus not found (" + modus + ")");
+	}
+    }
+
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
