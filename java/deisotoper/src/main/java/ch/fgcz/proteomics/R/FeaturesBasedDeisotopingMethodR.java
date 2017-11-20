@@ -48,14 +48,16 @@ public class FeaturesBasedDeisotopingMethodR {
     // return Deisotoper.deisotopeMS(input, modus, config);
     // }
 
-    public static String getGraphFromIS(IsotopicSet is, MassSpectrum ms, Configuration config) {
-	IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
-
-	icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), config.getErrortolerance(),
-		new Peaklist(ms), config);
-
-	return icg.toDOTGraph();
-    }
+    // public static String getGraphFromIS(IsotopicSet is, MassSpectrum ms,
+    // Configuration config) {
+    // IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
+    //
+    // icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(),
+    // config.getErrortolerance(),
+    // new Peaklist(ms), config);
+    //
+    // return icg.toDOTGraph();
+    // }
 
     public static String getStatistic(MassSpectrometryMeasurement msm, Configuration config) {
 	int numberms = msm.getMSlist().size();
