@@ -76,6 +76,12 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
     stop("Modus is incorrect. Available modi: 'first', 'highest', 'none'")
   }
   
+  if(is.unsorted(massspectrum$mZ)){
+    idx<-order(x$mZ)
+    massspectrum$mZ <- massspectrum$mZ[idx]
+    massspectrum$intensity <- massspectrum$intensity[idx]
+  }
+  
   .jcall(deisotoper$javaRef, "V", "setMz", massspectrum$mZ)
   .jcall(deisotoper$javaRef, "V", "setIntensity", massspectrum$intensity)
   .jcall(deisotoper$javaRef, "V", "setPepMass", massspectrum$pepmass)
