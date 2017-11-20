@@ -9,11 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jgrapht.GraphPath;
+import org.jgrapht.GraphPath; // TODO (LS): - remove this dependency
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
@@ -29,6 +28,7 @@ public class Deisotoper {
 	this.config = config;
     }
 
+	// TODO (LS): do not use acronyms
     public List<IsotopicClusterGraph> getIcgList() {
 	return icglist;
     }
@@ -37,6 +37,7 @@ public class Deisotoper {
 	return annotatedSpectrum;
     }
 
+    // TODO (LS): not used remove
     public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus,
 	    Configuration config) {
 	MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource());
@@ -50,23 +51,25 @@ public class Deisotoper {
 	return output;
     }
 
-    public MassSpectrum deisotopeMS(MassSpectrum input, String modus) {
-	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(input, this.config.getDelta(), this.config);
+    // TODO (LS) :
+    public MassSpectrum deisotopeMS(MassSpectrum massSpectrum, String modus) {
+	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massSpectrum, this.config.getDelta(), this.config);
 
 	saveAnnotatedSpectrum(ims);
 
-	ListMassSpectrum list = makeGraph(input, ims, modus, this.config);
+	//TODO (LS) : move this method to IsotopicSet
+	ListMassSpectrum list = makeGraph(massSpectrum, ims, modus);
 
 	ListMassSpectrum list3 = decharge(list, this.config);
 
 	Sort.keySort(list3.getMz(), list3.getMz(), list3.getIntensity(), list3.getIsotope(), list3.getCharge());
 
-	MassSpectrum msdeisotoped = noiseFiltering(input, list3, this.config);
+	MassSpectrum msdeisotoped = noiseFiltering(massSpectrum, list3, this.config);
 
 	return msdeisotoped;
     }
 
-    private MassSpectrum noiseFiltering(MassSpectrum ms, ListMassSpectrum list, Configuration config) {
+    private MassSpectrum noiseFiltering(MassSpectrum massSpectrum, ListMassSpectrum list, Configuration config) {
 	MassSpectrum msdeisotoped;
 	if (config.getNoise() != 0) {
 	    double threshold = Collections.max(list.getIntensity()) * config.getNoise() / 100;
@@ -85,25 +88,27 @@ public class Deisotoper {
 		}
 	    }
 
-	    msdeisotoped = new MassSpectrum(ms.getTyp(), ms.getSearchEngine(), mz5, intensity5, ms.getPeptideMass(),
-		    ms.getRt(), ms.getChargeState(), ms.getId(), charge5, isotope5);
+	    msdeisotoped = new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), mz5, intensity5, massSpectrum.getPeptideMass(),
+		    massSpectrum.getRt(), massSpectrum.getChargeState(), massSpectrum.getId(), charge5, isotope5);
 	} else {
-	    msdeisotoped = new MassSpectrum(ms.getTyp(), ms.getSearchEngine(), list.getMz(), list.getIntensity(),
-		    ms.getPeptideMass(), ms.getRt(), ms.getChargeState(), ms.getId(), list.getCharge(),
+	    msdeisotoped = new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), list.getMz(), list.getIntensity(),
+		    massSpectrum.getPeptideMass(), massSpectrum.getRt(), massSpectrum.getChargeState(), massSpectrum.getId(), list.getCharge(),
 		    list.getIsotope());
 	}
 	return msdeisotoped;
     }
 
-    private ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus,
-	    Configuration config) {
+
+    // TODO (LS) operations on paths should only happen in IsotopicSet.
+    private ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus) {
 	this.icglist.removeAll(this.icglist);
 
 	ListMassSpectrum list = new ListMassSpectrum();
 	List<Double> mz = new ArrayList<>();
 
 	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-	    GraphPath<IsotopicCluster, Connection> bp = is.getBestpath();
+
+	    GraphPath<IsotopicCluster, Connection> bp = is.getBestPath();
 
 	    this.icglist.add(is.getIcg());
 
@@ -150,6 +155,7 @@ public class Deisotoper {
 	return list;
     }
 
+    // TODO (LS) This is a method of the class IsotopicMassSpectrum
     private void saveAnnotatedSpectrum(IsotopicMassSpectrum ims) {
 	this.annotatedSpectrum = null;
 

@@ -30,11 +30,13 @@ public class IsotopicSet {
 	return isotopicset;
     }
 
+    // TODO (LS) : Make private
     public IsotopicClusterGraph getIcg() {
 	return icg;
     }
 
-    public GraphPath<IsotopicCluster, Connection> getBestpath() {
+    // TODO (LS) : This should return only the clusters in the best path.
+    public GraphPath<IsotopicCluster, Connection> getBestPath() {
 	return bestpath;
     }
 
