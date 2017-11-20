@@ -71,7 +71,8 @@ public class ScoreTest {
 	int charge = 2;
 	double e = 0.3;
 	IsotopicCluster ic = new IsotopicCluster(
-		Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1);
+		Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1,
+		config);
 
 	double score = Score.secondScoringFeature(x, y, e, pepmass, charge, ic, config);
 
