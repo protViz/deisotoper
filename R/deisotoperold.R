@@ -356,22 +356,6 @@ jReadJSON2MSM <- function(filename='test.json'){
   MSM
 }
 
-#' Returns the version of the Java packages
-#'
-#' @export jVersion
-#' @author Lucas Schmidt
-jVersion <- function() {
-  .jinit(parameters = "-XX:-UseGCOverheadLimit")
-  .jaddClassPath("inst/java/deisotoper.jar")
-  .jclassPath()
-  
-  version <- .jnew("ch.fgcz.proteomics.Version")
-  
-  version <- .jcall(version, "S", "version")
-  
-  version
-}
-
 #' Deisotopes a MSM.
 #'
 #' @param jobj a MassSpectrometryMeasurement Java-Object

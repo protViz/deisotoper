@@ -8,5 +8,3 @@
 ^.*inst/doc/.*.tex$
 ^.*travis.*
 ^.*vignettes/.*$
-^.*R/deisotoperold.R$
-^.*tests/.*$
