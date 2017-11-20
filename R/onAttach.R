@@ -9,7 +9,7 @@
 .onAttach <- function(lib, pkg){
 	if(interactive()){
 		version <- packageVersion('deisotoper')
-		packageStartupMessage("R Package: deisotoper, Version: ", version, "\n", jVersion())
+		packageStartupMessage("R Package: deisotoper, Version: ", version, "\n", .version())
 	  invisible()
 	}
 }

@@ -160,6 +160,7 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
 }
 
 #' @export
+#' @author Lucas Schmidt
 deisotope.list <- function(deisotoper, psmset, modus = "first") {
   res <- list()
   for(i in 1:length(psmset)) {
@@ -169,6 +170,7 @@ deisotope.list <- function(deisotoper, psmset, modus = "first") {
 }
 
 #' @export
+#' @author Lucas Schmidt
 getDOTGraphs <- function(deisotoper) {
   DOT <- .jcall(deisotoper$javaRef, "[S", "getDOT")
   
@@ -176,6 +178,7 @@ getDOTGraphs <- function(deisotoper) {
 }
 
 #' @export
+#' @author Lucas Schmidt
 getAnnotatedSpectrum <- function(deisotoper) {
   AS <- .jcall(deisotoper$javaRef, "S", "getAnnotatedSpectrum")
   
@@ -184,6 +187,7 @@ getAnnotatedSpectrum <- function(deisotoper) {
 }
 
 #' @export
+#' @author Lucas Schmidt
 getSummary <- function(deisotoper) {
   Summary <- .jcall(deisotoper$javaRef, "S", "getSummary")
   
@@ -192,6 +196,7 @@ getSummary <- function(deisotoper) {
 }
 
 #' @export
+#' @author Lucas Schmidt
 getConfig <- function(deisotoper) {
   config <- .jcall(deisotoper$javaRef, "S", "getConfiguration")
   
@@ -199,11 +204,13 @@ getConfig <- function(deisotoper) {
 }
 
 #' @export 
+#' @author Lucas Schmidt
 .plotDOT <- function(DOT) {
   DiagrammeR::grViz(DOT)
 }
 
 #' @export 
+#' @author Lucas Schmidt
 .plot <- function(massspectrum1, massspectrum2, zoom = c(0, 2000)) {
   maxintensity1 <- max(massspectrum1$intensity)
   maxintensity2 <- max(massspectrum2$intensity)
@@ -222,4 +229,18 @@ getConfig <- function(deisotoper) {
   
   axis(side=1, at = c(massspectrum1$mZ, massspectrum2$mZ))
   axis(side=2, at = seq(0, max(maxintensity1, maxintensity2) + 10000, by = 10000))
+}
+
+#' @export
+#' @author Lucas Schmidt
+.version <- function() {
+  .jinit(parameters = "-XX:-UseGCOverheadLimit")
+  .jaddClassPath("inst/java/deisotoper.jar")
+  .jclassPath()
+  
+  version <- .jnew("ch.fgcz.proteomics.Version")
+  
+  version <- .jcall(version, "S", "version")
+  
+  version
 }
