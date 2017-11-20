@@ -2,6 +2,7 @@
 
 export(.plot)
 export(.plotDOT)
+export(.version)
 export(as.psmSet.mzXML)
 export(deisotope)
 export(deisotope.list)
