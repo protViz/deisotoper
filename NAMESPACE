@@ -3,6 +3,8 @@
 export(as.MS)
 export(as.MSM)
 export(as.psmSet.mzXML)
+export(deisotope)
+export(deisotoper)
 export(findNN)
 export(is.MS)
 export(is.MSM)
