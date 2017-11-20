@@ -84,7 +84,7 @@ deisotoper <- function(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 10
 #'
 #' @return Deisotoped mass spectrum
 #' @export deisotope
-#' @aliases deisotope.list
+#' @aliases deisotope.list,getAnnotatedSpectrum,getDOTGraphs,getSummary
 #' @author Lucas Schmidt
 #'
 #' @examples

@@ -2,7 +2,7 @@
 % Please edit documentation in R/deisotoper.R
 \name{deisotope}
 \alias{deisotope}
-\alias{deisotope.list}
+\alias{deisotope.list,getAnnotatedSpectrum,getDOTGraphs,getSummary}
 \title{Deisotopes a single mass spectrum.}
 \usage{
 deisotope(deisotoper, massspectrum, modus = "first")
