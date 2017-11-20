@@ -142,13 +142,13 @@ getConfig <- function(deisotoper) {
   if(maxintensity1 <= maxintensity2) {
     plot(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99", axes = FALSE, xlim = zoom, ylim = c(0, maxintensity2 + 100))
     lines(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099")
-    mtext(text ="First Mass Spectrum", line = 2, adj = 0, col="blue")
-    mtext(text ="Second Mass Spectrum", line = 1, adj = 0, col="red")
+    mtext(text =deparse(substitute(massspectrum2)), line = 2, adj = 0, col="blue")
+    mtext(text =deparse(substitute(massspectrum1)), line = 1, adj = 0, col="red")
   } else if (maxintensity1 > maxintensity2) {
     plot(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099", axes = FALSE, xlim = zoom, ylim = c(0, maxintensity1 + 100))
     lines(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99")
-    mtext(text ="First Mass Spectrum", line = 2, adj = 0, col="red")
-    mtext(text ="Second Mass Spectrum", line = 1, adj = 0, col="blue")
+    mtext(text =deparse(substitute(massspectrum1)), line = 2, adj = 0, col="red")
+    mtext(text =deparse(substitute(massspectrum2)), line = 1, adj = 0, col="blue")
   }
   
   axis(side=1, at = c(massspectrum1$mZ, massspectrum2$mZ))
