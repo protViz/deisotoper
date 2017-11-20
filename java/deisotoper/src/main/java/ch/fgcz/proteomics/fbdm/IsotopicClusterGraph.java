@@ -99,12 +99,12 @@ public class IsotopicClusterGraph {
 	return sb.toString();
     }
 
-    public IsotopicClusterGraph(IsotopicSet is) {
+    public IsotopicClusterGraph(List<IsotopicCluster> is) {
 	this.min = Double.MAX_VALUE;
-	is.getIsotopicSet().add(new IsotopicCluster("start"));
+	is.add(new IsotopicCluster("start"));
 
-	for (IsotopicCluster ic1 : is.getIsotopicSet()) {
-	    for (IsotopicCluster ic2 : is.getIsotopicSet()) {
+	for (IsotopicCluster ic1 : is) {
+	    for (IsotopicCluster ic2 : is) {
 		String color = calculateConnection(ic1, ic2);
 
 		// Start

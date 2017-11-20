@@ -103,14 +103,9 @@ public class Deisotoper {
 	List<Double> mz = new ArrayList<>();
 
 	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-	    IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
+	    GraphPath<IsotopicCluster, Connection> bp = is.getBestpath();
 
-	    icg.scoreIsotopicClusterGraph(input.getPeptideMass(), input.getChargeState(), config.getErrortolerance(),
-		    new Peaklist(input.getMz(), input.getIntensity()), config);
-
-	    this.icglist.add(icg);
-
-	    GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
+	    this.icglist.add(is.getIcg());
 
 	    ListMassSpectrum list2 = new ListMassSpectrum();
 
@@ -165,10 +160,12 @@ public class Deisotoper {
 
 	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
 	    for (IsotopicCluster ic : is.getIsotopicSet()) {
-		for (Peak p : ic.getIsotopicCluster()) {
-		    sb.append(is.getSetID()).append(",").append(ic.getClusterID()).append(",").append(p.getPeakID())
-			    .append(",").append(ic.getCharge()).append(",").append(p.getMz()).append(",")
-			    .append(p.getIntensity()).append(linesep);
+		if (ic.getIsotopicCluster() != null) {
+		    for (Peak p : ic.getIsotopicCluster()) {
+			sb.append(is.getSetID()).append(",").append(ic.getClusterID()).append(",").append(p.getPeakID())
+				.append(",").append(ic.getCharge()).append(",").append(p.getMz()).append(",")
+				.append(p.getIntensity()).append(linesep);
+		    }
 		}
 	    }
 	}
@@ -202,23 +199,5 @@ public class Deisotoper {
 	}
 
 	return list2;
-    }
-
-    private IsotopicCluster getStart(IsotopicClusterGraph icg) {
-	for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
-	    if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
-		return e;
-	    }
-	}
-	return null;
-    }
-
-    private IsotopicCluster getEnd(IsotopicClusterGraph icg) {
-	for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
-	    if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
-		return e;
-	    }
-	}
-	return null;
     }
 }

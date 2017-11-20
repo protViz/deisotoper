@@ -18,10 +18,10 @@ public class IsotopicMassSpectrum {
     }
 
     public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, Configuration config) {
-	this(new Peaklist(massspectrum), delta, config);
+	this(massspectrum, new Peaklist(massspectrum), delta, config);
     }
 
-    public IsotopicMassSpectrum(Peaklist peaklist, double delta, Configuration config) {
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, Peaklist peaklist, double delta, Configuration config) {
 	int id = 0;
 	for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
 	    List<Peak> isotopicset = new ArrayList<>();
@@ -49,7 +49,7 @@ public class IsotopicMassSpectrum {
 	    }
 
 	    if (1 < isotopicset.size()) {
-		IsotopicSet is = new IsotopicSet(isotopicset, delta, id, config);
+		IsotopicSet is = new IsotopicSet(massspectrum, isotopicset, delta, id, config);
 		id++;
 
 		this.isotopicmassspectrum.add(is);

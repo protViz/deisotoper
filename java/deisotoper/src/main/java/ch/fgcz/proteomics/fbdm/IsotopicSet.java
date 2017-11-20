@@ -12,8 +12,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jgrapht.GraphPath;
+
+import ch.fgcz.proteomics.dto.MassSpectrum;
+
 public class IsotopicSet {
     private List<IsotopicCluster> isotopicset = new ArrayList<>();
+    private IsotopicClusterGraph icg;
+    private GraphPath<IsotopicCluster, Connection> bestpath;
     private int setID;
 
     public int getSetID() {
@@ -24,7 +30,28 @@ public class IsotopicSet {
 	return isotopicset;
     }
 
-    public IsotopicSet(List<Peak> isotopicset, double delta, int setid, Configuration config) {
+    public IsotopicClusterGraph getIcg() {
+	return icg;
+    }
+
+    public GraphPath<IsotopicCluster, Connection> getBestpath() {
+	return bestpath;
+    }
+
+    private void setBestPath(MassSpectrum ms, List<IsotopicCluster> is, Configuration config) {
+	IsotopicClusterGraph icg = new IsotopicClusterGraph(is);
+
+	icg.scoreIsotopicClusterGraph(ms.getPeptideMass(), ms.getChargeState(), config.getErrortolerance(),
+		new Peaklist(ms.getMz(), ms.getIntensity()), config);
+
+	GraphPath<IsotopicCluster, Connection> bp = icg.bestPath(getStart(icg), getEnd(icg));
+
+	this.icg = icg;
+	this.bestpath = bp;
+    }
+
+    public IsotopicSet(MassSpectrum massspectrum, List<Peak> isotopicset, double delta, int setid,
+	    Configuration config) {
 	try {
 	    rangeCheck(isotopicset, config);
 	} catch (Exception e) {
@@ -48,6 +75,8 @@ public class IsotopicSet {
 	    cluster.setClusterID(clusterid);
 	    clusterid++;
 	}
+	
+	setBestPath(massspectrum, is, config);
 
 	this.isotopicset = is;
 	this.setID = setid;
@@ -142,5 +171,23 @@ public class IsotopicSet {
 		throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
 	    }
 	}
+    }
+
+    private IsotopicCluster getStart(IsotopicClusterGraph icg) {
+	for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
+	    if (e.getIsotopicCluster() == null && e.getStatus() == "start") {
+		return e;
+	    }
+	}
+	return null;
+    }
+
+    private IsotopicCluster getEnd(IsotopicClusterGraph icg) {
+	for (IsotopicCluster e : icg.getIsotopicclustergraph().vertexSet()) {
+	    if (e.getIsotopicCluster() == null && e.getStatus() == "end") {
+		return e;
+	    }
+	}
+	return null;
     }
 }

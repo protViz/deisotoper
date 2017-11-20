@@ -128,23 +128,24 @@ public class ScoreTest {
 	assertEquals(score, 1, 0);
     }
 
-    /**
-     * Tests the fifthIntensityFeature function.
-     */
-    @Test
-    public void testF5() {
-	Configuration config = new Configuration();
-	IsotopicClusterGraph icg = new IsotopicClusterGraph(
-		new IsotopicSet(
-			Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0),
-				new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)),
-			0.01, 0, new Configuration()));
-	Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
-
-	double score = Score5.fifthScoringFeature((Connection) a[0], icg.getIsotopicclustergraph(), config);
-
-	assertEquals(score, 0, 0);
-    }
+    // /**
+    // * Tests the fifthIntensityFeature function.
+    // */
+    // @Test
+    // public void testF5() {
+    // Configuration config = new Configuration();
+    // IsotopicClusterGraph icg = new IsotopicClusterGraph(
+    // new IsotopicSet(
+    // Arrays.asList(new Peak(123.0, 473.23, 0), new Peak(124.0, 333.23, 0),
+    // new Peak(125.0, 342.23, 0), new Peak(125.5, 173.243, 0)),
+    // 0.01, 0, new Configuration()));
+    // Object[] a = icg.getIsotopicclustergraph().edgeSet().toArray();
+    //
+    // double score = Score5.fifthScoringFeature((Connection) a[0],
+    // icg.getIsotopicclustergraph(), config);
+    //
+    // assertEquals(score, 0, 0);
+    // }
 
     /**
      * A simple test to check if the ScoreConfig class works.
