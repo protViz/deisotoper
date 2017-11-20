@@ -135,17 +135,17 @@ getConfig <- function(deisotoper) {
   DiagrammeR::grViz(DOT)
 }
 
-.plot <- function(massspectrum1, massspectrum2) {
+.plot <- function(massspectrum1, massspectrum2, zoom = c(0, 2000)) {
   maxintensity1 <- max(massspectrum1$intensity)
   maxintensity2 <- max(massspectrum2$intensity)
   
   if(maxintensity1 <= maxintensity2) {
-    plot(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99", axes = FALSE, xlim = c(0, 2000))
+    plot(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99", axes = FALSE, xlim = zoom)
     lines(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099")
     mtext(text ="First Mass Spectrum", line = 2, adj = 0, col="blue")
     mtext(text ="Second Mass Spectrum", line = 1, adj = 0, col="red")
   } else if (maxintensity1 > maxintensity2) {
-    plot(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099", axes = FALSE, xlim = c(0, 2000))
+    plot(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099", axes = FALSE, xlim = zoom)
     lines(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99")
     mtext(text ="First Mass Spectrum", line = 2, adj = 0, col="red")
     mtext(text ="Second Mass Spectrum", line = 1, adj = 0, col="blue")
