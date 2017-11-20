@@ -25,6 +25,12 @@ public class IsotopicSet {
     }
 
     public IsotopicSet(List<Peak> isotopicset, double delta, int setid, Configuration config) {
+	try {
+	    rangeCheck(isotopicset, config);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
 	List<IsotopicCluster> is = new ArrayList<>();
 
 	is = collectClusterForEachCharge(is, isotopicset, 3, delta, config);
@@ -47,7 +53,7 @@ public class IsotopicSet {
 	this.setID = setid;
     }
 
-    public List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> is, List<Peak> isotopicset,
+    private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> is, List<Peak> isotopicset,
 	    int charge, double delta, Configuration config) {
 	for (Peak a : isotopicset) {
 	    for (Peak b : isotopicset) {
@@ -71,8 +77,7 @@ public class IsotopicSet {
 		    }
 
 		    if (ic.size() == 2 || ic.size() == 3) {
-			rangeCheck(ic, config, charge);
-			IsotopicCluster cluster = new IsotopicCluster(ic, charge);
+			IsotopicCluster cluster = new IsotopicCluster(ic, charge, config);
 			is.add(cluster);
 		    }
 		}
@@ -80,20 +85,6 @@ public class IsotopicSet {
 	}
 
 	return is;
-    }
-
-    private static void rangeCheck(List<Peak> peaks, Configuration config, int charge) {
-	for (int i = 0; i < peaks.size() - 1; i++) {
-	    double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
-	    if (!((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
-		    && Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
-		try {
-		    throw new Exception("Wrong distance at IsotopicCluster creation! (" + distance + ")");
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	}
     }
 
     private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> list) {
@@ -133,5 +124,23 @@ public class IsotopicSet {
 	}
 
 	return result;
+    }
+
+    private static void rangeCheck(List<Peak> peaks, Configuration config) throws Exception {
+	for (int i = 0; i < peaks.size() - 1; i++) {
+	    double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
+
+	    boolean b = false;
+	    for (int charge = 1; charge <= 3; charge++) {
+		if (((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
+			&& Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+		    b = true;
+		}
+	    }
+
+	    if (b == false) {
+		throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
+	    }
+	}
     }
 }
