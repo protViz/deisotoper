@@ -5,6 +5,7 @@ package ch.fgcz.proteomics.mspy;
  * @since 2017-09-11
  */
 
+@Deprecated
 public class Peak {
     private double mz;
     private double intensity;

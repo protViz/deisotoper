@@ -5,12 +5,7 @@ package ch.fgcz.proteomics.R;
  * @since 2017-10-31
  */
 
-import java.util.ArrayList;
-
-import java.util.List;
-
-import ch.fgcz.proteomics.fbdm.Configuration;
-
+@Deprecated
 public class FeaturesBasedDeisotopingMethodR {
     // public static MassSpectrometryMeasurement
     // deisotopeMSMR(MassSpectrometryMeasurement input, String modus,
@@ -97,21 +92,27 @@ public class FeaturesBasedDeisotopingMethodR {
     // return sb.toString();
     // }
 
-    public static Configuration createConfigurationR(double[] aa, double F1, double F2, double F3, double F4, double F5,
-	    double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
-	List<Double> AA_MASS = new ArrayList<>();
-
-	for (int i = 0; i < aa.length; i++) {
-	    AA_MASS.add(aa[i]);
-	}
-
-	return new Configuration(AA_MASS, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
-    }
-
-    public static Configuration createConfigurationR(double F1, double F2, double F3, double F4, double F5,
-	    double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
-	return new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
-    }
+    // public static Configuration createConfigurationR(double[] aa, double F1,
+    // double F2, double F3, double F4, double F5,
+    // double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean
+    // DECHARGE) {
+    // List<Double> AA_MASS = new ArrayList<>();
+    //
+    // for (int i = 0; i < aa.length; i++) {
+    // AA_MASS.add(aa[i]);
+    // }
+    //
+    // return new Configuration(AA_MASS, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE,
+    // DISTANCE, NOISE, DECHARGE);
+    // }
+    //
+    // public static Configuration createConfigurationR(double F1, double F2, double
+    // F3, double F4, double F5,
+    // double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean
+    // DECHARGE) {
+    // return new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE,
+    // NOISE, DECHARGE);
+    // }
 
     // public static String getScoreConfigAsCSV(Configuration config) {
     // return makeCSV(config);

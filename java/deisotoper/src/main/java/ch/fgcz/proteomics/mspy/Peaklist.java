@@ -10,6 +10,7 @@ import java.util.List;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
+@Deprecated
 public class Peaklist {
     private List<Peak> peaklist = new ArrayList<Peak>();
 

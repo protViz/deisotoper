@@ -11,6 +11,7 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
+@Deprecated
 public class Deisotoper {
     public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input) {
 	MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");

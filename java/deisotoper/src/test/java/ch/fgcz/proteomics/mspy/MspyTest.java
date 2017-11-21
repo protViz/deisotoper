@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+@Deprecated
 public class MspyTest {
     private Peaklist peaklistin;
     private Peaklist peaklistout;

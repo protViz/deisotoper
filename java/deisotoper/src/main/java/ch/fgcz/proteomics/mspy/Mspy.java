@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Deprecated
 public class Mspy {
     public static final double ISOTOPE_DISTANCE = 1.00287;
     public static final double ELECTRON_MASS = 0.00054857990924;

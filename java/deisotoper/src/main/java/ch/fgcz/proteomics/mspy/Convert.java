@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class Convert {
     public static Peaklist msdToPeaklist(String file) {
 	List<Double> mz = new ArrayList<>();
