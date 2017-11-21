@@ -17,11 +17,12 @@ public class IsotopicMassSpectrum {
 	return isotopicmassspectrum;
     }
 
-    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, Configuration config) {
-	this(massspectrum, new Peaklist(massspectrum), delta, config);
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, Configuration config, Deisotoper deisotoper) {
+	this(massspectrum, new Peaklist(massspectrum), delta, config, deisotoper);
     }
 
-    public IsotopicMassSpectrum(MassSpectrum massspectrum, Peaklist peaklist, double delta, Configuration config) {
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, Peaklist peaklist, double delta, Configuration config,
+	    Deisotoper deisotoper) {
 	int id = 0;
 	for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
 	    List<Peak> isotopicset = new ArrayList<>();
@@ -59,5 +60,31 @@ public class IsotopicMassSpectrum {
 		}
 	    }
 	}
+
+	saveAnnotatedSpectrum(deisotoper, this);
+    }
+
+    private void saveAnnotatedSpectrum(Deisotoper deisotoper, IsotopicMassSpectrum isotopicmassspectrum) {
+	deisotoper.setAnnotatedSpectrum(null);
+
+	StringBuilder stringbuilder = new StringBuilder();
+	String linesep = System.getProperty("line.separator");
+
+	stringbuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(linesep);
+
+	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicMassSpectrum()) {
+	    for (IsotopicCluster isotopiccluster : isotopicset.getIsotopicSet()) {
+		if (isotopiccluster.getIsotopicCluster() != null) {
+		    for (Peak peak : isotopiccluster.getIsotopicCluster()) {
+			stringbuilder.append(isotopicset.getSetID()).append(",").append(isotopiccluster.getClusterID())
+				.append(",").append(peak.getPeakID()).append(",").append(isotopiccluster.getCharge())
+				.append(",").append(peak.getMz()).append(",").append(peak.getIntensity())
+				.append(linesep);
+		    }
+		}
+	    }
+	}
+
+	deisotoper.setAnnotatedSpectrum(stringbuilder.toString());
     }
 }

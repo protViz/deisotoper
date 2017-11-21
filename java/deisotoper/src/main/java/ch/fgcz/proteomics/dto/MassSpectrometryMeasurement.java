@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
-    private List<MassSpectrum> mslist = new ArrayList<>();
+    private List<MassSpectrum> massspectrumlist = new ArrayList<>();
     private String source;
 
     public String getSource() {
@@ -21,11 +21,11 @@ public class MassSpectrometryMeasurement {
     }
 
     public List<MassSpectrum> getMSlist() {
-	return mslist;
+	return massspectrumlist;
     }
 
-    public void setMSlist(List<MassSpectrum> list) {
-	this.mslist = list;
+    public void setMSlist(List<MassSpectrum> massspectrumlist) {
+	this.massspectrumlist = massspectrumlist;
     }
 
     public MassSpectrometryMeasurement(String source) {

@@ -77,10 +77,10 @@ public class IsotopicCluster {
 	double minint = 0;
 	double minmz = 0;
 
-	for (Peak p : this.isotopiccluster) {
-	    if (p.getIntensity() > minint) {
-		minint = p.getIntensity();
-		minmz = p.getMz();
+	for (Peak peak : this.isotopiccluster) {
+	    if (peak.getIntensity() > minint) {
+		minint = peak.getIntensity();
+		minmz = peak.getMz();
 	    }
 	}
 
@@ -98,8 +98,8 @@ public class IsotopicCluster {
 
     private double sumIntensity() {
 	double intensitysum = 0;
-	for (Peak p : this.isotopiccluster) {
-	    intensitysum += p.getIntensity();
+	for (Peak peak : this.isotopiccluster) {
+	    intensitysum += peak.getIntensity();
 	}
 
 	return intensitysum;
@@ -119,16 +119,16 @@ public class IsotopicCluster {
 
     @Override
     public String toString() {
-	StringBuilder sb = new StringBuilder();
-	sb.append("(" + this.clusterID + ") [ ");
+	StringBuilder stringbuilder = new StringBuilder();
+	stringbuilder.append("(" + this.clusterID + ") [ ");
 	if (this.isotopiccluster == null) {
 	    return this.status;
 	}
 	for (Peak p : this.isotopiccluster) {
-	    sb.append(p.getMz() + " ");
+	    stringbuilder.append(p.getMz() + " ");
 	}
-	sb.append("]");
-	return sb.toString();
+	stringbuilder.append("]");
+	return stringbuilder.toString();
     }
 
     private static void rangeCheck(List<Peak> peaks, Configuration config, int charge) throws Exception {

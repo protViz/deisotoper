@@ -9,16 +9,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jgrapht.GraphPath; // TODO (LS): - remove this dependency
-
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.utilities.Sort;
 
 public class Deisotoper {
     private Configuration config;
-    private List<IsotopicClusterGraph> icglist = new ArrayList<>();
-    private String annotatedSpectrum;
+    private List<IsotopicClusterGraph> isotopicclustergraphlist = new ArrayList<>();
+    private String annotatedspectrum;
 
     public Configuration getConfiguration() {
 	return config;
@@ -28,182 +26,166 @@ public class Deisotoper {
 	this.config = config;
     }
 
-	// TODO (LS): do not use acronyms
-    public List<IsotopicClusterGraph> getIcgList() {
-	return icglist;
+    public List<IsotopicClusterGraph> getIsotopicClusterGraphList() {
+	return isotopicclustergraphlist;
     }
 
     public String getAnnotatedSpectrum() {
-	return annotatedSpectrum;
+	return annotatedspectrum;
     }
 
-    // TODO (LS): not used remove
-    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input, String modus,
-	    Configuration config) {
-	MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource());
+    public void setAnnotatedSpectrum(String annotatedspectrum) {
+	this.annotatedspectrum = annotatedspectrum;
+    }
+
+    public MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement massspectrometrymeasurementin,
+	    String modus, Configuration config) {
+	MassSpectrometryMeasurement massspectrometrymeasurementout = new MassSpectrometryMeasurement(
+		massspectrometrymeasurementin.getSource());
 
 	this.config = config;
 
-	for (MassSpectrum ms : input.getMSlist()) {
-	    output.getMSlist().add(deisotopeMS(ms, modus));
+	for (MassSpectrum massspectrum : massspectrometrymeasurementin.getMSlist()) {
+	    massspectrometrymeasurementout.getMSlist().add(deisotopeMS(massspectrum, modus));
 	}
 
-	return output;
+	return massspectrometrymeasurementout;
     }
 
-    // TODO (LS) :
-    public MassSpectrum deisotopeMS(MassSpectrum massSpectrum, String modus) {
-	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massSpectrum, this.config.getDelta(), this.config);
+    public MassSpectrum deisotopeMS(MassSpectrum massspectrum, String modus) {
+	IsotopicMassSpectrum isotopicmassspectrum = new IsotopicMassSpectrum(massspectrum, this.config.getDelta(),
+		this.config, this);
 
-	saveAnnotatedSpectrum(ims);
+	// TODO (LS) : move this method to IsotopicSet
+	ListMassSpectrum listmassspectrumaggregated = aggretaion(massspectrum, isotopicmassspectrum, modus);
 
-	//TODO (LS) : move this method to IsotopicSet
-	ListMassSpectrum list = makeGraph(massSpectrum, ims, modus);
+	ListMassSpectrum listmassspectrumdecharged = decharge(listmassspectrumaggregated, this.config);
 
-	ListMassSpectrum list3 = decharge(list, this.config);
+	Sort.keySort(listmassspectrumdecharged.getMz(), listmassspectrumdecharged.getMz(),
+		listmassspectrumdecharged.getIntensity(), listmassspectrumdecharged.getIsotope(),
+		listmassspectrumdecharged.getCharge());
 
-	Sort.keySort(list3.getMz(), list3.getMz(), list3.getIntensity(), list3.getIsotope(), list3.getCharge());
+	MassSpectrum massspectrumdeisotoped = noiseFiltering(massspectrum, listmassspectrumdecharged, this.config);
 
-	MassSpectrum msdeisotoped = noiseFiltering(massSpectrum, list3, this.config);
-
-	return msdeisotoped;
+	return massspectrumdeisotoped;
     }
 
-    private MassSpectrum noiseFiltering(MassSpectrum massSpectrum, ListMassSpectrum list, Configuration config) {
-	MassSpectrum msdeisotoped;
+    private MassSpectrum noiseFiltering(MassSpectrum massspectrum, ListMassSpectrum listmassspectrum,
+	    Configuration config) {
+	MassSpectrum massspectrundeisotoped;
+
 	if (config.getNoise() != 0) {
-	    double threshold = Collections.max(list.getIntensity()) * config.getNoise() / 100;
+	    double threshold = Collections.max(listmassspectrum.getIntensity()) * config.getNoise() / 100;
 
 	    List<Double> mz5 = new ArrayList<>();
 	    List<Double> intensity5 = new ArrayList<>();
 	    List<Double> isotope5 = new ArrayList<>();
 	    List<Integer> charge5 = new ArrayList<>();
 
-	    for (int i = 0; i < list.getIntensity().size(); i++) {
-		if (threshold < list.getIntensity().get(i)) {
-		    mz5.add(list.getMz().get(i));
-		    intensity5.add(list.getIntensity().get(i));
-		    isotope5.add(list.getIsotope().get(i));
-		    charge5.add(list.getCharge().get(i));
+	    for (int i = 0; i < listmassspectrum.getIntensity().size(); i++) {
+		if (threshold < listmassspectrum.getIntensity().get(i)) {
+		    mz5.add(listmassspectrum.getMz().get(i));
+		    intensity5.add(listmassspectrum.getIntensity().get(i));
+		    isotope5.add(listmassspectrum.getIsotope().get(i));
+		    charge5.add(listmassspectrum.getCharge().get(i));
 		}
 	    }
 
-	    msdeisotoped = new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), mz5, intensity5, massSpectrum.getPeptideMass(),
-		    massSpectrum.getRt(), massSpectrum.getChargeState(), massSpectrum.getId(), charge5, isotope5);
+	    massspectrundeisotoped = new MassSpectrum(massspectrum.getTyp(), massspectrum.getSearchEngine(), mz5,
+		    intensity5, massspectrum.getPeptideMass(), massspectrum.getRt(), massspectrum.getChargeState(),
+		    massspectrum.getId(), charge5, isotope5);
 	} else {
-	    msdeisotoped = new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), list.getMz(), list.getIntensity(),
-		    massSpectrum.getPeptideMass(), massSpectrum.getRt(), massSpectrum.getChargeState(), massSpectrum.getId(), list.getCharge(),
-		    list.getIsotope());
+	    massspectrundeisotoped = new MassSpectrum(massspectrum.getTyp(), massspectrum.getSearchEngine(),
+		    listmassspectrum.getMz(), listmassspectrum.getIntensity(), massspectrum.getPeptideMass(),
+		    massspectrum.getRt(), massspectrum.getChargeState(), massspectrum.getId(),
+		    listmassspectrum.getCharge(), listmassspectrum.getIsotope());
 	}
-	return msdeisotoped;
+
+	return massspectrundeisotoped;
     }
 
+    private ListMassSpectrum aggretaion(MassSpectrum massspectrumin, IsotopicMassSpectrum isotopicmassspectrum,
+	    String modus) {
+	this.isotopicclustergraphlist.removeAll(this.isotopicclustergraphlist);
 
-    // TODO (LS) operations on paths should only happen in IsotopicSet.
-    private ListMassSpectrum makeGraph(MassSpectrum input, IsotopicMassSpectrum ims, String modus) {
-	this.icglist.removeAll(this.icglist);
-
-	ListMassSpectrum list = new ListMassSpectrum();
+	ListMassSpectrum listmassspectrumaggregated = new ListMassSpectrum();
 	List<Double> mz = new ArrayList<>();
 
-	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicMassSpectrum()) {
 
-	    GraphPath<IsotopicCluster, Connection> bp = is.getBestPath();
+	    List<IsotopicCluster> bestpath = isotopicset.getBestPath();
 
-	    this.icglist.add(is.getIcg());
+	    this.isotopicclustergraphlist.add(isotopicset.getIsotopicClusterGraph());
 
-	    ListMassSpectrum list2 = new ListMassSpectrum();
+	    ListMassSpectrum listmassspectrumaggregated2 = new ListMassSpectrum();
 
 	    List<Double> mz2 = new ArrayList<>();
 
-	    for (IsotopicCluster cluster : bp.getVertexList()) {
+	    for (IsotopicCluster cluster : bestpath) {
 		if (cluster.getIsotopicCluster() != null) {
-		    for (Peak p : cluster.getIsotopicCluster()) {
-			mz2.add(p.getMz());
+		    for (Peak peak : cluster.getIsotopicCluster()) {
+			mz2.add(peak.getMz());
 		    }
 
 		    cluster.aggregation(modus);
 
 		    int position = 1;
-		    for (Peak p : cluster.getIsotopicCluster()) {
-			list2.getMz().add(p.getMz());
-			list2.getIntensity().add(p.getIntensity());
-			list2.getIsotope().add((double) position);
-			list2.getCharge().add(cluster.getCharge());
+		    for (Peak peak : cluster.getIsotopicCluster()) {
+			listmassspectrumaggregated2.getMz().add(peak.getMz());
+			listmassspectrumaggregated2.getIntensity().add(peak.getIntensity());
+			listmassspectrumaggregated2.getIsotope().add((double) position);
+			listmassspectrumaggregated2.getCharge().add(cluster.getCharge());
 			position++;
 		    }
 		}
 	    }
 
-	    list.getMz().addAll(list2.getMz());
-	    list.getIntensity().addAll(list2.getIntensity());
-	    list.getIsotope().addAll(list2.getIsotope());
-	    list.getCharge().addAll(list2.getCharge());
+	    listmassspectrumaggregated.getMz().addAll(listmassspectrumaggregated2.getMz());
+	    listmassspectrumaggregated.getIntensity().addAll(listmassspectrumaggregated2.getIntensity());
+	    listmassspectrumaggregated.getIsotope().addAll(listmassspectrumaggregated2.getIsotope());
+	    listmassspectrumaggregated.getCharge().addAll(listmassspectrumaggregated2.getCharge());
 
 	    mz.addAll(mz2);
 	}
 
-	for (int i = 0; i < input.getMz().size(); i++) {
-	    if (!mz.contains(input.getMz().get(i))) {
-		list.getMz().add(input.getMz().get(i));
-		list.getIntensity().add(input.getIntensity().get(i));
-		list.getIsotope().add(-1.0);
-		list.getCharge().add(-1);
+	for (int i = 0; i < massspectrumin.getMz().size(); i++) {
+	    if (!mz.contains(massspectrumin.getMz().get(i))) {
+		listmassspectrumaggregated.getMz().add(massspectrumin.getMz().get(i));
+		listmassspectrumaggregated.getIntensity().add(massspectrumin.getIntensity().get(i));
+		listmassspectrumaggregated.getIsotope().add(-1.0);
+		listmassspectrumaggregated.getCharge().add(-1);
 	    }
 	}
 
-	return list;
+	return listmassspectrumaggregated;
     }
 
-    // TODO (LS) This is a method of the class IsotopicMassSpectrum
-    private void saveAnnotatedSpectrum(IsotopicMassSpectrum ims) {
-	this.annotatedSpectrum = null;
-
-	StringBuilder sb = new StringBuilder();
-	String linesep = System.getProperty("line.separator");
-
-	sb.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(linesep);
-
-	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-	    for (IsotopicCluster ic : is.getIsotopicSet()) {
-		if (ic.getIsotopicCluster() != null) {
-		    for (Peak p : ic.getIsotopicCluster()) {
-			sb.append(is.getSetID()).append(",").append(ic.getClusterID()).append(",").append(p.getPeakID())
-				.append(",").append(ic.getCharge()).append(",").append(p.getMz()).append(",")
-				.append(p.getIntensity()).append(linesep);
-		    }
-		}
-	    }
-	}
-
-	this.annotatedSpectrum = sb.toString();
-    }
-
-    private ListMassSpectrum decharge(ListMassSpectrum list, Configuration config) {
-	ListMassSpectrum list2 = new ListMassSpectrum();
+    private ListMassSpectrum decharge(ListMassSpectrum listmassspectrum, Configuration config) {
+	ListMassSpectrum listmassspectrumdecharged = new ListMassSpectrum();
 
 	if (config.isDecharge() == true) {
-	    for (int i = 0; i < list.getMz().size(); i++) {
-		if (list.getCharge().get(i) > 1) {
-		    list2.getMz().add(list.getMz().get(i) * list.getCharge().get(i)
-			    - (list.getCharge().get(i) - 1) * config.getH_MASS());
-		    list2.getIntensity().add(list.getIntensity().get(i));
-		    list2.getIsotope().add(list.getIsotope().get(i));
-		    list2.getCharge().add(1);
+	    for (int i = 0; i < listmassspectrum.getMz().size(); i++) {
+		if (listmassspectrum.getCharge().get(i) > 1) {
+		    listmassspectrumdecharged.getMz()
+			    .add(listmassspectrum.getMz().get(i) * listmassspectrum.getCharge().get(i)
+				    - (listmassspectrum.getCharge().get(i) - 1) * config.getH_MASS());
+		    listmassspectrumdecharged.getIntensity().add(listmassspectrum.getIntensity().get(i));
+		    listmassspectrumdecharged.getIsotope().add(listmassspectrum.getIsotope().get(i));
+		    listmassspectrumdecharged.getCharge().add(1);
 		} else {
-		    list2.getMz().add(list.getMz().get(i));
-		    list2.getIntensity().add(list.getIntensity().get(i));
-		    list2.getIsotope().add(list.getIsotope().get(i));
-		    list2.getCharge().add(list.getCharge().get(i));
+		    listmassspectrumdecharged.getMz().add(listmassspectrum.getMz().get(i));
+		    listmassspectrumdecharged.getIntensity().add(listmassspectrum.getIntensity().get(i));
+		    listmassspectrumdecharged.getIsotope().add(listmassspectrum.getIsotope().get(i));
+		    listmassspectrumdecharged.getCharge().add(listmassspectrum.getCharge().get(i));
 		}
 	    }
 	} else {
-	    list2.getMz().addAll(list.getMz());
-	    list2.getIntensity().addAll(list.getIntensity());
-	    list2.getIsotope().addAll(list.getIsotope());
-	    list2.getCharge().addAll(list.getCharge());
+	    listmassspectrumdecharged.getMz().addAll(listmassspectrum.getMz());
+	    listmassspectrumdecharged.getIntensity().addAll(listmassspectrum.getIntensity());
+	    listmassspectrumdecharged.getIsotope().addAll(listmassspectrum.getIsotope());
+	    listmassspectrumdecharged.getCharge().addAll(listmassspectrum.getCharge());
 	}
 
-	return list2;
+	return listmassspectrumdecharged;
     }
 }

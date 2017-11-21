@@ -6,20 +6,10 @@ package ch.fgcz.proteomics.R;
  */
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import java.util.List;
-import java.util.Set;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
-import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.Configuration;
-import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
-import ch.fgcz.proteomics.fbdm.IsotopicMassSpectrum;
-import ch.fgcz.proteomics.fbdm.IsotopicSet;
-import ch.fgcz.proteomics.fbdm.IsotopicCluster;
-import ch.fgcz.proteomics.fbdm.Peak;
-import ch.fgcz.proteomics.fbdm.Peaklist;
 
 public class FeaturesBasedDeisotopingMethodR {
     // public static MassSpectrometryMeasurement
@@ -59,51 +49,53 @@ public class FeaturesBasedDeisotopingMethodR {
     // return icg.toDOTGraph();
     // }
 
-    public static String getStatistic(MassSpectrometryMeasurement msm, Configuration config) {
-	int numberms = msm.getMSlist().size();
-	int numberis = 0;
-	int numberic = 0;
-	int numberipeaks = 0;
-	int numberpeaks = 0;
-
-	for (MassSpectrum ms : msm.getMSlist()) {
-	    numberpeaks += ms.getMz().size();
-
-	    IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getDelta(), config);
-
-	    numberis += ims.getIsotopicMassSpectrum().size();
-
-	    for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-		numberic += is.getIsotopicSet().size();
-		List<Peak> peakic = new ArrayList<>();
-
-		for (IsotopicCluster ic : is.getIsotopicSet()) {
-		    peakic.addAll(ic.getIsotopicCluster());
-		}
-
-		Set<Double> titles = new HashSet<Double>();
-		List<Peak> result = new ArrayList<Peak>();
-
-		for (Peak p : peakic) {
-		    if (titles.add(p.getMz())) {
-			result.add(p);
-		    }
-		}
-
-		numberipeaks += result.size();
-	    }
-	}
-
-	StringBuilder sb = new StringBuilder();
-	String linesep = System.getProperty("line.separator");
-	sb.append(
-		"NumberOfMassSpectra,NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks")
-		.append(linesep);
-	sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(",").append(numberipeaks)
-		.append(",").append(numberpeaks).append(linesep);
-
-	return sb.toString();
-    }
+    // public static String getStatistic(MassSpectrometryMeasurement msm,
+    // Configuration config) {
+    // int numberms = msm.getMSlist().size();
+    // int numberis = 0;
+    // int numberic = 0;
+    // int numberipeaks = 0;
+    // int numberpeaks = 0;
+    //
+    // for (MassSpectrum ms : msm.getMSlist()) {
+    // numberpeaks += ms.getMz().size();
+    //
+    // IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, config.getDelta(),
+    // config);
+    //
+    // numberis += ims.getIsotopicMassSpectrum().size();
+    //
+    // for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
+    // numberic += is.getIsotopicSet().size();
+    // List<Peak> peakic = new ArrayList<>();
+    //
+    // for (IsotopicCluster ic : is.getIsotopicSet()) {
+    // peakic.addAll(ic.getIsotopicCluster());
+    // }
+    //
+    // Set<Double> titles = new HashSet<Double>();
+    // List<Peak> result = new ArrayList<Peak>();
+    //
+    // for (Peak p : peakic) {
+    // if (titles.add(p.getMz())) {
+    // result.add(p);
+    // }
+    // }
+    //
+    // numberipeaks += result.size();
+    // }
+    // }
+    //
+    // StringBuilder sb = new StringBuilder();
+    // String linesep = System.getProperty("line.separator");
+    // sb.append(
+    // "NumberOfMassSpectra,NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks")
+    // .append(linesep);
+    // sb.append(numberms).append(",").append(numberis).append(",").append(numberic).append(",").append(numberipeaks)
+    // .append(",").append(numberpeaks).append(linesep);
+    //
+    // return sb.toString();
+    // }
 
     public static Configuration createConfigurationR(double[] aa, double F1, double F2, double F3, double F4, double F5,
 	    double DELTA, double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {

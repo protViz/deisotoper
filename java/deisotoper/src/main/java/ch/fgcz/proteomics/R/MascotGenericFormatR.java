@@ -10,11 +10,11 @@ import ch.fgcz.proteomics.mgf.ReadMGF;
 import ch.fgcz.proteomics.mgf.WriteMGF;
 
 public class MascotGenericFormatR {
-    public static MassSpectrometryMeasurement readR(String file) {
-	return ReadMGF.read(file);
+    public static MassSpectrometryMeasurement readR(String filename) {
+	return ReadMGF.read(filename);
     }
 
-    public static boolean writeR(String file, MassSpectrometryMeasurement msm) {
-	return WriteMGF.write(file, msm);
+    public static boolean writeR(String filename, MassSpectrometryMeasurement massspectrometrymeasurement) {
+	return WriteMGF.write(filename, massspectrometrymeasurement);
     }
 }

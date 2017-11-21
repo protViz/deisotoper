@@ -15,10 +15,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class MassSpectrometricMeasurementSerializer {
-    public static String serializeToJson(String filename, MassSpectrometryMeasurement msm) {
+    public static String serializeToJson(String filename, MassSpectrometryMeasurement massspectrometrymeasurement) {
 	Gson gson = new Gson();
 
-	String data = gson.toJson(msm);
+	String data = gson.toJson(massspectrometrymeasurement);
 
 	try (PrintWriter out = new PrintWriter(filename)) {
 	    out.println(data);
@@ -35,15 +35,15 @@ public class MassSpectrometricMeasurementSerializer {
 	String data = null;
 
 	try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-	    StringBuilder sb = new StringBuilder();
+	    StringBuilder stringbuilder = new StringBuilder();
 	    String line = br.readLine();
 
 	    while (line != null) {
-		sb.append(line);
-		sb.append(System.lineSeparator());
+		stringbuilder.append(line);
+		stringbuilder.append(System.lineSeparator());
 		line = br.readLine();
 	    }
-	    data = sb.toString();
+	    data = stringbuilder.toString();
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	} catch (IOException e) {

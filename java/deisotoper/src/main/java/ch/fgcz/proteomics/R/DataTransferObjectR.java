@@ -8,15 +8,15 @@ package ch.fgcz.proteomics.R;
 import ch.fgcz.proteomics.dto.*;
 
 public class DataTransferObjectR {
-    public static String serializeMSMToJsonR(String filename, MassSpectrometryMeasurement m) {
-	return MassSpectrometricMeasurementSerializer.serializeToJson(filename, m);
+    public static String serializeMSMToJsonR(String filename, MassSpectrometryMeasurement massspectrometrymeasurement) {
+	return MassSpectrometricMeasurementSerializer.serializeToJson(filename, massspectrometrymeasurement);
     }
 
     public static MassSpectrometryMeasurement deserializeJsonToMSMR(String filename) {
 	return MassSpectrometricMeasurementSerializer.deserializeFromJson(filename);
     }
 
-    public static MassSpectrometryMeasurement massSpectrometryMeasurementR(String src) {
-	return new MassSpectrometryMeasurement(src);
+    public static MassSpectrometryMeasurement massSpectrometryMeasurementR(String source) {
+	return new MassSpectrometryMeasurement(source);
     }
 }

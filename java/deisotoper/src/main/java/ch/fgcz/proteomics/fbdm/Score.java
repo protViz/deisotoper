@@ -14,22 +14,22 @@ public class Score {
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> icg;
     private Configuration config;
 
-    public Score(double error, double mspepmass, double mscharge,
+    public Score(double error, double pepmass, double charge,
 	    DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, Configuration config) {
 	this.errorvalue = error;
-	this.pepmassvalue = mspepmass;
-	this.chargevalue = mscharge;
+	this.pepmassvalue = pepmass;
+	this.chargevalue = charge;
 	this.icg = isotopicclustergraph;
 	this.config = config;
     }
 
-    public double calculateScore(Peak x, Peak y, IsotopicCluster icx, Connection con) {
-	return this.config.getFM1() * firstScoringFeature(x, y, this.errorvalue, this.config)
-		+ this.config.getFM2() * secondScoringFeature(x, y, this.errorvalue, this.pepmassvalue,
-			this.chargevalue, icx, this.config)
-		+ this.config.getFM3() * thirdScoringFeature(x, y, this.errorvalue, this.config)
-		+ this.config.getFM4() * fourthScoringFeature(x, y, this.errorvalue, this.config)
-		+ this.config.getFM5() * Score5.fifthScoringFeature(con, this.icg, this.config);
+    public double calculateScore(Peak peakx, Peak peaky, IsotopicCluster isotopicclusterofx, Connection connection) {
+	return this.config.getFM1() * firstScoringFeature(peakx, peaky, this.errorvalue, this.config)
+		+ this.config.getFM2() * secondScoringFeature(peakx, peaky, this.errorvalue, this.pepmassvalue,
+			this.chargevalue, isotopicclusterofx, this.config)
+		+ this.config.getFM3() * thirdScoringFeature(peakx, peaky, this.errorvalue, this.config)
+		+ this.config.getFM4() * fourthScoringFeature(peakx, peaky, this.errorvalue, this.config)
+		+ this.config.getFM5() * Score5.fifthScoringFeature(connection, this.icg, this.config);
     }
 
     protected static double diff1(Peak x, Peak y, Configuration config) {

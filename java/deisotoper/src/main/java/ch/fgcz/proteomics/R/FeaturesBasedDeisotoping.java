@@ -21,8 +21,8 @@ import ch.fgcz.proteomics.fbdm.Peak;
 
 public class FeaturesBasedDeisotoping {
     private Deisotoper deisotoper = new Deisotoper();
-    private MassSpectrum massSpectrum = new MassSpectrum();
-    private MassSpectrum resultSpectrum = new MassSpectrum();
+    private MassSpectrum massspectrum = new MassSpectrum();
+    private MassSpectrum resultspectrum = new MassSpectrum();
 
     public void setConfiguration(double[] AA_MASS, double F1, double F2, double F3, double F4, double F5, double DELTA,
 	    double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
@@ -52,7 +52,7 @@ public class FeaturesBasedDeisotoping {
 	    mzlist.add(mz[i]);
 	}
 
-	this.massSpectrum.setMz(mzlist);
+	this.massspectrum.setMz(mzlist);
     }
 
     public void setIntensity(double[] intensity) {
@@ -61,35 +61,35 @@ public class FeaturesBasedDeisotoping {
 	    intensitylist.add(intensity[i]);
 	}
 
-	this.massSpectrum.setIntensity(intensitylist);
+	this.massspectrum.setIntensity(intensitylist);
     }
 
     public void setPepMass(double pepmass) {
-	this.massSpectrum.setPeptideMass(pepmass);
+	this.massspectrum.setPeptideMass(pepmass);
     }
 
     public void setCharge(int charge) {
-	this.massSpectrum.setChargeState(charge);
+	this.massspectrum.setChargeState(charge);
     }
 
     public double[] getMz() {
-	return this.resultSpectrum.getMzArray();
+	return this.resultspectrum.getMzArray();
     }
 
     public double[] getIntensity() {
-	return this.resultSpectrum.getIntensityArray();
+	return this.resultspectrum.getIntensityArray();
     }
 
     public void deisotope(String modus) {
-	this.resultSpectrum = this.deisotoper.deisotopeMS(massSpectrum, modus);
+	this.resultspectrum = this.deisotoper.deisotopeMS(massspectrum, modus);
     }
 
     public String[] getDOT() {
-	String[] dotgraphs = new String[this.deisotoper.getIcgList().size()];
+	String[] dotgraphs = new String[this.deisotoper.getIsotopicClusterGraphList().size()];
 
 	int i = 0;
-	for (IsotopicClusterGraph icg : this.deisotoper.getIcgList()) {
-	    dotgraphs[i] = icg.toDOTGraph();
+	for (IsotopicClusterGraph isotopicclustergraph : this.deisotoper.getIsotopicClusterGraphList()) {
+	    dotgraphs[i] = isotopicclustergraph.toDOTGraph();
 	    i++;
 	}
 
@@ -101,48 +101,49 @@ public class FeaturesBasedDeisotoping {
     }
 
     public String getSummary() {
-	MassSpectrum ms = this.massSpectrum;
+	MassSpectrum massspectrum = this.massspectrum;
 	int numberis = 0;
 	int numberic = 0;
 	int numberipeaks = 0;
 	int numberpeaks = 0;
 
-	numberpeaks += ms.getMz().size();
+	numberpeaks += massspectrum.getMz().size();
 
-	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(ms, this.deisotoper.getConfiguration().getDelta(),
-		this.deisotoper.getConfiguration());
+	IsotopicMassSpectrum isotopicmassspectrum = new IsotopicMassSpectrum(massspectrum,
+		this.deisotoper.getConfiguration().getDelta(), this.deisotoper.getConfiguration(), this.deisotoper);
 
-	numberis += ims.getIsotopicMassSpectrum().size();
+	numberis += isotopicmassspectrum.getIsotopicMassSpectrum().size();
 
-	for (IsotopicSet is : ims.getIsotopicMassSpectrum()) {
-	    numberic += is.getIsotopicSet().size();
+	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicMassSpectrum()) {
+	    numberic += isotopicset.getIsotopicSet().size();
 	    List<Peak> peakic = new ArrayList<>();
 
-	    for (IsotopicCluster ic : is.getIsotopicSet()) {
-		if (ic.getIsotopicCluster() != null) {
-		    peakic.addAll(ic.getIsotopicCluster());
+	    for (IsotopicCluster isotopiccluster : isotopicset.getIsotopicSet()) {
+		if (isotopiccluster.getIsotopicCluster() != null) {
+		    peakic.addAll(isotopiccluster.getIsotopicCluster());
 		}
 	    }
 
-	    Set<Double> titles = new HashSet<Double>();
+	    Set<Double> set = new HashSet<Double>();
 	    List<Peak> result = new ArrayList<Peak>();
 
-	    for (Peak p : peakic) {
-		if (titles.add(p.getMz())) {
-		    result.add(p);
+	    for (Peak peak : peakic) {
+		if (set.add(peak.getMz())) {
+		    result.add(peak);
 		}
 	    }
 
 	    numberipeaks += result.size();
 	}
 
-	StringBuilder sb = new StringBuilder();
+	StringBuilder stringbuilder = new StringBuilder();
 	String linesep = System.getProperty("line.separator");
-	sb.append("NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks")
+	stringbuilder
+		.append("NumberOfIsotopicSets,NumberOfIsotopicClusters,NumberOfPeaksInIsotopicClusters,NumberOfPeaks")
 		.append(linesep);
-	sb.append(numberis).append(",").append(numberic).append(",").append(numberipeaks).append(",")
+	stringbuilder.append(numberis).append(",").append(numberic).append(",").append(numberipeaks).append(",")
 		.append(numberpeaks).append(linesep);
 
-	return sb.toString();
+	return stringbuilder.toString();
     }
 }

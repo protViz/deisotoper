@@ -17,11 +17,11 @@ public class Peaklist {
 	return peaklist;
     }
 
-    public Peaklist(MassSpectrum ms) {
+    public Peaklist(MassSpectrum massspectrum) {
 	List<Peak> plist = new ArrayList<>();
 
-	for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
-	    plist.add(new Peak(ms.getMz().get(i), ms.getIntensity().get(i), i));
+	for (int i = 0; i < massspectrum.getMz().size() || i < massspectrum.getIntensity().size(); i++) {
+	    plist.add(new Peak(massspectrum.getMz().get(i), massspectrum.getIntensity().get(i), i));
 	}
 
 	this.peaklist = plist;
