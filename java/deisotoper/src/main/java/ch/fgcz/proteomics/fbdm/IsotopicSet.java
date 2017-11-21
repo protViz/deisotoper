@@ -12,14 +12,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.GraphPath;
-
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicSet {
     private List<IsotopicCluster> isotopicset = new ArrayList<>();
     private IsotopicClusterGraph isotopicclustergraph;
-    private GraphPath<IsotopicCluster, Connection> bestpath;
+    private List<IsotopicCluster> bestpath;
     private int setID;
 
     public int getSetID() {
@@ -35,7 +33,7 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getBestPath() {
-	return bestpath.getVertexList();
+	return bestpath;
     }
 
     private void setBestPath(MassSpectrum massspectrum, List<IsotopicCluster> isotopicclusters, Configuration config) {
@@ -44,11 +42,9 @@ public class IsotopicSet {
 	isotopicclustergraph.scoreIsotopicClusterGraph(massspectrum.getPeptideMass(), massspectrum.getChargeState(),
 		config.getErrortolerance(), new Peaklist(massspectrum.getMz(), massspectrum.getIntensity()), config);
 
-	GraphPath<IsotopicCluster, Connection> bestpath = isotopicclustergraph.bestPath(getStart(isotopicclustergraph),
-		getEnd(isotopicclustergraph));
-
 	this.isotopicclustergraph = isotopicclustergraph;
-	this.bestpath = bestpath;
+	this.bestpath = isotopicclustergraph.bestPath(getStart(isotopicclustergraph), getEnd(isotopicclustergraph))
+		.getVertexList();
     }
 
     public IsotopicSet(MassSpectrum massspectrum, List<Peak> isotopicset, double delta, int setid,

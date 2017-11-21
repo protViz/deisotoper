@@ -57,7 +57,7 @@ public class Deisotoper {
 		this.config, this);
 
 	// TODO (LS) : move this method to IsotopicSet
-	ListMassSpectrum listmassspectrumaggregated = aggretaion(massspectrum, isotopicmassspectrum, modus);
+	ListMassSpectrum listmassspectrumaggregated = aggregation(massspectrum, isotopicmassspectrum, modus);
 
 	ListMassSpectrum listmassspectrumdecharged = decharge(listmassspectrumaggregated, this.config);
 
@@ -104,7 +104,7 @@ public class Deisotoper {
 	return massspectrundeisotoped;
     }
 
-    private ListMassSpectrum aggretaion(MassSpectrum massspectrumin, IsotopicMassSpectrum isotopicmassspectrum,
+    private ListMassSpectrum aggregation(MassSpectrum massspectrumin, IsotopicMassSpectrum isotopicmassspectrum,
 	    String modus) {
 	this.isotopicclustergraphlist.removeAll(this.isotopicclustergraphlist);
 
