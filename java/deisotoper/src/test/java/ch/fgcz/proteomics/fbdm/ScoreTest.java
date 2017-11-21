@@ -42,7 +42,7 @@ public class ScoreTest {
 	Peak y = new Peak(125.86, 467.55, 1);
 	double e = 0.3;
 
-	double score1 = Score.firstScoringFeature(x, y, e, config);
+	double score1 = Score.calculateFirstScoringFeature(x, y, e, config);
 
 	assertEquals(score1, 3, 0);
     }
@@ -74,7 +74,7 @@ public class ScoreTest {
 		Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1,
 		config);
 
-	double score = Score.secondScoringFeature(x, y, e, pepmass, charge, ic, config);
+	double score = Score.calculateSecondScoringFeature(x, y, e, pepmass, charge, ic, config);
 
 	assertEquals(score, 1, 0);
     }
@@ -98,7 +98,7 @@ public class ScoreTest {
 	Peak y = new Peak(141.0, 467.55, 1);
 	double e = 0.3;
 
-	double score = Score.thirdScoringFeature(x, y, e, config);
+	double score = Score.calculateThirdScoringFeature(x, y, e, config);
 
 	assertEquals(score, 1, 0);
     }
@@ -123,7 +123,7 @@ public class ScoreTest {
 	Peak y = new Peak(138.0, 467.55, 1);
 	double e = 0.3;
 
-	double score = Score.fourthScoringFeature(x, y, e, config);
+	double score = Score.calculateFourthScoringFeature(x, y, e, config);
 
 	assertEquals(score, 1, 0);
     }

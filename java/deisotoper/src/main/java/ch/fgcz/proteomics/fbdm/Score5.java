@@ -9,7 +9,7 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class Score5 {
     // NOT FINISHED YET
-    public static int fifthScoringFeature(Connection connection,
+    public static int calculateFifthScoringFeature(Connection connection,
 	    DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, Configuration config) {
 	int F5 = 0;
 

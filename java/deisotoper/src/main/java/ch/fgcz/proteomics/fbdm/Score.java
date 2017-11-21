@@ -24,12 +24,12 @@ public class Score {
     }
 
     public double calculateScore(Peak peakx, Peak peaky, IsotopicCluster isotopicclusterofx, Connection connection) {
-	return this.config.getFM1() * firstScoringFeature(peakx, peaky, this.errorvalue, this.config)
-		+ this.config.getFM2() * secondScoringFeature(peakx, peaky, this.errorvalue, this.pepmassvalue,
+	return this.config.getFM1() * calculateFirstScoringFeature(peakx, peaky, this.errorvalue, this.config)
+		+ this.config.getFM2() * calculateSecondScoringFeature(peakx, peaky, this.errorvalue, this.pepmassvalue,
 			this.chargevalue, isotopicclusterofx, this.config)
-		+ this.config.getFM3() * thirdScoringFeature(peakx, peaky, this.errorvalue, this.config)
-		+ this.config.getFM4() * fourthScoringFeature(peakx, peaky, this.errorvalue, this.config)
-		+ this.config.getFM5() * Score5.fifthScoringFeature(connection, this.icg, this.config);
+		+ this.config.getFM3() * calculateThirdScoringFeature(peakx, peaky, this.errorvalue, this.config)
+		+ this.config.getFM4() * calculateFourthScoringFeature(peakx, peaky, this.errorvalue, this.config)
+		+ this.config.getFM5() * Score5.calculateFifthScoringFeature(connection, this.icg, this.config);
     }
 
     protected static double diff1(Peak x, Peak y, Configuration config) {
@@ -64,7 +64,7 @@ public class Score {
 	return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    public static int firstScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    public static int calculateFirstScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
 	int F1 = 0;
 
 	double d1xy = Math.abs(diff1(x, y, config));
@@ -104,8 +104,8 @@ public class Score {
 	return F1;
     }
 
-    public static int secondScoringFeature(Peak x, Peak y, double errortolerance, double pepmass, double charge,
-	    IsotopicCluster ic, Configuration config) {
+    public static int calculateSecondScoringFeature(Peak x, Peak y, double errortolerance, double pepmass,
+	    double charge, IsotopicCluster ic, Configuration config) {
 	int F2 = 0;
 	int i = 0;
 	for (Peak c : ic.getIsotopicCluster()) {
@@ -154,7 +154,7 @@ public class Score {
 	return F2;
     }
 
-    public static int thirdScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    public static int calculateThirdScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
 	int F3 = 0;
 
 	double d1xy = Math.abs(diff1(x, y, config));
@@ -206,7 +206,7 @@ public class Score {
 	return F3;
     }
 
-    public static int fourthScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    public static int calculateFourthScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
 	int F4 = 0;
 
 	double d1xy = Math.abs(diff1(x, y, config));
