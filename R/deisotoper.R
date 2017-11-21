@@ -1,6 +1,6 @@
 #' Creates a deisotoper.
 #'
-#' @param amino_acid_masses Vector of amino acid masses used for scoring
+#' @param amino_acid_masses List of amino acid masses used for scoring
 #' @param F1 F1 multiplier used for scoring
 #' @param F2 F2 multiplier used for scoring
 #' @param F3 F3 multiplier used for scoring
@@ -56,8 +56,13 @@
 #' 
 #' # return the configuration of dtoper2
 #' config2 <- getConfig(dtoper2)
-deisotoper <- function(amino_acid_masses = c(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276,
-                                             87.03203, 101.04768, 186.07931, 163.06333, 99.06841), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, decharge = FALSE) {
+deisotoper <- function(amino_acid_masses = list(ALA = 71.03711, ARG = 156.10111, ASN = 114.04293, ASP = 115.02694, CYS = 103.00919, 
+                                                GLU = 129.04259, GLN = 128.05858, GLY = 57.02146, HIS = 137.05891, ILE = 113.08406, 
+                                                LEU = 113.08406, LYS = 128.09496, MET = 131.04049, PHE = 147.06841, PRO = 97.05276, 
+                                                SER = 87.03203, THR = 101.04768, TRP = 186.07931, TYR = 163.06333, VAL = 99.06841), 
+                       F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, 
+                       delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, 
+                       decharge = FALSE, comment = "no comment") {
   dtoper <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotoping")
   
   if(0.5 > distance || distance > 1.5) {
@@ -67,10 +72,6 @@ deisotoper <- function(amino_acid_masses = c(71.03711, 156.10111, 114.04293, 115
   dcheck <- distance/3 - distance/6
   if(delta > dcheck) {
     stop("delta can not be greater than distance/3 - distance/6!")
-  }
-  
-  if(length(amino_acid_masses) <= 1) {
-    stop("amino_acid_masses must contain 2 or more amino acid masses!")
   }
   
   if(0 > errortolerance || errortolerance > 1) {
@@ -101,8 +102,15 @@ deisotoper <- function(amino_acid_masses = c(71.03711, 156.10111, 114.04293, 115
     stop("F5 can not be lower than 0!")
   }
   
-  .jcall(dtoper, "V", "setConfiguration", amino_acid_masses, F1, F2, F3, F4, F5, delta, errortolerance, distance, noise, decharge)
-  return(list(javaRef = dtoper, comment= "xx"))
+  if(length(amino_acid_masses) <= 1) {
+    stop("amino_acid_masses must contain 2 or more amino acid masses!")
+  }
+  
+  .jcall(dtoper, "V", "setConfiguration", 
+         as.vector(unlist(amino_acid_masses)), F1, F2, F3, F4, F5, 
+         delta, errortolerance, distance, noise, 
+         decharge)
+  return(list(javaRef = dtoper, comment = comment))
 }
 
 #' @export

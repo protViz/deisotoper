@@ -12,15 +12,16 @@
 \alias{getConfig}
 \title{Creates a deisotoper.}
 \usage{
-deisotoper(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 103.00919,
-  129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496,
-  131.04049, 147.06841, 97.05276, 87.03203, 101.04768, 186.07931, 163.06333,
-  99.06841), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1,
-  DELTA = 0.003, ERRORTOLERANCE = 0.3, DISTANCE = 1.003, NOISE = 0,
-  DECHARGE = FALSE)
+deisotoper(amino_acid_masses = list(ALA = 71.03711, ARG = 156.10111, ASN =
+  114.04293, ASP = 115.02694, CYS = 103.00919, GLU = 129.04259, GLN = 128.05858,
+  GLY = 57.02146, HIS = 137.05891, ILE = 113.08406, LEU = 113.08406, LYS =
+  128.09496, MET = 131.04049, PHE = 147.06841, PRO = 97.05276, SER = 87.03203,
+  THR = 101.04768, TRP = 186.07931, TYR = 163.06333, VAL = 99.06841),
+  F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, delta = 0.003,
+  errortolerance = 0.3, distance = 1.003, noise = 0, decharge = FALSE)
 }
 \arguments{
-\item{AA_MASS}{Vector of amino acid masses used for scoring}
+\item{amino_acid_masses}{List of amino acid masses used for scoring}
 
 \item{F1}{F1 multiplier used for scoring}
 
@@ -32,15 +33,15 @@ deisotoper(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 103.00919,
 
 \item{F5}{F5 multiplier used for scoring}
 
-\item{DELTA}{Delta value used for clustering}
+\item{delta}{Delta value used for clustering}
 
-\item{ERRORTOLERANCE}{Errortolerance used for scoring}
+\item{errortolerance}{Errortolerance used for scoring}
 
-\item{DISTANCE}{Distance between two peaks used by clustering}
+\item{distance}{Distance between two peaks used by clustering}
 
-\item{NOISE}{Noise value for noise filtering (in percent)}
+\item{noise}{Noise value for noise filtering (in percent)}
 
-\item{DECHARGE}{De- and activates decharging}
+\item{decharge}{De- and activates decharging}
 }
 \value{
 deisotoper
@@ -83,7 +84,7 @@ xdot <- getDOTGraphs(dtoper)
 
 # EXAMPLE 2
 # standart configurated deisotoper with changed delta and decharging
-dtoper2 <- deisotoper(DELTA = 0.005, DECHARGE = TRUE)
+dtoper2 <- deisotoper(delta = 0.005, decharge = TRUE)
 
 # return the configuration of dtoper2
 config2 <- getConfig(dtoper2)
