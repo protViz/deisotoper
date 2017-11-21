@@ -57,9 +57,9 @@ public class Deisotoper {
 		this.config, this);
 
 	// TODO (LS) : move this method to IsotopicSet
-	ListMassSpectrum listmassspectrumaggregated = aggregation(massspectrum, isotopicmassspectrum, modus);
+	Peaklist listmassspectrumaggregated = aggregation(massspectrum, isotopicmassspectrum, modus);
 
-	ListMassSpectrum listmassspectrumdecharged = decharge(listmassspectrumaggregated, this.config);
+	Peaklist listmassspectrumdecharged = decharge(listmassspectrumaggregated, this.config);
 
 	Sort.keySort(listmassspectrumdecharged.getMz(), listmassspectrumdecharged.getMz(),
 		listmassspectrumdecharged.getIntensity(), listmassspectrumdecharged.getIsotope(),
@@ -70,8 +70,7 @@ public class Deisotoper {
 	return massspectrumdeisotoped;
     }
 
-    private MassSpectrum noiseFiltering(MassSpectrum massspectrum, ListMassSpectrum listmassspectrum,
-	    Configuration config) {
+    private MassSpectrum noiseFiltering(MassSpectrum massspectrum, Peaklist listmassspectrum, Configuration config) {
 	MassSpectrum massspectrundeisotoped;
 
 	if (config.getNoise() != 0) {
@@ -104,11 +103,10 @@ public class Deisotoper {
 	return massspectrundeisotoped;
     }
 
-    private ListMassSpectrum aggregation(MassSpectrum massspectrumin, IsotopicMassSpectrum isotopicmassspectrum,
-	    String modus) {
+    private Peaklist aggregation(MassSpectrum massspectrumin, IsotopicMassSpectrum isotopicmassspectrum, String modus) {
 	this.isotopicclustergraphlist.removeAll(this.isotopicclustergraphlist);
 
-	ListMassSpectrum listmassspectrumaggregated = new ListMassSpectrum();
+	Peaklist listmassspectrumaggregated = new Peaklist();
 	List<Double> mz = new ArrayList<>();
 
 	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicMassSpectrum()) {
@@ -117,7 +115,7 @@ public class Deisotoper {
 
 	    this.isotopicclustergraphlist.add(isotopicset.getIsotopicClusterGraph());
 
-	    ListMassSpectrum listmassspectrumaggregated2 = new ListMassSpectrum();
+	    Peaklist listmassspectrumaggregated2 = new Peaklist();
 
 	    List<Double> mz2 = new ArrayList<>();
 
@@ -160,8 +158,8 @@ public class Deisotoper {
 	return listmassspectrumaggregated;
     }
 
-    private ListMassSpectrum decharge(ListMassSpectrum listmassspectrum, Configuration config) {
-	ListMassSpectrum listmassspectrumdecharged = new ListMassSpectrum();
+    private Peaklist decharge(Peaklist listmassspectrum, Configuration config) {
+	Peaklist listmassspectrumdecharged = new Peaklist();
 
 	if (config.isDecharge() == true) {
 	    for (int i = 0; i < listmassspectrum.getMz().size(); i++) {
