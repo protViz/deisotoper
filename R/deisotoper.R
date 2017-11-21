@@ -1,16 +1,16 @@
 #' Creates a deisotoper.
 #'
-#' @param AA_MASS Vector of amino acid masses used for scoring
+#' @param amino_acid_masses Vector of amino acid masses used for scoring
 #' @param F1 F1 multiplier used for scoring
 #' @param F2 F2 multiplier used for scoring
 #' @param F3 F3 multiplier used for scoring
 #' @param F4 F4 multiplier used for scoring
 #' @param F5 F5 multiplier used for scoring
-#' @param DELTA Delta value used for clustering
-#' @param ERRORTOLERANCE Errortolerance used for scoring
-#' @param DISTANCE Distance between two peaks used by clustering
-#' @param NOISE Noise value for noise filtering (in percent)
-#' @param DECHARGE De- and activates decharging
+#' @param delta Delta value used for clustering
+#' @param errortolerance Errortolerance used for scoring
+#' @param distance Distance between two peaks used by clustering
+#' @param noise Noise value for noise filtering (in percent)
+#' @param decharge De- and activates decharging
 #'
 #' @return deisotoper
 #' @export deisotoper
@@ -52,33 +52,33 @@
 #' 
 #' # EXAMPLE 2
 #' # standart configurated deisotoper with changed delta and decharging
-#' dtoper2 <- deisotoper(DELTA = 0.005, DECHARGE = TRUE)
+#' dtoper2 <- deisotoper(delta = 0.005, decharge = TRUE)
 #' 
 #' # return the configuration of dtoper2
 #' config2 <- getConfig(dtoper2)
-deisotoper <- function(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276,
-                                   87.03203, 101.04768, 186.07931, 163.06333, 99.06841), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, DELTA = 0.003, ERRORTOLERANCE = 0.3, DISTANCE = 1.003, NOISE = 0.0, DECHARGE = FALSE) {
+deisotoper <- function(amino_acid_masses = c(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276,
+                                             87.03203, 101.04768, 186.07931, 163.06333, 99.06841), F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, decharge = FALSE) {
   dtoper <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotoping")
   
-  if(0.5 > DISTANCE || DISTANCE > 1.5) {
-    stop("DISTANCE can not be lower than 0.5 and grater than 1.5!")
+  if(0.5 > distance || distance > 1.5) {
+    stop("distance can not be lower than 0.5 and grater than 1.5!")
   }
   
-  DCHECK <- DISTANCE/3 - DISTANCE/6
-  if(DELTA > DCHECK) {
-    stop("DELTA can not be greater than DISTANCE/3 - DISTANCE/6!")
+  dcheck <- distance/3 - distance/6
+  if(delta > dcheck) {
+    stop("delta can not be greater than distance/3 - distance/6!")
   }
   
-  if(length(AA_MASS) <= 1) {
-    stop("AA_MASS must contain 2 or more amino acid masses!")
+  if(length(amino_acid_masses) <= 1) {
+    stop("amino_acid_masses must contain 2 or more amino acid masses!")
   }
   
-  if(0 > ERRORTOLERANCE || ERRORTOLERANCE > 1) {
-    stop("ERRORTOLERANCE can not be lower than 0 and grater than 1!")
+  if(0 > errortolerance || errortolerance > 1) {
+    stop("errortolerance can not be lower than 0 and grater than 1!")
   }
   
-  if(0 > NOISE || NOISE > 100) {
-    stop("NOISE can not be lower than 0 and grater than 100! (0 = deactivated)")
+  if(0 > noise || noise > 100) {
+    stop("noise can not be lower than 0 and grater than 100! (0 = deactivated)")
   }
   
   if(0 > F1) {
@@ -101,7 +101,7 @@ deisotoper <- function(AA_MASS = c(71.03711, 156.10111, 114.04293, 115.02694, 10
     stop("F5 can not be lower than 0!")
   }
   
-  .jcall(dtoper, "V", "setConfiguration", AA_MASS, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE)
+  .jcall(dtoper, "V", "setConfiguration", amino_acid_masses, F1, F2, F3, F4, F5, delta, errortolerance, distance, noise, decharge)
   return(list(javaRef = dtoper, comment= "xx"))
 }
 
@@ -151,7 +151,7 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
   mzout <- .jcall(deisotoper$javaRef, "[D", "getMz")
   intensityout <- .jcall(deisotoper$javaRef, "[D", "getIntensity")
   
-  MS <- c(list(title = massspectrum$title,
+  massspectrumout <- c(list(title = massspectrum$title,
                rtinseconds = massspectrum$rtinseconds,
                charge = massspectrum$charge,
                scan = massspectrum$scan,
@@ -160,7 +160,7 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
                intensity = intensityout,
                id = massspectrum$id))
   
-  return(MS)
+  return(massspectrumout)
 }
 
 #' @export
@@ -209,8 +209,8 @@ getConfig <- function(deisotoper) {
 
 #' @export 
 #' @author Lucas Schmidt
-.plotDOT <- function(DOT) {
-  DiagrammeR::grViz(DOT)
+.plotDOT <- function(dot) {
+  DiagrammeR::grViz(dot)
 }
 
 #' @export 
