@@ -56,10 +56,10 @@
 #' 
 #' # return the configuration of dtoper2
 #' config2 <- getConfig(dtoper2)
-deisotoper <- function(amino_acid_masses = list(ALA = 71.03711, ARG = 156.10111, ASN = 114.04293, ASP = 115.02694, CYS = 103.00919, 
-                                                GLU = 129.04259, GLN = 128.05858, GLY = 57.02146, HIS = 137.05891, ILE = 113.08406, 
-                                                LEU = 113.08406, LYS = 128.09496, MET = 131.04049, PHE = 147.06841, PRO = 97.05276, 
-                                                SER = 87.03203, THR = 101.04768, TRP = 186.07931, TYR = 163.06333, VAL = 99.06841), 
+deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111, 'N' = 114.04293, 'D' = 115.02694, 'C' = 103.00919, 
+                                                'E' = 129.04259, 'Q' = 128.05858, 'G' = 57.02146, 'H' = 137.05891, 'I' = 113.08406, 
+                                                'L' = 113.08406, 'K' = 128.09496, 'M' = 131.04049, 'F' = 147.06841, 'P' = 97.05276, 
+                                                'S' = 87.03203, 'T' = 101.04768, 'W' = 186.07931, 'Y' = 163.06333, 'V' = 99.06841), 
                        F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, 
                        delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, 
                        decharge = FALSE, comment = "no comment") {
