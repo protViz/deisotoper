@@ -28,6 +28,7 @@ public class IsotopicSet {
 	return isotopicset;
     }
 
+    // TODO (LS) replace with method returning the dot string.
     public IsotopicClusterGraph getIsotopicClusterGraph() {
 	return isotopicclustergraph;
     }
@@ -36,16 +37,6 @@ public class IsotopicSet {
 	return bestpath;
     }
 
-    private void setBestPath(MassSpectrum massspectrum, List<IsotopicCluster> isotopicclusters, Configuration config) {
-	IsotopicClusterGraph isotopicclustergraph = new IsotopicClusterGraph(isotopicclusters);
-
-	isotopicclustergraph.scoreIsotopicClusterGraph(massspectrum.getPeptideMass(), massspectrum.getChargeState(),
-		config.getErrortolerance(), new Peaklist(massspectrum.getMz(), massspectrum.getIntensity()), config);
-
-	this.isotopicclustergraph = isotopicclustergraph;
-	this.bestpath = isotopicclustergraph.bestPath(getStart(isotopicclustergraph), getEnd(isotopicclustergraph))
-		.getVertexList();
-    }
 
     public IsotopicSet(MassSpectrum massspectrum, List<Peak> isotopicset, double delta, int setid,
 	    Configuration config) {
@@ -79,6 +70,17 @@ public class IsotopicSet {
 	this.setID = setid;
     }
 
+
+	private void setBestPath(MassSpectrum massspectrum, List<IsotopicCluster> isotopicclusters, Configuration config) {
+		IsotopicClusterGraph isotopicclustergraph = new IsotopicClusterGraph(isotopicclusters);
+
+		isotopicclustergraph.scoreIsotopicClusterGraph(massspectrum.getPeptideMass(), massspectrum.getChargeState(),
+				config.getErrortolerance(), new Peaklist(massspectrum.getMz(), massspectrum.getIntensity()), config);
+
+		this.isotopicclustergraph = isotopicclustergraph;
+		this.bestpath = isotopicclustergraph.bestPath(getStart(isotopicclustergraph), getEnd(isotopicclustergraph))
+				.getVertexList();
+	}
     private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicclusters,
 	    List<Peak> isotopicset, int charge, double delta, Configuration config) {
 	for (Peak a : isotopicset) {

@@ -58,7 +58,7 @@ public class IsotopicCluster {
 	this.status = status;
     }
 
-    public IsotopicCluster aggregateFirst() {
+	private IsotopicCluster aggregateFirst() {
 	double intensitysum = this.sumIntensity();
 
 	this.isotopiccluster.get(0).setIntensity(intensitysum);
@@ -72,7 +72,7 @@ public class IsotopicCluster {
 	return this;
     }
 
-    public IsotopicCluster aggregateHighest() {
+    private IsotopicCluster aggregateHighest() {
 	double intensitysum = this.sumIntensity();
 	double minint = 0;
 	double minmz = 0;

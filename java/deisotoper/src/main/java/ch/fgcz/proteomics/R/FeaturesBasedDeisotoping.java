@@ -6,18 +6,12 @@ package ch.fgcz.proteomics.R;
  */
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.Configuration;
 import ch.fgcz.proteomics.fbdm.Deisotoper;
-import ch.fgcz.proteomics.fbdm.IsotopicCluster;
 import ch.fgcz.proteomics.fbdm.IsotopicClusterGraph;
-import ch.fgcz.proteomics.fbdm.IsotopicMassSpectrum;
-import ch.fgcz.proteomics.fbdm.IsotopicSet;
-import ch.fgcz.proteomics.fbdm.Peak;
 
 public class FeaturesBasedDeisotoping {
     private Deisotoper deisotoper = new Deisotoper();
@@ -96,6 +90,7 @@ public class FeaturesBasedDeisotoping {
 	return dotgraphs;
     }
 
+    /*
     public String getAnnotatedSpectrum() {
 	return this.deisotoper.getAnnotatedSpectrum();
     }
@@ -113,9 +108,9 @@ public class FeaturesBasedDeisotoping {
 		this.deisotoper.getConfiguration().getDelta(), this.deisotoper.getConfiguration(), this.deisotoper,
 		this.deisotoper.getConfiguration().getModus());
 
-	numberis += isotopicmassspectrum.getIsotopicMassSpectrum().size();
+	numberis += isotopicmassspectrum.getIsotopicSets().size();
 
-	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicMassSpectrum()) {
+	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicSets()) {
 	    numberic += isotopicset.getIsotopicSet().size();
 	    List<Peak> peakic = new ArrayList<>();
 
@@ -146,5 +141,5 @@ public class FeaturesBasedDeisotoping {
 		.append(numberpeaks).append(linesep);
 
 	return stringbuilder.toString();
-    }
+    }*/
 }

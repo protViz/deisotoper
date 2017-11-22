@@ -11,6 +11,8 @@ public class Peak {
     private double isotope;
     private int charge;
     private int peakID;
+    private int isotopicSetID;
+    private int isotopicClusterID;
 
     public double getIsotope() {
 	return isotope;
