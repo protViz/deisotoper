@@ -75,9 +75,7 @@ public class Deisotoper {
 
         Peaklist peaklist = new Peaklist(massspectrum);
 
-        Peaklist peaklistisotopicsets = generateIsotopicSets(massspectrum);
-
-        this.annotatedspectrum = saveAnnotatedSpectrum(peaklistisotopicsets);
+        generateIsotopicSets(massspectrum);
 
         Peaklist peaklistaggregated = aggregatePeaks(peaklist);
 
@@ -107,7 +105,7 @@ public class Deisotoper {
                 massspectrum.getId(), charge, isotope);
     }
 
-    private Peaklist generateIsotopicSets(MassSpectrum massspectrum) {
+    private void generateIsotopicSets(MassSpectrum massspectrum) {
         Peaklist peaklist = new Peaklist(massspectrum);
 
         int id = 0;
@@ -150,53 +148,19 @@ public class Deisotoper {
 
         Peaklist peaklistisotopicsets = getPeaklistFromIsotopicSets(peaklist);
 
-        return sortPeaks(peaklistisotopicsets);
+        this.annotatedspectrum = saveAnnotatedSpectrum(peaklistisotopicsets);
     }
 
-    // TODO: Duplicated
     private Peaklist getPeaklistFromIsotopicSets(Peaklist peaklist) {
-        Peaklist peaklistisotopicsets = new Peaklist();
-        List<Double> mz = new ArrayList<>();
-
-        for (IsotopicSet isotopicset : this.isotopicsets) {
-            Peaklist peaklistisotopicsetsinside = new Peaklist();
-
-            List<Double> mzinside = new ArrayList<>();
-
-            for (IsotopicCluster cluster : isotopicset.getIsotopicSet()) {
-                if (cluster.getIsotopicCluster() != null) {
-                    for (Peak peak : cluster.getIsotopicCluster()) {
-                        mzinside.add(peak.getMz());
-                    }
-
-                    int position = 1;
-                    for (Peak peak : cluster.getIsotopicCluster()) {
-                        peaklistisotopicsetsinside.getPeaklist()
-                                .add(new Peak(peak.getMz(), peak.getIntensity(), (double) position, cluster.getCharge(),
-                                        peak.getPeakID(), cluster.getClusterID(), isotopicset.getSetID()));
-                        position++;
-                    }
-                }
-            }
-
-            peaklistisotopicsets.getPeaklist().addAll(peaklistisotopicsetsinside.getPeaklist());
-
-            mz.addAll(mzinside);
-        }
-
-        for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
-            if (!mz.contains(peaklist.getPeaklist().get(i).getMz())) {
-                peaklistisotopicsets.getPeaklist().add(new Peak(peaklist.getPeaklist().get(i).getMz(),
-                        peaklist.getPeaklist().get(i).getIntensity(), peaklist.getPeaklist().get(i).getPeakID()));
-            }
-        }
-
-        return peaklistisotopicsets;
+        return getPeaklistFromIsotopicSets(peaklist, false);
     }
 
-    // TODO: Duplicated
     private Peaklist aggregatePeaks(Peaklist peaklist) {
-        Peaklist peaklistaggregated = new Peaklist();
+        return getPeaklistFromIsotopicSets(peaklist, true);
+    }
+
+    private Peaklist getPeaklistFromIsotopicSets(Peaklist peaklistin, boolean aggregation) {
+        Peaklist peaklistout = new Peaklist();
         List<Double> mz = new ArrayList<>();
 
         for (IsotopicSet isotopicset : this.isotopicsets) {
@@ -214,7 +178,9 @@ public class Deisotoper {
                         mzinside.add(peak.getMz());
                     }
 
-                    cluster.aggregation(config.getModus());
+                    if (aggregation) {
+                        cluster.aggregation(config.getModus());
+                    }
 
                     int position = 1;
                     for (Peak peak : cluster.getIsotopicCluster()) {
@@ -226,19 +192,19 @@ public class Deisotoper {
                 }
             }
 
-            peaklistaggregated.getPeaklist().addAll(peaklistaggregatedinside.getPeaklist());
+            peaklistout.getPeaklist().addAll(peaklistaggregatedinside.getPeaklist());
 
             mz.addAll(mzinside);
         }
 
-        for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
-            if (!mz.contains(peaklist.getPeaklist().get(i).getMz())) {
-                peaklistaggregated.getPeaklist().add(new Peak(peaklist.getPeaklist().get(i).getMz(),
-                        peaklist.getPeaklist().get(i).getIntensity(), peaklist.getPeaklist().get(i).getPeakID()));
+        for (int i = 0; i < peaklistin.getPeaklist().size(); i++) {
+            if (!mz.contains(peaklistin.getPeaklist().get(i).getMz())) {
+                peaklistout.getPeaklist().add(new Peak(peaklistin.getPeaklist().get(i).getMz(),
+                        peaklistin.getPeaklist().get(i).getIntensity(), peaklistin.getPeaklist().get(i).getPeakID()));
             }
         }
 
-        return peaklistaggregated;
+        return sortPeaks(peaklistout);
     }
 
     private Peaklist dechargePeaks(Peaklist peaklist) {
