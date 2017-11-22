@@ -16,43 +16,43 @@ import com.google.gson.reflect.TypeToken;
 
 public class MassSpectrometricMeasurementSerializer {
     public static String serializeToJson(String filename, MassSpectrometryMeasurement massspectrometrymeasurement) {
-	Gson gson = new Gson();
+        Gson gson = new Gson();
 
-	String data = gson.toJson(massspectrometrymeasurement);
+        String data = gson.toJson(massspectrometrymeasurement);
 
-	try (PrintWriter out = new PrintWriter(filename)) {
-	    out.println(data);
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	}
+        try (PrintWriter out = new PrintWriter(filename)) {
+            out.println(data);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-	return data;
+        return data;
     }
 
     public static MassSpectrometryMeasurement deserializeFromJson(String filename) {
-	Gson gson = new Gson();
+        Gson gson = new Gson();
 
-	String data = null;
+        String data = null;
 
-	try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-	    StringBuilder stringbuilder = new StringBuilder();
-	    String line = br.readLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            StringBuilder stringbuilder = new StringBuilder();
+            String line = br.readLine();
 
-	    while (line != null) {
-		stringbuilder.append(line);
-		stringbuilder.append(System.lineSeparator());
-		line = br.readLine();
-	    }
-	    data = stringbuilder.toString();
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+            while (line != null) {
+                stringbuilder.append(line);
+                stringbuilder.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            data = stringbuilder.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	java.lang.reflect.Type type = new TypeToken<MassSpectrometryMeasurement>() {
-	}.getType();
+        java.lang.reflect.Type type = new TypeToken<MassSpectrometryMeasurement>() {
+        }.getType();
 
-	return gson.fromJson(data, type);
+        return gson.fromJson(data, type);
     }
 }
