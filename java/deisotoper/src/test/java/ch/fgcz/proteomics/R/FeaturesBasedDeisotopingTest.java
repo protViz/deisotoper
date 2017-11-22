@@ -119,5 +119,7 @@ public class FeaturesBasedDeisotopingTest {
 	}
 
 	System.out.println(dtoper.getSummary());
+
+	System.out.println(dtoper.getConfiguration());
     }
 }

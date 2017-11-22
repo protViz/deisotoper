@@ -213,7 +213,8 @@ getSummary <- function(deisotoper) {
 getConfig <- function(deisotoper) {
   config <- .jcall(deisotoper$javaRef, "S", "getConfiguration")
   
-  config
+  con <- textConnection(config)
+  read.csv(con, sep=',', header = TRUE)
 }
 
 #' @export 

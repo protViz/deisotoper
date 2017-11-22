@@ -21,7 +21,7 @@ public class Configuration {
     private double FM3 = 0.1;
     private double FM4 = 0.1;
     private double FM5 = 0.1;
-    private double Distance = 1.003;
+    private double distance = 1.003;
     private double errortolerance = 0.3;
     private double delta = 0.003;
     private double noise = 0;
@@ -122,7 +122,7 @@ public class Configuration {
     }
 
     public void setDistance(double dISTANCE_BETWEEN_ISOTOPIC_PEAKS) {
-	Distance = dISTANCE_BETWEEN_ISOTOPIC_PEAKS;
+	distance = dISTANCE_BETWEEN_ISOTOPIC_PEAKS;
     }
 
     public double getNH_MASSd2() {
@@ -130,7 +130,7 @@ public class Configuration {
     }
 
     public double getDistance() {
-	return Distance;
+	return distance;
     }
 
     public double getFM1() {
@@ -300,7 +300,7 @@ public class Configuration {
 	this.FM5 = F5;
 	this.delta = DELTA;
 	this.errortolerance = ERRORTOLERANCE;
-	this.Distance = DISTANCE;
+	this.distance = DISTANCE;
 	this.noise = NOISE;
 	this.decharge = DECHARGE;
 	this.AA_MASS = AA_MASS;
@@ -317,14 +317,11 @@ public class Configuration {
 
     @Override
     public String toString() {
-	return "Configuration [AA_MASS=" + AA_MASS + ", AA_MASS2=" + AA_MASS2 + ", AA_MASS3=" + AA_MASS3 + ", min="
-		+ min + ", max=" + max + ", FM1=" + FM1 + ", FM2=" + FM2 + ", FM3=" + FM3 + ", FM4=" + FM4 + ", FM5="
-		+ FM5 + ", Distance=" + Distance + ", errortolerance=" + errortolerance + ", delta=" + delta
-		+ ", noise=" + noise + ", decharge=" + decharge + ", H_MASS=" + H_MASS + ", NH3_MASS=" + NH3_MASS
-		+ ", H2O_MASS=" + H2O_MASS + ", NH_MASS=" + NH_MASS + ", CO_MASS=" + CO_MASS + ", PHE_MASS=" + PHE_MASS
-		+ ", ASP_MASS=" + ASP_MASS + ", AVE_UPDATED_MASS=" + AVE_UPDATED_MASS + ", H_MASSx2=" + H_MASSx2
-		+ ", H2O_MASSd2=" + H2O_MASSd2 + ", H2O_MASSd3=" + H2O_MASSd3 + ", NH3_MASSd2=" + NH3_MASSd2
-		+ ", NH3_MASSd3=" + NH3_MASSd3 + ", NH_MASSd2=" + NH_MASSd2 + ", NH_MASSd3=" + NH_MASSd3
-		+ ", CO_MASSd2=" + CO_MASSd2 + ", CO_MASSd3=" + CO_MASSd3 + "]";
+	return "Configuration,Value\nF1," + FM1 + "\nF2," + FM2 + "\nF3," + FM3 + "\nF4," + FM4 + "\nF5," + FM5
+		+ "\nDistance," + distance + "\nErrortolerance," + errortolerance + "\nDelta," + delta + "\nNoise,"
+		+ noise + "\nDecharge," + decharge + "\nModus," + modus + "\nH Mass," + H_MASS + "\nNH3 Mass,"
+		+ NH3_MASS + "\nH2O Mass," + H2O_MASS + "\nNH Mass," + NH_MASS + "\nCO Mass," + CO_MASS
+		+ "\nPhenylalanine Mass," + PHE_MASS + "\nAspartic Acid Mass," + ASP_MASS + "\nUpdated Averagine Mass,"
+		+ AVE_UPDATED_MASS + "\nAmino Acid Masses," + AA_MASS;
     }
 }
