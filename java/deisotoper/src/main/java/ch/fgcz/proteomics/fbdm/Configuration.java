@@ -322,6 +322,18 @@ public class Configuration {
 		+ noise + "\nDecharge," + decharge + "\nModus," + modus + "\nH Mass," + H_MASS + "\nNH3 Mass,"
 		+ NH3_MASS + "\nH2O Mass," + H2O_MASS + "\nNH Mass," + NH_MASS + "\nCO Mass," + CO_MASS
 		+ "\nPhenylalanine Mass," + PHE_MASS + "\nAspartic Acid Mass," + ASP_MASS + "\nUpdated Averagine Mass,"
-		+ AVE_UPDATED_MASS + "\nAmino Acid Masses," + AA_MASS;
+		+ AVE_UPDATED_MASS + "\nAmino Acid Masses," + print(AA_MASS);
+    }
+
+    private String print(List<Double> AA_MASS) {
+	StringBuilder stringbuilder = new StringBuilder();
+
+	stringbuilder.append("[ ");
+	for (Double d : AA_MASS) {
+	    stringbuilder.append(d).append(" ");
+	}
+	stringbuilder.append("]");
+
+	return stringbuilder.toString();
     }
 }
