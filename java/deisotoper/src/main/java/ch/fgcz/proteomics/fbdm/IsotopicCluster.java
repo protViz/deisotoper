@@ -110,8 +110,6 @@ public class IsotopicCluster {
 	    return this.aggregateFirst();
 	} else if (modus.equals("highest")) {
 	    return this.aggregateHighest();
-	} else if (modus.equals("none")) {
-	    return this;
 	} else {
 	    throw new IllegalArgumentException("Modus not found (" + modus + ")");
 	}

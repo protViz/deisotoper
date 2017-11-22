@@ -54,10 +54,9 @@ public class Deisotoper {
 
     public MassSpectrum deisotopeMS(MassSpectrum massspectrum, String modus) {
 	IsotopicMassSpectrum isotopicmassspectrum = new IsotopicMassSpectrum(massspectrum, this.config.getDelta(),
-		this.config, this);
+		this.config, this, modus);
 
-	// TODO (LS) : move this method to IsotopicSet
-	Peaklist listmassspectrumaggregated = aggregation(massspectrum, isotopicmassspectrum, modus);
+	Peaklist listmassspectrumaggregated = isotopicmassspectrum.getAggregatedPeaklist();
 
 	Peaklist listmassspectrumdecharged = decharge(listmassspectrumaggregated, this.config);
 
@@ -101,61 +100,6 @@ public class Deisotoper {
 	}
 
 	return massspectrundeisotoped;
-    }
-
-    private Peaklist aggregation(MassSpectrum massspectrumin, IsotopicMassSpectrum isotopicmassspectrum, String modus) {
-	this.isotopicclustergraphlist.removeAll(this.isotopicclustergraphlist);
-
-	Peaklist listmassspectrumaggregated = new Peaklist();
-	List<Double> mz = new ArrayList<>();
-
-	for (IsotopicSet isotopicset : isotopicmassspectrum.getIsotopicMassSpectrum()) {
-
-	    List<IsotopicCluster> bestpath = isotopicset.getBestPath();
-
-	    this.isotopicclustergraphlist.add(isotopicset.getIsotopicClusterGraph());
-
-	    Peaklist listmassspectrumaggregated2 = new Peaklist();
-
-	    List<Double> mz2 = new ArrayList<>();
-
-	    for (IsotopicCluster cluster : bestpath) {
-		if (cluster.getIsotopicCluster() != null) {
-		    for (Peak peak : cluster.getIsotopicCluster()) {
-			mz2.add(peak.getMz());
-		    }
-
-		    cluster.aggregation(modus);
-
-		    int position = 1;
-		    for (Peak peak : cluster.getIsotopicCluster()) {
-			listmassspectrumaggregated2.getMz().add(peak.getMz());
-			listmassspectrumaggregated2.getIntensity().add(peak.getIntensity());
-			listmassspectrumaggregated2.getIsotope().add((double) position);
-			listmassspectrumaggregated2.getCharge().add(cluster.getCharge());
-			position++;
-		    }
-		}
-	    }
-
-	    listmassspectrumaggregated.getMz().addAll(listmassspectrumaggregated2.getMz());
-	    listmassspectrumaggregated.getIntensity().addAll(listmassspectrumaggregated2.getIntensity());
-	    listmassspectrumaggregated.getIsotope().addAll(listmassspectrumaggregated2.getIsotope());
-	    listmassspectrumaggregated.getCharge().addAll(listmassspectrumaggregated2.getCharge());
-
-	    mz.addAll(mz2);
-	}
-
-	for (int i = 0; i < massspectrumin.getMz().size(); i++) {
-	    if (!mz.contains(massspectrumin.getMz().get(i))) {
-		listmassspectrumaggregated.getMz().add(massspectrumin.getMz().get(i));
-		listmassspectrumaggregated.getIntensity().add(massspectrumin.getIntensity().get(i));
-		listmassspectrumaggregated.getIsotope().add(-1.0);
-		listmassspectrumaggregated.getCharge().add(-1);
-	    }
-	}
-
-	return listmassspectrumaggregated;
     }
 
     private Peaklist decharge(Peaklist listmassspectrum, Configuration config) {

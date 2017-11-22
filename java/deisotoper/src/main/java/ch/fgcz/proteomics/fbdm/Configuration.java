@@ -26,6 +26,7 @@ public class Configuration {
     private double delta = 0.003;
     private double noise = 0;
     private boolean decharge = false;
+    private String modus = "first";
     private final double H_MASS = 1.008;
     private final double NH3_MASS = 17.03052;
     private final double H2O_MASS = 18.01528;
@@ -82,6 +83,14 @@ public class Configuration {
 
     public boolean isDecharge() {
 	return decharge;
+    }
+
+    public String getModus() {
+	return modus;
+    }
+
+    public void setModus(String modus) {
+	this.modus = modus;
     }
 
     public void setDecharge(boolean decharging) {
@@ -269,56 +278,21 @@ public class Configuration {
     }
 
     public Configuration() {
-	this.FM1 = 0.8;
-	this.FM2 = 0.5;
-	this.FM3 = 0.1;
-	this.FM4 = 0.1;
-	this.FM5 = 0.1;
-	this.delta = 0.003;
-	this.errortolerance = 0.3;
-	this.Distance = 1.003;
-	this.noise = 0;
-	this.decharge = false;
-	this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858,
-		57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203,
-		101.04768, 186.07931, 163.06333, 99.06841);
-
-	for (Double x : this.AA_MASS) {
-	    this.AA_MASS2.add(x / 2);
-	    this.AA_MASS3.add(x / 3);
-	}
-
-	this.min = Collections.min(this.AA_MASS3);
-	this.max = Collections.max(this.AA_MASS);
+	this(Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146,
+		137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203, 101.04768,
+		186.07931, 163.06333, 99.06841), 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.003, 0, false, "first");
     }
 
     public Configuration(double F1, double F2, double F3, double F4, double F5, double DELTA, double ERRORTOLERANCE,
-	    double DISTANCE, double NOISE, boolean DECHARGE) {
-	this.FM1 = F1;
-	this.FM2 = F2;
-	this.FM3 = F3;
-	this.FM4 = F4;
-	this.FM5 = F5;
-	this.delta = DELTA;
-	this.errortolerance = ERRORTOLERANCE;
-	this.Distance = DISTANCE;
-	this.noise = NOISE;
-	this.decharge = DECHARGE;
-	this.AA_MASS = Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858,
-		57.02146, 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203,
-		101.04768, 186.07931, 163.06333, 99.06841);
-
-	for (Double x : this.AA_MASS) {
-	    this.AA_MASS2.add(x / 2);
-	    this.AA_MASS3.add(x / 3);
-	}
-
-	this.min = Collections.min(this.AA_MASS3);
-	this.max = Collections.max(this.AA_MASS);
+	    double DISTANCE, double NOISE, boolean DECHARGE, String MODUS) {
+	this(Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146,
+		137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203, 101.04768,
+		186.07931, 163.06333, 99.06841), F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE,
+		MODUS);
     }
 
     public Configuration(List<Double> AA_MASS, double F1, double F2, double F3, double F4, double F5, double DELTA,
-	    double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
+	    double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE, String MODUS) {
 	this.FM1 = F1;
 	this.FM2 = F2;
 	this.FM3 = F3;
@@ -330,6 +304,7 @@ public class Configuration {
 	this.noise = NOISE;
 	this.decharge = DECHARGE;
 	this.AA_MASS = AA_MASS;
+	this.modus = MODUS;
 
 	for (Double x : this.AA_MASS) {
 	    this.AA_MASS2.add(x / 2);
@@ -352,79 +327,4 @@ public class Configuration {
 		+ ", NH3_MASSd3=" + NH3_MASSd3 + ", NH_MASSd2=" + NH_MASSd2 + ", NH_MASSd3=" + NH_MASSd3
 		+ ", CO_MASSd2=" + CO_MASSd2 + ", CO_MASSd3=" + CO_MASSd3 + "]";
     }
-
-    // public ScoreConfig(String file) {
-    // Properties properties = new Properties();
-    // try (BufferedInputStream stream = new BufferedInputStream(new
-    // FileInputStream(file));) {
-    // properties.load(stream);
-    // stream.close();
-    // if (!properties.isEmpty()) {
-    // this.AA_MASS.removeAll(this.AA_MASS);
-    // this.AA_MASS2.removeAll(this.AA_MASS2);
-    // this.AA_MASS3.removeAll(this.AA_MASS3);
-    // System.out.println("SUCCESS: File found...");
-    // } else {
-    // System.err.println("WARNING: File is empty, using standart amino acid masses
-    // instead!");
-    // }
-    // } catch (FileNotFoundException e) {
-    // System.err.println("WARNING: File not found, using standart amino acid masses
-    // instead!");
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // Enumeration<?> e = properties.propertyNames();
-    // while (e.hasMoreElements()) {
-    // String key = (String) e.nextElement();
-    // String value = properties.getProperty(key);
-    // double vdouble = Double.parseDouble(value);
-    //
-    // if (key.equals("F1")) {
-    // this.FM1 = vdouble;
-    // System.out.println("F1 set to " + vdouble);
-    // } else if (key.equals("F2")) {
-    // this.FM2 = vdouble;
-    // System.out.println("F2 set to " + vdouble);
-    // } else if (key.equals("F3")) {
-    // this.FM3 = vdouble;
-    // System.out.println("F3 set to " + vdouble);
-    // } else if (key.equals("F4")) {
-    // this.FM4 = vdouble;
-    // System.out.println("F4 set to " + vdouble);
-    // } else if (key.equals("F5")) {
-    // this.FM5 = vdouble;
-    // System.out.println("F5 set to " + vdouble);
-    // } else if (key.equals("DISTANCE")) {
-    // this.DISTANCE_BETWEEN_ISOTOPIC_PEAKS = vdouble;
-    // System.out.println("DISTANCE set to " + vdouble);
-    // } else if (key.equals("DELTA")) {
-    // this.delta = vdouble;
-    // System.out.println("DELTA set to " + vdouble);
-    // } else if (key.equals("ERRORTOLERANCE")) {
-    // this.errortolerance = vdouble;
-    // System.out.println("ERRORTOLERANCE set to " + vdouble);
-    // } else if (key.equals("NOISE")) {
-    // this.noise = vdouble;
-    // System.out.println("NOISE set to " + vdouble);
-    // } else if (key.equals("DECHARGE")) {
-    // if (value.equals("1")) {
-    // this.decharging = true;
-    // } else if (value.equals("0")) {
-    // this.decharging = false;
-    // }
-    // System.out.println("DECHARGE set to " + this.decharging);
-    // } else {
-    // this.AA_MASS.add(vdouble);
-    // }
-    // }
-    //
-    // for (Double x : this.AA_MASS) {
-    // this.AA_MASS2.add(x / 2);
-    // this.AA_MASS3.add(x / 3);
-    // }
-    //
-    // this.min = Collections.min(this.AA_MASS3);
-    // this.max = Collections.max(this.AA_MASS);
-    // }
 }

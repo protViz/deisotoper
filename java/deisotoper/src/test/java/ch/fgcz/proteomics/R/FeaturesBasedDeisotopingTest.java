@@ -5,6 +5,9 @@ package ch.fgcz.proteomics.R;
  * @since 2017-11-20
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 public class FeaturesBasedDeisotopingTest {
@@ -68,24 +71,52 @@ public class FeaturesBasedDeisotopingTest {
 
 	double[] aa = { 99.06841 };
 
-	dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.0, 0, true);
+	dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.0, 0, true, "first");
 
 	dtoper.setMz(mz);
 	dtoper.setIntensity(intensity);
 	dtoper.setPepMass(1.2345);
 	dtoper.setCharge(2);
 
-	dtoper.deisotope("none");
+	dtoper.deisotope();
 
 	double[] mzout = dtoper.getMz();
 	double[] intensityout = dtoper.getIntensity();
 
-	System.out.println("Output Peaklist:");
+	System.out.println("Input Peaklist (" + mz.length + "):          Output Peaklist(" + mzout.length + "):");
 	for (int i = 0; i < mzout.length || i < intensityout.length; i++) {
+	    if (i < mz.length || i < intensity.length) {
+		System.out.print(mz[i] + " ");
+		System.out.print(intensity[i] + "    ");
+	    } else {
+		System.out.print("                            ");
+	    }
 	    System.out.print(mzout[i] + " ");
-	    System.out.println(intensityout[i]);
+	    System.out.print(intensityout[i]);
+	    System.out.println();
 	}
 	System.out.println();
+
+	List<Double> mzlist = new ArrayList<>();
+	List<Double> intensitylist = new ArrayList<>();
+	List<Double> mzoutlist = new ArrayList<>();
+	List<Double> intensityoutlist = new ArrayList<>();
+	for (int i = 0; i < mz.length; i++) {
+	    mzlist.add(mz[i]);
+	    intensitylist.add(intensity[i]);
+	}
+
+	for (int i = 0; i < mzout.length; i++) {
+	    mzoutlist.add(mzout[i]);
+	    intensityoutlist.add(intensityout[i]);
+	}
+
+	mzlist.removeAll(mzoutlist);
+	intensitylist.removeAll(intensityoutlist);
+
+	for (Double d : mzlist) {
+	    System.out.println(d);
+	}
 
 	System.out.println(dtoper.getSummary());
     }

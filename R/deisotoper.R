@@ -11,6 +11,7 @@
 #' @param distance Distance between two peaks used by clustering
 #' @param noise Noise value for noise filtering (in percent)
 #' @param decharge De- and activates decharging
+#' @param modus Modus of aggregation ('first' or 'highest')
 #'
 #' @return deisotoper
 #' @export deisotoper
@@ -62,7 +63,7 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
                                                 'S' = 87.03203, 'T' = 101.04768, 'W' = 186.07931, 'Y' = 163.06333, 'V' = 99.06841), 
                        F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, 
                        delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, 
-                       decharge = FALSE, comment = "no comment") {
+                       decharge = FALSE, modus = "first", comment = "no comment") {
   dtoper <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotoping")
   
   if(0.5 > distance || distance > 1.5) {
@@ -106,16 +107,20 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
     stop("amino_acid_masses must contain 2 or more amino acid masses!")
   }
   
+  if(!(modus == "first" || modus == "highest")) {
+    stop("Modus is incorrect. Available modi: 'first' or 'highest'")
+  }
+  
   .jcall(dtoper, "V", "setConfiguration", 
          as.vector(unlist(amino_acid_masses)), F1, F2, F3, F4, F5, 
          delta, errortolerance, distance, noise, 
-         decharge)
+         decharge, modus)
   return(list(javaRef = dtoper, comment = comment))
 }
 
 #' @export
 #' @author Lucas Schmidt
-deisotope <- function(deisotoper, massspectrum, modus = "first") {
+deisotope <- function(deisotoper, massspectrum) {
   if(!("mZ" %in% names(massspectrum))) {
     stop("mZ values are missing!")
   }
@@ -140,10 +145,6 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
     stop("Charge is missing!")
   }
   
-  if(!(modus == "first" || modus == "highest" || modus == "none")) {
-    stop("Modus is incorrect. Available modi: 'first', 'highest', 'none'")
-  }
-  
   if(is.unsorted(massspectrum$mZ)){
     idx<-order(x$mZ)
     massspectrum$mZ <- massspectrum$mZ[idx]
@@ -154,7 +155,7 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
   .jcall(deisotoper$javaRef, "V", "setIntensity", massspectrum$intensity)
   .jcall(deisotoper$javaRef, "V", "setPepMass", massspectrum$pepmass)
   .jcall(deisotoper$javaRef, "V", "setCharge", as.integer(massspectrum$charge))
-  .jcall(deisotoper$javaRef, "V", "deisotope", modus)
+  .jcall(deisotoper$javaRef, "V", "deisotope")
   
   mzout <- .jcall(deisotoper$javaRef, "[D", "getMz")
   intensityout <- .jcall(deisotoper$javaRef, "[D", "getIntensity")
@@ -173,10 +174,10 @@ deisotope <- function(deisotoper, massspectrum, modus = "first") {
 
 #' @export
 #' @author Lucas Schmidt
-deisotope.list <- function(deisotoper, psmset, modus = "first") {
+deisotope.list <- function(deisotoper, psmset) {
   res <- list()
   for(i in 1:length(psmset)) {
-    res <- c(res, list(deisotope(deisotoper = deisotoper, massspectrum = psmset[[i]], modus = modus)))
+    res <- c(res, list(deisotope(deisotoper = deisotoper, massspectrum = psmset[[i]])))
   }
   return(res)
 }

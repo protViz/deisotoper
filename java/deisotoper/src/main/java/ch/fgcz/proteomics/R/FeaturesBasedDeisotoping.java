@@ -25,7 +25,7 @@ public class FeaturesBasedDeisotoping {
     private MassSpectrum resultspectrum = new MassSpectrum();
 
     public void setConfiguration(double[] AA_MASS, double F1, double F2, double F3, double F4, double F5, double DELTA,
-	    double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE) {
+	    double ERRORTOLERANCE, double DISTANCE, double NOISE, boolean DECHARGE, String MODUS) {
 	Configuration config;
 	if (AA_MASS.length > 1) {
 	    List<Double> AA_MASS_LIST = new ArrayList<>();
@@ -34,9 +34,9 @@ public class FeaturesBasedDeisotoping {
 	    }
 
 	    config = new Configuration(AA_MASS_LIST, F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE,
-		    DECHARGE);
+		    DECHARGE, MODUS);
 	} else {
-	    config = new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE);
+	    config = new Configuration(F1, F2, F3, F4, F5, DELTA, ERRORTOLERANCE, DISTANCE, NOISE, DECHARGE, MODUS);
 	}
 
 	this.deisotoper.setConfiguration(config);
@@ -80,8 +80,8 @@ public class FeaturesBasedDeisotoping {
 	return this.resultspectrum.getIntensityArray();
     }
 
-    public void deisotope(String modus) {
-	this.resultspectrum = this.deisotoper.deisotopeMS(massspectrum, modus);
+    public void deisotope() {
+	this.resultspectrum = this.deisotoper.deisotopeMS(massspectrum, this.deisotoper.getConfiguration().getModus());
     }
 
     public String[] getDOT() {
@@ -110,7 +110,8 @@ public class FeaturesBasedDeisotoping {
 	numberpeaks += massspectrum.getMz().size();
 
 	IsotopicMassSpectrum isotopicmassspectrum = new IsotopicMassSpectrum(massspectrum,
-		this.deisotoper.getConfiguration().getDelta(), this.deisotoper.getConfiguration(), this.deisotoper);
+		this.deisotoper.getConfiguration().getDelta(), this.deisotoper.getConfiguration(), this.deisotoper,
+		this.deisotoper.getConfiguration().getModus());
 
 	numberis += isotopicmassspectrum.getIsotopicMassSpectrum().size();
 

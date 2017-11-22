@@ -12,17 +12,27 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicMassSpectrum {
     private List<IsotopicSet> isotopicmassspectrum = new ArrayList<>();
+    private Peaklist aggregatedpeaklist;
+
+    public Peaklist getAggregatedPeaklist() {
+	return aggregatedpeaklist;
+    }
+
+    public void setAggregatedPeaklist(Peaklist aggregatedpeaklist) {
+	this.aggregatedpeaklist = aggregatedpeaklist;
+    }
 
     public List<IsotopicSet> getIsotopicMassSpectrum() {
 	return isotopicmassspectrum;
     }
 
-    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, Configuration config, Deisotoper deisotoper) {
-	this(massspectrum, new Peaklist(massspectrum), delta, config, deisotoper);
+    public IsotopicMassSpectrum(MassSpectrum massspectrum, double delta, Configuration config, Deisotoper deisotoper,
+	    String modus) {
+	this(massspectrum, new Peaklist(massspectrum), delta, config, deisotoper, modus);
     }
 
     public IsotopicMassSpectrum(MassSpectrum massspectrum, Peaklist peaklist, double delta, Configuration config,
-	    Deisotoper deisotoper) {
+	    Deisotoper deisotoper, String modus) {
 	int id = 0;
 	for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
 	    List<Peak> isotopicset = new ArrayList<>();
@@ -62,6 +72,61 @@ public class IsotopicMassSpectrum {
 	}
 
 	saveAnnotatedSpectrum(deisotoper, this);
+	this.aggregatedpeaklist = aggregation(deisotoper, massspectrum, modus);
+    }
+
+    public Peaklist aggregation(Deisotoper deisotoper, MassSpectrum massspectrumin, String modus) {
+	deisotoper.getIsotopicClusterGraphList().removeAll(deisotoper.getIsotopicClusterGraphList());
+	Peaklist listmassspectrumaggregated = new Peaklist();
+	List<Double> mz = new ArrayList<>();
+
+	for (IsotopicSet isotopicset : this.getIsotopicMassSpectrum()) {
+
+	    List<IsotopicCluster> bestpath = isotopicset.getBestPath();
+
+	    deisotoper.getIsotopicClusterGraphList().add(isotopicset.getIsotopicClusterGraph());
+
+	    Peaklist listmassspectrumaggregated2 = new Peaklist();
+
+	    List<Double> mz2 = new ArrayList<>();
+
+	    for (IsotopicCluster cluster : bestpath) {
+		if (cluster.getIsotopicCluster() != null) {
+		    for (Peak peak : cluster.getIsotopicCluster()) {
+			mz2.add(peak.getMz());
+		    }
+
+		    cluster.aggregation(modus);
+
+		    int position = 1;
+		    for (Peak peak : cluster.getIsotopicCluster()) {
+			listmassspectrumaggregated2.getMz().add(peak.getMz());
+			listmassspectrumaggregated2.getIntensity().add(peak.getIntensity());
+			listmassspectrumaggregated2.getIsotope().add((double) position);
+			listmassspectrumaggregated2.getCharge().add(cluster.getCharge());
+			position++;
+		    }
+		}
+	    }
+
+	    listmassspectrumaggregated.getMz().addAll(listmassspectrumaggregated2.getMz());
+	    listmassspectrumaggregated.getIntensity().addAll(listmassspectrumaggregated2.getIntensity());
+	    listmassspectrumaggregated.getIsotope().addAll(listmassspectrumaggregated2.getIsotope());
+	    listmassspectrumaggregated.getCharge().addAll(listmassspectrumaggregated2.getCharge());
+
+	    mz.addAll(mz2);
+	}
+
+	for (int i = 0; i < massspectrumin.getMz().size(); i++) {
+	    if (!mz.contains(massspectrumin.getMz().get(i))) {
+		listmassspectrumaggregated.getMz().add(massspectrumin.getMz().get(i));
+		listmassspectrumaggregated.getIntensity().add(massspectrumin.getIntensity().get(i));
+		listmassspectrumaggregated.getIsotope().add(-1.0);
+		listmassspectrumaggregated.getCharge().add(-1);
+	    }
+	}
+
+	return listmassspectrumaggregated;
     }
 
     private void saveAnnotatedSpectrum(Deisotoper deisotoper, IsotopicMassSpectrum isotopicmassspectrum) {

@@ -46,7 +46,7 @@ public class IsotopicTest {
 	massspectrum.setMz(peaklist.getMz());
 	massspectrum.setIntensity(peaklist.getIntensity());
 	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massspectrum, peaklist, 0.01, new Configuration(),
-		new Deisotoper());
+		new Deisotoper(), "first");
 
 	assertEquals("Created IsotopicMassSpectrum should have one IsotopicSet", ims.getIsotopicMassSpectrum().size(),
 		1);
@@ -68,7 +68,8 @@ public class IsotopicTest {
 	MassSpectrum massspectrum = new MassSpectrum();
 	massspectrum.setMz(peaklist.getMz());
 	massspectrum.setIntensity(peaklist.getIntensity());
-	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massspectrum, 0.01, new Configuration(), new Deisotoper());
+	IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massspectrum, 0.01, new Configuration(), new Deisotoper(),
+		"first");
 	for (IsotopicSet i : ims.getIsotopicMassSpectrum()) {
 	    System.out.println(i.getIsotopicSet().get(0).getIsotopicCluster().toString());
 	    System.out.println(i.getIsotopicSet().get(1).getIsotopicCluster().toString());
