@@ -16,8 +16,8 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicSet {
     private String dot;
-    private List<IsotopicCluster> isotopicset = new ArrayList<>();
-    private List<IsotopicCluster> bestpath;
+    private List<IsotopicCluster> isotopicSet = new ArrayList<>();
+    private List<IsotopicCluster> bestPath;
     private int setID;
 
     public int getSetID() {
@@ -25,7 +25,7 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getIsotopicSet() {
-        return isotopicset;
+        return isotopicSet;
     }
 
     public String getDot() {
@@ -33,38 +33,38 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getBestPath() {
-        return bestpath;
+        return bestPath;
     }
 
-    public IsotopicSet(MassSpectrum massspectrum, List<Peak> isotopicset, int setid, Configuration config) {
+    public IsotopicSet(MassSpectrum massSpectrum, List<Peak> isotopicSet, int setId, Configuration config) {
         try {
-            rangeCheck(isotopicset, config);
+            rangeCheck(isotopicSet, config);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        List<IsotopicCluster> isotopicclusters = new ArrayList<>();
+        List<IsotopicCluster> isotopicClusters = new ArrayList<>();
 
-        isotopicclusters = collectClusterForEachCharge(isotopicclusters, isotopicset, 3, config);
+        isotopicClusters = collectClusterForEachCharge(isotopicClusters, isotopicSet, 3, config);
 
-        isotopicclusters = collectClusterForEachCharge(isotopicclusters, isotopicset, 2, config);
+        isotopicClusters = collectClusterForEachCharge(isotopicClusters, isotopicSet, 2, config);
 
-        isotopicclusters = collectClusterForEachCharge(isotopicclusters, isotopicset, 1, config);
+        isotopicClusters = collectClusterForEachCharge(isotopicClusters, isotopicSet, 1, config);
 
-        isotopicclusters = removeMultipleIsotopicCluster(isotopicclusters);
+        isotopicClusters = removeMultipleIsotopicCluster(isotopicClusters);
 
-        isotopicclusters = sortIsotopicSet(isotopicclusters);
+        isotopicClusters = sortIsotopicSet(isotopicClusters);
 
-        int clusterid = 0;
-        for (IsotopicCluster cluster : isotopicclusters) {
-            cluster.setClusterID(clusterid);
-            clusterid++;
+        int clusterId = 0;
+        for (IsotopicCluster cluster : isotopicClusters) {
+            cluster.setClusterID(clusterId);
+            clusterId++;
         }
 
-        setBestPath(massspectrum, isotopicclusters, config);
+        setBestPath(massSpectrum, isotopicClusters, config);
 
-        this.isotopicset = isotopicclusters;
-        this.setID = setid;
+        this.isotopicSet = isotopicClusters;
+        this.setID = setId;
     }
 
     private void setBestPath(MassSpectrum massspectrum, List<IsotopicCluster> isotopicclusters, Configuration config) {
@@ -74,7 +74,7 @@ public class IsotopicSet {
                 config.getErrortolerance(), new Peaklist(massspectrum.getMz(), massspectrum.getIntensity()), config);
 
         this.dot = isotopicclustergraph.toDOTGraph();
-        this.bestpath = isotopicclustergraph.bestPath(isotopicclustergraph.getStart(), isotopicclustergraph.getEnd())
+        this.bestPath = isotopicclustergraph.bestPath(isotopicclustergraph.getStart(), isotopicclustergraph.getEnd())
                 .getVertexList();
     }
 
