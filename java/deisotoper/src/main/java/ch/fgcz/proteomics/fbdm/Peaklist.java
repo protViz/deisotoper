@@ -18,6 +18,7 @@ public class Peaklist {
     }
 
     public Peaklist() {
+        this.peaklist = new ArrayList<>();
     }
 
     public Peaklist(MassSpectrum massSpectrum) {

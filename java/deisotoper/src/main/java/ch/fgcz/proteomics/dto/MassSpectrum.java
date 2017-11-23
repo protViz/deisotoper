@@ -69,16 +69,8 @@ public class MassSpectrum {
         return charge;
     }
 
-    public void setCharge(List<Integer> charge) {
-        this.charge = charge;
-    }
-
     public List<Double> getIsotope() {
         return isotope;
-    }
-
-    public void setIsotope(List<Double> isotope) {
-        this.isotope = isotope;
     }
 
     public List<Double> getMz() {
@@ -101,24 +93,16 @@ public class MassSpectrum {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    // public void setId(int id) {
+    // this.id = id;
+    // }
 
     public String getTyp() {
         return typ;
     }
 
-    public void setTyp(String typ) {
-        this.typ = typ;
-    }
-
     public String getSearchEngine() {
         return searchEngine;
-    }
-
-    public void setSearchEngine(String searchEngine) {
-        this.searchEngine = searchEngine;
     }
 
     public double getPeptideMass() {
@@ -133,10 +117,6 @@ public class MassSpectrum {
         return rt;
     }
 
-    public void setRt(double rt) {
-        this.rt = rt;
-    }
-
     public int getChargeState() {
         return chargeState;
     }
@@ -146,16 +126,16 @@ public class MassSpectrum {
     }
 
     public MassSpectrum() {
-        this.setMz(null);
-        this.setIntensity(null);
-        this.setCharge(null);
-        this.setIsotope(null);
-        this.setTyp(null);
-        this.setSearchEngine(null);
-        this.setPeptideMass(0);
-        this.setRt(0);
-        this.setChargeState(0);
-        this.setId(0);
+        this.mz = null;
+        this.intensity = null;
+        this.charge = null;
+        this.isotope = null;
+        this.typ = null;
+        this.searchEngine = null;
+        this.id = 0;
+        this.rt = 0;
+        this.chargeState = 0;
+        this.peptideMass = 0;
     }
 
     /**
@@ -173,35 +153,37 @@ public class MassSpectrum {
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
             double rt, int chargeState, int id) {
         if (!isSorted(mz)) {
-            throw new IllegalArgumentException("The mZ-values are not sorted");
+            throw new IllegalArgumentException("The mZ-values are not sorted!");
         }
 
-        this.setMz(mz);
-        this.setIntensity(intensity);
-        this.setTyp(typ);
-        this.setSearchEngine(searchEngine);
-        this.setPeptideMass(peptidMass);
-        this.setRt(rt);
-        this.setChargeState(chargeState);
-        this.setId(id);
+        this.mz = mz;
+        this.intensity = intensity;
+        this.charge = null;
+        this.isotope = null;
+        this.typ = typ;
+        this.searchEngine = searchEngine;
+        this.id = id;
+        this.rt = rt;
+        this.chargeState = chargeState;
+        this.peptideMass = peptidMass;
     }
 
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
             double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
-            throw new IllegalArgumentException("The mZ-values are not sorted");
+            throw new IllegalArgumentException("The mZ-values are not sorted!");
         }
 
-        this.setMz(mz);
-        this.setIntensity(intensity);
-        this.setCharge(charge);
-        this.setIsotope(isotope);
-        this.setTyp(typ);
-        this.setSearchEngine(searchEngine);
-        this.setPeptideMass(peptidMass);
-        this.setRt(rt);
-        this.setChargeState(chargeState);
-        this.setId(id);
+        this.mz = mz;
+        this.intensity = intensity;
+        this.charge = charge;
+        this.isotope = isotope;
+        this.typ = typ;
+        this.searchEngine = searchEngine;
+        this.id = id;
+        this.rt = rt;
+        this.chargeState = chargeState;
+        this.peptideMass = peptidMass;
     }
 
     private static boolean isSorted(List<Double> list) {

@@ -23,11 +23,11 @@ public class Score {
 
     public double calculateScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX,
             Connection connection) {
-        return this.config.getFM1() * calculateFirstScoringFeature(peakX, peakY, this.config)
-                + this.config.getFM2() * calculateSecondScoringFeature(peakX, peakY, this.peptidMassValue,
+        return this.config.getF1() * calculateFirstScoringFeature(peakX, peakY, this.config)
+                + this.config.getF2() * calculateSecondScoringFeature(peakX, peakY, this.peptidMassValue,
                         this.chargeValue, isotopicClusterOfPeakX, this.config)
-                + this.config.getFM3() * calculateThirdScoringFeature(peakX, peakY, this.config)
-                + this.config.getFM4() * calculateFourthScoringFeature(peakX, peakY, this.config) + this.config.getFM5()
+                + this.config.getF3() * calculateThirdScoringFeature(peakX, peakY, this.config)
+                + this.config.getF4() * calculateFourthScoringFeature(peakX, peakY, this.config) + this.config.getF5()
                         * ScoreFive.calculateFifthScoringFeature(connection, this.isotopicClusterGraph, this.config);
     }
 

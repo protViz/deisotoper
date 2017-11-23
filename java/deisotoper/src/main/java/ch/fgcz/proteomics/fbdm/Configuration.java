@@ -45,42 +45,6 @@ public class Configuration {
     private final double CO_MASSd2 = CO_MASS / 2;
     private final double CO_MASSd3 = CO_MASS / 3;
 
-    // public Map<String, Object> getScoreConfigAsMap() {
-    // Map<String, Object> configmap = new HashMap<>();
-    //
-    // // final
-    // configmap.put("H_MASS", this.H_MASS);
-    // configmap.put("NH3_MASS", this.NH3_MASS);
-    // configmap.put("H2O_MASS", this.H2O_MASS);
-    // configmap.put("NH_MASS", this.NH_MASS);
-    // configmap.put("CO_MASS", this.CO_MASS);
-    // configmap.put("PHE_MASS", this.PHE_MASS);
-    // configmap.put("ASP_MASS", this.ASP_MASS);
-    // configmap.put("AVE_UPDATED_MASS", this.AVE_UPDATED_MASS);
-    // configmap.put("H_MASSx2", this.H_MASSx2);
-    // configmap.put("H2O_MASSd2", this.H2O_MASSd2);
-    // configmap.put("H2O_MASSd3", this.H2O_MASSd3);
-    // configmap.put("NH3_MASSd2", this.NH3_MASSd2);
-    // configmap.put("NH3_MASSd3", this.NH3_MASSd3);
-    // configmap.put("NH_MASSd2", this.NH_MASSd2);
-    // configmap.put("NH_MASSd3", this.NH_MASSd3);
-    // configmap.put("CO_MASSd2", this.CO_MASSd2);
-    // configmap.put("CO_MASSd3", this.CO_MASSd3);
-    //
-    // // non final
-    // configmap.put("DISTANCE_BETWEEN_ISOTOPIC_PEAKS", this.Distance);
-    // configmap.put("F1", this.FM1);
-    // configmap.put("F2", this.FM2);
-    // configmap.put("F3", this.FM3);
-    // configmap.put("F4", this.FM4);
-    // configmap.put("F5", this.FM5);
-    // configmap.put("AA_MASS", this.AA_MASS);
-    // configmap.put("AA_MASSd2", this.AA_MASS2);
-    // configmap.put("AA_MASSd3", this.AA_MASS3);
-    //
-    // return configmap;
-    // }
-
     public boolean isDecharge() {
         return decharge;
     }
@@ -89,40 +53,16 @@ public class Configuration {
         return modus;
     }
 
-    public void setModus(String modus) {
-        this.modus = modus;
-    }
-
-    public void setDecharge(boolean decharging) {
-        this.decharge = decharging;
-    }
-
     public double getErrortolerance() {
         return errortolerance;
-    }
-
-    public void setErrortolerance(double errortolerance) {
-        this.errortolerance = errortolerance;
     }
 
     public double getDelta() {
         return delta;
     }
 
-    public void setDelta(double delta) {
-        this.delta = delta;
-    }
-
     public double getNoise() {
         return noise;
-    }
-
-    public void setNoise(double noise) {
-        this.noise = noise;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
     }
 
     public double getNH_MASSd2() {
@@ -133,44 +73,24 @@ public class Configuration {
         return distance;
     }
 
-    public double getFM1() {
+    public double getF1() {
         return F1;
     }
 
-    public void setFM1(double f1) {
-        F1 = f1;
-    }
-
-    public double getFM2() {
+    public double getF2() {
         return F2;
     }
 
-    public void setFM2(double f2) {
-        F2 = f2;
-    }
-
-    public double getFM3() {
+    public double getF3() {
         return F3;
     }
 
-    public void setFM3(double f3) {
-        F3 = f3;
-    }
-
-    public double getFM4() {
+    public double getF4() {
         return F4;
     }
 
-    public void setFM4(double f4) {
-        F4 = f4;
-    }
-
-    public double getFM5() {
+    public double getF5() {
         return F5;
-    }
-
-    public void setFM5(double f5) {
-        F5 = f5;
     }
 
     public double getNH_MASSd3() {
@@ -241,40 +161,20 @@ public class Configuration {
         return minimum;
     }
 
-    public void setMin(double min) {
-        this.minimum = min;
-    }
-
     public double getMax() {
         return maximum;
-    }
-
-    public void setMax(double max) {
-        this.maximum = max;
     }
 
     public List<Double> getAA_MASS() {
         return aaMass;
     }
 
-    public void setAA_MASS(List<Double> aaMass) {
-        this.aaMass = aaMass;
-    }
-
     public List<Double> getAA_MASS2() {
         return aaMassd2;
     }
 
-    public void setAA_MASS2(List<Double> aaMassd2) {
-        this.aaMassd2 = aaMassd2;
-    }
-
     public List<Double> getAA_MASS3() {
         return aaMassd3;
-    }
-
-    public void setAA_MASS3(List<Double> aaMassd3) {
-        this.aaMassd3 = aaMassd3;
     }
 
     public Configuration() {

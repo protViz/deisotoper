@@ -18,32 +18,16 @@ public class Peak {
         return isotopicClusterId;
     }
 
-    public void setIsotopicClusterID(int isotopicclusterID) {
-        this.isotopicClusterId = isotopicclusterID;
-    }
-
     public int getIsotopicSetID() {
         return isotopicSetId;
-    }
-
-    public void setIsotopicSetID(int isotopicsetID) {
-        this.isotopicSetId = isotopicsetID;
     }
 
     public double getIsotope() {
         return isotope;
     }
 
-    public void setIsotope(double isotope) {
-        this.isotope = isotope;
-    }
-
     public int getCharge() {
         return charge;
-    }
-
-    public void setCharge(int charge) {
-        this.charge = charge;
     }
 
     public int getPeakID() {

@@ -40,16 +40,8 @@ public class Deisotoper {
         return dotGraphs;
     }
 
-    public void setDotGraphs(List<String> dotGraphs) {
-        this.dotGraphs = dotGraphs;
-    }
-
     public List<IsotopicSet> getIsotopicSets() {
         return isotopicSets;
-    }
-
-    public void setIsotopicSets(List<IsotopicSet> isotopicSets) {
-        this.isotopicSets = isotopicSets;
     }
 
     // Will be used to deisotope entire mgf files from Java.

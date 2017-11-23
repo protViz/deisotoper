@@ -26,16 +26,8 @@ public class IsotopicCluster {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public int getCharge() {
         return charge;
-    }
-
-    public void setCharge(int charge) {
-        this.charge = charge;
     }
 
     public List<Peak> getIsotopicCluster() {

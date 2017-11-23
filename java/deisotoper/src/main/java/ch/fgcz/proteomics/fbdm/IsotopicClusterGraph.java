@@ -23,11 +23,6 @@ public class IsotopicClusterGraph {
         return isotopicClusterGraph;
     }
 
-    public void setIsotopicClusterGraph(
-            DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph) {
-        this.isotopicClusterGraph = isotopicClusterGraph;
-    }
-
     public GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster startCluster, IsotopicCluster endCluster) {
         KShortestPaths<IsotopicCluster, Connection> kPaths = new KShortestPaths<>(this.isotopicClusterGraph, 999999);
 

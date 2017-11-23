@@ -16,21 +16,13 @@ public class MassSpectrometryMeasurement {
         return source;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
     public List<MassSpectrum> getMSlist() {
         return massSpectrumList;
     }
 
-    public void setMSlist(List<MassSpectrum> massSpectrumList) {
-        this.massSpectrumList = massSpectrumList;
-    }
-
     public MassSpectrometryMeasurement(String source) {
-        this.setSource(source);
-        this.setMSlist(new ArrayList<>());
+        this.source = source;
+        this.massSpectrumList = new ArrayList<>();
     }
 
     public void addMS(String typ, String searchEngine, double[] mz, double[] intensity, double peptideMass, double rt,
