@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class MassSpectrometricMeasurementSerializer {
+public class MassSpectrometryMeasurementSerializer {
     public static String serializeToJson(String fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
         Gson gson = new Gson();
 

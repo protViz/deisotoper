@@ -12,7 +12,7 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-public class MassSpectrometrySummary {
+public class MassSpectrometryMeasurementSummary {
     public static String makeSummary(MassSpectrometryMeasurement massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();
         String lineSep = System.getProperty("line.separator");

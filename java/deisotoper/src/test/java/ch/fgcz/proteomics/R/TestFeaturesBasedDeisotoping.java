@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class FeaturesBasedDeisotopingTest {
+public class TestFeaturesBasedDeisotoping {
     @Test
     public void test() {
         double[] mz = { 110.0715485, 110.1648788, 112.0395432, 113.0712204, 114.0746384, 115.05056, 115.9784622,

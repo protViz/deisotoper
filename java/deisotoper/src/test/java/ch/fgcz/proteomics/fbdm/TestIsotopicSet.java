@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-public class IsotopicTest {
+public class TestIsotopicSet {
     private Peaklist peaklist;
     private List<Peak> A;
     private List<Peak> B;

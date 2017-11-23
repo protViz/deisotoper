@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-public class ScoreTest {
+public class TestScore {
     /**
      * Tests the firstNonintensityFeature function.
      * 

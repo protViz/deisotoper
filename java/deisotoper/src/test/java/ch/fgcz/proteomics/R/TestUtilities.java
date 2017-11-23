@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class UtilitiesRTest {
+public class TestUtilities {
     @Test
     public void testFindNNR() {
         double[] testvector1 = { 2, 3 };
@@ -45,7 +45,7 @@ public class UtilitiesRTest {
 
         // Test 1
         double[] result1 = { 1, 1, 2, 2, 2 };
-        double[] findNN1 = UtilitiesR.findNNR(testq1, testvector1);
+        double[] findNN1 = Utilities.findNNR(testq1, testvector1);
         assertEquals("Result must be same length!", result1.length, findNN1.length);
         for (int i = 0; i < result1.length; i++) {
             assertEquals("Every item must be same!", (int) findNN1[i], (int) result1[i]);
@@ -55,7 +55,7 @@ public class UtilitiesRTest {
         int j = 1;
         int sum = 0;
         int sumj = 0;
-        for (double i : UtilitiesR.findNNR(testvector2, testvector2)) {
+        for (double i : Utilities.findNNR(testvector2, testvector2)) {
             sum = (int) i + sum;
             sumj = j + sumj;
             assertEquals("i must be equals to j!", (int) i, j);
@@ -65,7 +65,7 @@ public class UtilitiesRTest {
 
         // Test 3
         double[] result3 = { 1, 51, 51, 101, 101 };
-        double[] findNN3 = UtilitiesR.findNNR(testq3, testvector3);
+        double[] findNN3 = Utilities.findNNR(testq3, testvector3);
         assertEquals("Result must be same length!", result3.length, findNN3.length);
         for (int i = 0; i < result3.length; i++) {
             assertEquals("Every item must be same!", (int) findNN3[i], (int) result3[i]);

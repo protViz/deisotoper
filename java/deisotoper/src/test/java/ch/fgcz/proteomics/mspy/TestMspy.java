@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 @Deprecated
-public class MspyTest {
+public class TestMspy {
     private Peaklist peaklistin;
     private Peaklist peaklistout;
     private Peaklist peaklistin2;

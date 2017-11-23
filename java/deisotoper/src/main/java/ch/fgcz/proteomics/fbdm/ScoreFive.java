@@ -7,7 +7,7 @@ package ch.fgcz.proteomics.fbdm;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
-public class Score5 {
+public class ScoreFive {
     // NOT FINISHED YET
     protected static int calculateFifthScoringFeature(Connection connection,
             DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph, Configuration config) {

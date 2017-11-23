@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class GeneralTest {
+public class TestMassSpectrometryMeasurement {
     @Test
     public void test() {
         String s = "TesterinoData.RData";
@@ -43,9 +43,9 @@ public class GeneralTest {
             assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
         }
 
-        MassSpectrometrySummary.makeSummary(test);
-        MassSpectrometricMeasurementSerializer.serializeToJson("TestMSM.json", test);
-        MassSpectrometryMeasurement m = MassSpectrometricMeasurementSerializer.deserializeFromJson("TestMSM.json");
+        MassSpectrometryMeasurementSummary.makeSummary(test);
+        MassSpectrometryMeasurementSerializer.serializeToJson("TestMSM.json", test);
+        MassSpectrometryMeasurement m = MassSpectrometryMeasurementSerializer.deserializeFromJson("TestMSM.json");
 
         int n = 0;
         for (MassSpectrum i : m.getMSlist()) {

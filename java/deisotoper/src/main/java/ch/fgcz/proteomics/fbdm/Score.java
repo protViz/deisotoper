@@ -28,7 +28,7 @@ public class Score {
                         this.chargeValue, isotopicClusterOfPeakX, this.config)
                 + this.config.getFM3() * calculateThirdScoringFeature(peakX, peakY, this.config)
                 + this.config.getFM4() * calculateFourthScoringFeature(peakX, peakY, this.config) + this.config.getFM5()
-                        * Score5.calculateFifthScoringFeature(connection, this.isotopicClusterGraph, this.config);
+                        * ScoreFive.calculateFifthScoringFeature(connection, this.isotopicClusterGraph, this.config);
     }
 
     private static double diff1(Peak x, Peak y, Configuration config) {
