@@ -20,11 +20,11 @@ public class Peaklist {
     public Peaklist() {
     }
 
-    public Peaklist(MassSpectrum massspectrum) {
+    public Peaklist(MassSpectrum massSpectrum) {
         List<Peak> plist = new ArrayList<>();
 
-        for (int i = 0; i < massspectrum.getMz().size() || i < massspectrum.getIntensity().size(); i++) {
-            plist.add(new Peak(massspectrum.getMz().get(i), massspectrum.getIntensity().get(i), i));
+        for (int i = 0; i < massSpectrum.getMz().size() || i < massSpectrum.getIntensity().size(); i++) {
+            plist.add(new Peak(massSpectrum.getMz().get(i), massSpectrum.getIntensity().get(i), i));
         }
 
         this.peaklist = plist;

@@ -12,11 +12,11 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class WriteStdOut {
-    public static void write(MassSpectrometryMeasurement MSM) {
+    public static void write(MassSpectrometryMeasurement massSpectrometryMeasurement) {
         System.out.println(
                 "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
 
-        for (MassSpectrum MS : MSM.getMSlist()) {
+        for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
             System.out.println("BEGIN IONS");
 
             System.out.println("TITLE=" + MS.getTyp());

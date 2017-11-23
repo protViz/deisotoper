@@ -8,7 +8,7 @@ package ch.fgcz.proteomics.utilities;
 import java.util.Arrays;
 
 public class FindNearestNeighbor {
-    public static double[] findNN(double[] pattern, double[] data) {
+    public static double[] findNearestNeighbor(double[] pattern, double[] data) {
         double[] index = new double[pattern.length];
 
         for (int i = 0; i < pattern.length; i++) {

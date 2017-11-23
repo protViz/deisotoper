@@ -10,24 +10,24 @@ public class Peak {
     private double intensity;
     private double isotope;
     private int charge;
-    private int peakID;
-    private int isotopicclusterID;
-    private int isotopicsetID;
+    private int peakId;
+    private int isotopicClusterId;
+    private int isotopicSetId;
 
     public int getIsotopicClusterID() {
-        return isotopicclusterID;
+        return isotopicClusterId;
     }
 
     public void setIsotopicClusterID(int isotopicclusterID) {
-        this.isotopicclusterID = isotopicclusterID;
+        this.isotopicClusterId = isotopicclusterID;
     }
 
     public int getIsotopicSetID() {
-        return isotopicsetID;
+        return isotopicSetId;
     }
 
     public void setIsotopicSetID(int isotopicsetID) {
-        this.isotopicsetID = isotopicsetID;
+        this.isotopicSetId = isotopicsetID;
     }
 
     public double getIsotope() {
@@ -47,7 +47,7 @@ public class Peak {
     }
 
     public int getPeakID() {
-        return peakID;
+        return peakId;
     }
 
     public double getMz() {
@@ -66,30 +66,30 @@ public class Peak {
         this.intensity = intensity;
     }
 
-    public Peak(double mz, double intensity, int peakID) {
+    public Peak(double mz, double intensity, int peakId) {
         this.mz = mz;
         this.intensity = intensity;
-        this.peakID = peakID;
+        this.peakId = peakId;
         this.charge = -1;
         this.isotope = -1;
-        this.isotopicclusterID = -1;
-        this.isotopicsetID = -1;
+        this.isotopicClusterId = -1;
+        this.isotopicSetId = -1;
     }
 
-    public Peak(double mz, double intensity, double isotope, int charge, int peakID, int isotopicclusterID,
-            int isotopicsetID) {
+    public Peak(double mz, double intensity, double isotope, int charge, int peakID, int isotopicClusterId,
+            int isotopicSetId) {
         this.mz = mz;
         this.intensity = intensity;
-        this.peakID = peakID;
+        this.peakId = peakID;
         this.charge = charge;
         this.isotope = isotope;
-        this.isotopicclusterID = isotopicclusterID;
-        this.isotopicsetID = isotopicsetID;
+        this.isotopicClusterId = isotopicClusterId;
+        this.isotopicSetId = isotopicSetId;
     }
 
-    public boolean equals(Peak p) {
-        if (this.getMz() == p.getMz() && this.getIntensity() == p.getIntensity() && this.getCharge() == p.getCharge()
-                && this.getIsotope() == p.getIsotope()) {
+    public boolean equals(Peak peak) {
+        if (this.getMz() == peak.getMz() && this.getIntensity() == peak.getIntensity()
+                && this.getCharge() == peak.getCharge() && this.getIsotope() == peak.getIsotope()) {
             return true;
         } else {
             return false;

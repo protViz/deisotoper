@@ -16,30 +16,30 @@ import java.util.Scanner;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class ReadMGF {
-    public static MassSpectrometryMeasurement read(String file) {
-        String source = readHeader(file);
+    public static MassSpectrometryMeasurement read(String fileName) {
+        String source = readHeader(fileName);
 
         if (source == null) {
-            source = file;
+            source = fileName;
         }
 
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(source);
+        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(source);
 
-        MSM = readLocal(file, MSM);
+        massSpectrometryMeasurement = readLocal(fileName, massSpectrometryMeasurement);
 
-        return MSM;
+        return massSpectrometryMeasurement;
     }
 
-    private static String readHeader(String file) {
-        try (BufferedReader bufferedreader = new BufferedReader(new FileReader(file))) {
+    private static String readHeader(String fileName) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String line = "";
-            String[] partequal = line.split("=");
+            String[] partEqual = line.split("=");
 
-            while ((line = bufferedreader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 if (line.equals("BEGIN IONS")) {
                     break;
                 } else if (line.contains("COM")) {
-                    return partequal[1];
+                    return partEqual[1];
                 }
             }
         } catch (FileNotFoundException e) {
@@ -51,45 +51,47 @@ public class ReadMGF {
         return null;
     }
 
-    private static MassSpectrometryMeasurement readLocal(String file, MassSpectrometryMeasurement MSM) {
-        try (BufferedReader bufferedreader = new BufferedReader(new FileReader(file))) {
+    private static MassSpectrometryMeasurement readLocal(String fileName,
+            MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        try (BufferedReader bufferedreader = new BufferedReader(new FileReader(fileName))) {
             String line = "";
-            int chargestate = 0;
+            int chargeState = 0;
             int id = 0;
-            String searchengine = null;
+            String searchEngine = null;
             String typ = null;
-            double peptidmass = 0;
+            double peptidMass = 0;
             double rt = 0;
             List<Double> mz = new ArrayList<>();
             List<Double> intensity = new ArrayList<>();
 
             while ((line = bufferedreader.readLine()) != null) {
-                String[] partequal = line.split("=");
-                String[] partspace = line.split(" ");
+                String[] partEqual = line.split("=");
+                String[] partSpace = line.split(" ");
 
                 if (line.equals("BEGIN IONS")) {
-                    chargestate = 0;
-                    id = MSM.getMSlist().size();
-                    searchengine = null;
+                    chargeState = 0;
+                    id = massSpectrometryMeasurement.getMSlist().size();
+                    searchEngine = null;
                     typ = null;
-                    peptidmass = 0;
+                    peptidMass = 0;
                     rt = 0;
                     mz = new ArrayList<>();
                     intensity = new ArrayList<>();
                 } else if (line.equals("END IONS")) {
-                    MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+                    massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState,
+                            id);
                 } else if (line.contains("CHARGE")) {
-                    chargestate = Integer.parseInt(partequal[1].substring(0, 1));
+                    chargeState = Integer.parseInt(partEqual[1].substring(0, 1));
                 } else if (line.contains("TITLE")) {
-                    typ = partequal[1];
+                    typ = partEqual[1];
                 } else if (line.contains("RTINSECONDS")) {
-                    rt = Double.parseDouble(partequal[1]);
+                    rt = Double.parseDouble(partEqual[1]);
                 } else if (line.contains("PEPMASS")) {
-                    String[] pepmasssplit = partequal[1].split(" ");
-                    peptidmass = Double.parseDouble(pepmasssplit[0]);
-                } else if (isDouble(partspace[0]) && isDouble(partspace[1])) {
-                    mz.add(Double.parseDouble(partspace[0]));
-                    intensity.add(Double.parseDouble(partspace[1]));
+                    String[] peptidMassSplit = partEqual[1].split(" ");
+                    peptidMass = Double.parseDouble(peptidMassSplit[0]);
+                } else if (isDouble(partSpace[0]) && isDouble(partSpace[1])) {
+                    mz.add(Double.parseDouble(partSpace[0]));
+                    intensity.add(Double.parseDouble(partSpace[1]));
                 }
             }
         } catch (FileNotFoundException e) {
@@ -98,11 +100,11 @@ public class ReadMGF {
             e.printStackTrace();
         }
 
-        return MSM;
+        return massSpectrometryMeasurement;
     }
 
-    private static boolean isDouble(String str) {
-        Scanner scanner = new Scanner(str);
+    private static boolean isDouble(String string) {
+        Scanner scanner = new Scanner(string);
         boolean b = scanner.hasNextDouble();
         scanner.close();
 

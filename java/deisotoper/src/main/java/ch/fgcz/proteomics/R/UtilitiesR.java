@@ -12,16 +12,16 @@ import ch.fgcz.proteomics.utilities.Summary;
 
 public class UtilitiesR {
     public static double[] findNNR(double[] vector, double[] query) {
-        return FindNearestNeighbor.findNN(vector, query);
+        return FindNearestNeighbor.findNearestNeighbor(vector, query);
     }
 
-    public static String summaryMSMR(MassSpectrometryMeasurement massspectrometrymeasurement) {
-        return Summary.makeSummary(massspectrometrymeasurement);
+    public static String summaryMSMR(MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        return Summary.makeSummary(massSpectrometryMeasurement);
     }
 
-    public static String summaryMSR(MassSpectrum massspectrum) {
+    public static String summaryMSR(MassSpectrum massSpectrum) {
         MassSpectrometryMeasurement msm = new MassSpectrometryMeasurement("");
-        msm.getMSlist().add(massspectrum);
+        msm.getMSlist().add(massSpectrum);
 
         return Summary.makeSummary(msm);
     }

@@ -13,97 +13,102 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class Summary {
-    public static String makeSummary(MassSpectrometryMeasurement msm) {
-        StringBuilder summary = new StringBuilder();
-        String linesep = System.getProperty("line.separator");
-        summary.append("SpectrumID,Attribute,Value").append(linesep);
+    public static String makeSummary(MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String lineSep = System.getProperty("line.separator");
+        stringBuilder.append("SpectrumID,Attribute,Value").append(lineSep);
 
-        List<MassSpectrum> list = msm.getMSlist();
-        for (MassSpectrum spectrum : list) {
-            List<Double> dist = new ArrayList<>();
+        List<MassSpectrum> massSpectrumList = massSpectrometryMeasurement.getMSlist();
+        for (MassSpectrum massSpectrum : massSpectrumList) {
+            List<Double> distance = new ArrayList<>();
 
-            for (int i = 1; i < spectrum.getMz().size(); i++) {
-                dist.add(spectrum.getMz().get(i) - spectrum.getMz().get(i - 1));
+            for (int i = 1; i < massSpectrum.getMz().size(); i++) {
+                distance.add(massSpectrum.getMz().get(i) - massSpectrum.getMz().get(i - 1));
             }
 
             // summary.append(spectrum.getId()).append(",spectrum_type,").append(spectrum.getTyp()).append(linesep);
-            summary.append(spectrum.getId()).append(",nr_of_peaks,").append(spectrum.getMz().size()).append(linesep);
-            if (spectrum.getIntensity().size() != 0) {
-                summary.append(spectrum.getId()).append(",min_intensity,")
-                        .append(Collections.min(spectrum.getIntensity())).append(linesep);
-                summary.append(spectrum.getId()).append(",max_intensity,")
-                        .append(Collections.max(spectrum.getIntensity())).append(linesep);
+            stringBuilder.append(massSpectrum.getId()).append(",nr_of_peaks,").append(massSpectrum.getMz().size())
+                    .append(lineSep);
+            if (massSpectrum.getIntensity().size() != 0) {
+                stringBuilder.append(massSpectrum.getId()).append(",min_intensity,")
+                        .append(Collections.min(massSpectrum.getIntensity())).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_intensity,")
+                        .append(Collections.max(massSpectrum.getIntensity())).append(lineSep);
             } else {
-                summary.append(spectrum.getId()).append(",min_intensity,").append("0").append(linesep);
-                summary.append(spectrum.getId()).append(",max_intensity,").append("0").append(linesep);
+                stringBuilder.append(massSpectrum.getId()).append(",min_intensity,").append("0").append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_intensity,").append("0").append(lineSep);
             }
-            summary.append(spectrum.getId()).append(",sum_intensity,")
-                    .append(spectrum.getIntensity().stream().mapToDouble(f -> f.doubleValue()).sum()).append(linesep);
-            if (spectrum.getMz().size() != 0) {
-                summary.append(spectrum.getId()).append(",min_mass,").append(Collections.min(spectrum.getMz()))
-                        .append(linesep);
-                summary.append(spectrum.getId()).append(",max_mass,").append(Collections.max(spectrum.getMz()))
-                        .append(linesep);
+            stringBuilder.append(massSpectrum.getId()).append(",sum_intensity,")
+                    .append(massSpectrum.getIntensity().stream().mapToDouble(f -> f.doubleValue()).sum())
+                    .append(lineSep);
+            if (massSpectrum.getMz().size() != 0) {
+                stringBuilder.append(massSpectrum.getId()).append(",min_mass,")
+                        .append(Collections.min(massSpectrum.getMz())).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_mass,")
+                        .append(Collections.max(massSpectrum.getMz())).append(lineSep);
             } else {
-                summary.append(spectrum.getId()).append(",min_mass,").append("0").append(linesep);
-                summary.append(spectrum.getId()).append(",max_mass,").append("0").append(linesep);
+                stringBuilder.append(massSpectrum.getId()).append(",min_mass,").append("0").append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_mass,").append("0").append(lineSep);
             }
-            if (dist.size() != 0) {
-                summary.append(spectrum.getId()).append(",min_peak_distance,").append(Collections.min(dist))
-                        .append(linesep);
-                summary.append(spectrum.getId()).append(",max_peak_distance,").append(Collections.max(dist))
-                        .append(linesep);
+            if (distance.size() != 0) {
+                stringBuilder.append(massSpectrum.getId()).append(",min_peak_distance,")
+                        .append(Collections.min(distance)).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_peak_distance,")
+                        .append(Collections.max(distance)).append(lineSep);
             } else {
-                summary.append(spectrum.getId()).append(",min_peak_distance,").append("0").append(linesep);
-                summary.append(spectrum.getId()).append(",max_peak_distance,").append("0").append(linesep);
+                stringBuilder.append(massSpectrum.getId()).append(",min_peak_distance,").append("0").append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_peak_distance,").append("0").append(lineSep);
             }
-            summary.append(spectrum.getId()).append(",precursor_charge,").append(spectrum.getChargeState())
-                    .append(linesep);
-            summary.append(spectrum.getId()).append(",precursor_mass,").append(spectrum.getPeptideMass())
-                    .append(linesep);
-            summary.append(spectrum.getId()).append(",rt_in_seconds,").append(spectrum.getRt()).append(linesep);
-            if (!spectrum.getCharge().isEmpty() && !spectrum.getIsotope().isEmpty()) {
-                double chargesum = 0;
-                double isotopesum = 0;
-                int z1sum = 0;
-                int z2sum = 0;
-                int z3sum = 0;
-                int deisotopesum = 0;
+            stringBuilder.append(massSpectrum.getId()).append(",precursor_charge,")
+                    .append(massSpectrum.getChargeState()).append(lineSep);
+            stringBuilder.append(massSpectrum.getId()).append(",precursor_mass,").append(massSpectrum.getPeptideMass())
+                    .append(lineSep);
+            stringBuilder.append(massSpectrum.getId()).append(",rt_in_seconds,").append(massSpectrum.getRt())
+                    .append(lineSep);
+            if (!massSpectrum.getCharge().isEmpty() && !massSpectrum.getIsotope().isEmpty()) {
+                double chargeSum = 0;
+                double isotopeSum = 0;
+                int z1Sum = 0;
+                int z2Sum = 0;
+                int z3Sum = 0;
+                int deisotopeSum = 0;
                 int i = 0;
-                for (int c : spectrum.getCharge()) {
+                for (int c : massSpectrum.getCharge()) {
                     if (c != -1) {
                         if (c == 1) {
-                            z1sum++;
+                            z1Sum++;
                         } else if (c == 2) {
-                            z2sum++;
+                            z2Sum++;
                         } else if (c == 3) {
-                            z3sum++;
+                            z3Sum++;
                         }
-                        chargesum += c;
+                        chargeSum += c;
                         i++;
                     }
                 }
-                for (double iso : spectrum.getIsotope()) {
+                for (double iso : massSpectrum.getIsotope()) {
                     if (iso != -1) {
                         if (iso == 1) {
-                            deisotopesum++;
+                            deisotopeSum++;
                         }
-                        isotopesum += iso;
+                        isotopeSum += iso;
                     }
                 }
-                summary.append(spectrum.getId()).append(",average_charge,").append(chargesum / i).append(linesep);
-                summary.append(spectrum.getId()).append(",average_isotope,").append(isotopesum / i).append(linesep);
-                summary.append(spectrum.getId()).append(",sum_isotope,").append(deisotopesum).append(linesep);
-                summary.append(spectrum.getId()).append(",max_charge,").append(Collections.max(spectrum.getCharge()))
-                        .append(linesep);
-                summary.append(spectrum.getId()).append(",max_isotope,").append(Collections.max(spectrum.getIsotope()))
-                        .append(linesep);
-                summary.append(spectrum.getId()).append(",nr_z1,").append(z1sum).append(linesep);
-                summary.append(spectrum.getId()).append(",nr_z2,").append(z2sum).append(linesep);
-                summary.append(spectrum.getId()).append(",nr_z3,").append(z3sum).append(linesep);
+                stringBuilder.append(massSpectrum.getId()).append(",average_charge,").append(chargeSum / i)
+                        .append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",average_isotope,").append(isotopeSum / i)
+                        .append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",sum_isotope,").append(deisotopeSum).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_charge,")
+                        .append(Collections.max(massSpectrum.getCharge())).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",max_isotope,")
+                        .append(Collections.max(massSpectrum.getIsotope())).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",nr_z1,").append(z1Sum).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",nr_z2,").append(z2Sum).append(lineSep);
+                stringBuilder.append(massSpectrum.getId()).append(",nr_z3,").append(z3Sum).append(lineSep);
             }
         }
 
-        return summary.toString();
+        return stringBuilder.toString();
     }
 }

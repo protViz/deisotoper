@@ -125,8 +125,8 @@ public class MassSpectrum {
         return peptideMass;
     }
 
-    public void setPeptideMass(double peptidmass) {
-        this.peptideMass = peptidmass;
+    public void setPeptideMass(double peptidMass) {
+        this.peptideMass = peptidMass;
     }
 
     public double getRt() {
@@ -141,8 +141,8 @@ public class MassSpectrum {
         return chargeState;
     }
 
-    public void setChargeState(int chargestate) {
-        this.chargeState = chargestate;
+    public void setChargeState(int chargeState) {
+        this.chargeState = chargeState;
     }
 
     public MassSpectrum() {
@@ -170,8 +170,8 @@ public class MassSpectrum {
      * Peak Objects in one average List<Peak>, there would be 9000000 Objects. In
      * some tests with that structure we got many Java out of memory Errors.
      */
-    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass,
-            double rt, int chargestate, int id) {
+    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
+            double rt, int chargeState, int id) {
         if (!isSorted(mz)) {
             throw new IllegalArgumentException("The mZ-values are not sorted");
         }
@@ -180,14 +180,14 @@ public class MassSpectrum {
         this.setIntensity(intensity);
         this.setTyp(typ);
         this.setSearchEngine(searchEngine);
-        this.setPeptideMass(peptidmass);
+        this.setPeptideMass(peptidMass);
         this.setRt(rt);
-        this.setChargeState(chargestate);
+        this.setChargeState(chargeState);
         this.setId(id);
     }
 
-    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidmass,
-            double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
+    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
+            double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
             throw new IllegalArgumentException("The mZ-values are not sorted");
         }
@@ -198,9 +198,9 @@ public class MassSpectrum {
         this.setIsotope(isotope);
         this.setTyp(typ);
         this.setSearchEngine(searchEngine);
-        this.setPeptideMass(peptidmass);
+        this.setPeptideMass(peptidMass);
         this.setRt(rt);
-        this.setChargeState(chargestate);
+        this.setChargeState(chargeState);
         this.setId(id);
     }
 

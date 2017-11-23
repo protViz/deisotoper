@@ -17,50 +17,51 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class ReadStdIn {
     public static MassSpectrometryMeasurement read() {
-        InputStreamReader isr = new InputStreamReader(System.in);
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 
-        MassSpectrometryMeasurement MSM = new MassSpectrometryMeasurement(null);
+        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(null);
 
-        BufferedReader bufferedreader = new BufferedReader(isr);
+        BufferedReader bufferedreader = new BufferedReader(inputStreamReader);
         try {
             String line = "";
-            int chargestate = 0;
+            int chargeState = 0;
             int id = 0;
-            String searchengine = null;
+            String searchEngine = null;
             String typ = null;
-            double peptidmass = 0;
+            double peptidMass = 0;
             double rt = 0;
             List<Double> mz = new ArrayList<>();
             List<Double> intensity = new ArrayList<>();
 
             while ((line = bufferedreader.readLine()) != null) {
-                String[] partequal = line.split("=");
-                String[] partspace = line.split(" ");
+                String[] partEqual = line.split("=");
+                String[] partSpace = line.split(" ");
 
                 if (line.equals("BEGIN IONS")) {
-                    chargestate = 0;
-                    id = MSM.getMSlist().size();
-                    searchengine = null;
+                    chargeState = 0;
+                    id = massSpectrometryMeasurement.getMSlist().size();
+                    searchEngine = null;
                     typ = null;
-                    peptidmass = 0;
+                    peptidMass = 0;
                     rt = 0;
                     mz = new ArrayList<>();
                     intensity = new ArrayList<>();
                 } else if (line.equals("END IONS")) {
-                    MSM.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
+                    massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState,
+                            id);
                 } else if (line.contains("CHARGE")) {
-                    chargestate = Integer.parseInt(partequal[1].substring(0, 1));
+                    chargeState = Integer.parseInt(partEqual[1].substring(0, 1));
                 } else if (line.contains("TITLE")) {
-                    typ = partequal[1];
+                    typ = partEqual[1];
                 } else if (line.contains("RTINSECONDS")) {
-                    rt = Double.parseDouble(partequal[1]);
+                    rt = Double.parseDouble(partEqual[1]);
                 } else if (line.contains("PEPMASS")) {
-                    String[] pepmasssplit = partequal[1].split(" ");
-                    peptidmass = Double.parseDouble(pepmasssplit[0]);
-                } else if (partspace.length > 1) {
-                    if (isDouble(partspace[0]) && isDouble(partspace[1])) {
-                        mz.add(Double.parseDouble(partspace[0]));
-                        intensity.add(Double.parseDouble(partspace[1]));
+                    String[] pepmasssplit = partEqual[1].split(" ");
+                    peptidMass = Double.parseDouble(pepmasssplit[0]);
+                } else if (partSpace.length > 1) {
+                    if (isDouble(partSpace[0]) && isDouble(partSpace[1])) {
+                        mz.add(Double.parseDouble(partSpace[0]));
+                        intensity.add(Double.parseDouble(partSpace[1]));
                     }
                 }
             }
@@ -70,11 +71,11 @@ public class ReadStdIn {
             e.printStackTrace();
         }
 
-        return MSM;
+        return massSpectrometryMeasurement;
     }
 
-    private static boolean isDouble(String str) {
-        Scanner scanner = new Scanner(str);
+    private static boolean isDouble(String string) {
+        Scanner scanner = new Scanner(string);
         boolean b = scanner.hasNextDouble();
         scanner.close();
 

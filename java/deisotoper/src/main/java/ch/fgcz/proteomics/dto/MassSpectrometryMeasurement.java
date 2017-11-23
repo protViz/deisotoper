@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpectrometryMeasurement {
-    private List<MassSpectrum> massspectrumlist = new ArrayList<>();
+    private List<MassSpectrum> massSpectrumList = new ArrayList<>();
     private String source;
 
     public String getSource() {
@@ -21,11 +21,11 @@ public class MassSpectrometryMeasurement {
     }
 
     public List<MassSpectrum> getMSlist() {
-        return massspectrumlist;
+        return massSpectrumList;
     }
 
-    public void setMSlist(List<MassSpectrum> massspectrumlist) {
-        this.massspectrumlist = massspectrumlist;
+    public void setMSlist(List<MassSpectrum> massSpectrumList) {
+        this.massSpectrumList = massSpectrumList;
     }
 
     public MassSpectrometryMeasurement(String source) {
@@ -47,14 +47,14 @@ public class MassSpectrometryMeasurement {
                 .add(new MassSpectrum(typ, searchEngine, mzValues, intensityValues, peptideMass, rt, chargeState, id));
     }
 
-    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass,
-            double rt, int chargestate, int id) {
-        this.getMSlist().add(new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id));
+    public void addMS(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
+            double rt, int chargeState, int id) {
+        this.getMSlist().add(new MassSpectrum(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id));
     }
 
-    public void addMS(String typ, String searchengine, List<Double> mz, List<Double> intensity, double peptidmass,
-            double rt, int chargestate, int id, List<Integer> charge, List<Double> isotope) {
+    public void addMS(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
+            double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
         this.getMSlist().add(
-                new MassSpectrum(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id, charge, isotope));
+                new MassSpectrum(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id, charge, isotope));
     }
 }

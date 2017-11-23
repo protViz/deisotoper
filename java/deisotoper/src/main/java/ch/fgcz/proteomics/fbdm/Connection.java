@@ -7,8 +7,8 @@ package ch.fgcz.proteomics.fbdm;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 
+@SuppressWarnings("serial")
 public class Connection extends DefaultWeightedEdge {
-    private static final long serialVersionUID = 1L;
     private String color;
     private double score;
 

@@ -15,12 +15,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class MassSpectrometricMeasurementSerializer {
-    public static String serializeToJson(String filename, MassSpectrometryMeasurement massspectrometrymeasurement) {
+    public static String serializeToJson(String fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
         Gson gson = new Gson();
 
-        String data = gson.toJson(massspectrometrymeasurement);
+        String data = gson.toJson(massSpectrometryMeasurement);
 
-        try (PrintWriter out = new PrintWriter(filename)) {
+        try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(data);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -29,21 +29,21 @@ public class MassSpectrometricMeasurementSerializer {
         return data;
     }
 
-    public static MassSpectrometryMeasurement deserializeFromJson(String filename) {
+    public static MassSpectrometryMeasurement deserializeFromJson(String fileName) {
         Gson gson = new Gson();
 
         String data = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            StringBuilder stringbuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            StringBuilder stringbBuilder = new StringBuilder();
             String line = br.readLine();
 
             while (line != null) {
-                stringbuilder.append(line);
-                stringbuilder.append(System.lineSeparator());
+                stringbBuilder.append(line);
+                stringbBuilder.append(System.lineSeparator());
                 line = br.readLine();
             }
-            data = stringbuilder.toString();
+            data = stringbBuilder.toString();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

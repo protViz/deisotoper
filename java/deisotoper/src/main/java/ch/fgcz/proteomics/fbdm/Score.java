@@ -8,28 +8,27 @@ package ch.fgcz.proteomics.fbdm;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class Score {
-    private double errorvalue;
-    private double pepmassvalue;
-    private double chargevalue;
-    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> icg;
+    private double peptidMassValue;
+    private double chargeValue;
+    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph;
     private Configuration config;
 
-    public Score(double error, double pepmass, double charge,
-            DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicclustergraph, Configuration config) {
-        this.errorvalue = error;
-        this.pepmassvalue = pepmass;
-        this.chargevalue = charge;
-        this.icg = isotopicclustergraph;
+    public Score(double peptidMass, double charge,
+            DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph, Configuration config) {
+        this.peptidMassValue = peptidMass;
+        this.chargeValue = charge;
+        this.isotopicClusterGraph = isotopicClusterGraph;
         this.config = config;
     }
 
-    public double calculateScore(Peak peakx, Peak peaky, IsotopicCluster isotopicclusterofx, Connection connection) {
-        return this.config.getFM1() * calculateFirstScoringFeature(peakx, peaky, this.errorvalue, this.config)
-                + this.config.getFM2() * calculateSecondScoringFeature(peakx, peaky, this.errorvalue, this.pepmassvalue,
-                        this.chargevalue, isotopicclusterofx, this.config)
-                + this.config.getFM3() * calculateThirdScoringFeature(peakx, peaky, this.errorvalue, this.config)
-                + this.config.getFM4() * calculateFourthScoringFeature(peakx, peaky, this.errorvalue, this.config)
-                + this.config.getFM5() * Score5.calculateFifthScoringFeature(connection, this.icg, this.config);
+    public double calculateScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX,
+            Connection connection) {
+        return this.config.getFM1() * calculateFirstScoringFeature(peakX, peakY, this.config)
+                + this.config.getFM2() * calculateSecondScoringFeature(peakX, peakY, this.peptidMassValue,
+                        this.chargeValue, isotopicClusterOfPeakX, this.config)
+                + this.config.getFM3() * calculateThirdScoringFeature(peakX, peakY, this.config)
+                + this.config.getFM4() * calculateFourthScoringFeature(peakX, peakY, this.config) + this.config.getFM5()
+                        * Score5.calculateFifthScoringFeature(connection, this.isotopicClusterGraph, this.config);
     }
 
     private static double diff1(Peak x, Peak y, Configuration config) {
@@ -64,7 +63,7 @@ public class Score {
         return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    private static int calculateFirstScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    private static int calculateFirstScoringFeature(Peak x, Peak y, Configuration config) {
         int F1 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -85,12 +84,12 @@ public class Score {
                 double aa = config.getAA_MASS().get(i);
                 double aa2 = config.getAA_MASS2().get(i);
                 double aa3 = config.getAA_MASS3().get(i);
-                double aape = aa + errortolerance;
-                double aame = aa - errortolerance;
-                double aa2pe = aa2 + errortolerance;
-                double aa2me = aa2 - errortolerance;
-                double aa3pe = aa3 + errortolerance;
-                double aa3me = aa3 - errortolerance;
+                double aape = aa + config.getErrortolerance();
+                double aame = aa - config.getErrortolerance();
+                double aa2pe = aa2 + config.getErrortolerance();
+                double aa2me = aa2 - config.getErrortolerance();
+                double aa3pe = aa3 + config.getErrortolerance();
+                double aa3me = aa3 - config.getErrortolerance();
 
                 if ((aame < d1xy && d1xy < aape) || (aa2me < d1xy && d1xy < aa2pe) || (aa3me < d1xy && d1xy < aa3pe)
                         || (aa2me < d2xy && d2xy < aa2pe) || (aa2me < d2yx && d2yx < aa2pe)
@@ -104,8 +103,8 @@ public class Score {
         return F1;
     }
 
-    private static int calculateSecondScoringFeature(Peak x, Peak y, double errortolerance, double pepmass,
-            double charge, IsotopicCluster ic, Configuration config) {
+    private static int calculateSecondScoringFeature(Peak x, Peak y, double pepmass, double charge, IsotopicCluster ic,
+            Configuration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : ic.getIsotopicCluster()) {
@@ -123,38 +122,39 @@ public class Score {
         double s4yx = sum4(y, x, config);
         double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * config.getDistance() * i;
 
-        if (m2i + config.getH_MASSx2() - errortolerance < s1xy && s1xy < m2i + config.getH_MASSx2() + errortolerance) {
+        if (m2i + config.getH_MASSx2() - config.getErrortolerance() < s1xy
+                && s1xy < m2i + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - errortolerance < s1xy
-                && s1xy < m2i / 2 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 2 + config.getH_MASSx2() - config.getErrortolerance() < s1xy
+                && s1xy < m2i / 2 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s1xy
-                && s1xy < m2i / 3 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s1xy
+                && s1xy < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - errortolerance < s2xy
-                && s2xy < m2i / 2 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 2 + config.getH_MASSx2() - config.getErrortolerance() < s2xy
+                && s2xy < m2i / 2 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - errortolerance < s2yx
-                && s2yx < m2i / 2 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 2 + config.getH_MASSx2() - config.getErrortolerance() < s2yx
+                && s2yx < m2i / 2 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s3xy
-                && s3xy < m2i / 3 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s3xy
+                && s3xy < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s3yx
-                && s3yx < m2i / 3 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s3yx
+                && s3yx < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s4xy
-                && s4xy < m2i / 3 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s4xy
+                && s4xy < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - errortolerance < s4yx
-                && s4yx < m2i / 3 + config.getH_MASSx2() + errortolerance) {
+        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s4yx
+                && s4yx < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
             F2++;
         }
 
         return F2;
     }
 
-    private static int calculateThirdScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    private static int calculateThirdScoringFeature(Peak x, Peak y, Configuration config) {
         int F3 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -165,48 +165,66 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config));
         double d4yx = Math.abs(diff4(y, x, config));
 
-        if (config.getH2O_MASS() - errortolerance < d1xy && d1xy < config.getH2O_MASS() + errortolerance) {
+        if (config.getH2O_MASS() - config.getErrortolerance() < d1xy
+                && d1xy < config.getH2O_MASS() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASS() - errortolerance < d1xy && d1xy < config.getNH3_MASS() + errortolerance) {
+        } else if (config.getNH3_MASS() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH3_MASS() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd2() - errortolerance < d1xy && d1xy < config.getH2O_MASSd2() + errortolerance) {
+        } else if (config.getH2O_MASSd2() - config.getErrortolerance() < d1xy
+                && d1xy < config.getH2O_MASSd2() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd2() - errortolerance < d1xy && d1xy < config.getNH3_MASSd2() + errortolerance) {
+        } else if (config.getNH3_MASSd2() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH3_MASSd2() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - errortolerance < d1xy && d1xy < config.getH2O_MASSd3() + errortolerance) {
+        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d1xy
+                && d1xy < config.getH2O_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - errortolerance < d1xy && d1xy < config.getNH3_MASSd3() + errortolerance) {
+        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH3_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd2() - errortolerance < d2xy && d2xy < config.getH2O_MASSd2() + errortolerance) {
+        } else if (config.getH2O_MASSd2() - config.getErrortolerance() < d2xy
+                && d2xy < config.getH2O_MASSd2() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd2() - errortolerance < d2xy && d2xy < config.getNH3_MASSd2() + errortolerance) {
+        } else if (config.getNH3_MASSd2() - config.getErrortolerance() < d2xy
+                && d2xy < config.getNH3_MASSd2() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd2() - errortolerance < d2yx && d2yx < config.getH2O_MASSd2() + errortolerance) {
+        } else if (config.getH2O_MASSd2() - config.getErrortolerance() < d2yx
+                && d2yx < config.getH2O_MASSd2() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd2() - errortolerance < d2yx && d2yx < config.getNH3_MASSd2() + errortolerance) {
+        } else if (config.getNH3_MASSd2() - config.getErrortolerance() < d2yx
+                && d2yx < config.getNH3_MASSd2() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - errortolerance < d3xy && d3xy < config.getH2O_MASSd3() + errortolerance) {
+        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d3xy
+                && d3xy < config.getH2O_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - errortolerance < d3xy && d3xy < config.getNH3_MASSd3() + errortolerance) {
+        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d3xy
+                && d3xy < config.getNH3_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - errortolerance < d3yx && d3yx < config.getH2O_MASSd3() + errortolerance) {
+        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d3yx
+                && d3yx < config.getH2O_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - errortolerance < d3yx && d3yx < config.getNH3_MASSd3() + errortolerance) {
+        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d3yx
+                && d3yx < config.getNH3_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - errortolerance < d4xy && d4xy < config.getH2O_MASSd3() + errortolerance) {
+        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d4xy
+                && d4xy < config.getH2O_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - errortolerance < d4xy && d4xy < config.getNH3_MASSd3() + errortolerance) {
+        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d4xy
+                && d4xy < config.getNH3_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - errortolerance < d4yx && d4yx < config.getH2O_MASSd3() + errortolerance) {
+        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d4yx
+                && d4yx < config.getH2O_MASSd3() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - errortolerance < d4yx && d4yx < config.getNH3_MASSd3() + errortolerance) {
+        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d4yx
+                && d4yx < config.getNH3_MASSd3() + config.getErrortolerance()) {
             F3++;
         }
 
         return F3;
     }
 
-    private static int calculateFourthScoringFeature(Peak x, Peak y, double errortolerance, Configuration config) {
+    private static int calculateFourthScoringFeature(Peak x, Peak y, Configuration config) {
         int F4 = 0;
 
         double d1xy = Math.abs(diff1(x, y, config));
@@ -217,41 +235,59 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config));
         double d4yx = Math.abs(diff4(y, x, config));
 
-        if (config.getNH_MASS() - errortolerance < d1xy && d1xy < config.getCO_MASS() + errortolerance) {
+        if (config.getNH_MASS() - config.getErrortolerance() < d1xy
+                && d1xy < config.getCO_MASS() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASS() - errortolerance < d1xy && d1xy < config.getCO_MASS() + errortolerance) {
+        } else if (config.getCO_MASS() - config.getErrortolerance() < d1xy
+                && d1xy < config.getCO_MASS() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd2() - errortolerance < d1xy && d1xy < config.getNH_MASSd2() + errortolerance) {
+        } else if (config.getNH_MASSd2() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH_MASSd2() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd2() - errortolerance < d1xy && d1xy < config.getCO_MASSd2() + errortolerance) {
+        } else if (config.getCO_MASSd2() - config.getErrortolerance() < d1xy
+                && d1xy < config.getCO_MASSd2() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - errortolerance < d1xy && d1xy < config.getNH_MASSd3() + errortolerance) {
+        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - errortolerance < d1xy && d1xy < config.getCO_MASSd3() + errortolerance) {
+        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d1xy
+                && d1xy < config.getCO_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd2() - errortolerance < d2xy && d2xy < config.getNH_MASSd2() + errortolerance) {
+        } else if (config.getNH_MASSd2() - config.getErrortolerance() < d2xy
+                && d2xy < config.getNH_MASSd2() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd2() - errortolerance < d2xy && d2xy < config.getCO_MASSd2() + errortolerance) {
+        } else if (config.getCO_MASSd2() - config.getErrortolerance() < d2xy
+                && d2xy < config.getCO_MASSd2() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd2() - errortolerance < d2yx && d2yx < config.getNH_MASSd2() + errortolerance) {
+        } else if (config.getNH_MASSd2() - config.getErrortolerance() < d2yx
+                && d2yx < config.getNH_MASSd2() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd2() - errortolerance < d2yx && d2yx < config.getCO_MASSd2() + errortolerance) {
+        } else if (config.getCO_MASSd2() - config.getErrortolerance() < d2yx
+                && d2yx < config.getCO_MASSd2() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - errortolerance < d3xy && d3xy < config.getNH_MASSd3() + errortolerance) {
+        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d3xy
+                && d3xy < config.getNH_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - errortolerance < d3xy && d3xy < config.getCO_MASSd3() + errortolerance) {
+        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d3xy
+                && d3xy < config.getCO_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - errortolerance < d3yx && d3yx < config.getNH_MASSd3() + errortolerance) {
+        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d3yx
+                && d3yx < config.getNH_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - errortolerance < d3yx && d3yx < config.getCO_MASSd3() + errortolerance) {
+        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d3yx
+                && d3yx < config.getCO_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - errortolerance < d4xy && d4xy < config.getNH_MASSd3() + errortolerance) {
+        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d4xy
+                && d4xy < config.getNH_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - errortolerance < d4xy && d4xy < config.getCO_MASSd3() + errortolerance) {
+        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d4xy
+                && d4xy < config.getCO_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - errortolerance < d4yx && d4yx < config.getNH_MASSd3() + errortolerance) {
+        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d4yx
+                && d4yx < config.getNH_MASSd3() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - errortolerance < d4yx && d4yx < config.getCO_MASSd3() + errortolerance) {
+        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d4yx
+                && d4yx < config.getCO_MASSd3() + config.getErrortolerance()) {
             F4++;
         }
 

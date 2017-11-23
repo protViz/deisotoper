@@ -185,7 +185,7 @@ deisotope.list <- function(deisotoper, psmset) {
 #' @export
 #' @author Lucas Schmidt
 getDOTGraphs <- function(deisotoper) {
-  DOT <- .jcall(deisotoper$javaRef, "[S", "getDOT")
+  DOT <- .jcall(deisotoper$javaRef, "[S", "getDot")
   
   DOT
 }

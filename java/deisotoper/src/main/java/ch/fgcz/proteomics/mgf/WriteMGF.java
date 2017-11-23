@@ -17,31 +17,31 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class WriteMGF {
-    public static boolean write(String file, MassSpectrometryMeasurement MSM) {
-        File f = new File(file);
+    public static boolean write(String fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        File f = new File(fileName);
 
         if (f.exists()) {
-            System.err.println("WARNING: The requested output (" + file + ") exists already!");
+            System.err.println("WARNING: The requested output (" + fileName + ") exists already!");
             return false;
         }
 
-        return writeConnect(f, MSM);
+        return writeConnect(f, massSpectrometryMeasurement);
     }
 
-    private static boolean writeHeader(File file, MassSpectrometryMeasurement MSM) {
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
+    private static boolean writeHeader(File fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)))) {
             out.println(
                     "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
-            out.println("COM=" + MSM.getSource());
+            out.println("COM=" + massSpectrometryMeasurement.getSource());
         } catch (IOException e) {
             return false;
         }
         return true;
     }
 
-    private static boolean writeLocal(File file, MassSpectrometryMeasurement MSM) {
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
-            for (MassSpectrum MS : MSM.getMSlist()) {
+    private static boolean writeLocal(File fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)))) {
+            for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
                 out.println("BEGIN IONS");
 
                 out.println("TITLE=" + MS.getTyp());
@@ -61,9 +61,9 @@ public class WriteMGF {
         return true;
     }
 
-    private static boolean writeConnect(File file, MassSpectrometryMeasurement MSM) {
-        boolean header = writeHeader(file, MSM);
-        boolean local = writeLocal(file, MSM);
+    private static boolean writeConnect(File fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+        boolean header = writeHeader(fileName, massSpectrometryMeasurement);
+        boolean local = writeLocal(fileName, massSpectrometryMeasurement);
 
         if (local == false || header == false) {
             return false;

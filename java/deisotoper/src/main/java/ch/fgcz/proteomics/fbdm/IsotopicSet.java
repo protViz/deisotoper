@@ -18,10 +18,10 @@ public class IsotopicSet {
     private String dot;
     private List<IsotopicCluster> isotopicSet = new ArrayList<>();
     private List<IsotopicCluster> bestPath;
-    private int setID;
+    private int setId;
 
     public int getSetID() {
-        return setID;
+        return setId;
     }
 
     public List<IsotopicCluster> getIsotopicSet() {
@@ -64,26 +64,26 @@ public class IsotopicSet {
         setBestPath(massSpectrum, isotopicClusters, config);
 
         this.isotopicSet = isotopicClusters;
-        this.setID = setId;
+        this.setId = setId;
     }
 
-    private void setBestPath(MassSpectrum massspectrum, List<IsotopicCluster> isotopicclusters, Configuration config) {
-        IsotopicClusterGraph isotopicclustergraph = new IsotopicClusterGraph(isotopicclusters);
+    private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
+        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters);
 
-        isotopicclustergraph.scoreIsotopicClusterGraph(massspectrum.getPeptideMass(), massspectrum.getChargeState(),
-                config.getErrortolerance(), new Peaklist(massspectrum.getMz(), massspectrum.getIntensity()), config);
+        isotopicClusterGraph.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(), massSpectrum.getChargeState(),
+                new Peaklist(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
 
-        this.dot = isotopicclustergraph.toDOTGraph();
-        this.bestPath = isotopicclustergraph.bestPath(isotopicclustergraph.getStart(), isotopicclustergraph.getEnd())
+        this.dot = isotopicClusterGraph.toDOTGraph();
+        this.bestPath = isotopicClusterGraph.bestPath(isotopicClusterGraph.getStart(), isotopicClusterGraph.getEnd())
                 .getVertexList();
     }
 
-    private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicclusters,
-            List<Peak> isotopicset, int charge, Configuration config) {
-        for (Peak a : isotopicset) {
-            for (Peak b : isotopicset) {
+    private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
+            List<Peak> isotopicSet, int charge, Configuration config) {
+        for (Peak a : isotopicSet) {
+            for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
-                for (Peak c : isotopicset) {
+                for (Peak c : isotopicSet) {
                     List<Peak> ic = new ArrayList<>();
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
@@ -103,17 +103,17 @@ public class IsotopicSet {
 
                     if (ic.size() == 2 || ic.size() == 3) {
                         IsotopicCluster cluster = new IsotopicCluster(ic, charge, config);
-                        isotopicclusters.add(cluster);
+                        isotopicClusters.add(cluster);
                     }
                 }
             }
         }
 
-        return isotopicclusters;
+        return isotopicClusters;
     }
 
-    private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> isotopicclusters) {
-        Collections.sort(isotopicclusters, new Comparator<IsotopicCluster>() {
+    private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> isotopicClusters) {
+        Collections.sort(isotopicClusters, new Comparator<IsotopicCluster>() {
             @Override
             public int compare(IsotopicCluster cluster1, IsotopicCluster cluster2) {
                 int result = Double.compare(cluster1.getIsotopicCluster().get(0).getMz(),
@@ -135,14 +135,14 @@ public class IsotopicSet {
             }
         });
 
-        return isotopicclusters;
+        return isotopicClusters;
     }
 
-    private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicclusters) {
+    private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicClusters) {
         List<IsotopicCluster> result = new ArrayList<>();
         Set<List<Peak>> set = new HashSet<>();
 
-        for (IsotopicCluster cluster : isotopicclusters) {
+        for (IsotopicCluster cluster : isotopicClusters) {
             if (set.add(cluster.getIsotopicCluster())) {
                 result.add(cluster);
             }

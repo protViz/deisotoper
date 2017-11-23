@@ -6,19 +6,19 @@ package ch.fgcz.proteomics;
  */
 
 public class Version {
-    private static String versionOfDTO() {
-        return "Java Package: DTO, Date: 2017-11-22, Author: Lucas Schmidt";
+    private static String versionOfDto() {
+        return "Java Package: DTO, Date: 2017-11-23, Author: Lucas Schmidt";
     }
 
-    private static String versionOfFBDM() {
-        return "Java Package: FBDM, Date: 2017-11-22, Author: Lucas Schmidt";
+    private static String versionOfFbdm() {
+        return "Java Package: FBDM, Date: 2017-11-23, Author: Lucas Schmidt";
     }
 
-    private static String versionOfMSPY() {
+    private static String versionOfMspy() {
         return "Java Package: MSPY (Deprecated), Date: 2017-11-22, Author: Lucas Schmidt";
     }
 
-    private static String versionOfMGF() {
+    private static String versionOfMgf() {
         return "Java Package: MGF, sDate: 2017-11-22, Author: Lucas Schmidt";
     }
 
@@ -34,10 +34,10 @@ public class Version {
         String linesep = System.getProperty("line.separator");
         StringBuilder sb = new StringBuilder();
 
-        sb.append(versionOfDTO()).append(linesep);
-        sb.append(versionOfFBDM()).append(linesep);
-        sb.append(versionOfMSPY()).append(linesep);
-        sb.append(versionOfMGF()).append(linesep);
+        sb.append(versionOfDto()).append(linesep);
+        sb.append(versionOfFbdm()).append(linesep);
+        sb.append(versionOfMspy()).append(linesep);
+        sb.append(versionOfMgf()).append(linesep);
         sb.append(versionOfRAdapter()).append(linesep);
         sb.append(versionOfUtilities());
 
