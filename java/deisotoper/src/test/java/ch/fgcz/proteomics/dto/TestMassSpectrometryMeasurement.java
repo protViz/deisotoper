@@ -11,10 +11,10 @@ import org.junit.Test;
 
 public class TestMassSpectrometryMeasurement {
     @Test
-    public void test() {
-        String s = "TesterinoData.RData";
+    public void testMassSpectrometryMeasurementCreation() {
+        String s = "Unit Test Case";
 
-        String typ = "MS2 Spectrum";
+        String typ = "MS2";
         String searchengine = "mascot";
         double[] mz = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 };
         double[] intensity = { 4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0 };
@@ -23,7 +23,7 @@ public class TestMassSpectrometryMeasurement {
         int chargestate = 2;
         int id = 123;
 
-        String typ2 = "MS2 Spectrum";
+        String typ2 = "MS2";
         String searchengine2 = "mascot";
         double[] mz2 = { 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0 };
         double[] intensity2 = { 65.0, 44.0, 23.0, 88.0, 666.0, 451.0, 44.0, 22.0, 111.0, 1000.0 };
@@ -36,7 +36,7 @@ public class TestMassSpectrometryMeasurement {
         test.addMS(typ, searchengine, mz, intensity, peptidmass, rt, chargestate, id);
         test.addMS(typ2, searchengine2, mz2, intensity2, peptidmass2, rt2, chargestate2, id2);
 
-        assertEquals("Source must be right!", test.getSource(), "TesterinoData.RData");
+        assertEquals("Source must be right!", test.getSource(), "Unit Test Case");
 
         for (MassSpectrum i : test.getMSlist()) {
             assertEquals("Length of List must be correct", i.getMz().size(), 10);
@@ -44,15 +44,5 @@ public class TestMassSpectrometryMeasurement {
         }
 
         MassSpectrometryMeasurementSummary.makeSummary(test);
-        MassSpectrometryMeasurementSerializer.serializeToJson("TestMSM.json", test);
-        MassSpectrometryMeasurement m = MassSpectrometryMeasurementSerializer.deserializeFromJson("TestMSM.json");
-
-        int n = 0;
-        for (MassSpectrum i : m.getMSlist()) {
-            assertEquals("MSM must be same!", (String) i.getTyp(), (String) test.getMSlist().get(n).getTyp());
-            assertEquals("MSM must be same!", (String) i.getSearchEngine(),
-                    (String) test.getMSlist().get(n).getSearchEngine());
-            n++;
-        }
     }
 }

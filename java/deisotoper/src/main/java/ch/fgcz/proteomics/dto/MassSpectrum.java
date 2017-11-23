@@ -21,18 +21,6 @@ public class MassSpectrum {
     private int chargeState;
     private int id;
 
-    // Helper function for R
-    public int[] getChargeArray() {
-        int[] chargearray = new int[charge.size()];
-
-        for (int i = 0; i < chargearray.length; i++) {
-            chargearray[i] = charge.get(i);
-        }
-
-        return chargearray;
-    }
-
-    // Helper function for R
     public double[] getMzArray() {
         double[] mzarray = new double[mz.size()];
 
@@ -43,7 +31,6 @@ public class MassSpectrum {
         return mzarray;
     }
 
-    // Helper function for R
     public double[] getIntensityArray() {
         double[] intarray = new double[intensity.size()];
 
@@ -52,17 +39,6 @@ public class MassSpectrum {
         }
 
         return intarray;
-    }
-
-    // Helper function for R
-    public double[] getIsotopeArray() {
-        double[] isoarray = new double[isotope.size()];
-
-        for (int i = 0; i < isoarray.length; i++) {
-            isoarray[i] = isotope.get(i);
-        }
-
-        return isoarray;
     }
 
     public List<Integer> getCharge() {
@@ -93,10 +69,6 @@ public class MassSpectrum {
         return id;
     }
 
-    // public void setId(int id) {
-    // this.id = id;
-    // }
-
     public String getTyp() {
         return typ;
     }
@@ -126,10 +98,10 @@ public class MassSpectrum {
     }
 
     public MassSpectrum() {
-        this.mz = null;
-        this.intensity = null;
-        this.charge = null;
-        this.isotope = null;
+        this.mz = new ArrayList<>();
+        this.intensity = new ArrayList<>();
+        this.charge = new ArrayList<>();
+        this.isotope = new ArrayList<>();
         this.typ = null;
         this.searchEngine = null;
         this.id = 0;
@@ -138,18 +110,6 @@ public class MassSpectrum {
         this.peptideMass = 0;
     }
 
-    /**
-     * Why did we use two List<Double> instead of a Map<Double, Double> or a
-     * List<Peak>?
-     * 
-     * Firstly the Map<Double, Double> hasn't index operations and then it's hard to
-     * work with it in the future and also there would be problems if a key occurs
-     * more than one time. Secondly the List<Peak> would be a very big performance
-     * leak. The List<Peak> contains Peaks and each of these Peaks is a Object.
-     * Therefore, assumed we have for example 30000 MassSpectrum Objects and 300
-     * Peak Objects in one average List<Peak>, there would be 9000000 Objects. In
-     * some tests with that structure we got many Java out of memory Errors.
-     */
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
             double rt, int chargeState, int id) {
         if (!isSorted(mz)) {
@@ -158,8 +118,8 @@ public class MassSpectrum {
 
         this.mz = mz;
         this.intensity = intensity;
-        this.charge = null;
-        this.isotope = null;
+        this.charge = new ArrayList<>();
+        this.isotope = new ArrayList<>();
         this.typ = typ;
         this.searchEngine = searchEngine;
         this.id = id;
