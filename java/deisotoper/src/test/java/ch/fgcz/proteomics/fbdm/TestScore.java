@@ -11,7 +11,12 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+//TODO: Finish tests for Score!
 public class TestScore {
+    @Test
+    public void testScore() {
+    }
+
     /**
      * Tests the firstNonintensityFeature function.
      * 

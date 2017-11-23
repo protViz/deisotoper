@@ -12,8 +12,8 @@ import java.util.List;
 
 public class Configuration {
     private List<Double> aaMass = new ArrayList<Double>();
-    private List<Double> aaMassd2 = new ArrayList<>();
-    private List<Double> aaMassd3 = new ArrayList<>();
+    private List<Double> aaMassDividedTwo = new ArrayList<>();
+    private List<Double> aaMassDividedThree = new ArrayList<>();
     private double minimum = 0;
     private double maximum = Double.MAX_VALUE;
     private double F1 = 0.8;
@@ -35,15 +35,15 @@ public class Configuration {
     private final double PHE_MASS = 165.192;
     private final double ASP_MASS = 133.104;
     private final double AVE_UPDATED_MASS = 111.125;
-    private final double H_MASSx2 = 2 * H_MASS;
-    private final double H2O_MASSd2 = H2O_MASS / 2;
-    private final double H2O_MASSd3 = H2O_MASS / 3;
-    private final double NH3_MASSd2 = NH3_MASS / 2;
-    private final double NH3_MASSd3 = NH3_MASS / 3;
-    private final double NH_MASSd2 = NH_MASS / 2;
-    private final double NH_MASSd3 = NH_MASS / 2;
-    private final double CO_MASSd2 = CO_MASS / 2;
-    private final double CO_MASSd3 = CO_MASS / 3;
+    private final double H_MASS_MULTIPLIED_TWO = 2 * H_MASS;
+    private final double H2O_MASS_DIVIDED_TWO = H2O_MASS / 2;
+    private final double H2O_MASS_DIVIDED_THREE = H2O_MASS / 3;
+    private final double NH3_MASS_DIVIDED_TWO = NH3_MASS / 2;
+    private final double NH3_MASS_DIVIDED_THREE = NH3_MASS / 3;
+    private final double NH_MASS_DIVIDED_TWO = NH_MASS / 2;
+    private final double NH_MASS_DIVIDED_THREE = NH_MASS / 2;
+    private final double CO_MASS_DIVIDED_TWO = CO_MASS / 2;
+    private final double CO_MASS_DIVIDED_THREE = CO_MASS / 3;
 
     public boolean isDecharge() {
         return decharge;
@@ -65,8 +65,8 @@ public class Configuration {
         return noise;
     }
 
-    public double getNH_MASSd2() {
-        return NH_MASSd2;
+    public double getNH_MASS_DIVIDED_TWO() {
+        return NH_MASS_DIVIDED_TWO;
     }
 
     public double getDistance() {
@@ -93,36 +93,36 @@ public class Configuration {
         return F5;
     }
 
-    public double getNH_MASSd3() {
-        return NH_MASSd3;
+    public double getNH_MASS_DIVIDED_THREE() {
+        return NH_MASS_DIVIDED_THREE;
     }
 
-    public double getCO_MASSd2() {
-        return CO_MASSd2;
+    public double getCO_MASS_DIVIDED_TWO() {
+        return CO_MASS_DIVIDED_TWO;
     }
 
-    public double getCO_MASSd3() {
-        return CO_MASSd3;
+    public double getCO_MASS_DIVIDED_THREE() {
+        return CO_MASS_DIVIDED_THREE;
     }
 
-    public double getH2O_MASSd2() {
-        return H2O_MASSd2;
+    public double getH2O_MASS_DIVIDED_TWO() {
+        return H2O_MASS_DIVIDED_TWO;
     }
 
-    public double getH2O_MASSd3() {
-        return H2O_MASSd3;
+    public double getH2O_MASS_DIVIDED_THREE() {
+        return H2O_MASS_DIVIDED_THREE;
     }
 
-    public double getNH3_MASSd2() {
-        return NH3_MASSd2;
+    public double getNH3_MASS_DIVIDED_TWO() {
+        return NH3_MASS_DIVIDED_TWO;
     }
 
-    public double getNH3_MASSd3() {
-        return NH3_MASSd3;
+    public double getNH3_MASS_DIVIDED_THREE() {
+        return NH3_MASS_DIVIDED_THREE;
     }
 
-    public double getH_MASSx2() {
-        return H_MASSx2;
+    public double getH_MASS_MULTIPLIED_TWO() {
+        return H_MASS_MULTIPLIED_TWO;
     }
 
     public double getH_MASS() {
@@ -165,16 +165,16 @@ public class Configuration {
         return maximum;
     }
 
-    public List<Double> getAA_MASS() {
+    public List<Double> getAaMass() {
         return aaMass;
     }
 
-    public List<Double> getAA_MASS2() {
-        return aaMassd2;
+    public List<Double> getAaMassDividedTwo() {
+        return aaMassDividedTwo;
     }
 
-    public List<Double> getAA_MASS3() {
-        return aaMassd3;
+    public List<Double> getAaMassDividedThree() {
+        return aaMassDividedThree;
     }
 
     public Configuration() {
@@ -207,11 +207,11 @@ public class Configuration {
         this.modus = modus;
 
         for (Double x : this.aaMass) {
-            this.aaMassd2.add(x / 2);
-            this.aaMassd3.add(x / 3);
+            this.aaMassDividedTwo.add(x / 2);
+            this.aaMassDividedThree.add(x / 3);
         }
 
-        this.minimum = Collections.min(this.aaMassd3);
+        this.minimum = Collections.min(this.aaMassDividedThree);
         this.maximum = Collections.max(this.aaMass);
     }
 

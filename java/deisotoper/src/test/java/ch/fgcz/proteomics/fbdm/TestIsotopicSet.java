@@ -10,93 +10,48 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import ch.fgcz.proteomics.dto.MassSpectrum;
+import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 
 public class TestIsotopicSet {
-    private Peaklist peaklist;
-    private List<Peak> A;
-    private List<Peak> B;
-    private List<Peak> C;
-    private List<Peak> D;
-    private List<Peak> E;
-    private List<Peak> F;
+    @Test
+    public void testIsotopeSet() {
+        String source = "Unit Test Case";
+        String typ = "MS2";
+        String searchEngine = "mascot";
+        double[] mz = { 0.2, 1.001, 2.002, 2.503, 3.003, 10.0 };
+        double[] intensity = { 0.5, 2.0, 1.0, 1.0, 1.0, 3.0 };
+        double peptidMass = 309.22;
+        double rt = 383.34;
+        int chargeState = 2;
+        int id = 123;
 
-    @Before
-    public void setUp() {
-        // Example
-        List<Double> mz = Arrays.asList(0.2, 1.001, 2.002, 2.503, 3.003, 10.0);
-        List<Double> intensity = Arrays.asList(0.5, 2.0, 1.0, 1.0, 1.0, 3.0);
-        peaklist = new Peaklist(mz, intensity);
+        Configuration config = new Configuration();
 
-        // Possible Cluster for the example
-        A = Arrays.asList(new Peak(1.001, 2.0, 0), new Peak(2.002, 1.0, 0));
-        B = Arrays.asList(new Peak(1.001, 2.0, 0), new Peak(2.002, 1.0, 0), new Peak(3.003, 1.0, 0));
-        C = Arrays.asList(new Peak(2.002, 1.0, 0), new Peak(2.503, 1.0, 0));
-        D = Arrays.asList(new Peak(2.002, 1.0, 0), new Peak(2.503, 1.0, 0), new Peak(3.003, 1.0, 0));
-        E = Arrays.asList(new Peak(2.002, 1.0, 0), new Peak(3.003, 1.0, 0));
-        F = Arrays.asList(new Peak(2.503, 1.0, 0), new Peak(3.003, 1.0, 0));
-    }
+        List<Peak> isotopicSet = Arrays.asList(new Peak(1.001, 2.0, 1), new Peak(2.002, 1.0, 2),
+                new Peak(2.503, 1.0, 3), new Peak(3.003, 1.0, 4));
 
-    // @Test
-    // public void testIsotopeSet() {
-    // MassSpectrum massspectrum = new MassSpectrum();
-    // massspectrum.setMz(peaklist.getMz());
-    // massspectrum.setIntensity(peaklist.getIntensity());
-    // IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massspectrum, peaklist,
-    // 0.01, new Configuration(),
-    // new Deisotoper(), "first");
-    //
-    // assertEquals("Created IsotopicMassSpectrum should have one IsotopicSet",
-    // ims.getIsotopicMassSpectrum().size(),
-    // 1);
-    // assertEquals("Created IsotopicSet should have seven IsotopicCluster",
-    // ims.getIsotopicMassSpectrum().get(0).getIsotopicSet().size(), 7);
-    //
-    // for (IsotopicSet i : ims.getIsotopicMassSpectrum()) {
-    // assertPeaklistEquals(A, i.getIsotopicSet().get(0).getIsotopicCluster());
-    // assertPeaklistEquals(B, i.getIsotopicSet().get(1).getIsotopicCluster());
-    // assertPeaklistEquals(C, i.getIsotopicSet().get(2).getIsotopicCluster());
-    // assertPeaklistEquals(D, i.getIsotopicSet().get(3).getIsotopicCluster());
-    // assertPeaklistEquals(E, i.getIsotopicSet().get(4).getIsotopicCluster());
-    // assertPeaklistEquals(F, i.getIsotopicSet().get(5).getIsotopicCluster());
-    // }
-    // }
-    //
-    // @Test
-    // public void testIsotopeCluster() {
-    // MassSpectrum massspectrum = new MassSpectrum();
-    // massspectrum.setMz(peaklist.getMz());
-    // massspectrum.setIntensity(peaklist.getIntensity());
-    // IsotopicMassSpectrum ims = new IsotopicMassSpectrum(massspectrum, 0.01, new
-    // Configuration(), new Deisotoper(),
-    // "first");
-    // for (IsotopicSet i : ims.getIsotopicMassSpectrum()) {
-    // System.out.println(i.getIsotopicSet().get(0).getIsotopicCluster().toString());
-    // System.out.println(i.getIsotopicSet().get(1).getIsotopicCluster().toString());
-    // System.out.println(i.getIsotopicSet().get(2).getIsotopicCluster().toString());
-    // System.out.println(i.getIsotopicSet().get(3).getIsotopicCluster().toString());
-    // System.out.println(i.getIsotopicSet().get(4).getIsotopicCluster().toString());
-    // System.out.println(i.getIsotopicSet().get(5).getIsotopicCluster().toString());
-    // assertPeaklistEquals(A, i.getIsotopicSet().get(0).getIsotopicCluster());
-    // assertPeaklistEquals(B, i.getIsotopicSet().get(1).getIsotopicCluster());
-    // assertPeaklistEquals(C, i.getIsotopicSet().get(2).getIsotopicCluster());
-    // assertPeaklistEquals(D, i.getIsotopicSet().get(3).getIsotopicCluster());
-    // assertPeaklistEquals(E, i.getIsotopicSet().get(4).getIsotopicCluster());
-    // assertPeaklistEquals(F, i.getIsotopicSet().get(5).getIsotopicCluster());
-    // }
-    // }
+        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(source);
+        massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
 
-    private void assertPeaklistEquals(List<Peak> list, List<Peak> list2) {
-        assertEquals(list.size(), list2.size());
+        IsotopicSet isotopicSetResult = new IsotopicSet(massSpectrometryMeasurement.getMSlist().get(0), isotopicSet, 0,
+                config);
 
-        for (int i = 0; i < list.size() && i < list2.size(); i++) {
-            assertEquals("Mz-values should be same! " + list.get(i).getMz() + " - " + list2.get(i).getMz(),
-                    list.get(i).getMz(), list2.get(i).getMz(), 0.001);
-            assertEquals("Intensity-values should be same! " + list.get(i).getIntensity() + " - "
-                    + list2.get(i).getIntensity(), list.get(i).getIntensity(), list2.get(i).getIntensity(), 0);
-        }
+        String A = "(0) [ 1.001 2.002 ]";
+        String B = "(1) [ 1.001 2.002 3.003 ]";
+        String C = "(2) [ 2.002 2.503 ]";
+        String D = "(3) [ 2.002 2.503 3.003 ]";
+        String E = "(4) [ 2.002 3.003 ]";
+        String F = "(5) [ 2.503 3.003 ]";
+
+        assertEquals(isotopicSetResult.getIsotopicSet().size(), 7);
+
+        assertEquals(isotopicSetResult.getIsotopicSet().get(0).toString(), A);
+        assertEquals(isotopicSetResult.getIsotopicSet().get(1).toString(), B);
+        assertEquals(isotopicSetResult.getIsotopicSet().get(2).toString(), C);
+        assertEquals(isotopicSetResult.getIsotopicSet().get(3).toString(), D);
+        assertEquals(isotopicSetResult.getIsotopicSet().get(4).toString(), E);
+        assertEquals(isotopicSetResult.getIsotopicSet().get(5).toString(), F);
     }
 }

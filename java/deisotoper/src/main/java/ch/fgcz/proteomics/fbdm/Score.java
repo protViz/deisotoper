@@ -80,10 +80,10 @@ public class Score {
         if ((min < d1xy && d1xy < max) || (min < d2xy && d2xy < max) || (min < d2yx && d2yx < max)
                 || (min < d3xy && d3xy < max) || (min < d3yx && d3yx < max) || (min < d4xy && d4xy < max)
                 || (min < d4yx && d4yx < max)) {
-            for (int i = 0; i < config.getAA_MASS().size(); i++) {
-                double aa = config.getAA_MASS().get(i);
-                double aa2 = config.getAA_MASS2().get(i);
-                double aa3 = config.getAA_MASS3().get(i);
+            for (int i = 0; i < config.getAaMass().size(); i++) {
+                double aa = config.getAaMass().get(i);
+                double aa2 = config.getAaMassDividedTwo().get(i);
+                double aa3 = config.getAaMassDividedThree().get(i);
                 double aape = aa + config.getErrortolerance();
                 double aame = aa - config.getErrortolerance();
                 double aa2pe = aa2 + config.getErrortolerance();
@@ -122,32 +122,32 @@ public class Score {
         double s4yx = sum4(y, x, config);
         double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * config.getDistance() * i;
 
-        if (m2i + config.getH_MASSx2() - config.getErrortolerance() < s1xy
-                && s1xy < m2i + config.getH_MASSx2() + config.getErrortolerance()) {
+        if (m2i + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
+                && s1xy < m2i + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - config.getErrortolerance() < s1xy
-                && s1xy < m2i / 2 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
+                && s1xy < m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s1xy
-                && s1xy < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
+                && s1xy < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - config.getErrortolerance() < s2xy
-                && s2xy < m2i / 2 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s2xy
+                && s2xy < m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 2 + config.getH_MASSx2() - config.getErrortolerance() < s2yx
-                && s2yx < m2i / 2 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s2yx
+                && s2yx < m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s3xy
-                && s3xy < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s3xy
+                && s3xy < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s3yx
-                && s3yx < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s3yx
+                && s3yx < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s4xy
-                && s4xy < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s4xy
+                && s4xy < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
-        } else if (m2i / 3 + config.getH_MASSx2() - config.getErrortolerance() < s4yx
-                && s4yx < m2i / 3 + config.getH_MASSx2() + config.getErrortolerance()) {
+        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s4yx
+                && s4yx < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
         }
 
@@ -171,53 +171,53 @@ public class Score {
         } else if (config.getNH3_MASS() - config.getErrortolerance() < d1xy
                 && d1xy < config.getNH3_MASS() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd2() - config.getErrortolerance() < d1xy
-                && d1xy < config.getH2O_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
+                && d1xy < config.getH2O_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd2() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH3_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH3_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d1xy
-                && d1xy < config.getH2O_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
+                && d1xy < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH3_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd2() - config.getErrortolerance() < d2xy
-                && d2xy < config.getH2O_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
+                && d2xy < config.getH2O_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd2() - config.getErrortolerance() < d2xy
-                && d2xy < config.getNH3_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
+                && d2xy < config.getNH3_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd2() - config.getErrortolerance() < d2yx
-                && d2yx < config.getH2O_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
+                && d2yx < config.getH2O_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd2() - config.getErrortolerance() < d2yx
-                && d2yx < config.getNH3_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
+                && d2yx < config.getNH3_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d3xy
-                && d3xy < config.getH2O_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
+                && d3xy < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d3xy
-                && d3xy < config.getNH3_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
+                && d3xy < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d3yx
-                && d3yx < config.getH2O_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
+                && d3yx < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d3yx
-                && d3yx < config.getNH3_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
+                && d3yx < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d4xy
-                && d4xy < config.getH2O_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
+                && d4xy < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d4xy
-                && d4xy < config.getNH3_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
+                && d4xy < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getH2O_MASSd3() - config.getErrortolerance() < d4yx
-                && d4yx < config.getH2O_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
+                && d4yx < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
-        } else if (config.getNH3_MASSd3() - config.getErrortolerance() < d4yx
-                && d4yx < config.getNH3_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
+                && d4yx < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
         }
 
@@ -241,53 +241,53 @@ public class Score {
         } else if (config.getCO_MASS() - config.getErrortolerance() < d1xy
                 && d1xy < config.getCO_MASS() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd2() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd2() - config.getErrortolerance() < d1xy
-                && d1xy < config.getCO_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
+                && d1xy < config.getCO_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
+                && d1xy < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d1xy
-                && d1xy < config.getCO_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
+                && d1xy < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd2() - config.getErrortolerance() < d2xy
-                && d2xy < config.getNH_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
+                && d2xy < config.getNH_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd2() - config.getErrortolerance() < d2xy
-                && d2xy < config.getCO_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
+                && d2xy < config.getCO_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd2() - config.getErrortolerance() < d2yx
-                && d2yx < config.getNH_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
+                && d2yx < config.getNH_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd2() - config.getErrortolerance() < d2yx
-                && d2yx < config.getCO_MASSd2() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
+                && d2yx < config.getCO_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d3xy
-                && d3xy < config.getNH_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
+                && d3xy < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d3xy
-                && d3xy < config.getCO_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
+                && d3xy < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d3yx
-                && d3yx < config.getNH_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
+                && d3yx < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d3yx
-                && d3yx < config.getCO_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
+                && d3yx < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d4xy
-                && d4xy < config.getNH_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
+                && d4xy < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d4xy
-                && d4xy < config.getCO_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
+                && d4xy < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getNH_MASSd3() - config.getErrortolerance() < d4yx
-                && d4yx < config.getNH_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
+                && d4yx < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
-        } else if (config.getCO_MASSd3() - config.getErrortolerance() < d4yx
-                && d4yx < config.getCO_MASSd3() + config.getErrortolerance()) {
+        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
+                && d4yx < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F4++;
         }
 
