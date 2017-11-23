@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.utilities;
+package ch.fgcz.proteomics.dto;
 
 /**
  * @author Lucas Schmidt
@@ -12,7 +12,7 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-public class Summary {
+public class MassSpectrometrySummary {
     public static String makeSummary(MassSpectrometryMeasurement massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();
         String lineSep = System.getProperty("line.separator");

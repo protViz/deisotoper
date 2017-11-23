@@ -8,7 +8,6 @@ package ch.fgcz.proteomics.dto;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import ch.fgcz.proteomics.utilities.Summary;
 
 public class GeneralTest {
     @Test
@@ -44,7 +43,7 @@ public class GeneralTest {
             assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
         }
 
-        Summary.makeSummary(test);
+        MassSpectrometrySummary.makeSummary(test);
         MassSpectrometricMeasurementSerializer.serializeToJson("TestMSM.json", test);
         MassSpectrometryMeasurement m = MassSpectrometricMeasurementSerializer.deserializeFromJson("TestMSM.json");
 
