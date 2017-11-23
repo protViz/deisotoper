@@ -15,7 +15,6 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 public class Deisotoper {
     private Configuration config;
     private String annotatedSpectrum = null;
-    private List<String> dotGraphs = new ArrayList<>();
     private List<IsotopicSet> isotopicSets = new ArrayList<>();
 
     public Configuration getConfiguration() {
@@ -35,7 +34,11 @@ public class Deisotoper {
     }
 
     public List<String> getDotGraphs() {
-        return dotGraphs;
+        List<String> graph = new ArrayList<>();
+        for (IsotopicSet isotopicSet : this.isotopicSets) {
+            graph.add(isotopicSet.getDot());
+        }
+        return graph;
     }
 
     public List<IsotopicSet> getIsotopicSets() {
@@ -59,7 +62,7 @@ public class Deisotoper {
 
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
         this.annotatedSpectrum = null;
-        this.dotGraphs = new ArrayList<>();
+        //this.dotGraphs = new ArrayList<>();
         this.isotopicSets = new ArrayList<>();
 
         Peaklist peaklistIn = new Peaklist(massSpectrum);
@@ -156,7 +159,6 @@ public class Deisotoper {
         List<Double> mz = new ArrayList<>();
 
         for (IsotopicSet isotopicSet : this.isotopicSets) {
-            this.dotGraphs.add(isotopicSet.getDot());
 
             List<IsotopicCluster> bestpath = isotopicSet.getBestPath();
 
