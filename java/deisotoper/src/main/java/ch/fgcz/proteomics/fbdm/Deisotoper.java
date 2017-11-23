@@ -6,8 +6,6 @@ package ch.fgcz.proteomics.fbdm;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
@@ -70,11 +68,14 @@ public class Deisotoper {
 
         Peaklist peaklistAggregated = aggregatePeaks(peaklistIn);
 
-        Peaklist peaklistDecharged = dechargePeaks(peaklistAggregated);
+        if(config.isDecharge()) {
+            peaklistAggregated = Peaklist.dechargePeaks(peaklistAggregated, config.getH_MASS());
+        }
+        if (this.config.getNoise() != 0) {
+            peaklistAggregated = Peaklist.filterNoisePeaks(peaklistAggregated, config.getNoise());
+        }
 
-        Peaklist peaklistNoise = filterNoisePeaks(peaklistDecharged);
-
-        Peaklist peaklistOut = sortPeaks(peaklistNoise);
+        Peaklist peaklistOut = Peaklist.sortPeaks(peaklistAggregated);
 
         return makeResultSpectrum(massSpectrum, peaklistOut);
     }
@@ -139,7 +140,7 @@ public class Deisotoper {
 
         Peaklist peaklistIsotopicSets = getPeaklistFromIsotopicSets(peaklist);
 
-        this.annotatedSpectrum = saveAnnotatedSpectrum(peaklistIsotopicSets);
+        this.annotatedSpectrum = Peaklist.saveAnnotatedSpectrum(peaklistIsotopicSets);
     }
 
     private Peaklist getPeaklistFromIsotopicSets(Peaklist peaklist) {
@@ -195,83 +196,7 @@ public class Deisotoper {
             }
         }
 
-        return sortPeaks(peaklistOut);
+        return Peaklist.sortPeaks(peaklistOut);
     }
 
-    private Peaklist dechargePeaks(Peaklist peaklist) {
-        if (config.isDecharge() == true) {
-            Peaklist peaklistDecharged = new Peaklist();
-
-            for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
-                if (peaklist.getPeaklist().get(i).getCharge() > 1) {
-                    peaklistDecharged.getPeaklist().add(new Peak(
-                            peaklist.getPeaklist().get(i).getMz() * peaklist.getPeaklist().get(i).getCharge()
-                                    - (peaklist.getPeaklist().get(i).getCharge() - 1) * config.getH_MASS(),
-                            peaklist.getPeaklist().get(i).getIntensity(), peaklist.getPeaklist().get(i).getIsotope(), 1,
-                            peaklist.getPeaklist().get(i).getPeakID(),
-                            peaklist.getPeaklist().get(i).getIsotopicClusterID(),
-                            peaklist.getPeaklist().get(i).getIsotopicSetID()));
-                } else {
-                    peaklistDecharged.getPeaklist().add(new Peak(peaklist.getPeaklist().get(i).getMz(),
-                            peaklist.getPeaklist().get(i).getIntensity(), peaklist.getPeaklist().get(i).getIsotope(),
-                            peaklist.getPeaklist().get(i).getCharge(), peaklist.getPeaklist().get(i).getPeakID(),
-                            peaklist.getPeaklist().get(i).getIsotopicClusterID(),
-                            peaklist.getPeaklist().get(i).getIsotopicSetID()));
-                }
-            }
-
-            return peaklistDecharged;
-        } else {
-            return peaklist;
-        }
-    }
-
-    private Peaklist filterNoisePeaks(Peaklist peaklist) {
-        if (this.config.getNoise() != 0) {
-            List<Double> intensity = new ArrayList<>();
-            for (Peak peak : peaklist.getPeaklist()) {
-                intensity.add(peak.getIntensity());
-            }
-
-            double threshold = Collections.max(intensity) * config.getNoise() / 100;
-
-            Peaklist peaklistNoise = new Peaklist();
-            for (int i = 0; i < peaklist.getPeaklist().size(); i++) {
-                if (threshold < peaklist.getPeaklist().get(i).getIntensity()) {
-                    peaklistNoise.getPeaklist().add(peaklist.getPeaklist().get(i));
-                }
-            }
-
-            return peaklistNoise;
-        } else {
-            return peaklist;
-        }
-    }
-
-    private String saveAnnotatedSpectrum(Peaklist peaklist) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String lineSep = System.getProperty("line.separator");
-
-        stringBuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(lineSep);
-
-        for (Peak peak : peaklist.getPeaklist()) {
-            stringBuilder.append(peak.getIsotopicSetID()).append(",").append(peak.getIsotopicClusterID()).append(",")
-                    .append(peak.getPeakID()).append(",").append(peak.getCharge()).append(",").append(peak.getMz())
-                    .append(",").append(peak.getIntensity()).append(lineSep);
-
-        }
-
-        return stringBuilder.toString();
-    }
-
-    private Peaklist sortPeaks(Peaklist peaklist) {
-        Collections.sort(peaklist.getPeaklist(), new Comparator<Peak>() {
-            @Override
-            public int compare(Peak peakOne, Peak peakTwo) {
-                return Double.compare(peakOne.getMz(), peakTwo.getMz());
-            }
-        });
-
-        return peaklist;
-    }
 }
