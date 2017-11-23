@@ -140,14 +140,14 @@ public class IsotopicClusterGraph {
         }
     }
 
-    public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, Peaklist peaklist, Configuration config) {
+    public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, PeakList peakList, Configuration config) {
         Score score = new Score(peptidMass, chargeState, this.isotopicClusterGraph, config);
 
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
             double scoreSum = 0;
             if (this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster() != null) {
                 for (Peak peakX : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-                    for (Peak peakY : peaklist.getPeaklist()) {
+                    for (Peak peakY : peakList.getPeaklist()) {
                         if (peakX.getMz() > peakY.getMz()) {
                             continue;
                         }

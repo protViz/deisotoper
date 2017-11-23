@@ -76,7 +76,6 @@ public class IsotopicCluster {
 
     private IsotopicCluster aggregateFirst() {
         double intensitySum = this.sumIntensity();
-
         return this.rearrangeCluster(intensitySum);
     }
 

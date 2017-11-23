@@ -33,7 +33,14 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getBestPath() {
-        return bestPath;
+        List<IsotopicCluster> bestClusters = new ArrayList<>();
+        for (IsotopicCluster isotopicCluster: bestPath
+             ) {
+            if(isotopicCluster.getIsotopicCluster() != null){
+                bestClusters.add(isotopicCluster);
+            }
+        }
+        return bestClusters;
     }
 
     public IsotopicSet(MassSpectrum massSpectrum, List<Peak> isotopicSet, int setId, Configuration config) {
@@ -71,7 +78,7 @@ public class IsotopicSet {
         IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters);
 
         isotopicClusterGraph.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(), massSpectrum.getChargeState(),
-                new Peaklist(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
+                new PeakList(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
 
         this.dot = isotopicClusterGraph.toDOTGraph();
         this.bestPath = isotopicClusterGraph.bestPath(isotopicClusterGraph.getStart(), isotopicClusterGraph.getEnd())

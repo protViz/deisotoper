@@ -13,6 +13,7 @@ public class Peak {
     private int peakId;
     private int isotopicClusterId;
     private int isotopicSetId;
+    private boolean inSet = false;
 
     public int getIsotopicClusterID() {
         return isotopicClusterId;
@@ -60,6 +61,7 @@ public class Peak {
         this.isotopicSetId = -1;
     }
 
+    // TODO merge constructors
     public Peak(double mz, double intensity, double isotope, int charge, int peakID, int isotopicClusterId,
             int isotopicSetId) {
         this.mz = mz;
@@ -78,5 +80,13 @@ public class Peak {
         } else {
             return false;
         }
+    }
+
+    public void inSet() {
+        inSet = true;
+    }
+
+    public boolean isInSet() {
+        return inSet;
     }
 }
