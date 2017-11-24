@@ -35,9 +35,7 @@
 #' @param filename mgf
 #'
 #' @return \code{file.info(filename)}
-#' @export mgf
 mgf <- function(obj, filename = paste(tempfile(), 'mgf', sep='.')){
-  stopifnot(is.MSM(obj))
   message(paste("writing mgf to file", filename, "..."))
   .write_mgf_header(filename = filename)
   rv <- lapply(obj, function(x){.append_mgf(x, filename = filename)})

@@ -1,21 +1,23 @@
 #' Creates a deisotoper.
 #'
-#' @param amino_acid_masses List of amino acid masses used for scoring
-#' @param F1 F1 multiplier used for scoring
-#' @param F2 F2 multiplier used for scoring
-#' @param F3 F3 multiplier used for scoring
-#' @param F4 F4 multiplier used for scoring
-#' @param F5 F5 multiplier used for scoring
-#' @param delta Delta value used for clustering
-#' @param errortolerance Errortolerance used for scoring
-#' @param distance Distance between two peaks used by clustering
-#' @param noise Noise value for noise filtering (in percent)
-#' @param decharge De- and activates decharging
-#' @param modus Modus of aggregation ('first' or 'highest')
-#'
-#' @return deisotoper
+#' @param amino_acid_masses List of amino acid masses used for scoring.
+#' @param F1 F1 multiplier used for scoring.
+#' @param F2 F2 multiplier used for scoring.
+#' @param F3 F3 multiplier used for scoring.
+#' @param F4 F4 multiplier used for scoring.
+#' @param F5 F5 multiplier used for scoring.
+#' @param delta Delta value used for clustering.
+#' @param errortolerance Errortolerance used for scoring.
+#' @param distance Distance between two peaks used by clustering.
+#' @param noise Noise value for noise filtering (in percent).
+#' @param decharge De- and activates decharging.
+#' @param modus Modus of aggregation ('first' or 'highest').
+#' @param comment default is empty word.
+#' @references Features-Based Deisotoping Method for Tandem Mass Spectra \url{http://dx.doi.org/10.1155/2011/210805}.
+#' @return deisotoper as list of JavaRef 
+#' @import rJava
 #' @export deisotoper
-#' @aliases deisotope deisotope.list getAnnotatedSpectrum getDOTGraphs getSummary .plot .plotDOT getConfig
+#' @aliases deisotope deisotop deisotope.list plot.deisotoper print.deisotoper getDOTGraphs summary.deisotoper getConfig 
 #' @author Lucas Schmidt
 #'
 #' @examples
@@ -38,18 +40,20 @@
 #'
 #' # deisotope the data
 #' xd <- deisotope(dtoper, x)
-#' 
-#' # return the annotated spectrum of the above deisotoped data
-#' xas <- getAnnotatedSpectrum(dtoper)
-#' 
-#' # return the dot graphs of the above deisotoped data
-#' xdot <- getDOTGraphs(dtoper)
+#' summary.deisotoper(dtoper)
 #' 
 #' # plot the example data and the deisotoped data
-#' .plot(x, xd)
+#' op <- par(mfrow=c(2,2))
+#' plot.deisotoper(x, xd)
+#' plot.deisotoper(x, xd, xlim=c(275,285))
+#' plot.deisotoper(x, xd, xlim=c(790,795))
+#' plot.deisotoper(x, xd, xlim=c(901,910))
+#' par(op)
 #' 
-#' # draw one of the dot graphs
-#' .plotDOT(xdot[[1]])
+#' # return the annotated spectrum of the above deisotoped data
+#' print.deisotoper(dtoper)
+#'
+#' 
 #' 
 #' # EXAMPLE 2
 #' # standart configurated deisotoper with changed delta and decharging
@@ -57,13 +61,24 @@
 #' 
 #' # return the configuration of dtoper2
 #' config2 <- getConfig(dtoper2)
+#' 
+#' \dontrun{
+#' # return the GraphViz dot graphs of the above deisotoped data
+#' xdot <- getDOTGraphs(dtoper)
+#' 
+#' # draws the isotopic cluster graphs in the browser (html)
+#'   if(require(DiagrammeR)){
+#'     lapply(xdot, DiagrammeR::grViz)
+#'   }
+#' }
+#' 
 deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111, 'N' = 114.04293, 'D' = 115.02694, 'C' = 103.00919, 
                                                 'E' = 129.04259, 'Q' = 128.05858, 'G' = 57.02146, 'H' = 137.05891, 'I' = 113.08406, 
                                                 'L' = 113.08406, 'K' = 128.09496, 'M' = 131.04049, 'F' = 147.06841, 'P' = 97.05276, 
                                                 'S' = 87.03203, 'T' = 101.04768, 'W' = 186.07931, 'Y' = 163.06333, 'V' = 99.06841), 
                        F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, 
                        delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, 
-                       decharge = FALSE, modus = "first", comment = "no comment") {
+                       decharge = FALSE, modus = "first", comment = "") {
   dtoper <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotoping")
   
   if(0.5 > distance || distance > 1.5) {
@@ -115,12 +130,18 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
          as.vector(unlist(amino_acid_masses)), F1, F2, F3, F4, F5, 
          delta, errortolerance, distance, noise, 
          decharge, modus)
-  return(list(javaRef = dtoper, comment = comment))
+  
+  rv <- list(javaRef = dtoper, comment = comment)
+  class(rv) <- c('deisotoper', class(rv))
+  return(rv)
 }
 
 #' @export
 #' @author Lucas Schmidt
-deisotope <- function(deisotoper, massspectrum) {
+deisotope <- function(deisotoper, massspectrum, method="features-based") {
+  
+  stopifnot(method == "features-based")
+  
   if(!("mZ" %in% names(massspectrum))) {
     stop("mZ values are missing!")
   }
@@ -146,7 +167,7 @@ deisotope <- function(deisotoper, massspectrum) {
   }
   
   if(is.unsorted(massspectrum$mZ)){
-    idx<-order(x$mZ)
+    idx <- order(x$mZ)
     massspectrum$mZ <- massspectrum$mZ[idx]
     massspectrum$intensity <- massspectrum$intensity[idx]
   }
@@ -157,17 +178,19 @@ deisotope <- function(deisotoper, massspectrum) {
   .jcall(deisotoper$javaRef, "V", "setCharge", as.integer(massspectrum$charge))
   .jcall(deisotoper$javaRef, "V", "deisotope")
   
+  mzout <- NULL
+  intensityout<- NULL
   mzout <- .jcall(deisotoper$javaRef, "[D", "getMz")
   intensityout <- .jcall(deisotoper$javaRef, "[D", "getIntensity")
   
-  massspectrumout <- c(list(title = massspectrum$title,
+  massspectrumout <- list(title = massspectrum$title,
                rtinseconds = massspectrum$rtinseconds,
                charge = massspectrum$charge,
                scan = massspectrum$scan,
                pepmass = massspectrum$pepmass,
                mZ = mzout, 
                intensity = intensityout,
-               id = massspectrum$id))
+               id = massspectrum$id)
   
   return(massspectrumout)
 }
@@ -190,19 +213,20 @@ getDOTGraphs <- function(deisotoper) {
   DOT
 }
 
-#' @export
+#' @export print.deisotoper
+#' @importFrom utils read.csv
 #' @author Lucas Schmidt
-getAnnotatedSpectrum <- function(deisotoper) {
-  AS <- .jcall(deisotoper$javaRef, "S", "getAnnotatedSpectrum")
+print.deisotoper <- function(x, ...) {
+  AS <- .jcall(x$javaRef, "S", "getAnnotatedSpectrum")
   
   con <- textConnection(AS)
   read.csv(con, sep=',', header = TRUE)
 }
 
-#' @export
+#' @export summary.deisotoper
 #' @author Lucas Schmidt
-getSummary <- function(deisotoper) {
-  Summary <- .jcall(deisotoper$javaRef, "S", "getSummary")
+summary.deisotoper <- function(object, ...) {
+  Summary <- .jcall(object$javaRef, "S", "getSummary")
   
   con <- textConnection(Summary)
   read.csv(con, sep=',', header = TRUE)
@@ -217,32 +241,39 @@ getConfig <- function(deisotoper) {
   read.csv(con, sep=',', header = TRUE)
 }
 
-#' @export 
 #' @author Lucas Schmidt
 .plotDOT <- function(dot) {
   DiagrammeR::grViz(dot)
 }
 
-#' @export 
+#' @export plot.deisotoper
+#' @import graphics
 #' @author Lucas Schmidt
-.plot <- function(massspectrum1, massspectrum2, zoom = c(0, 2000)) {
-  maxintensity1 <- max(massspectrum1$intensity)
-  maxintensity2 <- max(massspectrum2$intensity)
+plot.deisotoper <- function(x, y, ...) {
   
-  if(maxintensity1 <= maxintensity2) {
-    plot(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99", axes = FALSE, xlim = zoom, ylim = c(0, maxintensity2 + 100))
-    lines(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099")
-    mtext(text =deparse(substitute(massspectrum2)), line = 2, adj = 0, col="blue")
-    mtext(text =deparse(substitute(massspectrum1)), line = 1, adj = 0, col="red")
-  } else if (maxintensity1 > maxintensity2) {
-    plot(x = massspectrum1$mZ, y = massspectrum1$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#FF000099", axes = FALSE, xlim = zoom, ylim = c(0, maxintensity1 + 100))
-    lines(x = massspectrum2$mZ, y = massspectrum2$intensity, type = "h", xlab = "mZ", ylab = "Intensity", col = "#0000FF99")
-    mtext(text =deparse(substitute(massspectrum1)), line = 2, adj = 0, col="red")
-    mtext(text =deparse(substitute(massspectrum2)), line = 1, adj = 0, col="blue")
-  }
+  plot(c(x$mZ, y$mZ), 
+       c(x$intensity, y$intensity),
+       type = "n", 
+       xlab = "m/Z",
+       ylab = "Intensity",
+       axes = FALSE, ...)
   
-  axis(side=1, at = c(massspectrum1$mZ, massspectrum2$mZ))
-  axis(side=2, at = seq(0, max(maxintensity1, maxintensity2) + 10000, by = 10000))
+  lines(x$mZ, 
+        x$intensity, 
+        type = "h", 
+        col = "#FF000099")
+  
+  lines(y$mZ, 
+        y$intensity, 
+        type = "h", 
+        col = "#0000FF99")
+  
+  mtext(text = deparse(substitute(y)), line = 2, adj = 0, col="blue")
+  mtext(text = deparse(substitute(x)), line = 1, adj = 0, col="red")
+  
+  axis(2)
+  axis(side=1, at = c(x$mZ, y$mZ))
+ # axis(side=2, at = seq(0, max(maxintensity1, maxintensity2) + 10000, by = 10000))
 }
 
 #' @export
@@ -294,7 +325,7 @@ findNN <- function (q, vec) {
   .jaddClassPath("inst/java/deisotoper.jar")
   .jclassPath()
   
-  jFindNN <- .jnew("ch.fgcz.proteomics.R.UtilitiesR")
+  jFindNN <- .jnew("ch.fgcz.proteomics.R.Utilities")
   
   idx <- .jcall(jFindNN, "[D", "findNNR", as.double(q), as.double(vec))
   

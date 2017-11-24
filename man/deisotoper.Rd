@@ -3,12 +3,12 @@
 \name{deisotoper}
 \alias{deisotoper}
 \alias{deisotope}
+\alias{deisotop}
 \alias{deisotope.list}
-\alias{getAnnotatedSpectrum}
+\alias{plot.deisotoper}
+\alias{print.deisotoper}
 \alias{getDOTGraphs}
-\alias{getSummary}
-\alias{.plot}
-\alias{.plotDOT}
+\alias{summary.deisotoper}
 \alias{getConfig}
 \title{Creates a deisotoper.}
 \usage{
@@ -19,35 +19,37 @@ deisotoper(amino_acid_masses = list(A = 71.03711, R = 156.10111, N =
   186.07931, Y = 163.06333, V = 99.06841), F1 = 0.8, F2 = 0.5, F3 = 0.1,
   F4 = 0.1, F5 = 0.1, delta = 0.003, errortolerance = 0.3,
   distance = 1.003, noise = 0, decharge = FALSE, modus = "first",
-  comment = "no comment")
+  comment = "")
 }
 \arguments{
-\item{amino_acid_masses}{List of amino acid masses used for scoring}
+\item{amino_acid_masses}{List of amino acid masses used for scoring.}
 
-\item{F1}{F1 multiplier used for scoring}
+\item{F1}{F1 multiplier used for scoring.}
 
-\item{F2}{F2 multiplier used for scoring}
+\item{F2}{F2 multiplier used for scoring.}
 
-\item{F3}{F3 multiplier used for scoring}
+\item{F3}{F3 multiplier used for scoring.}
 
-\item{F4}{F4 multiplier used for scoring}
+\item{F4}{F4 multiplier used for scoring.}
 
-\item{F5}{F5 multiplier used for scoring}
+\item{F5}{F5 multiplier used for scoring.}
 
-\item{delta}{Delta value used for clustering}
+\item{delta}{Delta value used for clustering.}
 
-\item{errortolerance}{Errortolerance used for scoring}
+\item{errortolerance}{Errortolerance used for scoring.}
 
-\item{distance}{Distance between two peaks used by clustering}
+\item{distance}{Distance between two peaks used by clustering.}
 
-\item{noise}{Noise value for noise filtering (in percent)}
+\item{noise}{Noise value for noise filtering (in percent).}
 
-\item{decharge}{De- and activates decharging}
+\item{decharge}{De- and activates decharging.}
 
-\item{modus}{Modus of aggregation ('first' or 'highest')}
+\item{modus}{Modus of aggregation ('first' or 'highest').}
+
+\item{comment}{default is empty word.}
 }
 \value{
-deisotoper
+deisotoper as list of JavaRef
 }
 \description{
 Creates a deisotoper.
@@ -72,18 +74,20 @@ x <- list(mZ = c(110.07172, 111.07504, 129.10249, 130.08649, 147.11302, 149.0450
 
 # deisotope the data
 xd <- deisotope(dtoper, x)
-
-# return the annotated spectrum of the above deisotoped data
-xas <- getAnnotatedSpectrum(dtoper)
-
-# return the dot graphs of the above deisotoped data
-xdot <- getDOTGraphs(dtoper)
+summary.deisotoper(dtoper)
 
 # plot the example data and the deisotoped data
-.plot(x, xd)
+op <- par(mfrow=c(2,2))
+plot.deisotoper(x, xd)
+plot.deisotoper(x, xd, xlim=c(275,285))
+plot.deisotoper(x, xd, xlim=c(790,795))
+plot.deisotoper(x, xd, xlim=c(901,910))
+par(op)
 
-# draw one of the dot graphs
-.plotDOT(xdot[[1]])
+# return the annotated spectrum of the above deisotoped data
+print.deisotoper(dtoper)
+
+
 
 # EXAMPLE 2
 # standart configurated deisotoper with changed delta and decharging
@@ -91,6 +95,20 @@ dtoper2 <- deisotoper(delta = 0.005, decharge = TRUE)
 
 # return the configuration of dtoper2
 config2 <- getConfig(dtoper2)
+
+\dontrun{
+# return the GraphViz dot graphs of the above deisotoped data
+xdot <- getDOTGraphs(dtoper)
+
+# draws the isotopic cluster graphs in the browser (html)
+  if(require(DiagrammeR)){
+    lapply(xdot, DiagrammeR::grViz)
+  }
+}
+
+}
+\references{
+Features-Based Deisotoping Method for Tandem Mass Spectra \url{http://dx.doi.org/10.1155/2011/210805}.
 }
 \author{
 Lucas Schmidt

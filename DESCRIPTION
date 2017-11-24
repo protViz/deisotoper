@@ -15,7 +15,7 @@ Depends: R (>= 3.3),
 Suggests: DiagrammeR,
   lattice, 
   roxygen2,
-  protViz (>= 0.2.37),
+  protViz (>= 0.2.45),
   shiny,
   testthat,
   knitr,
@@ -25,8 +25,7 @@ Description: implements a deisotoper algorithm and provides means of plots or vi
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
 BugReports: https://github.com/protViz/deisotoper/issues
-  deisotoper.R, 
-  zzz.R
+  deisotoper.R 
 LazyData: true
 NeedsCompilation: yes
 RoxygenNote: 6.0.1

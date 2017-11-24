@@ -5,7 +5,6 @@
 #' @param obj a mzXML object
 #'
 #' @return a psmSet object
-#' @export
 #'
 #' @examples
 #' \dontrun{
