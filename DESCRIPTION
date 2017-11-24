@@ -21,7 +21,7 @@ Suggests: DiagrammeR,
   knitr,
   rmarkdown
 SystemRequirements: Java (>= 6.0), GNU make
-Description: implements a deisotoper algorithm.
+Description: implements a deisotoper algorithm and provides means of plots or visualizing isotopes in mass spectrometric data.
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
 BugReports: https://github.com/protViz/deisotoper/issues
