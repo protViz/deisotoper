@@ -26,7 +26,7 @@ sudo R CMD javareconf
 
 ### from [deisotoper_0.0.1.tar.gz](http://fgcz-ms.uzh.ch/~lucas/deisotoper_0.0.1.tar.gz)
 
-Install the latest **JDK** and **R**. Then run in R:
+Install the latest **JDK**(>= 6.0) and **R**(>=3.4). Then run in R:
 
 ```
 install.packages(c('rJava', 'devtools', 'DiagrammeR', 'lattice', 'roxygen2', 'protViz', 'shiny', 'testthat', 'knitr'))
