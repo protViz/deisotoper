@@ -167,7 +167,7 @@ deisotope <- function(deisotoper, massspectrum, method="features-based") {
   }
   
   if(is.unsorted(massspectrum$mZ)){
-    idx <- order(x$mZ)
+    idx <- order(massspectrum$mZ)
     massspectrum$mZ <- massspectrum$mZ[idx]
     massspectrum$intensity <- massspectrum$intensity[idx]
   }
@@ -178,8 +178,6 @@ deisotope <- function(deisotoper, massspectrum, method="features-based") {
   .jcall(deisotoper$javaRef, "V", "setCharge", as.integer(massspectrum$charge))
   .jcall(deisotoper$javaRef, "V", "deisotope")
   
-  mzout <- NULL
-  intensityout<- NULL
   mzout <- .jcall(deisotoper$javaRef, "[D", "getMz")
   intensityout <- .jcall(deisotoper$javaRef, "[D", "getIntensity")
   
