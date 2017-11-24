@@ -26,13 +26,6 @@ public class Deisotoper {
     }
 
     public String getAnnotatedSpectrum() {
-        if (mergedPeakList.isEmpty()) {
-            try {
-                throw new Exception("You must run the deisotope method before you can get an annotated spectrum!");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         return mergedPeakList.saveAnnotatedSpectrum();
     }
 
