@@ -103,11 +103,11 @@ public class Score {
         return F1;
     }
 
-    private static int calculateSecondScoringFeature(Peak x, Peak y, double pepmass, double charge, IsotopicCluster ic,
-            Configuration config) {
+    private static int calculateSecondScoringFeature(Peak x, Peak y, double pepidMass, double charge,
+            IsotopicCluster isotopicCluster, Configuration config) {
         int F2 = 0;
         int i = 0;
-        for (Peak c : ic.getIsotopicCluster()) {
+        for (Peak c : isotopicCluster.getIsotopicCluster()) {
             if (c.getMz() == x.getMz() && c.getIntensity() == x.getIntensity()) {
                 break;
             }
@@ -120,7 +120,7 @@ public class Score {
         double s3yx = sum3(y, x, config);
         double s4xy = sum4(x, y, config);
         double s4yx = sum4(y, x, config);
-        double m2i = (pepmass * charge - charge * config.getH_MASS()) + 2 * config.getDistance() * i;
+        double m2i = (pepidMass * charge - charge * config.getH_MASS()) + 2 * config.getDistance() * i;
 
         if (m2i + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
                 && s1xy < m2i + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {

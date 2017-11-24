@@ -20,13 +20,13 @@ public class ScoreFive {
             double tMin = (p.getMz() / config.getASP_MASS()) * p.getIntensity();
             double tMean = (p.getMz() / config.getAVE_UPDATED_MASS()) * p.getIntensity();
             double tMeanOverlap = 0;
-            if (isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster() != null) {
-                if (i < isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster().size()) {
-                    tMeanOverlap = (isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster().get(i).getMz()
+            if (isotopicClusterGraph.getEdgeSource(connection).isNotNull()) {
+                if (i < isotopicClusterGraph.getEdgeSource(connection).size()) {
+                    tMeanOverlap = (isotopicClusterGraph.getEdgeSource(connection).getPeak(i).getMz()
                             / config.getAVE_UPDATED_MASS()) * p.getIntensity();
                 } else {
-                    tMeanOverlap = (isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()
-                            .get(isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster().size() - 1).getMz()
+                    tMeanOverlap = (isotopicClusterGraph.getEdgeSource(connection)
+                            .getPeak(isotopicClusterGraph.getEdgeSource(connection).size() - 1).getMz()
                             / config.getAVE_UPDATED_MASS()) * p.getIntensity();
                 }
             }

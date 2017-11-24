@@ -95,8 +95,8 @@ public class Deisotoper {
         PeakList resultPeakList = new PeakList();
 
         for (IsotopicCluster istotopicCluster : isotopicClusters) {
-            IsotopicCluster aggragetedCluster = istotopicCluster.aggregation(modus);
-            Peak peak = aggragetedCluster.getPeak(0);
+            IsotopicCluster aggregatedCluster = istotopicCluster.aggregation(modus);
+            Peak peak = aggregatedCluster.getPeak(0);
             resultPeakList.add(peak);
         }
 
