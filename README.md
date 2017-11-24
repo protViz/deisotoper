@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/protViz/deisotoper.svg)](https://travis-ci.org/protViz/deisotoper) 
+
 # deisotoper
 
 This package contains a Java implementation of 
@@ -15,7 +17,7 @@ Install the latest development version:
 ```
 install.packages(c('rJava', 'devtools'))
 library(devtools)
-install_git('https://github.com/protViz/deisotoper', build_vignettes = TRUE, quiet = FALSE, credentials = git2r::cred_user_pass("USERNAME", "PASSWORT"))
+install_git('https://github.com/protViz/deisotoper', build_vignettes = TRUE, quiet = FALSE)
 ```
 
 ```
@@ -27,7 +29,8 @@ sudo R CMD javareconf
 Install the latest **JDK**(>= 6.0) and **R**(>=3.4). Then run in R:
 
 ```
-install.packages(c('rJava', 'devtools', 'DiagrammeR', 'lattice', 'roxygen2', 'protViz', 'shiny', 'testthat', 'knitr'))
+install.packages(c('rJava', 'devtools', 'DiagrammeR', 'lattice', 'roxygen2',
+          'protViz', 'shiny', 'testthat', 'knitr'))
 install.packages("~/deisotoper_0.0.1.tar.gz", repos = NULL, type = "source")
 ```
 
