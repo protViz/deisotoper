@@ -9,7 +9,7 @@ test_that("test deisotoper::findNN", {
 
   # TEST 2
   DB <- sort(rnorm(100, mean=100, sd=10))
-  lapply(deisotoper::findNN(DB,DB) == 1:length(DB), expect_true)
+  lapply(deisotoper::findNN(DB, DB) == 1:length(DB), expect_true)
   
   # TEST 3 -- testing lower and upper index
   DB <- seq(-1, 1, length = 101)

@@ -3,7 +3,7 @@ Type: Package
 Title: Implementation, Development, and Evaluation of Algorithms for the Detection and Extraction of Isotope Pattern of a Mass Spectrometric Measurement
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch",
-	role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1975-3064")),
+	role = c("cre", "aut"), comment = c(ORCID = "0000-0003-1975-3064")),
 	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com",
 	role = c("ctb", "aut"), comment = c(ORCID = "0000-0003-4496-0487")),
 	person("Witold E.", "Wolski", role = c("ctb", "aut")))
@@ -22,7 +22,8 @@ Suggests: DiagrammeR,
   knitr,
   rmarkdown
 SystemRequirements: Java (>= 6.0), GNU make
-Description: implements a deisotoper algorithm and provides means of plots or visualizing isotopes in mass spectrometric data.
+Description: Implements a deisotoper algorithm and provides means of plots 
+  or visualizing isotopes in mass spectrometric data.
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
 BugReports: https://github.com/protViz/deisotoper/issues
@@ -30,4 +31,3 @@ BugReports: https://github.com/protViz/deisotoper/issues
 LazyData: true
 NeedsCompilation: yes
 RoxygenNote: 6.0.1
-VignetteBuilder: knitr
