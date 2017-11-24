@@ -13,11 +13,10 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 
 // TODO: Adjust tests!
 public class Deisotoper {
-    private Configuration config;
-    private String annotatedSpectrum = null;
-    private List<IsotopicSet> isotopicSets = new ArrayList<>();
     private PeakList peakList;
     private PeakList mergedPeakList;
+    private Configuration config;
+    private List<IsotopicSet> isotopicSets = new ArrayList<>();
 
     public Configuration getConfiguration() {
         return config;
@@ -28,14 +27,16 @@ public class Deisotoper {
     }
 
     public String getAnnotatedSpectrum() {
-        return PeakList.saveAnnotatedSpectrum(mergedPeakList);
+        return mergedPeakList.saveAnnotatedSpectrum();
     }
 
     public List<String> getDotGraphs() {
         List<String> graph = new ArrayList<>();
+
         for (IsotopicSet isotopicSet : this.isotopicSets) {
             graph.add(isotopicSet.getDot());
         }
+
         return graph;
     }
 
@@ -59,52 +60,57 @@ public class Deisotoper {
     }
 
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
-        this.annotatedSpectrum = null;
         this.isotopicSets = new ArrayList<>();
-
 
         generateIsotopicSets(massSpectrum);
 
         List<IsotopicCluster> bestClusters = getBestClusters();
+
         PeakList peakListAggregated = aggregate(bestClusters, config.getModus());
 
-        if(config.isDecharge()) {
-            peakListAggregated = PeakList.dechargePeaks(peakListAggregated, config.getH_MASS());
+        if (config.isDecharge()) {
+            peakListAggregated = peakListAggregated.dechargePeaks(config.getH_MASS());
         }
-        mergedPeakList = merge(peakListAggregated);
+
+        mergedPeakList = peakList.mergePeakLists(peakListAggregated);
 
         if (this.config.getNoise() != 0) {
-            mergedPeakList = PeakList.filterNoisePeaks(mergedPeakList, config.getNoise());
+            mergedPeakList = mergedPeakList.filterNoisePeaks(config.getNoise());
         }
 
-        this.mergedPeakList = PeakList.sortPeaks(mergedPeakList);
-        return PeakList.makeResultSpectrum(massSpectrum, mergedPeakList);
+        this.mergedPeakList = mergedPeakList.sortPeakList();
+
+        return mergedPeakList.makeResultSpectrum(massSpectrum);
     }
 
-    private PeakList merge(PeakList peakListAggregated) {
-        PeakList notInIsotopicSet = new PeakList();
-        for(Peak peak : peakList.getPeaklist()){
-            if(!peak.isInSet()){
-                notInIsotopicSet.add(peak);
-            }
-
+    private List<IsotopicCluster> getBestClusters() {
+        List<IsotopicCluster> bestClusters = new ArrayList<>();
+        for (IsotopicSet isotopicSet : this.isotopicSets) {
+            bestClusters.addAll(isotopicSet.getBestPath());
         }
-        notInIsotopicSet.getPeaklist().addAll(peakListAggregated.getPeaklist());
-        return notInIsotopicSet;
+        return bestClusters;
     }
 
+    private PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
+        PeakList resultPeakList = new PeakList();
 
-    // TODO : 1, 1.1, 1.5 then 1, 1.5 in isotopicSet
-    // TODO : 1, 1.1, 1.5 than all in isotopicSet.
+        for (IsotopicCluster istotopicCluster : isotopicClusters) {
+            IsotopicCluster aggragetedCluster = istotopicCluster.aggregation(modus);
+            Peak peak = aggragetedCluster.getPeak(0);
+            resultPeakList.add(peak);
+        }
+
+        return resultPeakList;
+    }
+
     private void generateIsotopicSets(MassSpectrum massSpectrum) {
-        peakList = new PeakList(massSpectrum);
+        this.peakList = new PeakList(massSpectrum);
 
         int id = 0;
-        for (int i = 0; i < peakList.getPeaklist().size(); i++) {
+        for (int i = 0; i < peakList.size(); i++) {
             List<Peak> isotopicSet = new ArrayList<>();
 
-            while (i < peakList.getPeaklist().size() - 1) {
-
+            while (i < peakList.size() - 1) {
                 boolean trigger = false;
                 double distance = peakList.get(i + 1).getMz() - peakList.get(i).getMz();
 
@@ -112,13 +118,12 @@ public class Deisotoper {
                     if ((config.getDistance() / charge) - config.getDelta() < distance
                             && distance < (config.getDistance() / charge) + config.getDelta()) {
                         if (isotopicSet.size() == 0) {
-                            Peak peak =  peakList.get(i);
-                            peak.inSet();
+                            Peak peak = peakList.get(i);
+                            peak.setInSet(true);
                             isotopicSet.add(peak);
                         }
-
-                        Peak peak =  peakList.get(i + 1);
-                        peak.inSet();
+                        Peak peak = peakList.get(i + 1);
+                        peak.setInSet(true);
                         isotopicSet.add(peak);
                         trigger = true;
                     }
@@ -137,29 +142,10 @@ public class Deisotoper {
 
                 this.isotopicSets.add(temporaryIsotopicSet);
 
-                if (isotopicSet.size() == peakList.getPeaklist().size()) {
+                if (isotopicSet.size() == peakList.size()) {
                     break;
                 }
             }
         }
     }
-
-    private List<IsotopicCluster> getBestClusters() {
-        List<IsotopicCluster> bestClusters = new ArrayList<>();
-        for (IsotopicSet isotopicSet : this.isotopicSets) {
-            bestClusters.addAll(isotopicSet.getBestPath());
-        }
-        return bestClusters;
-    }
-
-    static private PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus){
-       PeakList resultPeakList = new PeakList();
-        for (IsotopicCluster istotopicCluster: isotopicClusters ) {
-            IsotopicCluster aggragetedCluster = istotopicCluster.aggregation(modus);
-            Peak peak = aggragetedCluster.getIsotopicCluster().get(0);
-            resultPeakList.add( peak );
-        }
-        return resultPeakList;
-    }
-
 }

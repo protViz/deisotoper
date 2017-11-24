@@ -14,6 +14,14 @@ public class IsotopicCluster {
     private int clusterId;
     private String status;
 
+    public Peak getPeak(int i) {
+        return this.isotopicCluster.get(i);
+    }
+
+    public int size() {
+        return this.isotopicCluster.size();
+    }
+
     public int getClusterID() {
         return clusterId;
     }
@@ -74,8 +82,25 @@ public class IsotopicCluster {
         return stringBuilder.toString();
     }
 
+    public boolean isNotNull() {
+        if (this.isotopicCluster == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isNull() {
+        if (this.isotopicCluster == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private IsotopicCluster aggregateFirst() {
         double intensitySum = this.sumIntensity();
+
         return this.rearrangeCluster(intensitySum);
     }
 

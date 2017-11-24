@@ -15,12 +15,32 @@ public class Peak {
     private int isotopicSetId;
     private boolean inSet = false;
 
+    public void setIsotope(double isotope) {
+        this.isotope = isotope;
+    }
+
+    public void setInSet(boolean inSet) {
+        this.inSet = inSet;
+    }
+
+    public boolean isInSet() {
+        return inSet;
+    }
+
     public int getIsotopicClusterID() {
         return isotopicClusterId;
     }
 
+    public void setIsotopicClusterID(int clusterId) {
+        this.isotopicClusterId = clusterId;
+    }
+
     public int getIsotopicSetID() {
         return isotopicSetId;
+    }
+
+    public void setIsotopicSetID(int setId) {
+        this.isotopicSetId = setId;
     }
 
     public double getIsotope() {
@@ -29,6 +49,10 @@ public class Peak {
 
     public int getCharge() {
         return charge;
+    }
+
+    public void setCharge(int charge) {
+        this.charge = charge;
     }
 
     public int getPeakID() {
@@ -52,16 +76,9 @@ public class Peak {
     }
 
     public Peak(double mz, double intensity, int peakId) {
-        this.mz = mz;
-        this.intensity = intensity;
-        this.peakId = peakId;
-        this.charge = -1;
-        this.isotope = -1;
-        this.isotopicClusterId = -1;
-        this.isotopicSetId = -1;
+        this(mz, intensity, -1.0, -1, peakId, -1, -1);
     }
 
-    // TODO merge constructors
     public Peak(double mz, double intensity, double isotope, int charge, int peakID, int isotopicClusterId,
             int isotopicSetId) {
         this.mz = mz;
@@ -80,13 +97,5 @@ public class Peak {
         } else {
             return false;
         }
-    }
-
-    public void inSet() {
-        inSet = true;
-    }
-
-    public boolean isInSet() {
-        return inSet;
     }
 }

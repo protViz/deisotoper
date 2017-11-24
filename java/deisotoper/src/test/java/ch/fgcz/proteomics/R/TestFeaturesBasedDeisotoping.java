@@ -237,5 +237,8 @@ public class TestFeaturesBasedDeisotoping {
 
         System.out.println();
         System.out.println(dtoper.getAnnotatedSpectrum());
+
+        System.out.println();
+        System.out.println(dtoper.getDot()[1]);
     }
 }

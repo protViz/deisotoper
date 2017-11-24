@@ -49,8 +49,8 @@ public class IsotopicClusterGraph {
         stringBuilder.append("node [shape=box];").append(lineSep);
 
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
-            if (this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster() != null
-                    && this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster() != null) {
+            if (this.isotopicClusterGraph.getEdgeSource(connection).isNotNull()
+                    && this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
                 stringBuilder
                         .append("\"(" + this.isotopicClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
                 for (Peak peak : this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
@@ -66,8 +66,8 @@ public class IsotopicClusterGraph {
                                 + Math.round(connection.getScore() * 10000d) / 10000d + "\",weight=\""
                                 + connection.getScore() + "\"];")
                         .append(lineSep);
-            } else if (this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster() == null
-                    && this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster() != null) {
+            } else if (this.isotopicClusterGraph.getEdgeSource(connection).isNull()
+                    && this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
                 stringBuilder.append(this.isotopicClusterGraph.getEdgeSource(connection).getStatus());
                 stringBuilder.append(
                         " -> \"(" + this.isotopicClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
@@ -79,8 +79,8 @@ public class IsotopicClusterGraph {
                                 + Math.round(connection.getScore() * 10000d) / 10000d + "\",weight=\""
                                 + connection.getScore() + "\"];")
                         .append(lineSep);
-            } else if (this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster() == null
-                    && this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster() != null) {
+            } else if (this.isotopicClusterGraph.getEdgeTarget(connection).isNull()
+                    && this.isotopicClusterGraph.getEdgeSource(connection).isNotNull()) {
                 stringBuilder
                         .append("\"(" + this.isotopicClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
                 for (Peak peak : this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
@@ -110,12 +110,12 @@ public class IsotopicClusterGraph {
                 String color = calculateConnection(cluster1, cluster2);
 
                 // Start
-                if (color != null && cluster1.getIsotopicCluster() == null && cluster2.getIsotopicCluster() != null) {
+                if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
                     connectClusters(cluster1, cluster2, color);
                 }
 
                 // Other
-                if (color != null && cluster1.getIsotopicCluster() != null && cluster2.getIsotopicCluster() != null) {
+                if (color != null && cluster1.isNotNull() && cluster2.isNotNull()) {
                     connectClusters(cluster1, cluster2, color);
                 }
             }
@@ -145,9 +145,9 @@ public class IsotopicClusterGraph {
 
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
             double scoreSum = 0;
-            if (this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster() != null) {
+            if (this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
                 for (Peak peakX : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-                    for (Peak peakY : peakList.getPeaklist()) {
+                    for (Peak peakY : peakList.getPeakList()) {
                         if (peakX.getMz() > peakY.getMz()) {
                             continue;
                         }
@@ -166,7 +166,7 @@ public class IsotopicClusterGraph {
 
     public IsotopicCluster getStart() {
         for (IsotopicCluster cluster : this.isotopicClusterGraph.vertexSet()) {
-            if (cluster.getIsotopicCluster() == null && cluster.getStatus() == "start") {
+            if (cluster.isNull() && cluster.getStatus() == "start") {
                 return cluster;
             }
         }
@@ -175,7 +175,7 @@ public class IsotopicClusterGraph {
 
     public IsotopicCluster getEnd() {
         for (IsotopicCluster cluster : this.isotopicClusterGraph.vertexSet()) {
-            if (cluster.getIsotopicCluster() == null && cluster.getStatus() == "end") {
+            if (cluster.isNull() && cluster.getStatus() == "end") {
                 return cluster;
             }
         }
@@ -191,42 +191,38 @@ public class IsotopicClusterGraph {
     }
 
     private String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
-        if (cluster1.getIsotopicCluster() != null) {
-            if (cluster1.getIsotopicCluster().get(0).getMz() < this.minimum) {
-                this.minimum = cluster1.getIsotopicCluster().get(0).getMz();
+        if (cluster1.isNotNull()) {
+            if (cluster1.getPeak(0).getMz() < this.minimum) {
+                this.minimum = cluster1.getPeak(0).getMz();
             }
         }
 
-        if (cluster1.getStatus() == "start" && cluster2.getIsotopicCluster() != null
-                && cluster1.getIsotopicCluster() == null
-                && cluster2.getIsotopicCluster().get(0).getMz() == this.minimum) {
+        if (cluster1.getStatus() == "start" && cluster2.isNotNull() && cluster1.isNull()
+                && cluster2.getPeak(0).getMz() == this.minimum) {
             return "black";
         }
 
-        if (cluster1.getIsotopicCluster() == null || cluster2.getIsotopicCluster() == null) {
+        if (cluster1.isNull() || cluster2.isNull()) {
             return null;
         }
 
-        if (cluster1.getIsotopicCluster().get(cluster1.getIsotopicCluster().size() - 1).getMz() < cluster2
-                .getIsotopicCluster().get(0).getMz()) {
+        if (cluster1.getPeak(cluster1.size() - 1).getMz() < cluster2.getPeak(0).getMz()) {
             return "black";
         }
 
-        if (cluster1.getIsotopicCluster().get(0).getMz() < cluster2.getIsotopicCluster().get(0).getMz()) {
-            if (cluster1.getIsotopicCluster().size() == 2) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()) {
+        if (cluster1.getPeak(0).getMz() < cluster2.getPeak(0).getMz()) {
+            if (cluster1.size() == 2) {
+                if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()) {
                     return "red";
                 }
-            } else if (cluster1.getIsotopicCluster().size() == 3) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
-                        || cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(0)
-                                .getMz()) {
+            } else if (cluster1.size() == 3) {
+                if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()
+                        || cluster1.getPeak(2).getMz() == cluster2.getPeak(0).getMz()) {
                     return "red";
                 }
-            } else if (cluster1.getIsotopicCluster().size() == 3) {
-                if (cluster1.getIsotopicCluster().get(1).getMz() == cluster2.getIsotopicCluster().get(0).getMz()
-                        && cluster1.getIsotopicCluster().get(2).getMz() == cluster2.getIsotopicCluster().get(1)
-                                .getMz()) {
+            } else if (cluster1.size() == 3) {
+                if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()
+                        && cluster1.getPeak(2).getMz() == cluster2.getPeak(1).getMz()) {
                     return "red";
                 }
             }

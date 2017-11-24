@@ -11,7 +11,7 @@ public class Version {
     }
 
     private static String versionOfFbdm() {
-        return "Java Package: FBDM, Date: 2017-11-23, Author: Lucas Schmidt";
+        return "Java Package: FBDM, Date: 2017-11-24, Author: Lucas Schmidt";
     }
 
     private static String versionOfMspy() {
@@ -23,7 +23,7 @@ public class Version {
     }
 
     private static String versionOfRAdapter() {
-        return "Java Package: RAdapter, Date: 2017-11-22, Author: Lucas Schmidt";
+        return "Java Package: RAdapter, Date: 2017-11-24, Author: Lucas Schmidt";
     }
 
     private static String versionOfUtilities() {

@@ -34,9 +34,8 @@ public class IsotopicSet {
 
     public List<IsotopicCluster> getBestPath() {
         List<IsotopicCluster> bestClusters = new ArrayList<>();
-        for (IsotopicCluster isotopicCluster: bestPath
-             ) {
-            if(isotopicCluster.getIsotopicCluster() != null){
+        for (IsotopicCluster isotopicCluster : bestPath) {
+            if (isotopicCluster.isNotNull()) {
                 bestClusters.add(isotopicCluster);
             }
         }
@@ -63,8 +62,8 @@ public class IsotopicSet {
         isotopicClusters = sortIsotopicSet(isotopicClusters);
 
         int clusterId = 0;
-        for (IsotopicCluster cluster : isotopicClusters) {
-            cluster.setClusterID(clusterId);
+        for (IsotopicCluster isotopicCluster : isotopicClusters) {
+            isotopicCluster.setClusterID(clusterId);
             clusterId++;
         }
 
@@ -72,6 +71,18 @@ public class IsotopicSet {
 
         this.isotopicSet = isotopicClusters;
         this.setId = setId;
+
+        for (IsotopicCluster isotopicCluster : isotopicClusters) {
+            if (isotopicCluster.isNotNull()) {
+                int position = 1;
+                for (Peak peak : isotopicCluster.getIsotopicCluster()) {
+                    peak.setIsotopicSetID(setId);
+                    peak.setIsotopicClusterID(isotopicCluster.getClusterID());
+                    peak.setIsotope(position);
+                    position++;
+                }
+            }
+        }
     }
 
     private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
@@ -97,6 +108,8 @@ public class IsotopicSet {
 
                     if ((config.getDistance() / charge) - config.getDelta() < distanceab
                             && distanceab < (config.getDistance() / charge) + config.getDelta()) {
+                        a.setCharge(charge);
+                        b.setCharge(charge);
                         ic.add(a);
                         ic.add(b);
                     }
@@ -105,6 +118,7 @@ public class IsotopicSet {
                             && distancebc < (config.getDistance() / charge) + config.getDelta()
                             && ((config.getDistance() / charge) - config.getDelta()) * 2 < distanceac
                             && distanceac < ((config.getDistance() / charge) + config.getDelta()) * 2) {
+                        c.setCharge(charge);
                         ic.add(c);
                     }
 
@@ -123,16 +137,13 @@ public class IsotopicSet {
         Collections.sort(isotopicClusters, new Comparator<IsotopicCluster>() {
             @Override
             public int compare(IsotopicCluster cluster1, IsotopicCluster cluster2) {
-                int result = Double.compare(cluster1.getIsotopicCluster().get(0).getMz(),
-                        cluster2.getIsotopicCluster().get(0).getMz());
+                int result = Double.compare(cluster1.getPeak(0).getMz(), cluster2.getPeak(0).getMz());
 
                 if (result == 0) {
-                    result = Double.compare(cluster1.getIsotopicCluster().get(1).getMz(),
-                            cluster2.getIsotopicCluster().get(1).getMz());
+                    result = Double.compare(cluster1.getPeak(1).getMz(), cluster2.getPeak(1).getMz());
                     if (result == 0) {
-                        if (cluster1.getIsotopicCluster().size() == 3 && cluster2.getIsotopicCluster().size() == 3) {
-                            result = Double.compare(cluster1.getIsotopicCluster().get(2).getMz(),
-                                    cluster2.getIsotopicCluster().get(2).getMz());
+                        if (cluster1.size() == 3 && cluster2.size() == 3) {
+                            result = Double.compare(cluster1.getPeak(2).getMz(), cluster2.getPeak(2).getMz());
                             return result;
                         }
                     }
