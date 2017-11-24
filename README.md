@@ -3,8 +3,6 @@
 This package contains a Java implementation of 
 
 * [Features Based Deisotoping Method](https://github.com/protViz/deisotoper/tree/master/java/deisotoper/src/main/java/ch/fgcz/proteomics/fbdm)
-* [mMass](http://www.mmass.org/) (mspy)
-
 
 ## Installation
 
@@ -35,7 +33,7 @@ install.packages("~/deisotoper_0.0.1.tar.gz", repos = NULL, type = "source")
 
 ## Documentation
 
-The package ships with a package vignette `browseVignettes('deisotoper')` and a reference manual (just type `?deisotoper` on the R shell).
+The package ships with a package vignette `browseVignettes('deisotoper')` (>=0.1.0) and a reference manual (just type `?deisotoper` on the R shell).
 
 Both documents are also available on the package's ???  page.
 

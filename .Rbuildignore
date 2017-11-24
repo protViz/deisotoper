@@ -12,3 +12,8 @@
 ^.*inst/extdata.*$
 ^.*R/mzXML.*$
 ^.*R/mgf.*$
+^.*ExecDeisotoper.jar$
+^.*gson-2.8.1.jar$
+^.*class$
+^.*exec/.*$
+^.*maven-.*$

@@ -173,6 +173,7 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
 #' @param method the supported deisotope algorithm, default is \code{method="features-based"}.
 #' @seealso \code{\link{deisotoper}}
 #' @export deisotope
+#' @references Features-Based Deisotoping Method for Tandem Mass Spectra \url{http://dx.doi.org/10.1155/2011/210805}.
 #' @author Lucas Schmidt
 deisotope <- function(deisotoper, massspectrum, method="features-based") {
   
