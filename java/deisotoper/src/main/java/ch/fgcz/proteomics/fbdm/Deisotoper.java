@@ -12,10 +12,18 @@ import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class Deisotoper {
+    private boolean running = false;
     private PeakList peakList;
     private PeakList mergedPeakList;
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<>();
+
+    public void wasRunning() throws Exception {
+        if (running == false) {
+            throw new Exception(
+                    "You must run the deisotope method before you can get a annotated spectrum/dot graphs/summary");
+        }
+    }
 
     public Configuration getConfiguration() {
         return config;
@@ -59,6 +67,7 @@ public class Deisotoper {
     }
 
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
+        this.running = true;
         this.isotopicSets = new ArrayList<>();
 
         generateIsotopicSets(massSpectrum);

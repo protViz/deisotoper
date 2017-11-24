@@ -83,6 +83,12 @@ public class FeaturesBasedDeisotoping {
     }
 
     public String[] getDot() {
+        try {
+            this.deisotoper.wasRunning();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         String[] dotGraphs = new String[this.deisotoper.getDotGraphs().size()];
 
         for (int i = 0; i < this.deisotoper.getDotGraphs().size(); i++) {
@@ -93,10 +99,21 @@ public class FeaturesBasedDeisotoping {
     }
 
     public String getAnnotatedSpectrum() {
+        try {
+            this.deisotoper.wasRunning();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return this.deisotoper.getAnnotatedSpectrum();
     }
 
     public String getSummary() {
+        try {
+            this.deisotoper.wasRunning();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         MassSpectrum massspectrum = this.massSpectrum;
         int numberOfIsotopicSets = 0;
         int numberOfIsotopicClusters = 0;
