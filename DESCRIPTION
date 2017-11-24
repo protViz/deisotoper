@@ -4,13 +4,14 @@ Title: Implementation, Development, and Evaluation of Algorithms for the Detecti
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch",
 	role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1975-3064")),
-	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = c("ctb", "aut")),
+	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com",
+	role = c("ctb", "aut"), comment = c(ORCID = "0000-0003-4496-0487")),
 	person("Witold E.", "Wolski", role = c("ctb", "aut")))
-Author: Christian Panse [aut, cre] (0000-0003-1975-3064),
-	Lucas Schmidt [ctb, aut],
+Author: Christian Panse [cre, aut] (0000-0003-1975-3064),
+	Lucas Schmidt [ctb, aut] (0000-0003-4496-0487),
 	Witold E. Wolski [ctb, aut]
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
-Depends: R (>= 3.3),
+Depends: R (>= 3.4.2),
 	rJava (>= 0.9)
 Suggests: DiagrammeR,
   lattice, 
