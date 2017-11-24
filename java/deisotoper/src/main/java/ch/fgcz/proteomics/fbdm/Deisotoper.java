@@ -11,7 +11,6 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-// TODO: Adjust tests!
 public class Deisotoper {
     private PeakList peakList;
     private PeakList mergedPeakList;
@@ -27,6 +26,13 @@ public class Deisotoper {
     }
 
     public String getAnnotatedSpectrum() {
+        if (mergedPeakList.isEmpty()) {
+            try {
+                throw new Exception("You must run the deisotope method before you can get an annotated spectrum!");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return mergedPeakList.saveAnnotatedSpectrum();
     }
 

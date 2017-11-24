@@ -15,6 +15,14 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 public class PeakList {
     private List<Peak> peakList = new ArrayList<>();
 
+    public boolean isEmpty() {
+        if (peakList.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public List<Peak> getPeakList() {
         return peakList;
     }
