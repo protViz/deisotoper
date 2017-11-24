@@ -4,8 +4,8 @@ Title: Implementation, Development, and Evaluation of Algorithms for the Detecti
 Version: 0.0.1
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch",
 	role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1975-3064")),
-	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = c("aut", "ctb")),
-	person("Witold E.", "Wolski", role = "ctb"))
+	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com", role = c("ctb", "aut")),
+	person("Witold E.", "Wolski", role = c("ctb", "aut")))
 Author: Christian Panse [aut, cre] (0000-0003-1975-3064),
 	Lucas Schmidt [ctb, aut],
 	Witold E. Wolski [ctb, aut]
