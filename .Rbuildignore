@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.*git.*
-^java.*
 ^LICENSE
 ^.*vignettes/report.*$
 ^.*vignettes/.*.html$
@@ -17,3 +16,5 @@
 ^.*class$
 ^.*exec/.*$
 ^.*maven-.*$
+^.*MassSpectrometryMeasurementSummary.java$
+^.*MassSpectrometryMeasurementSerializer.java$
