@@ -40,8 +40,6 @@ public class IsotopicSet {
             }
         }
 
-        System.out.println("bestpath: " + bestPath.toString());
-
         return bestClusters;
     }
 
@@ -90,8 +88,7 @@ public class IsotopicSet {
     }
 
     private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
-
-        List<IsotopicCluster> isotopicClusters2 = removeDoubleClustersIfExist(isotopicClusters);
+        List<IsotopicCluster> isotopicClusters2 = removeDoubleClusterLeaveTripleCluster(isotopicClusters);
 
         IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters2);
 
@@ -103,29 +100,29 @@ public class IsotopicSet {
                 .getVertexList();
     }
 
-    private List<IsotopicCluster> removeDoubleClustersIfExist(List<IsotopicCluster> isotopicClusters) {
-        boolean hasThree = false;
-
-        for (IsotopicCluster cluster : isotopicClusters) {
-            if (cluster.size() == 3) {
-                hasThree = true;
-                System.out.println(hasThree);
-            }
-        }
-
+    private List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
         List<IsotopicCluster> isotopicClusters2 = new ArrayList<>();
 
-        if (hasThree) {
-            for (IsotopicCluster cluster : isotopicClusters) {
-                if (cluster.size() == 3) {
-                    isotopicClusters2.add(cluster);
+        for (IsotopicCluster cluster1 : isotopicClusters) {
+            for (IsotopicCluster cluster2 : isotopicClusters) {
+                if (cluster1.size() == 3 && cluster2.size() == 2) {
+                    if (cluster1.getPeak(1).equals(cluster2.getPeak(0))
+                            && cluster1.getPeak(2).equals(cluster2.getPeak(1))) {
+                        isotopicClusters2.add(cluster2);
+                    }
+                }
+                if (cluster1.size() == 2 && cluster2.size() == 3) {
+                    if (cluster1.getPeak(0).equals(cluster2.getPeak(0))
+                            && cluster1.getPeak(1).equals(cluster2.getPeak(1))) {
+                        isotopicClusters2.add(cluster1);
+                    }
                 }
             }
-        } else {
-            isotopicClusters2 = isotopicClusters;
         }
 
-        return isotopicClusters2;
+        isotopicClusters.removeAll(removeMultipleIsotopicCluster(isotopicClusters2));
+
+        return isotopicClusters;
     }
 
     private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
