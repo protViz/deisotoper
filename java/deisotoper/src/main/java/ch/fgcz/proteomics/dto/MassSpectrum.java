@@ -21,6 +21,61 @@ public class MassSpectrum {
     private int chargeState;
     private int id;
 
+
+    public MassSpectrum() {
+        this.mz = new ArrayList<>();
+        this.intensity = new ArrayList<>();
+        this.charge = new ArrayList<>();
+        this.isotope = new ArrayList<>();
+        this.typ = null;
+        this.searchEngine = null;
+        this.id = 0;
+        this.rt = 0;
+        this.chargeState = 0;
+        this.peptideMass = 0;
+    }
+
+    public MassSpectrum(List<Double> mz, List<Double> intensity) {
+        this(null,null,  mz, intensity, 0, 0, 0, 0);
+    }
+
+    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
+                        double rt, int chargeState, int id) {
+        if (!isSorted(mz)) {
+            throw new IllegalArgumentException("The mZ-values are not sorted!");
+        }
+
+        this.mz = mz;
+        this.intensity = intensity;
+        this.charge = new ArrayList<>();
+        this.isotope = new ArrayList<>();
+        this.typ = typ;
+        this.searchEngine = searchEngine;
+        this.id = id;
+        this.rt = rt;
+        this.chargeState = chargeState;
+        this.peptideMass = peptidMass;
+    }
+
+    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
+                        double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
+        if (!isSorted(mz)) {
+            throw new IllegalArgumentException("The mZ-values are not sorted!");
+        }
+
+        this.mz = mz;
+        this.intensity = intensity;
+        this.charge = charge;
+        this.isotope = isotope;
+        this.typ = typ;
+        this.searchEngine = searchEngine;
+        this.id = id;
+        this.rt = rt;
+        this.chargeState = chargeState;
+        this.peptideMass = peptidMass;
+    }
+
+
     public double[] getMzArray() {
         double[] mzarray = new double[mz.size()];
 
@@ -95,55 +150,6 @@ public class MassSpectrum {
 
     public void setChargeState(int chargeState) {
         this.chargeState = chargeState;
-    }
-
-    public MassSpectrum() {
-        this.mz = new ArrayList<>();
-        this.intensity = new ArrayList<>();
-        this.charge = new ArrayList<>();
-        this.isotope = new ArrayList<>();
-        this.typ = null;
-        this.searchEngine = null;
-        this.id = 0;
-        this.rt = 0;
-        this.chargeState = 0;
-        this.peptideMass = 0;
-    }
-
-    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
-            double rt, int chargeState, int id) {
-        if (!isSorted(mz)) {
-            throw new IllegalArgumentException("The mZ-values are not sorted!");
-        }
-
-        this.mz = mz;
-        this.intensity = intensity;
-        this.charge = new ArrayList<>();
-        this.isotope = new ArrayList<>();
-        this.typ = typ;
-        this.searchEngine = searchEngine;
-        this.id = id;
-        this.rt = rt;
-        this.chargeState = chargeState;
-        this.peptideMass = peptidMass;
-    }
-
-    public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
-            double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
-        if (!isSorted(mz)) {
-            throw new IllegalArgumentException("The mZ-values are not sorted!");
-        }
-
-        this.mz = mz;
-        this.intensity = intensity;
-        this.charge = charge;
-        this.isotope = isotope;
-        this.typ = typ;
-        this.searchEngine = searchEngine;
-        this.id = id;
-        this.rt = rt;
-        this.chargeState = chargeState;
-        this.peptideMass = peptidMass;
     }
 
     private static boolean isSorted(List<Double> list) {

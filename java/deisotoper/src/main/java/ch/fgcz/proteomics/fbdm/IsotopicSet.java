@@ -18,6 +18,7 @@ public class IsotopicSet {
     private String dot;
     private List<IsotopicCluster> isotopicSet = new ArrayList<>();
     private List<IsotopicCluster> bestPath;
+    private List<Peak> peaksInSet;
     private int setId;
 
     public int getSetID() {
@@ -44,6 +45,7 @@ public class IsotopicSet {
     }
 
     public IsotopicSet(MassSpectrum massSpectrum, List<Peak> isotopicSet, int setId, Configuration config) {
+        this.peaksInSet = isotopicSet;
         try {
             rangeCheck(isotopicSet, config);
         } catch (Exception e) {
@@ -214,5 +216,9 @@ public class IsotopicSet {
                 throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
             }
         }
+    }
+
+    public List<Peak> getPeaksInSet() {
+        return peaksInSet;
     }
 }

@@ -18,6 +18,10 @@ public class Deisotoper {
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<>();
 
+    public Deisotoper(){
+        config = new Configuration();
+    }
+
     public void wasRunning() throws Exception {
         if (running == false) {
             throw new Exception(
@@ -69,7 +73,6 @@ public class Deisotoper {
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
         this.running = true;
         this.isotopicSets = new ArrayList<>();
-
         generateIsotopicSets(massSpectrum);
 
         List<IsotopicCluster> bestClusters = getBestClusters();
@@ -111,7 +114,7 @@ public class Deisotoper {
         return resultPeakList;
     }
 
-    private void generateIsotopicSets(MassSpectrum massSpectrum) {
+     protected void generateIsotopicSets(MassSpectrum massSpectrum) {
         this.peakList = new PeakList(massSpectrum);
 
         int id = 0;
