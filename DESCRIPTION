@@ -21,7 +21,7 @@ Suggests: DiagrammeR,
   testthat,
   knitr,
   rmarkdown
-SystemRequirements: Java (>= 8.0), GNU make
+SystemRequirements: Java JDK 1.8 or higher, GNU make
 Description: Provides a low-level interface for a deisotoper
   container implemented in the 'Java' programming language and 
   means of S3 helper functions for deisotoping,
