@@ -39,6 +39,9 @@ public class IsotopicSet {
                 bestClusters.add(isotopicCluster);
             }
         }
+
+        System.out.println("bestpath: " + bestPath.toString());
+
         return bestClusters;
     }
 
@@ -67,9 +70,6 @@ public class IsotopicSet {
             clusterId++;
         }
 
-        setBestPath(massSpectrum, isotopicClusters, config);
-
-        this.isotopicSet = isotopicClusters;
         this.setId = setId;
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
@@ -83,10 +83,17 @@ public class IsotopicSet {
                 }
             }
         }
+
+        this.isotopicSet = isotopicClusters;
+
+        setBestPath(massSpectrum, isotopicClusters, config);
     }
 
     private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
-        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters);
+
+        List<IsotopicCluster> isotopicClusters2 = removeDoubleClustersIfExist(isotopicClusters);
+
+        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters2);
 
         isotopicClusterGraph.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(), massSpectrum.getChargeState(),
                 new PeakList(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
@@ -94,6 +101,31 @@ public class IsotopicSet {
         this.dot = isotopicClusterGraph.toDOTGraph();
         this.bestPath = isotopicClusterGraph.bestPath(isotopicClusterGraph.getStart(), isotopicClusterGraph.getEnd())
                 .getVertexList();
+    }
+
+    private List<IsotopicCluster> removeDoubleClustersIfExist(List<IsotopicCluster> isotopicClusters) {
+        boolean hasThree = false;
+
+        for (IsotopicCluster cluster : isotopicClusters) {
+            if (cluster.size() == 3) {
+                hasThree = true;
+                System.out.println(hasThree);
+            }
+        }
+
+        List<IsotopicCluster> isotopicClusters2 = new ArrayList<>();
+
+        if (hasThree) {
+            for (IsotopicCluster cluster : isotopicClusters) {
+                if (cluster.size() == 3) {
+                    isotopicClusters2.add(cluster);
+                }
+            }
+        } else {
+            isotopicClusters2 = isotopicClusters;
+        }
+
+        return isotopicClusters2;
     }
 
     private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
