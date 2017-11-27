@@ -1,0 +1,33 @@
+---
+title: "Deisotoper: Example Plots"
+author: "Lucas Schmidt"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Random Cases Of Spectra}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Example Plots
+
+```{r, fig.retina=2, fig.width=7, fig.height=5}
+library(deisotoper)
+
+TPall <- load("~/deisotoper/inst/extdata/TP_HeLa_200ng_filtered_pd21.RData")
+
+TPall <- get(TPall)
+
+TP <- TPall[[1]]
+
+dtoper <- deisotoper()
+
+TPd <- deisotope(deisotoper = dtoper, massspectrum = TP)
+
+op <- par(mfrow=c(2,2))
+plot.deisotoper(TP, TPd)
+plot.deisotoper(TP, TPd, xlim=c(275,285))
+plot.deisotoper(TP, TPd, xlim=c(790,795))
+plot.deisotoper(TP, TPd, xlim=c(901,910))
+par(op)
+```
