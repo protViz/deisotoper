@@ -26,7 +26,7 @@ Description: Provides a low-level interface for a deisotoper container
   implemented in the 'Java' programming language and means of S3 helper 
   functions for plotting and debugging isotopes of mass spectrometric data. 
   The deisotoper algorithm detects and aggregates peaks which belong to the 
-  same isotopic pattern of a mass spectrum. See ?deisotope for an
+  same isotopic cluster of a given mass spectrum. See ?deisotope for an
   introduction.
 License: GPL-3
 URL: https://github.com/protViz/deisotoper/
