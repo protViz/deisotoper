@@ -21,6 +21,10 @@ public class IsotopicSet {
     private List<Peak> peaksInSet;
     private int setId;
 
+    public List<Peak> getPeaksInSet() {
+        return peaksInSet;
+    }
+
     public int getSetID() {
         return setId;
     }
@@ -216,9 +220,5 @@ public class IsotopicSet {
                 throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
             }
         }
-    }
-
-    public List<Peak> getPeaksInSet() {
-        return peaksInSet;
     }
 }

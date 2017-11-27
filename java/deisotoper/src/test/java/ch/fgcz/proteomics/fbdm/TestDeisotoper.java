@@ -13,38 +13,35 @@ import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import sun.security.krb5.Config;
 
 public class TestDeisotoper {
 
     @Test
-    public void generateIsotopicSets(){
+    public void generateIsotopicSets() {
         Configuration config = new Configuration();
+
         double oneSetStart = 100;
         double secondSetStart = 100.1;
-        List<Double> mz = Arrays.asList( oneSetStart , secondSetStart ,
-                oneSetStart + config.getDistance() , secondSetStart  + config.getDistance(),
-                oneSetStart + config.getDistance()*2 , secondSetStart  + config.getDistance()*2
-        );
-        List<Double> intensity = Arrays.asList( 4.0, 4.0, 5.0, 6.0, 6.0, 7.0 );
+
+        List<Double> mz = Arrays.asList(oneSetStart, secondSetStart, oneSetStart + config.getDistance(),
+                secondSetStart + config.getDistance(), oneSetStart + config.getDistance() * 2,
+                secondSetStart + config.getDistance() * 2);
+        List<Double> intensity = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0);
         MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
         Deisotoper deisotoper = new Deisotoper();
         deisotoper.generateIsotopicSets(massSpectrum);
         assertEquals(2, deisotoper.getIsotopicSets().size());
-        assertEquals(3, deisotoper.getIsotopicSets().get(0).getPeaksInSet().size() );
+        assertEquals(3, deisotoper.getIsotopicSets().get(0).getPeaksInSet().size());
         assertEquals(3, deisotoper.getIsotopicSets().get(1).getPeaksInSet().size());
 
-
-
-        List<Double> mz2 = Arrays.asList( oneSetStart , secondSetStart ,
-                oneSetStart + config.getDistance() ,
-                oneSetStart + config.getDistance()*2
-        );
-        List<Double> intensity2 = Arrays.asList( 4.0, 4.0, 5.0, 6.0 );
-        assertEquals(1,deisotoper.getIsotopicSets().size());
-        assertEquals(3, deisotoper.getIsotopicSets().get(0).getIsotopicSet().size());
-
-
+        List<Double> mz2 = Arrays.asList(oneSetStart, secondSetStart, oneSetStart + config.getDistance(),
+                oneSetStart + config.getDistance() * 2);
+        List<Double> intensity2 = Arrays.asList(4.0, 4.0, 5.0, 6.0);
+        MassSpectrum massSpectrum2 = new MassSpectrum(mz2, intensity2);
+        Deisotoper deisotoper2 = new Deisotoper();
+        deisotoper2.generateIsotopicSets(massSpectrum2);
+        assertEquals(1, deisotoper2.getIsotopicSets().size());
+        assertEquals(3, deisotoper2.getIsotopicSets().get(0).getIsotopicSet().size());
     }
 
     @Test

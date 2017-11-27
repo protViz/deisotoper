@@ -21,7 +21,6 @@ public class MassSpectrum {
     private int chargeState;
     private int id;
 
-
     public MassSpectrum() {
         this.mz = new ArrayList<>();
         this.intensity = new ArrayList<>();
@@ -36,11 +35,11 @@ public class MassSpectrum {
     }
 
     public MassSpectrum(List<Double> mz, List<Double> intensity) {
-        this(null,null,  mz, intensity, 0, 0, 0, 0);
+        this(null, null, mz, intensity, 0, 0, 0, 0);
     }
 
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
-                        double rt, int chargeState, int id) {
+            double rt, int chargeState, int id) {
         if (!isSorted(mz)) {
             throw new IllegalArgumentException("The mZ-values are not sorted!");
         }
@@ -58,7 +57,7 @@ public class MassSpectrum {
     }
 
     public MassSpectrum(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
-                        double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
+            double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
         if (!isSorted(mz)) {
             throw new IllegalArgumentException("The mZ-values are not sorted!");
         }
@@ -74,7 +73,6 @@ public class MassSpectrum {
         this.chargeState = chargeState;
         this.peptideMass = peptidMass;
     }
-
 
     public double[] getMzArray() {
         double[] mzarray = new double[mz.size()];
