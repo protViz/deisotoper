@@ -18,7 +18,20 @@
 #' @import rJava
 #' @export deisotoper
 #' @aliases deisotope.list plot.deisotoper print.deisotoper getDOTGraphs summary.deisotoper getConfig 
-#' @author Lucas Schmidt
+#' @author Lucas Schmidt, Christian Panse
+#' @description 
+#' \code{deisotoper} returns a deisotoper object.
+#' 
+#' \code{deisotope} detects and aggregates peaks which belong to the 
+#' same isotopic cluster of a given mass spectrum.
+#' @details
+#' Input: a peak peaked mass spectrum.
+#' 
+#' The algorithm: The deisotoper algorithm detects and aggregates peaks
+#' which belong to the same isotopic cluster of a given mass spectrum.
+#' 
+#' Output: 
+#' 
 #' @seealso \code{\link{deisotope}}
 #' @examples
 #' # EXAMPLE 1
@@ -286,13 +299,13 @@ plot.deisotoper <- function(x, y, ...) {
         type = "h", 
         col = "#0000FF99")
 
-  axis(3, x$mZ[-1] - (0.5 * diff(x$mZ)), round(diff(x$mZ),2 ))
+  axis(side = 3, x$mZ[-1] - (0.5 * diff(x$mZ)), round(diff(x$mZ), 2) )
   
   mtext(text = deparse(substitute(y)), line = 2, adj = 0, col="blue")
   mtext(text = deparse(substitute(x)), line = 1, adj = 0, col="red")
   
-  axis(2)
-  axis(side=1, at = c(x$mZ, y$mZ))
+  axis(side = 2)
+  axis(side = 1, at = c(x$mZ, y$mZ))
 }
 
 #' @export

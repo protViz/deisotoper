@@ -31,8 +31,9 @@ public class PeakList {
         this.peakList = new ArrayList<>();
     }
 
-    public void add(Peak peak) {
+    public PeakList add(Peak peak) {
         this.peakList.add(peak);
+        return this;
     }
 
     public Peak get(int i) {

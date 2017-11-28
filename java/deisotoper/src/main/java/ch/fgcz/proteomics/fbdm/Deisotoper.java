@@ -105,8 +105,12 @@ public class Deisotoper {
         List<Peak> allPossiblePeaksForIsotopicSets = new ArrayList<>();
         for (int i = 0; i < peakList.size(); i++) {
             Peak peakI = peakList.get(i);
-            for (int j = 0; j < peakList.size(); j++) {
+            for (int j =0; j < peakList.size(); j++) {
                 Peak peakJ = peakList.get(j);
+
+                // check if both peaks could be in set.
+
+
                 for (int charge = 1; charge < 4; charge++) {
                     double lowerThreshold = peakI.getMz() + config.getDistance() / charge - config.getDelta();
                     double higherThreshold = peakI.getMz() + config.getDistance() / charge + config.getDelta();
@@ -121,10 +125,8 @@ public class Deisotoper {
             }
         }
 
-        allPossiblePeaksForIsotopicSets = removeMultiplePeaks(allPossiblePeaksForIsotopicSets);
-
-        allPossiblePeaksForIsotopicSets = sortListOfPeaks(allPossiblePeaksForIsotopicSets);
-
+        allPossiblePeaksForIsotopicSets = removeMultiplePeaks( allPossiblePeaksForIsotopicSets );
+        allPossiblePeaksForIsotopicSets = sortListOfPeaks( allPossiblePeaksForIsotopicSets );
         List<List<Peak>> allPossiblePeaksForIsotopicSetsParts = splitWhenOverOne(allPossiblePeaksForIsotopicSets);
 
         for (List<Peak> part : allPossiblePeaksForIsotopicSetsParts) {
@@ -200,7 +202,6 @@ public class Deisotoper {
                 return Double.compare(peakOne.getMz(), peakTwo.getMz());
             }
         });
-
         return peaks;
     }
 

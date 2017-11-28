@@ -5,10 +5,6 @@ package ch.fgcz.proteomics.fbdm;
  * @since 2017-09-26
  */
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-
 import org.junit.Test;
 
 //TODO: Finish tests for Score!
@@ -207,4 +203,27 @@ public class TestScore {
     // assertEquals(s3, 170.672, 0);
     // assertEquals(s4, 220.336, 0);
     // }
+
+    @Test
+    public void testScoreEntireSpectrum(){
+        int charge = 1;
+
+        Configuration config = new Configuration();
+        Peak x1 = new Peak(100,10, 1);
+        Peak x2 = new Peak(100 + config.getAaMass().get(1) ,10, 1);
+        Peak x3 = new Peak(100+ config.getAaMass().get(1) + config.getAaMass().get(2)  ,10, 1);
+        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get(10),10, 1);
+        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get(11),10, 1);
+
+        PeakList peaklist = new PeakList();
+        peaklist.add(x1).add(x2).add(x3).add(x4).add(x5);
+
+        Score score1 = new Score(x5.getMz(), charge, config);
+
+        int score = score1.calculateAminoAcidDistanceScore(x1, peaklist);
+        score = score1.calculateAminoAcidDistanceScore(x2, peaklist);
+        score = score1.calculateAminoAcidDistanceScore(x3, peaklist);
+        score = score1.calculateAminoAcidDistanceScore(x4, peaklist);
+        score = score1.calculateAminoAcidDistanceScore(x5, peaklist);
+    }
 }
