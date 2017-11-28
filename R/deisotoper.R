@@ -269,28 +269,30 @@ summary.deisotoper <- function(object, ...) {
 plot.deisotoper <- function(x, y, ...) {
   
   plot(c(x$mZ, y$mZ), 
-       c(x$intensity, y$intensity),
+       c(x$intensity, -y$intensity),
        type = "n", 
        xlab = "m/Z",
        ylab = "Intensity",
-       axes = FALSE, ...)
-  
+       axes = FALSE, 
+       ...)
+  abline(h=0)
   lines(x$mZ, 
         x$intensity, 
         type = "h", 
         col = "#FF000099")
   
   lines(y$mZ, 
-        y$intensity, 
+        -y$intensity, 
         type = "h", 
         col = "#0000FF99")
+
+  axis(3, x$mZ[-1] - (0.5 * diff(x$mZ)), round(diff(x$mZ),2 ))
   
   mtext(text = deparse(substitute(y)), line = 2, adj = 0, col="blue")
   mtext(text = deparse(substitute(x)), line = 1, adj = 0, col="red")
   
   axis(2)
   axis(side=1, at = c(x$mZ, y$mZ))
- # axis(side=2, at = seq(0, max(maxintensity1, maxintensity2) + 10000, by = 10000))
 }
 
 #' @export
