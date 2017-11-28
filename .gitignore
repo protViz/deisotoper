@@ -43,3 +43,5 @@ inst/doc/*.log
 inst/doc/*.synctex.gz
 inst/doc/*.tex
 inst/doc/*.toc
+# Ignore java class files
+inst/java/
