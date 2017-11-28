@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class TestMassSpectrometryMeasurement {
+public class TestMassSpecMeasure {
     @Test
     public void testMassSpectrometryMeasurementCreation() {
         String s = "Unit Test Case";
@@ -32,7 +32,7 @@ public class TestMassSpectrometryMeasurement {
         int chargeState2 = 2;
         int id2 = 124;
 
-        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(s);
+        MassSpecMeasure massSpectrometryMeasurement = new MassSpecMeasure(s);
         massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
         massSpectrometryMeasurement.addMS(typ2, searchEngine2, mz2, intensity2, peptidMass2, rt2, chargeState2, id2);
 
@@ -43,6 +43,6 @@ public class TestMassSpectrometryMeasurement {
             assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
         }
 
-        MassSpectrometryMeasurementSummary.makeSummary(massSpectrometryMeasurement);
+        MassSpecMeasureSummary.makeSummary(massSpectrometryMeasurement);
     }
 }

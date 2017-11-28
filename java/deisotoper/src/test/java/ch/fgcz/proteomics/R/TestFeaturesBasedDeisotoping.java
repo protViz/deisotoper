@@ -78,10 +78,12 @@ public class TestFeaturesBasedDeisotoping {
                 868.6353759766, 14076.8505859375, 1663.6213378906, 22441.501953125, 40263.48828125, 7578.0766601563,
                 48826.28125, 11930.2041015625, 1293.1002197266, 908.5403442383, 919.8944702148 };
 
-        // double[] mz = { 754.33899, 774.36261, 790.38892, 791.39124, 792.39221,
-        // 813.4679, 820.40479 };
-        // double[] intensity = { 8452.85, 14519.3, 111717, 185030, 56020.8, 3387.69,
-        // 9478.08 };
+        // double[] mz = { 0.2, 1.0, 2.0, 2.5, 4.0, 5.0, 6.0, 7.0, 9.0, 10.0, 11.0,
+        // 12.0, 13.0, 17.0, 18.0, 19.0, 21.0,
+        // 23.0, 111.0 };
+        // double[] intensity = { 0.2, 1.0, 2.0, 2.5, 4.0, 5.0, 6.0, 7.0, 9.0, 10.0,
+        // 11.0, 12.0, 13.0, 17.0, 18.0, 19.0, 21.0,
+        // 23.0, 111.0 };
 
         FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
 
@@ -99,23 +101,22 @@ public class TestFeaturesBasedDeisotoping {
         double[] mzout = dtoper.getMz();
         double[] intensityout = dtoper.getIntensity();
 
-        // System.out.println("Input Peaklist (" + mz.length + "): Output Peaklist(" +
-        // mzout.length + "):");
-        // for (int i = 0; i < mz.length || i < intensity.length; i++) {
-        // System.out.print(mz[i] + " ");
-        // System.out.print(intensity[i] + " ");
-        // if (i < mzout.length || i < intensityout.length) {
-        // System.out.print(mzout[i] + " ");
-        // System.out.print(intensityout[i]);
-        // } else {
-        // System.out.print(" ");
-        // }
-        //
-        // System.out.println();
-        // }
-        // System.out.println();
+        System.out.println("Input Peaklist (" + mz.length + "):   Output Peaklist(" + mzout.length + "):");
+        for (int i = 0; i < mz.length || i < intensity.length; i++) {
+            System.out.print(mz[i] + " ");
+            System.out.print(intensity[i] + "    ");
+            if (i < mzout.length || i < intensityout.length) {
+                System.out.print(mzout[i] + " ");
+                System.out.print(intensityout[i]);
+            } else {
+                System.out.print(" ");
+            }
 
-        // System.out.println("Peaks who are in input and not anymore in output:");
+            System.out.println();
+        }
+        System.out.println();
+
+        System.out.println("Peaks who are in input and not anymore in output:");
         List<Double> mzlist = new ArrayList<>();
         List<Double> intensitylist = new ArrayList<>();
         List<Double> mzoutlist = new ArrayList<>();
@@ -133,9 +134,9 @@ public class TestFeaturesBasedDeisotoping {
         mzlist.removeAll(mzoutlist);
         intensitylist.removeAll(intensityoutlist);
 
-        // for (int i = 0; i < mzlist.size(); i++) {
-        // System.out.println(mzlist.get(i) + " " + intensitylist.get(i));
-        // }
+        for (int i = 0; i < mzlist.size(); i++) {
+            System.out.println(mzlist.get(i) + " " + intensitylist.get(i));
+        }
 
         // System.out.println();
         // System.out.println(dtoper.getSummary());

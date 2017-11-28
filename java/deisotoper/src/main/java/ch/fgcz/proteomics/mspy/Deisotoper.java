@@ -8,13 +8,13 @@ package ch.fgcz.proteomics.mspy;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 @Deprecated
 public class Deisotoper {
-    public static MassSpectrometryMeasurement deisotopeMSM(MassSpectrometryMeasurement input) {
-        MassSpectrometryMeasurement output = new MassSpectrometryMeasurement(input.getSource() + "_output");
+    public static MassSpecMeasure deisotopeMSM(MassSpecMeasure input) {
+        MassSpecMeasure output = new MassSpecMeasure(input.getSource() + "_output");
 
         for (MassSpectrum ms : input.getMSlist()) {
             Peaklist inputpeaklist = new Peaklist(ms);

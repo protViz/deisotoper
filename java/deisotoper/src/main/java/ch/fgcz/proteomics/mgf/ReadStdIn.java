@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 
 public class ReadStdIn {
-    public static MassSpectrometryMeasurement read() {
+    public static MassSpecMeasure read() {
         InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 
-        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(null);
+        MassSpecMeasure massSpectrometryMeasurement = new MassSpecMeasure(null);
 
         BufferedReader bufferedreader = new BufferedReader(inputStreamReader);
         try {

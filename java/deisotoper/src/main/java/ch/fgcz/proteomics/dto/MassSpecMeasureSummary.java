@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-public class MassSpectrometryMeasurementSummary {
-    public static String makeSummary(MassSpectrometryMeasurement massSpectrometryMeasurement) {
+public class MassSpecMeasureSummary {
+    public static String makeSummary(MassSpecMeasure massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();
         String lineSep = System.getProperty("line.separator");
         stringBuilder.append("SpectrumID,Attribute,Value").append(lineSep);

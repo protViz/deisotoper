@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 
 public class ReadMGF {
-    public static MassSpectrometryMeasurement read(String fileName) {
+    public static MassSpecMeasure read(String fileName) {
         String source = readHeader(fileName);
 
         if (source == null) {
             source = fileName;
         }
 
-        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(source);
+        MassSpecMeasure massSpectrometryMeasurement = new MassSpecMeasure(source);
 
         massSpectrometryMeasurement = readLocal(fileName, massSpectrometryMeasurement);
 
@@ -51,8 +51,8 @@ public class ReadMGF {
         return null;
     }
 
-    private static MassSpectrometryMeasurement readLocal(String fileName,
-            MassSpectrometryMeasurement massSpectrometryMeasurement) {
+    private static MassSpecMeasure readLocal(String fileName,
+            MassSpecMeasure massSpectrometryMeasurement) {
         try (BufferedReader bufferedreader = new BufferedReader(new FileReader(fileName))) {
             String line = "";
             int chargeState = 0;

@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 
 public class TestIsotopicSet {
     @Test
@@ -32,7 +32,7 @@ public class TestIsotopicSet {
         List<Peak> isotopicSet = Arrays.asList(new Peak(1.001, 2.0, 1), new Peak(2.002, 1.0, 2),
                 new Peak(2.503, 1.0, 3), new Peak(3.003, 1.0, 4));
 
-        MassSpectrometryMeasurement massSpectrometryMeasurement = new MassSpectrometryMeasurement(source);
+        MassSpecMeasure massSpectrometryMeasurement = new MassSpecMeasure(source);
         massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
 
         IsotopicSet isotopicSetResult = new IsotopicSet(massSpectrometryMeasurement.getMSlist().get(0), isotopicSet, 0,

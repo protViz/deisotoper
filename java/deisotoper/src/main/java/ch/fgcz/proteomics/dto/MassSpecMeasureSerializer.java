@@ -14,8 +14,8 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class MassSpectrometryMeasurementSerializer {
-    public static String serializeToJson(String fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+public class MassSpecMeasureSerializer {
+    public static String serializeToJson(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         Gson gson = new Gson();
 
         String data = gson.toJson(massSpectrometryMeasurement);
@@ -29,7 +29,7 @@ public class MassSpectrometryMeasurementSerializer {
         return data;
     }
 
-    public static MassSpectrometryMeasurement deserializeFromJson(String fileName) {
+    public static MassSpecMeasure deserializeFromJson(String fileName) {
         Gson gson = new Gson();
 
         String data = null;
@@ -50,7 +50,7 @@ public class MassSpectrometryMeasurementSerializer {
             e.printStackTrace();
         }
 
-        java.lang.reflect.Type type = new TypeToken<MassSpectrometryMeasurement>() {
+        java.lang.reflect.Type type = new TypeToken<MassSpecMeasure>() {
         }.getType();
 
         return gson.fromJson(data, type);

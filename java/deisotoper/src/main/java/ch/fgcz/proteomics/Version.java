@@ -7,11 +7,11 @@ package ch.fgcz.proteomics;
 
 public class Version {
     private static String versionOfDto() {
-        return "Java Package: DTO, Date: 2017-11-23, Author: Lucas Schmidt";
+        return "Java Package: DTO, Date: 2017-11-28, Author: Lucas Schmidt";
     }
 
     private static String versionOfFbdm() {
-        return "Java Package: FBDM, Date: 2017-11-27, Author: Lucas Schmidt";
+        return "Java Package: FBDM, Date: 2017-11-28, Author: Lucas Schmidt";
     }
 
     private static String versionOfMspy() {
