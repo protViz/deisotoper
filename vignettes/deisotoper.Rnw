@@ -50,6 +50,24 @@ options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 %\newpage
 
 \section{Introduction}
+
+
+<<>>=
+peaklist <- list(mZ = c(362.0196, 362.0214, 362.0233, 362.0251,
+  362.0270, 362.0288, 362.0307, 363.0164, 363.0183, 
+  363.0202, 363.0220, 363.0239, 363.0257, 363.0276, 364.0156,
+  364.0174, 364.0193, 364.0212, 364.0230, 364.0249, 364.0268,364.0286),
+  intensity = c(208, 519, 858, 1009, 873, 551, 237, 284, 665, 1067,
+  1195, 939, 485, 109, 321, 605, 1446, 2339, 2480, 1802, 559, 168))
+
+mean(peaklist$mZ[1:7])
+@
+
+
+<<include=TRUE>>=
+plot(peaklist$mZ, peaklist$intensity, type = 'h')
+@
+
 <<echo=TRUE>>=
 library(deisotoper)
 @
