@@ -142,18 +142,20 @@ public class IsotopicClusterGraph {
     }
 
     public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, PeakList peakList, Configuration config) {
-        Score score = new Score(peptidMass, chargeState, this.isotopicClusterGraph, config);
+        Score score = new Score(peptidMass, chargeState, config);
 
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
             double scoreSum = 0;
             if (this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
                 for (Peak peakX : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
                     for (Peak peakY : peakList.getPeakList()) {
-                        if (peakX.getMz() > peakY.getMz()) {
-                            continue;
-                        }
 
-                        double scoreResult = score.calculateScore(peakX, peakY,
+
+                        //if (peakX.getMz() > peakY.getMz()) {
+                        //    continue;
+                        //}
+
+                        double scoreResult = score.calculateAminoAcidDistanceScore(peakX, peakY,
                                 this.isotopicClusterGraph.getEdgeTarget(connection), connection);
 
                         scoreSum += scoreResult;

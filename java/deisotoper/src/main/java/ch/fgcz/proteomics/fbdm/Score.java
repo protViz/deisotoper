@@ -10,33 +10,32 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 public class Score {
     private double peptidMassValue;
     private double chargeValue;
-    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph;
+    //private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph;
     private Configuration config;
 
-    public Score(double peptidMass, double charge,
-            DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph, Configuration config) {
+    // @TODO remove depedency on config.
+    public Score(double peptidMass, double charge, Configuration config) {
         this.peptidMassValue = peptidMass;
         this.chargeValue = charge;
-        this.isotopicClusterGraph = isotopicClusterGraph;
         this.config = config;
     }
 
-    public double calculateScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX,
-            Connection connection) {
+    // TODO integrate 5 th score
+    public double calculateAminoAcidDistanceScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX,
+                                                  Connection connection) {
         return this.config.getF1() * calculateFirstScoringFeature(peakX, peakY, this.config)
                 + this.config.getF2() * calculateSecondScoringFeature(peakX, peakY, this.peptidMassValue,
                         this.chargeValue, isotopicClusterOfPeakX, this.config)
                 + this.config.getF3() * calculateThirdScoringFeature(peakX, peakY, this.config)
-                + this.config.getF4() * calculateFourthScoringFeature(peakX, peakY, this.config) + this.config.getF5()
-                        * ScoreFive.calculateFifthScoringFeature(connection, this.isotopicClusterGraph, this.config);
+                + this.config.getF4() * calculateFourthScoringFeature(peakX, peakY, this.config);
     }
 
-    private static double diff1(Peak x, Peak y, Configuration config) {
+    private static double diff1(Peak x, Peak y) {
         return x.getMz() - y.getMz();
     }
 
-    private static double diff2(Peak x, Peak y, Configuration config) {
-        return x.getMz() - ((y.getMz() + config.getH_MASS()) / 2);
+    private static double diff2(Peak x, Peak y, double H_MASS) {
+        return x.getMz() - ((y.getMz() + H_MASS) / 2);
     }
 
     private static double diff3(Peak x, Peak y, Configuration config) {
@@ -63,12 +62,13 @@ public class Score {
         return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
+    // TODO : Look into paper and try to find out what is being scored.
     private static int calculateFirstScoringFeature(Peak x, Peak y, Configuration config) {
         int F1 = 0;
 
-        double d1xy = Math.abs(diff1(x, y, config));
-        double d2xy = Math.abs(diff2(x, y, config));
-        double d2yx = Math.abs(diff2(y, x, config));
+        double d1xy = Math.abs(diff1(x, y));
+        double d2xy = Math.abs(diff2(x, y, config.getH_MASS()));
+        double d2yx = Math.abs(diff2(y, x, config.getH_MASS()));
         double d3xy = Math.abs(diff3(x, y, config));
         double d3yx = Math.abs(diff3(y, x, config));
         double d4xy = Math.abs(diff4(x, y, config));
@@ -157,9 +157,9 @@ public class Score {
     private static int calculateThirdScoringFeature(Peak x, Peak y, Configuration config) {
         int F3 = 0;
 
-        double d1xy = Math.abs(diff1(x, y, config));
-        double d2xy = Math.abs(diff2(x, y, config));
-        double d2yx = Math.abs(diff2(y, x, config));
+        double d1xy = Math.abs(diff1(x, y));
+        double d2xy = Math.abs(diff2(x, y, config.getH_MASS()));
+        double d2yx = Math.abs(diff2(y, x, config.getH_MASS()));
         double d3xy = Math.abs(diff3(x, y, config));
         double d3yx = Math.abs(diff3(y, x, config));
         double d4xy = Math.abs(diff4(x, y, config));
@@ -227,9 +227,9 @@ public class Score {
     private static int calculateFourthScoringFeature(Peak x, Peak y, Configuration config) {
         int F4 = 0;
 
-        double d1xy = Math.abs(diff1(x, y, config));
-        double d2xy = Math.abs(diff2(x, y, config));
-        double d2yx = Math.abs(diff2(y, x, config));
+        double d1xy = Math.abs(diff1(x, y));
+        double d2xy = Math.abs(diff2(x, y, config.getH_MASS()));
+        double d2yx = Math.abs(diff2(y, x, config.getH_MASS()));
         double d3xy = Math.abs(diff3(x, y, config));
         double d3yx = Math.abs(diff3(y, x, config));
         double d4xy = Math.abs(diff4(x, y, config));
@@ -292,5 +292,13 @@ public class Score {
         }
 
         return F4;
+    }
+
+    public int calculateAminoAcidDistanceScore(Peak x, PeakList peaklist) {
+        int peaklistScore = 0;
+        for(Peak y : peaklist.getPeakList()) {
+            peaklistScore += calculateFirstScoringFeature(x, y , this.config);
+        }
+        return peaklistScore;
     }
 }
