@@ -13,11 +13,11 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class WriteMGF {
-    public static boolean write(String fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+    public static boolean write(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         File f = new File(fileName);
 
         if (f.exists()) {
@@ -28,7 +28,7 @@ public class WriteMGF {
         return writeConnect(f, massSpectrometryMeasurement);
     }
 
-    private static boolean writeHeader(File fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+    private static boolean writeHeader(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)))) {
             out.println(
                     "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
@@ -39,7 +39,7 @@ public class WriteMGF {
         return true;
     }
 
-    private static boolean writeLocal(File fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+    private static boolean writeLocal(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)))) {
             for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
                 out.println("BEGIN IONS");
@@ -61,7 +61,7 @@ public class WriteMGF {
         return true;
     }
 
-    private static boolean writeConnect(File fileName, MassSpectrometryMeasurement massSpectrometryMeasurement) {
+    private static boolean writeConnect(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         boolean header = writeHeader(fileName, massSpectrometryMeasurement);
         boolean local = writeLocal(fileName, massSpectrometryMeasurement);
 

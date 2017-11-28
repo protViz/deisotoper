@@ -1,5 +1,7 @@
 package ch.fgcz.proteomics.fbdm;
 
+import java.util.List;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-04
@@ -97,5 +99,10 @@ public class Peak {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "(" + mz + ", " + intensity + ")";
     }
 }

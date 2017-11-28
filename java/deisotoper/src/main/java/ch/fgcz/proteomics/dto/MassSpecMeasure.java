@@ -8,7 +8,7 @@ package ch.fgcz.proteomics.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MassSpectrometryMeasurement {
+public class MassSpecMeasure {
     private List<MassSpectrum> massSpectrumList = new ArrayList<>();
     private String source;
 
@@ -20,7 +20,7 @@ public class MassSpectrometryMeasurement {
         return massSpectrumList;
     }
 
-    public MassSpectrometryMeasurement(String source) {
+    public MassSpecMeasure(String source) {
         this.source = source;
         this.massSpectrumList = new ArrayList<>();
     }

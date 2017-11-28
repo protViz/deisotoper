@@ -8,11 +8,11 @@ package ch.fgcz.proteomics.mgf;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class WriteStdOut {
-    public static void write(MassSpectrometryMeasurement massSpectrometryMeasurement) {
+    public static void write(MassSpecMeasure massSpectrometryMeasurement) {
         System.out.println(
                 "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
 

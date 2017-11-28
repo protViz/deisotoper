@@ -217,6 +217,8 @@ test_that("test deisotoper::deisotoper", {
   
   xd <- deisotope(dtoper, x)
   
+  
+  
   xresult <-
     list(
       mZ = c(
@@ -268,8 +270,6 @@ test_that("test deisotoper::deisotoper", {
         608.25214,
         610.30243,
         610.36755,
-        611.30554,
-        611.37042,
         630.35724,
         642.572,
         643.054,
@@ -293,7 +293,6 @@ test_that("test deisotoper::deisotoper", {
         825.39423,
         840.47681,
         841.43036,
-        841.47949,
         896.4137,
         903.47253,
         906.47607,
@@ -352,10 +351,8 @@ test_that("test deisotoper::deisotoper", {
         10917.6,
         40518.3,
         15107.3,
-        62106.4,
-        72496.1,
-        9430.4,
-        10289.3,
+        71536.8,
+        82785.4,
         76812.4,
         17000,
         25000,
@@ -377,9 +374,8 @@ test_that("test deisotoper::deisotoper", {
         7878.29,
         3167.8,
         23444.95,
-        31114.4,
+        35771.2,
         3385.92,
-        4656.8,
         3687.15,
         340510.4,
         11934.3,
@@ -390,7 +386,7 @@ test_that("test deisotoper::deisotoper", {
         23362.67,
         4170.47,
         2603.17
-      ), 
+      ),
       title = "TP filtered inserted example 2 of protViz::deisotoper.",
       rtinseconds = 1581,
       charge = 2,

@@ -11,10 +11,28 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
-import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class TestDeisotoper {
+    @Test
+    public void generateIsotopicSets2() {
+        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
+        List<Double> mz = Arrays.asList(123.0, 125.0, 125.2, 126.0, 126.5, 127.0, 128.5, 129.0, 133.0, 133.2, 134.0,
+                134.2, 135.0, 136.783, 137.0, 138.0, 144.0);
+        List<Double> intensity = Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                1.0, 1.0, 1.0);
+        MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
+
+        System.out.println("INPUT: " + mz.toString());
+
+        Deisotoper deisotoper = new Deisotoper();
+        deisotoper.setConfiguration(config);
+        deisotoper.generateIsotopicSets(massSpectrum);
+        System.out.println(
+                "[(125.0, 1.0), (126.0, 1.0), (126.5, 1.0), (127.0, 1.0), (128.5, 1.0), (129.0, 1.0), (133.0, 1.0), (133.2, 1.0), (134.0, 1.0), (134.2, 1.0), (135.0, 1.0), (137.0, 1.0), (138.0, 1.0)]");
+        System.out.println("13");
+    }
 
     @Test
     public void generateIsotopicSets() {
@@ -41,7 +59,7 @@ public class TestDeisotoper {
         Deisotoper deisotoper2 = new Deisotoper();
         deisotoper2.generateIsotopicSets(massSpectrum2);
         assertEquals(1, deisotoper2.getIsotopicSets().size());
-        assertEquals(3, deisotoper2.getIsotopicSets().get(0).getIsotopicSet().size());
+        assertEquals(2, deisotoper2.getIsotopicSets().get(0).getIsotopicSet().size());
     }
 
     @Test
@@ -66,15 +84,15 @@ public class TestDeisotoper {
         int chargeState2 = 2;
         int id2 = 124;
 
-        MassSpectrometryMeasurement massSpectrometryMeasurementIn = new MassSpectrometryMeasurement(source);
+        MassSpecMeasure massSpectrometryMeasurementIn = new MassSpecMeasure(source);
         massSpectrometryMeasurementIn.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
         massSpectrometryMeasurementIn.addMS(typ2, searchEngine2, mz2, intensity2, peptidMass2, rt2, chargeState2, id2);
 
-        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.003, 0, false, "first");
+        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
 
         Deisotoper deisotoper = new Deisotoper();
 
-        MassSpectrometryMeasurement massSpectrometryMeasurementOut = deisotoper
+        MassSpecMeasure massSpectrometryMeasurementOut = deisotoper
                 .deisotopeMSM(massSpectrometryMeasurementIn, config);
 
         assertEquals("Source must be equal!", massSpectrometryMeasurementIn.getSource(),
@@ -83,7 +101,7 @@ public class TestDeisotoper {
         assertEquals("Size of massSpectrumList must be equal!", massSpectrometryMeasurementIn.getMSlist().size(),
                 massSpectrometryMeasurementOut.getMSlist().size());
 
-        assertNotEquals("Size of mZ-Values must be not equal, becuase there should be isotopic sets!",
+        assertNotEquals("Size of mZ-Values must be not equal, becauase there should be isotopic sets!",
                 massSpectrometryMeasurementIn.getMSlist().get(0).getMz().size(),
                 massSpectrometryMeasurementOut.getMSlist().get(0).getMz().size());
 
@@ -105,10 +123,10 @@ public class TestDeisotoper {
         int chargeState = 2;
         int id = 123;
 
-        MassSpectrometryMeasurement massSpectrometryMeasurementin = new MassSpectrometryMeasurement(source);
+        MassSpecMeasure massSpectrometryMeasurementin = new MassSpecMeasure(source);
         massSpectrometryMeasurementin.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
 
-        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.003, 0, false, "first");
+        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
 
         Deisotoper deisotoper = new Deisotoper();
 
