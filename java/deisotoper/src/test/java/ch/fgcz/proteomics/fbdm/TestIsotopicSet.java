@@ -38,20 +38,13 @@ public class TestIsotopicSet {
         IsotopicSet isotopicSetResult = new IsotopicSet(massSpectrometryMeasurement.getMSlist().get(0), isotopicSet, 0,
                 config);
 
-        String A = "(0) [ 1.001 2.002 ]";
-        String B = "(1) [ 1.001 2.002 3.003 ]";
-        String C = "(2) [ 2.002 2.503 ]";
-        String D = "(3) [ 2.002 2.503 3.003 ]";
-        String E = "(4) [ 2.002 3.003 ]";
-        String F = "(5) [ 2.503 3.003 ]";
-
-        assertEquals(isotopicSetResult.getIsotopicSet().size(), 7);
+        String A = "(1) [ 1.001 2.002 3.003 ]";
+        String B = "(3) [ 2.002 2.503 3.003 ]";
+        String start = "start";
+        assertEquals(isotopicSetResult.getIsotopicSet().size(), 3);
 
         assertEquals(isotopicSetResult.getIsotopicSet().get(0).toString(), A);
         assertEquals(isotopicSetResult.getIsotopicSet().get(1).toString(), B);
-        assertEquals(isotopicSetResult.getIsotopicSet().get(2).toString(), C);
-        assertEquals(isotopicSetResult.getIsotopicSet().get(3).toString(), D);
-        assertEquals(isotopicSetResult.getIsotopicSet().get(4).toString(), E);
-        assertEquals(isotopicSetResult.getIsotopicSet().get(5).toString(), F);
+        assertEquals(isotopicSetResult.getIsotopicSet().get(2).toString(), start);
     }
 }

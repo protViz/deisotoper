@@ -18,7 +18,12 @@ public class IsotopicSet {
     private String dot;
     private List<IsotopicCluster> isotopicSet = new ArrayList<>();
     private List<IsotopicCluster> bestPath;
+    private List<Peak> peaksInSet;
     private int setId;
+
+    public List<Peak> getPeaksInSet() {
+        return peaksInSet;
+    }
 
     public int getSetID() {
         return setId;
@@ -39,10 +44,12 @@ public class IsotopicSet {
                 bestClusters.add(isotopicCluster);
             }
         }
+
         return bestClusters;
     }
 
     public IsotopicSet(MassSpectrum massSpectrum, List<Peak> isotopicSet, int setId, Configuration config) {
+        this.peaksInSet = isotopicSet;
         try {
             rangeCheck(isotopicSet, config);
         } catch (Exception e) {
@@ -67,9 +74,6 @@ public class IsotopicSet {
             clusterId++;
         }
 
-        setBestPath(massSpectrum, isotopicClusters, config);
-
-        this.isotopicSet = isotopicClusters;
         this.setId = setId;
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
@@ -83,10 +87,16 @@ public class IsotopicSet {
                 }
             }
         }
+
+        this.isotopicSet = isotopicClusters;
+
+        setBestPath(massSpectrum, isotopicClusters, config);
     }
 
     private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
-        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters);
+        List<IsotopicCluster> isotopicClusters2 = removeDoubleClusterLeaveTripleCluster(isotopicClusters);
+
+        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters2);
 
         isotopicClusterGraph.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(), massSpectrum.getChargeState(),
                 new PeakList(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
@@ -94,6 +104,31 @@ public class IsotopicSet {
         this.dot = isotopicClusterGraph.toDOTGraph();
         this.bestPath = isotopicClusterGraph.bestPath(isotopicClusterGraph.getStart(), isotopicClusterGraph.getEnd())
                 .getVertexList();
+    }
+
+    private List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
+        List<IsotopicCluster> isotopicClusters2 = new ArrayList<>();
+
+        for (IsotopicCluster cluster1 : isotopicClusters) {
+            for (IsotopicCluster cluster2 : isotopicClusters) {
+                if (cluster1.size() == 3 && cluster2.size() == 2) {
+                    if (cluster1.getPeak(1).equals(cluster2.getPeak(0))
+                            && cluster1.getPeak(2).equals(cluster2.getPeak(1))) {
+                        isotopicClusters2.add(cluster2);
+                    }
+                }
+                if (cluster1.size() == 2 && cluster2.size() == 3) {
+                    if (cluster1.getPeak(0).equals(cluster2.getPeak(0))
+                            && cluster1.getPeak(1).equals(cluster2.getPeak(1))) {
+                        isotopicClusters2.add(cluster1);
+                    }
+                }
+            }
+        }
+
+        isotopicClusters.removeAll(removeMultipleIsotopicCluster(isotopicClusters2));
+
+        return isotopicClusters;
     }
 
     private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,

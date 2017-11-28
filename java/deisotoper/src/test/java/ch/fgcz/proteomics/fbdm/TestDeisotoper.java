@@ -8,13 +8,42 @@ package ch.fgcz.proteomics.fbdm;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-
+import java.util.List;
 import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpectrometryMeasurement;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class TestDeisotoper {
+
+    @Test
+    public void generateIsotopicSets() {
+        Configuration config = new Configuration();
+
+        double oneSetStart = 100;
+        double secondSetStart = 100.1;
+
+        List<Double> mz = Arrays.asList(oneSetStart, secondSetStart, oneSetStart + config.getDistance(),
+                secondSetStart + config.getDistance(), oneSetStart + config.getDistance() * 2,
+                secondSetStart + config.getDistance() * 2);
+        List<Double> intensity = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0);
+        MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
+        Deisotoper deisotoper = new Deisotoper();
+        deisotoper.generateIsotopicSets(massSpectrum);
+        assertEquals(2, deisotoper.getIsotopicSets().size());
+        assertEquals(3, deisotoper.getIsotopicSets().get(0).getPeaksInSet().size());
+        assertEquals(3, deisotoper.getIsotopicSets().get(1).getPeaksInSet().size());
+
+        List<Double> mz2 = Arrays.asList(oneSetStart, secondSetStart, oneSetStart + config.getDistance(),
+                oneSetStart + config.getDistance() * 2);
+        List<Double> intensity2 = Arrays.asList(4.0, 4.0, 5.0, 6.0);
+        MassSpectrum massSpectrum2 = new MassSpectrum(mz2, intensity2);
+        Deisotoper deisotoper2 = new Deisotoper();
+        deisotoper2.generateIsotopicSets(massSpectrum2);
+        assertEquals(1, deisotoper2.getIsotopicSets().size());
+        assertEquals(3, deisotoper2.getIsotopicSets().get(0).getIsotopicSet().size());
+    }
+
     @Test
     public void testDeisotopeMSM() {
         String source = "Unit Test Case";
@@ -90,14 +119,12 @@ public class TestDeisotoper {
         assertNotEquals("Size of mZ-Values must be not equal, becuase there should be isotopic sets!",
                 massSpectrometryMeasurementin.getMSlist().get(0).getMz().size(), massSpectrumOut.getMz().size());
 
-        assertEquals(massSpectrumOut.getMz(), Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
+        assertEquals(massSpectrumOut.getMz(), Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0));
 
-        // assertEquals(massSpectrumOut.getIntensity(),
-        // Arrays.asList(13.0, 15.0, 17.0, 19.0, 20.0, 21.0, 22.0, 23.0, 16.0)); //J
-        // Unit bugs?
+        assertEquals(massSpectrumOut.getIntensity(), Arrays.asList(13.0, 15.0, 17.0, 19.0, 20.0, 21.0, 22.0, 23.0));
 
-        assertEquals(massSpectrumOut.getIsotope(), Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0));
+        assertEquals(massSpectrumOut.getIsotope(), Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0));
 
-        assertEquals(massSpectrumOut.getCharge(), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(massSpectrumOut.getCharge(), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1));
     }
 }

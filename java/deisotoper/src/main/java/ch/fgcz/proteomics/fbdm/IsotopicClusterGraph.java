@@ -102,11 +102,12 @@ public class IsotopicClusterGraph {
     }
 
     public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
+        List<IsotopicCluster> isotopicSet2 = isotopicSet;
         this.minimum = Double.MAX_VALUE;
-        isotopicSet.add(new IsotopicCluster("start"));
+        isotopicSet2.add(new IsotopicCluster("start"));
 
-        for (IsotopicCluster cluster1 : isotopicSet) {
-            for (IsotopicCluster cluster2 : isotopicSet) {
+        for (IsotopicCluster cluster1 : isotopicSet2) {
+            for (IsotopicCluster cluster2 : isotopicSet2) {
                 String color = calculateConnection(cluster1, cluster2);
 
                 // Start

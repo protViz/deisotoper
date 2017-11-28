@@ -18,6 +18,10 @@ public class Deisotoper {
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<>();
 
+    public Deisotoper() {
+        config = new Configuration();
+    }
+
     public void wasRunning() throws Exception {
         if (running == false) {
             throw new Exception(
@@ -69,7 +73,6 @@ public class Deisotoper {
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
         this.running = true;
         this.isotopicSets = new ArrayList<>();
-
         generateIsotopicSets(massSpectrum);
 
         List<IsotopicCluster> bestClusters = getBestClusters();
@@ -91,27 +94,7 @@ public class Deisotoper {
         return mergedPeakList.makeResultSpectrum(massSpectrum);
     }
 
-    private List<IsotopicCluster> getBestClusters() {
-        List<IsotopicCluster> bestClusters = new ArrayList<>();
-        for (IsotopicSet isotopicSet : this.isotopicSets) {
-            bestClusters.addAll(isotopicSet.getBestPath());
-        }
-        return bestClusters;
-    }
-
-    private PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
-        PeakList resultPeakList = new PeakList();
-
-        for (IsotopicCluster istotopicCluster : isotopicClusters) {
-            IsotopicCluster aggregatedCluster = istotopicCluster.aggregation(modus);
-            Peak peak = aggregatedCluster.getPeak(0);
-            resultPeakList.add(peak);
-        }
-
-        return resultPeakList;
-    }
-
-    private void generateIsotopicSets(MassSpectrum massSpectrum) {
+    protected void generateIsotopicSets(MassSpectrum massSpectrum) {
         this.peakList = new PeakList(massSpectrum);
 
         int id = 0;
@@ -155,5 +138,25 @@ public class Deisotoper {
                 }
             }
         }
+    }
+
+    private List<IsotopicCluster> getBestClusters() {
+        List<IsotopicCluster> bestClusters = new ArrayList<>();
+        for (IsotopicSet isotopicSet : this.isotopicSets) {
+            bestClusters.addAll(isotopicSet.getBestPath());
+        }
+        return bestClusters;
+    }
+
+    private PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
+        PeakList resultPeakList = new PeakList();
+
+        for (IsotopicCluster istotopicCluster : isotopicClusters) {
+            IsotopicCluster aggregatedCluster = istotopicCluster.aggregation(modus);
+            Peak peak = aggregatedCluster.getPeak(0);
+            resultPeakList.add(peak);
+        }
+
+        return resultPeakList;
     }
 }
