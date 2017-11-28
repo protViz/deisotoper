@@ -50,7 +50,18 @@ deisotoper(amino_acid_masses = list(A = 71.03711, R = 156.10111, N =
 deisotoper as list of JavaRef
 }
 \description{
-Construct a Deisotoper Object
+\code{deisotoper} returns a deisotoper object.
+
+\code{deisotope} detects and aggregates peaks which belong to the 
+same isotopic cluster of a given mass spectrum.
+}
+\details{
+Input: a peak peaked mass spectrum.
+
+The algorithm: The deisotoper algorithm detects and aggregates peaks
+which belong to the same isotopic cluster of a given mass spectrum.
+
+Output:
 }
 \examples{
 # EXAMPLE 1
@@ -142,5 +153,5 @@ Features-Based Deisotoping Method for Tandem Mass Spectra \url{http://dx.doi.org
 \code{\link{deisotope}}
 }
 \author{
-Lucas Schmidt
+Lucas Schmidt, Christian Panse
 }
