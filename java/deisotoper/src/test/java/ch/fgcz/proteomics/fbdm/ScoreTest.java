@@ -32,8 +32,8 @@ public class ScoreTest {
         Peak y = new Peak(150.0, 467.55, 1);
         double d1 = Score.diff1(x, y);
         double d2 = Score.diff2(x, y, config.getH_MASS());
-        double d3 = Score.diff3(x, y, config);
-        double d4 = Score.diff4(x, y, config);
+        double d3 = Score.diff3(x, y, config.getH_MASS());
+        double d4 = Score.diff4(x, y, config.getH_MASS());
 
         assertEquals(d1, -30, 0);
         assertEquals(d2, 44.495999999999995, 0);
@@ -46,10 +46,10 @@ public class ScoreTest {
         Configuration config = new Configuration();
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 0);
-        double s1 = Score.sum1(x, y, config);
-        double s2 = Score.sum2(x, y, config);
-        double s3 = Score.sum3(x, y, config);
-        double s4 = Score.sum4(x, y, config);
+        double s1 = Score.sum1(x, y);
+        double s2 = Score.sum2(x, y, config.getH_MASS());
+        double s3 = Score.sum3(x, y, config.getH_MASS());
+        double s4 = Score.sum4(x, y, config.getH_MASS());
 
         assertEquals(s1, 270.0, 0);
         assertEquals(s2, 195.50400000000002, 0);
@@ -59,7 +59,7 @@ public class ScoreTest {
     /**
      * Tests the firstNonintensityFeature function.
      *
-     * With given x(123.0, 550.42) and y(125.86, 467.55) peaks, it is possible to
+     * With given x(123.0, 1) and y(125.86, 1) peaks, it is possible to
      * precalculate the results.
      *
      * So now we precalculate the diff functions:
@@ -80,11 +80,11 @@ public class ScoreTest {
     @Test
     public void firstAminoAcidDistanceScore() throws Exception {
          Configuration config = new Configuration();
-         Peak x = new Peak(123.0, 550.42, 0);
-         Peak y = new Peak(125.86, 467.55, 1);
+         Peak x = new Peak(123.0, 1, 0);
+         Peak y = new Peak(125.86, 1, 1);
          double score1 = Score.firstAminoAcidDistanceScore(x, y, config);
 
-         assertEquals(score1, 3, 0);
+         assertEquals( 3, score1, 0);
 
 
     }
