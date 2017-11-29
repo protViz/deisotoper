@@ -64,29 +64,58 @@ public class ScoreTest {
      *
      * So now we precalculate the diff functions:
      *
-     * diff1: |123 - 125.86| = 2.86 // * // * diff2: |123 - (125.86 + 1.008) / 2| =
-     * 59.566 and |125.86 - (123 + 1.008) / 2| // * = 63.856 // * // * diff3: |123 -
-     * (125.86 + 2 * 1.008) / 3| = 80.3747 and |125.86 - (123 + 2 * // * 1.008) / 3|
-     * = 84.188 // * // * diff4: |123 - (2 * 125.86 + 1.008) / 3| = 38.7573 and
-     * |125.86 - (2 * 123 + // * 1.008) / 3| = 43.524 // * // * In the standart
-     * configurated amino acid masses (from charge 1 to 3) there // * would be
-     * matches (with error tolerance of 0.3) at 131.04049 (charge 3, // * matches
-     * with diff4(y, x)), 128.09496 (charge 2, matches with diff2(y, x)) and // *
-     * 128.05858 (charge 2 matches with diff2(y, x)). //
+     * diff1: |123 - 125.86| = 2.86
+     * diff2: |123 - (125.86 + 1.008) / 2| = 59.566
+     * and |125.86 - (123 + 1.008) / 2|  = 63.856
+     * diff3: |123 - (125.86 + 2 * 1.008) / 3| = 80.3747
+     *  and |125.86 - (123 + 2 * 1.008) / 3| = 84.188
+     *  diff4: |123 - (2 * 125.86 + 1.008) / 3| = 38.7573
+     *  and |125.86 - (2 * 123 + 1.008) / 3| = 43.524
+     *
+     *  In the standart configurated amino acid masses (from charge 1 to 3) there
+     *  would be matches (with error tolerance of 0.3) at 131.04049 (charge 3,
+     *  matches with diff4(y, x)), 128.09496 (charge 2, matches with diff2(y, x))
+     *  and 128.05858 (charge 2 matches with diff2(y, x)).
      */
     @Test
     public void firstAminoAcidDistanceScore() throws Exception {
          Configuration config = new Configuration();
          Peak x = new Peak(123.0, 550.42, 0);
          Peak y = new Peak(125.86, 467.55, 1);
-         double e = 0.3;
-
          double score1 = Score.firstAminoAcidDistanceScore(x, y, config);
 
          assertEquals(score1, 3, 0);
 
 
     }
+
+    @Test
+    public void firstAminoAcidDistanceScorePeakList(){
+        int charge = 1;
+
+        Configuration config = new Configuration();
+        Peak x1 = new Peak(100,10, 1);
+        Peak x2 = new Peak(100 + config.getAaMass().get(1) ,10, 1);
+        Peak x3 = new Peak(100+ config.getAaMass().get(1) + config.getAaMass().get(2)  ,10, 1);
+        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get(10),10, 1);
+        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get(11),10, 1);
+
+        PeakList peaklist = new PeakList();
+        peaklist.add(x1).add(x2).add(x3).add(x4).add(x5);
+
+        Score score1 = new Score(x5.getMz(), charge, config);
+
+        int score = score1.firstAminoAcidDistanceScore(x1, peaklist, config);
+        score = score1.firstAminoAcidDistanceScore(x2, peaklist, config);
+        score = score1.firstAminoAcidDistanceScore(x3, peaklist, config);
+        score = score1.firstAminoAcidDistanceScore(x4, peaklist, config);
+        score = score1.firstAminoAcidDistanceScore(x5, peaklist, config);
+
+        // TODO : make a meaningfull test here.
+        assertEquals(0,1);
+
+    }
+
     /**
      * Tests the secondNonintensityFeature function.
      *
@@ -176,27 +205,5 @@ public class ScoreTest {
     public void calculateAminoAcidDistanceScore() throws Exception {
     }
 
-    @Test
-    public void testScoreEntireSpectrum(){
-        int charge = 1;
-
-        Configuration config = new Configuration();
-        Peak x1 = new Peak(100,10, 1);
-        Peak x2 = new Peak(100 + config.getAaMass().get(1) ,10, 1);
-        Peak x3 = new Peak(100+ config.getAaMass().get(1) + config.getAaMass().get(2)  ,10, 1);
-        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get(10),10, 1);
-        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get(11),10, 1);
-
-        PeakList peaklist = new PeakList();
-        peaklist.add(x1).add(x2).add(x3).add(x4).add(x5);
-
-        Score score1 = new Score(x5.getMz(), charge, config);
-
-        int score = score1.calculateAminoAcidDistanceScore(x1, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x2, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x3, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x4, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x5, peaklist);
-    }
 
 }

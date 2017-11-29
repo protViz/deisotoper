@@ -113,6 +113,13 @@ public class Score {
         return F1;
     }
 
+    public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, Configuration config) {
+        int peaklistScore = 0;
+        for(Peak y : peaklist.getPeakList()) {
+            peaklistScore += firstAminoAcidDistanceScore(x, y , config);
+        }
+        return peaklistScore;
+    }
     // is based on the number collection of peaks  representing fragment ions that complement with fragment ion represented by .
     public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
                                                    IsotopicCluster isotopicCluster, Configuration config) {
@@ -303,11 +310,5 @@ public class Score {
         return F4;
     }
 
-    public int calculateAminoAcidDistanceScore(Peak x, PeakList peaklist) {
-        int peaklistScore = 0;
-        for(Peak y : peaklist.getPeakList()) {
-            peaklistScore += firstAminoAcidDistanceScore(x, y , this.config);
-        }
-        return peaklistScore;
-    }
+
 }
