@@ -186,7 +186,7 @@ rv
 dtoper <- deisotoper(delta = 0.15)
 
 # return the configuration of dtoper
-config <- getConfig(dtoper)
+config <- config.deisotoper(dtoper)
 
 # deisotope the data
 xd <- deisotope(dtoper, x)
