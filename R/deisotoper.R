@@ -17,7 +17,7 @@
 #' @return deisotoper as list of JavaRef 
 #' @import rJava
 #' @export deisotoper
-#' @aliases deisotope.list plot.deisotoper print.deisotoper getDOTGraphs summary.deisotoper getConfig 
+#' @aliases deisotope.list plot.deisotoper print.deisotoper dot.deisotoper summary.deisotoper config.deisotoper 
 #' @author Lucas Schmidt, Christian Panse
 #' @description 
 #' \code{deisotoper} returns a deisotoper object.
@@ -39,7 +39,7 @@
 #' dtoper <- deisotoper()
 #' 
 #' # return the configuration of dtoper
-#' config <- getConfig(dtoper)
+#' config <- config.deisotoper(dtoper)
 #' 
 #' # example data
 #' x <- list(mZ = c(110.07172, 111.07504, 129.10249, 130.08649, 147.11302,
@@ -103,11 +103,11 @@
 #' dtoper2 <- deisotoper(delta = 0.005, decharge = TRUE)
 #' 
 #' # return the configuration of dtoper2
-#' config2 <- getConfig(dtoper2)
+#' config2 <- config.deisotoper(dtoper2)
 #' 
 #' \dontrun{
 #' # return the GraphViz dot graphs of the above deisotoped data
-#' xdot <- getDOTGraphs(dtoper)
+#' xdot <- dot.deisotoper(dtoper)
 #' 
 #' # draws the isotopic cluster graphs in the browser (html)
 #'   if(require(DiagrammeR)){
@@ -280,7 +280,6 @@ summary.deisotoper <- function(object, ...) {
 #' @import graphics
 #' @author Lucas Schmidt
 plot.deisotoper <- function(x, y, ...) {
-  
   plot(c(x$mZ, y$mZ), 
        c(x$intensity, -y$intensity),
        type = "n", 
@@ -367,7 +366,7 @@ findNN <- function (q, vec) {
 
 #' @export
 #' @author Lucas Schmidt
-getConfig <- function(deisotoper) {
+config.deisotoper <- function(deisotoper) {
   config <- .jcall(deisotoper$javaRef, "S", "getConfiguration")
   
   con <- textConnection(config)
@@ -377,7 +376,7 @@ getConfig <- function(deisotoper) {
 
 #' @export
 #' @author Lucas Schmidt
-getDOTGraphs <- function(deisotoper) {
+dot.deisotoper <- function(deisotoper) {
   DOT <- .jcall(deisotoper$javaRef, "[S", "getDot")
   
   DOT
