@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
 
-public class TestIsotopicSet {
+public class IsotopicSetTest {
     @Test
     public void testIsotopeSet() {
         String source = "Unit Test Case";

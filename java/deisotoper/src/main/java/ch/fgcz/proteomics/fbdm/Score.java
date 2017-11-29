@@ -5,8 +5,6 @@ package ch.fgcz.proteomics.fbdm;
  * @since 2017-09-19
  */
 
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-
 public class Score {
     private double peptidMassValue;
     private double chargeValue;
@@ -14,7 +12,7 @@ public class Score {
     private Configuration config;
 
     // @TODO remove depedency on config.
-    public Score(double peptidMass, double charge, Configuration config) {
+    public Score(double peptidMass, int charge, Configuration config) {
         this.peptidMassValue = peptidMass;
         this.chargeValue = charge;
         this.config = config;
@@ -23,47 +21,48 @@ public class Score {
     // TODO integrate 5 th score
     public double calculateAminoAcidDistanceScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX,
                                                   Connection connection) {
-        return this.config.getF1() * calculateFirstScoringFeature(peakX, peakY, this.config)
-                + this.config.getF2() * calculateSecondScoringFeature(peakX, peakY, this.peptidMassValue,
+        return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
+                + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
                         this.chargeValue, isotopicClusterOfPeakX, this.config)
-                + this.config.getF3() * calculateThirdScoringFeature(peakX, peakY, this.config)
-                + this.config.getF4() * calculateFourthScoringFeature(peakX, peakY, this.config);
+                + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
+                + this.config.getF4() * fourthSupportiveAndZIonScore(peakX, peakY, this.config);
     }
 
-    private static double diff1(Peak x, Peak y) {
+    public static double diff1(Peak x, Peak y) {
         return x.getMz() - y.getMz();
     }
 
-    private static double diff2(Peak x, Peak y, double H_MASS) {
+    public static double diff2(Peak x, Peak y, double H_MASS) {
         return x.getMz() - ((y.getMz() + H_MASS) / 2);
     }
 
-    private static double diff3(Peak x, Peak y, Configuration config) {
+    public static double diff3(Peak x, Peak y, Configuration config) {
         return x.getMz() - ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
-    private static double diff4(Peak x, Peak y, Configuration config) {
+    public static double diff4(Peak x, Peak y, Configuration config) {
         return x.getMz() - (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
-    private static double sum1(Peak x, Peak y, Configuration config) {
+    public static double sum1(Peak x, Peak y, Configuration config) {
         return x.getMz() + y.getMz();
     }
 
-    private static double sum2(Peak x, Peak y, Configuration config) {
+    public static double sum2(Peak x, Peak y, Configuration config) {
         return x.getMz() + ((y.getMz() + config.getH_MASS()) / 2);
     }
 
-    private static double sum3(Peak x, Peak y, Configuration config) {
+    public static double sum3(Peak x, Peak y, Configuration config) {
         return x.getMz() + ((y.getMz() + (2 * config.getH_MASS())) / 3);
     }
 
-    private static double sum4(Peak x, Peak y, Configuration config) {
+    public static double sum4(Peak x, Peak y, Configuration config) {
         return x.getMz() + (((y.getMz() * 2) + config.getH_MASS()) / 3);
     }
 
     // TODO : Look into paper and try to find out what is being scored.
-    private static int calculateFirstScoringFeature(Peak x, Peak y, Configuration config) {
+    // is based on the number collection of peaks  whose mass differences with approximate the residue mass of one of the twenty amino acids.
+    public static int firstAminoAcidDistanceScore(Peak x, Peak y, Configuration config) {
         int F1 = 0;
 
         double d1xy = Math.abs(diff1(x, y));
@@ -84,6 +83,8 @@ public class Score {
                 double aa = config.getAaMass().get(i);
                 double aa2 = config.getAaMassDividedTwo().get(i);
                 double aa3 = config.getAaMassDividedThree().get(i);
+
+
                 double aape = aa + config.getErrortolerance();
                 double aame = aa - config.getErrortolerance();
                 double aa2pe = aa2 + config.getErrortolerance();
@@ -91,10 +92,19 @@ public class Score {
                 double aa3pe = aa3 + config.getErrortolerance();
                 double aa3me = aa3 - config.getErrortolerance();
 
-                if ((aame < d1xy && d1xy < aape) || (aa2me < d1xy && d1xy < aa2pe) || (aa3me < d1xy && d1xy < aa3pe)
-                        || (aa2me < d2xy && d2xy < aa2pe) || (aa2me < d2yx && d2yx < aa2pe)
-                        || (aa3me < d3xy && d3xy < aa3pe) || (aa3me < d3yx && d3yx < aa3pe)
-                        || (aa3me < d4xy && d4xy < aa3pe) || (aa3me < d4yx && d4yx < aa3pe)) {
+
+                // TODO: can very likely just be written as
+                // d1xy < aa2me || (same as in paper)
+
+                if ((aame < d1xy && d1xy < aape) ||
+                        (aa2me < d1xy && d1xy < aa2pe) ||
+                        (aa3me < d1xy && d1xy < aa3pe) ||
+                        (aa2me < d2xy && d2xy < aa2pe) ||
+                        (aa2me < d2yx && d2yx < aa2pe) ||
+                        (aa3me < d3xy && d3xy < aa3pe) ||
+                        (aa3me < d3yx && d3yx < aa3pe) ||
+                        (aa3me < d4xy && d4xy < aa3pe) ||
+                        (aa3me < d4yx && d4yx < aa3pe)) {
                     F1++;
                 }
             }
@@ -103,8 +113,9 @@ public class Score {
         return F1;
     }
 
-    private static int calculateSecondScoringFeature(Peak x, Peak y, double pepidMass, double charge,
-            IsotopicCluster isotopicCluster, Configuration config) {
+    // is based on the number collection of peaks  representing fragment ions that complement with fragment ion represented by .
+    public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
+                                                   IsotopicCluster isotopicCluster, Configuration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : isotopicCluster.getIsotopicCluster()) {
@@ -150,13 +161,11 @@ public class Score {
                 && s4yx < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
             F2++;
         }
-
         return F2;
     }
 
-    private static int calculateThirdScoringFeature(Peak x, Peak y, Configuration config) {
+    public static int thirdSideChainLossScore(Peak x, Peak y, Configuration config) {
         int F3 = 0;
-
         double d1xy = Math.abs(diff1(x, y));
         double d2xy = Math.abs(diff2(x, y, config.getH_MASS()));
         double d2yx = Math.abs(diff2(y, x, config.getH_MASS()));
@@ -220,11 +229,11 @@ public class Score {
                 && d4yx < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
             F3++;
         }
-
         return F3;
     }
 
-    private static int calculateFourthScoringFeature(Peak x, Peak y, Configuration config) {
+    // considers two supportive ions a-ions and z-ions which can be used to indicate the existence of the corresponding b-ions and y-ions.
+    public static int fourthSupportiveAndZIonScore(Peak x, Peak y, Configuration config) {
         int F4 = 0;
 
         double d1xy = Math.abs(diff1(x, y));
@@ -297,7 +306,7 @@ public class Score {
     public int calculateAminoAcidDistanceScore(Peak x, PeakList peaklist) {
         int peaklistScore = 0;
         for(Peak y : peaklist.getPeakList()) {
-            peaklistScore += calculateFirstScoringFeature(x, y , this.config);
+            peaklistScore += firstAminoAcidDistanceScore(x, y , this.config);
         }
         return peaklistScore;
     }

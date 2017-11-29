@@ -14,7 +14,7 @@ import org.junit.Test;
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-public class TestDeisotoper {
+public class DeisotoperTest {
     @Test
     public void generateIsotopicSets2() {
         Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");

@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-public class TestConfiguration {
+public class ConfigurationTest {
     @Test
     public void testConfigurationCreation() {
         Configuration config = new Configuration(Arrays.asList(100.0, 1000.0), 0.839, 0.013, 0.12, 0.171, 0.993, 0.0054,

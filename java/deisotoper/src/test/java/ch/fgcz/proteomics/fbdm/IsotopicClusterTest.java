@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class TestIsotopicCluster {
+public class IsotopicClusterTest {
     @Test
     public void testIsotopicCluster() {
         List<Peak> peaks = new ArrayList<>();
