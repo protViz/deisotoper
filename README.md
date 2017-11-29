@@ -60,7 +60,7 @@ xd <- deisotope(dtoper, x)
 xas <- getAnnotatedSpectrum(dtoper)
 
 # return the dot graphs of the above deisotoped data
-xdot <- getDOTGraphs(dtoper)
+xdot <- dot.deisotoper(dtoper)
 
 # plot the example data and the deisotoped data
 .plot(x, xd)
@@ -73,7 +73,7 @@ xdot <- getDOTGraphs(dtoper)
 dtoper2 <- deisotoper(delta = 0.005, decharge = TRUE)
 
 # return the configuration of dtoper2
-config2 <- getConfig(dtoper2)
+config2 <- config.deisotoper(dtoper2)
 ```
 
 
