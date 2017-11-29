@@ -8,20 +8,18 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 public class ScoreTest {
-    Configuration config;
-    Score score;
-    Peak x1;
-    Peak x2;
+    private Configuration config;
+    private Score score;
+    private Peak x1;
+    private Peak x2;
 
     @Before
     public void initialize() {
-
         config = new Configuration();
 
         x1 = new Peak(100, 10, 1);
         x2 = new Peak(100 + config.getAaMass().get(1), 10, 2);
         score = new Score(x1.getMz() + x2.getMz(), 1, config);
-
     }
 
     @Test
@@ -75,7 +73,7 @@ public class ScoreTest {
      * 128.05858 (charge 2 matches with diff2(y, x)).
      */
     @Test
-    public void firstAminoAcidDistanceScore() throws Exception {
+    public void firstAminoAcidDistanceScore() {
         Configuration config = new Configuration();
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(125.86, 467.55, 1);
@@ -101,17 +99,20 @@ public class ScoreTest {
         PeakList peaklist = new PeakList();
         peaklist.add(x1).add(x2).add(x3).add(x4).add(x5);
 
-        Score score1 = new Score(x5.getMz(), charge, config);
+        Score score = new Score(x5.getMz(), charge, config);
 
-        int score = score1.calculateAminoAcidDistanceScore(x1, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x2, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x3, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x4, peaklist);
-        score = score1.calculateAminoAcidDistanceScore(x5, peaklist);
+        int score1 = score.calculateAminoAcidDistanceScore(x1, peaklist);
+        int score2 = score.calculateAminoAcidDistanceScore(x2, peaklist);
+        int score3 = score.calculateAminoAcidDistanceScore(x3, peaklist);
+        int score4 = score.calculateAminoAcidDistanceScore(x4, peaklist);
+        int score5 = score.calculateAminoAcidDistanceScore(x5, peaklist);
 
-        // TODO : make a meaningfull test here.
-        assertEquals(0, 1);
-
+        // TODO: Make a meaningful test here.
+        assertEquals(4, score1);
+        assertEquals(3, score2);
+        assertEquals(8, score3);
+        assertEquals(5, score4);
+        assertEquals(7, score5);
     }
 
     /**
@@ -129,15 +130,13 @@ public class ScoreTest {
      * The value of sum1 (376 is in the range of 375.7 and 376.3, therefore the
      * result of the function is 1.
      */
-
     @Test
-    public void secondComplementaryMassScore() throws Exception {
+    public void secondComplementaryMassScore() {
         Configuration config = new Configuration();
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(253.0, 467.55, 1);
         double pepmass = 188.038;
         int charge = 2;
-        double e = 0.3;
         IsotopicCluster ic = new IsotopicCluster(
                 Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1,
                 config);
@@ -161,17 +160,16 @@ public class ScoreTest {
      * The result from diff1 (18) matches the range from H2O (18.01528 +- 0.3).
      */
     @Test
-    public void thirdSideChainLossScore() throws Exception {
+    public void thirdSideChainLossScore() {
         Configuration config = new Configuration();
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(141.0, 467.55, 1);
-        double e = 0.3;
 
         int score = Score.thirdSideChainLossScore(x, y, config.getH_MASS(), config.getH2O_MASS(),
                 config.getH2O_MASS_DIVIDED_TWO(), config.getH2O_MASS_DIVIDED_THREE(), config.getNH3_MASS(),
                 config.getNH3_MASS_DIVIDED_TWO(), config.getNH3_MASS_DIVIDED_THREE(), config.getErrortolerance());
 
-        assertEquals(1, score);
+        assertEquals(score, 1);
     }
 
     /**
@@ -188,11 +186,10 @@ public class ScoreTest {
      * The result from diff1 (15) matches the range from NH (15.01464 +- 0.3).
      */
     @Test
-    public void fourthSupportiveAndZIonScore() throws Exception {
+    public void fourthSupportiveAndZIonScore() {
         Configuration config = new Configuration();
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(138.0, 467.55, 1);
-        double e = 0.3;
 
         double score = Score.fourthSupportiveAndZIonScore(x, y, config.getH_MASS(), config.getNH_MASS(),
                 config.getNH_MASS_DIVIDED_TWO(), config.getNH_MASS_DIVIDED_THREE(), config.getCO_MASS(),
@@ -200,9 +197,4 @@ public class ScoreTest {
 
         assertEquals(score, 1, 0);
     }
-
-    @Test
-    public void calculateAminoAcidDistanceScore() throws Exception {
-    }
-
 }
