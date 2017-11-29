@@ -291,17 +291,17 @@ plot.deisotoper <- function(x, y, ...) {
   lines(x$mZ, 
         x$intensity, 
         type = "h", 
-        col = "#FF000099")
+        col = "red")
   
   lines(y$mZ, 
         -y$intensity, 
         type = "h", 
-        col = "#0000FF99")
+        col = "blue")
 
   axis(side = 3, x$mZ[-1] - (0.5 * diff(x$mZ)), round(diff(x$mZ), 2) )
   
-  mtext(text = deparse(substitute(y)), line = 2, adj = 0, col="blue")
-  mtext(text = deparse(substitute(x)), line = 1, adj = 0, col="red")
+  mtext(text = deparse(substitute(y)), line = 3, adj = 0, col = "blue")
+  mtext(text = deparse(substitute(x)), line = 2, adj = 0, col = "red")
   
   axis(side = 2)
   axis(side = 1, at = c(x$mZ, y$mZ))
