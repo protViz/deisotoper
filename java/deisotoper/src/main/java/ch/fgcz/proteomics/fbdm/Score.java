@@ -8,7 +8,8 @@ package ch.fgcz.proteomics.fbdm;
 public class Score {
     private double peptidMassValue;
     private double chargeValue;
-    //private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph;
+    // private DefaultDirectedWeightedGraph<IsotopicCluster, Connection>
+    // isotopicClusterGraph;
     private Configuration config;
 
     // @TODO remove depedency on config.
@@ -22,7 +23,7 @@ public class Score {
     public double calculateAggregatedScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX) {
         return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
                 + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
-                this.chargeValue, isotopicClusterOfPeakX, this.config)
+                        this.chargeValue, isotopicClusterOfPeakX, this.config)
                 + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
                 + this.config.getF4() * fourthSupportiveAndZIonScore(peakX, peakY, this.config);
     }
@@ -31,13 +32,16 @@ public class Score {
         return Math.abs(a - b) < tolerance;
     }
 
-    public static class Range{
+    public static class Range {
         double min, max;
-        Range(double min, double max){
-            this.min = min; this.max = max;
+
+        Range(double min, double max) {
+            this.min = min;
+            this.max = max;
         }
-        public boolean in(double value){
-            return(min < value && value < max);
+
+        public boolean in(double value) {
+            return (min < value && value < max);
         }
     }
 
@@ -60,8 +64,7 @@ public class Score {
         return x.getMz() - (((y.getMz() * 2) + H_MASS) / 3);
     }
 
-    public static double sum1(Peak x, Peak y)
-    {
+    public static double sum1(Peak x, Peak y) {
         return x.getMz() + y.getMz();
     }
 
@@ -78,13 +81,14 @@ public class Score {
     }
 
     // TODO : Look into paper and try to find out what is being scored.
-    // is based on the number collection of peaks  whose mass differences with approximate the residue mass of one of the twenty amino acids.
+    // is based on the number collection of peaks whose mass differences with
+    // approximate the residue mass of one of the twenty amino acids.
     public static int firstAminoAcidDistanceScore(Peak x, Peak y, Configuration config) {
         int F1 = 0;
         double error = config.getErrortolerance();
         double H_MASS = config.getH_MASS();
 
-        Range aminoAcidMassRange = new Range(config.getMin() - 2, config.getMax() + 2 );
+        Range aminoAcidMassRange = new Range(config.getMin() - 2, config.getMax() + 2);
 
         double d1xy = Math.abs(diff1(x, y));
         double d2xy = Math.abs(diff2(x, y, H_MASS));
@@ -94,14 +98,9 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, H_MASS));
         double d4yx = Math.abs(diff4(y, x, H_MASS));
 
-
-        if (aminoAcidMassRange.in(d1xy) ||
-                aminoAcidMassRange.in(d2xy) ||
-                aminoAcidMassRange.in(d2yx) ||
-                aminoAcidMassRange.in(d3xy) ||
-                aminoAcidMassRange.in(d3yx) ||
-                aminoAcidMassRange.in(d4xy) ||
-                aminoAcidMassRange.in(d4yx)) {
+        if (aminoAcidMassRange.in(d1xy) || aminoAcidMassRange.in(d2xy) || aminoAcidMassRange.in(d2yx)
+                || aminoAcidMassRange.in(d3xy) || aminoAcidMassRange.in(d3yx) || aminoAcidMassRange.in(d4xy)
+                || aminoAcidMassRange.in(d4yx)) {
 
             for (int i = 0; i < config.getAaMass().size(); i++) {
 
@@ -109,15 +108,10 @@ public class Score {
                 double aa2 = config.getAaMassDividedTwo().get(i);
                 double aa3 = config.getAaMassDividedThree().get(i);
 
-                if (fuzzyEqual(d1xy , aa, error ) ||
-                        fuzzyEqual(d1xy, aa2, error) ||
-                        fuzzyEqual(d1xy, aa3, error) ||
-                        fuzzyEqual(d2xy, aa2, error) ||
-                        fuzzyEqual(d2yx, aa2, error) ||
-                        fuzzyEqual(d3xy, aa3, error) ||
-                        fuzzyEqual(d3yx, aa3, error) ||
-                        fuzzyEqual(d4xy, aa3, error) ||
-                        fuzzyEqual(d4yx, aa3, error)) {
+                if (fuzzyEqual(d1xy, aa, error) || fuzzyEqual(d1xy, aa2, error) || fuzzyEqual(d1xy, aa3, error)
+                        || fuzzyEqual(d2xy, aa2, error) || fuzzyEqual(d2yx, aa2, error) || fuzzyEqual(d3xy, aa3, error)
+                        || fuzzyEqual(d3yx, aa3, error) || fuzzyEqual(d4xy, aa3, error)
+                        || fuzzyEqual(d4yx, aa3, error)) {
                     F1++;
                 }
             }
@@ -125,8 +119,6 @@ public class Score {
 
         return F1;
     }
-
-
 
     public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, Configuration config) {
         int peaklistScore = 0;
@@ -136,9 +128,10 @@ public class Score {
         return peaklistScore;
     }
 
-    // is based on the number collection of peaks  representing fragment ions that complement with fragment ion represented by .
+    // is based on the number collection of peaks representing fragment ions that
+    // complement with fragment ion represented by .
     public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
-                                                   IsotopicCluster isotopicCluster, Configuration config) {
+            IsotopicCluster isotopicCluster, Configuration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : isotopicCluster.getIsotopicCluster()) {
@@ -256,7 +249,8 @@ public class Score {
         return F3;
     }
 
-    // considers two supportive ions a-ions and z-ions which can be used to indicate the existence of the corresponding b-ions and y-ions.
+    // considers two supportive ions a-ions and z-ions which can be used to indicate
+    // the existence of the corresponding b-ions and y-ions.
     public static int fourthSupportiveAndZIonScore(Peak x, Peak y, Configuration config) {
         int F4 = 0;
 
@@ -326,6 +320,5 @@ public class Score {
 
         return F4;
     }
-
 
 }

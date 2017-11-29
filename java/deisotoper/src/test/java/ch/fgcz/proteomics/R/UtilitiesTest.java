@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestUtilities {
+public class UtilitiesTest {
     @Test
     public void testFindNNR() {
         double[] testvector1 = { 2, 3 };

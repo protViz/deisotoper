@@ -100,7 +100,8 @@ public class DeisotoperTest {
         double oneSetStart = 100;
 
         List<Double> mz4 = Arrays.asList(oneSetStart, oneSetStart + config.getIsotopicPeakDistance(),
-                oneSetStart + 2. * config.getIsotopicPeakDistance(), oneSetStart + config.getIsotopicPeakDistance() * 2.5,
+                oneSetStart + 2. * config.getIsotopicPeakDistance(),
+                oneSetStart + config.getIsotopicPeakDistance() * 2.5,
                 oneSetStart + config.getIsotopicPeakDistance() * 3); // 100.0, 101.0, 102.0, 102.5, 103.0
         List<Double> intensity4 = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0);
         MassSpectrum massSpectrum4 = new MassSpectrum(mz4, intensity4);
@@ -112,7 +113,6 @@ public class DeisotoperTest {
         assertEquals(5, deisotoper.getIsotopicSets().get(0).getPeaksInSet().size());
     }
 
-
     @Test
     public void generateIsotopicSets_two_non_overlappling_isotopicsets() {
         Configuration config = new Configuration();
@@ -120,12 +120,13 @@ public class DeisotoperTest {
         double oneSetStart = 100;
         double secondStart = 1000;
 
-        List<Double> mz4 = Arrays.asList(oneSetStart,
-                oneSetStart + config.getIsotopicPeakDistance(),
-                oneSetStart + 2. * config.getIsotopicPeakDistance(),
-                secondStart,
-                secondStart + config.getIsotopicPeakDistance() ,
-                secondStart + config.getIsotopicPeakDistance() *2); // 100.0, 101.0, 102.0, 102.5, 103.0
+        List<Double> mz4 = Arrays.asList(oneSetStart, oneSetStart + config.getIsotopicPeakDistance(),
+                oneSetStart + 2. * config.getIsotopicPeakDistance(), secondStart,
+                secondStart + config.getIsotopicPeakDistance(), secondStart + config.getIsotopicPeakDistance() * 2); // 100.0,
+                                                                                                                     // 101.0,
+                                                                                                                     // 102.0,
+                                                                                                                     // 102.5,
+                                                                                                                     // 103.0
         List<Double> intensity4 = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0);
         MassSpectrum massSpectrum4 = new MassSpectrum(mz4, intensity4);
 

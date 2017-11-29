@@ -108,16 +108,20 @@ public class TestMspy {
         peaklistout.setPeaklist(Mspy.removeEmptyPeaks(peaklistout.getPeaklist()));
 
         // HeLa filtered ID 6 input
-//        peaklistin2 = Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
-//        // HeLa filtered ID 6 mMass output
-//        peaklistout2 = Convert.msdToPeaklist(
-//                "/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] deisotoped.msd");
-//        // HeLa filtered ID 6 mMass deconvolute output
-//        peaklistout2d = Convert.msdToPeaklist(
-//                "/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] - Deconvoluted.msd");
+        // peaklistin2 =
+        // Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered");
+        // // HeLa filtered ID 6 mMass output
+        // peaklistout2 = Convert.msdToPeaklist(
+        // "/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6]
+        // deisotoped.msd");
+        // // HeLa filtered ID 6 mMass deconvolute output
+        // peaklistout2d = Convert.msdToPeaklist(
+        // "/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10005.10005.3 [6] -
+        // Deconvoluted.msd");
 
-        //Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
-        //Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2 [13].msd");
+        // Convert.mgfToPeaklist("/srv/lucas1/Downloads/mgffromhelafiltered2");
+        // Convert.msdToPeaklist("/srv/lucas1/Downloads/20161010_04_TP_HeLa_200ng.filtered.10013.10013.2
+        // [13].msd");
     }
 
     @Test

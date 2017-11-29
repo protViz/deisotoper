@@ -102,7 +102,9 @@ public class IsotopicClusterGraph {
     }
 
     public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
-        List<IsotopicCluster> isotopicSet2 = isotopicSet;
+        List<IsotopicCluster> isotopicSet2 = new ArrayList<>();
+        isotopicSet2.addAll(isotopicSet);
+
         this.minimum = Double.MAX_VALUE;
         isotopicSet2.add(new IsotopicCluster("start"));
 
