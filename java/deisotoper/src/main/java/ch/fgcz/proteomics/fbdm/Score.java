@@ -19,8 +19,7 @@ public class Score {
     }
 
     // TODO integrate 5 th score
-    public double calculateAminoAcidDistanceScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX,
-                                                  Connection connection) {
+    public double calculateAggregatedScore(Peak peakX, Peak peakY, IsotopicCluster isotopicClusterOfPeakX) {
         return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
                 + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
                 this.chargeValue, isotopicClusterOfPeakX, this.config)

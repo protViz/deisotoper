@@ -35,7 +35,7 @@ public class DeisotoperTest {
     }
 
     @Test
-    public void testGenerateIsotopicSets1() {
+    public void generateIsotopicSets_two_clusters_Interleaved() {
         Configuration config = new Configuration();
 
         double oneSetStart = 100;
@@ -56,7 +56,7 @@ public class DeisotoperTest {
     }
 
     @Test
-    public void testGenerateIsotopicSets2() {
+    public void generateIsotopicSets_one_cluster_interrupted() {
         Configuration config = new Configuration();
 
         double oneSetStart = 100;
@@ -75,7 +75,7 @@ public class DeisotoperTest {
     }
 
     @Test
-    public void testGenerateIsotopicSets3() {
+    public void generateIsotopicSets_single_isotopic_set_with_two_charges_case1() {
         Configuration config = new Configuration();
 
         double oneSetStart = 100;
@@ -94,7 +94,7 @@ public class DeisotoperTest {
     }
 
     @Test
-    public void testGenerateIsotopicSets4() {
+    public void generateIsotopicSets_single_isotopic_set_with_two_charges_case2() {
         Configuration config = new Configuration();
 
         double oneSetStart = 100;
