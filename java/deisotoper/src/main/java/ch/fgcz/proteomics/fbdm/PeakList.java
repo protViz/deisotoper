@@ -16,11 +16,7 @@ public class PeakList {
     private List<Peak> peakList = new ArrayList<>();
 
     public boolean isEmpty() {
-        if (peakList.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return peakList.isEmpty();
     }
 
     public void setPeakList(List<Peak> peakList) {
