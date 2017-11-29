@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class TestMassSpecMeasure {
+public class MassSpecMeasureTest {
     @Test
     public void testMassSpectrometryMeasurementCreation() {
         String s = "Unit Test Case";

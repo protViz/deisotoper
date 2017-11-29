@@ -51,8 +51,7 @@ public class ReadMGF {
         return null;
     }
 
-    private static MassSpecMeasure readLocal(String fileName,
-            MassSpecMeasure massSpectrometryMeasurement) {
+    private static MassSpecMeasure readLocal(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         try (BufferedReader bufferedreader = new BufferedReader(new FileReader(fileName))) {
             String line = "";
             int chargeState = 0;

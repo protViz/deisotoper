@@ -1,5 +1,10 @@
 package ch.fgcz.proteomics.fbdm;
 
+/**
+ * @author Lucas Schmidt
+ * @since 2017-11-28
+ */
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,15 +18,14 @@ public class ScoreTest {
     Peak x1;
     Peak x2;
 
-    @Before public void initialize(){
+    @Before
+    public void initialize() {
 
         config = new Configuration();
 
-        x1 = new Peak(100,10, 1);
-        x2 = new Peak( 100 + config.getAaMass().get(1),10, 2);
-        score = new Score(x1.getMz() + x2.getMz(), 1 , config);
-
-
+        x1 = new Peak(100, 10, 1);
+        x2 = new Peak(100 + config.getAaMass().get(1), 10, 2);
+        score = new Score(x1.getMz() + x2.getMz(), 1, config);
 
     }
 
@@ -56,64 +60,60 @@ public class ScoreTest {
         assertEquals(s3, 170.672, 0);
         assertEquals(s4, 220.336, 0);
     }
+
     /**
      * Tests the firstNonintensityFeature function.
      *
-     * With given x(123.0, 1) and y(125.86, 1) peaks, it is possible to
-     * precalculate the results.
+     * With given x(123.0, 1) and y(125.86, 1) peaks, it is possible to precalculate
+     * the results.
      *
      * So now we precalculate the diff functions:
      *
-     * diff1: |123 - 125.86| = 2.86
-     * diff2: |123 - (125.86 + 1.008) / 2| = 59.566
-     * and |125.86 - (123 + 1.008) / 2|  = 63.856
-     * diff3: |123 - (125.86 + 2 * 1.008) / 3| = 80.3747
-     *  and |125.86 - (123 + 2 * 1.008) / 3| = 84.188
-     *  diff4: |123 - (2 * 125.86 + 1.008) / 3| = 38.7573
-     *  and |125.86 - (2 * 123 + 1.008) / 3| = 43.524
+     * diff1: |123 - 125.86| = 2.86 diff2: |123 - (125.86 + 1.008) / 2| = 59.566 and
+     * |125.86 - (123 + 1.008) / 2| = 63.856 diff3: |123 - (125.86 + 2 * 1.008) / 3|
+     * = 80.3747 and |125.86 - (123 + 2 * 1.008) / 3| = 84.188 diff4: |123 - (2 *
+     * 125.86 + 1.008) / 3| = 38.7573 and |125.86 - (2 * 123 + 1.008) / 3| = 43.524
      *
-     *  In the standart configurated amino acid masses (from charge 1 to 3) there
-     *  would be matches (with error tolerance of 0.3) at 131.04049 (charge 3,
-     *  matches with diff4(y, x)), 128.09496 (charge 2, matches with diff2(y, x))
-     *  and 128.05858 (charge 2 matches with diff2(y, x)).
+     * In the standart configurated amino acid masses (from charge 1 to 3) there
+     * would be matches (with error tolerance of 0.3) at 131.04049 (charge 3,
+     * matches with diff4(y, x)), 128.09496 (charge 2, matches with diff2(y, x)) and
+     * 128.05858 (charge 2 matches with diff2(y, x)).
      */
     @Test
-    public void firstAminoAcidDistanceScore() throws Exception {
-         Configuration config = new Configuration();
-         Peak x = new Peak(123.0, 1, 0);
-         Peak y = new Peak(125.86, 1, 1);
-         double score1 = Score.firstAminoAcidDistanceScore(x, y, config);
+    public void firstAminoAcidDistanceScore() {
+        Configuration config = new Configuration();
+        Peak x = new Peak(123.0, 1, 0);
+        Peak y = new Peak(125.86, 1, 1);
+        double score1 = Score.firstAminoAcidDistanceScore(x, y, config);
 
-         assertEquals( 3, score1, 0);
-
+        assertEquals(3, score1, 0);
 
     }
 
     @Test
-    public void firstAminoAcidDistanceScorePeakList(){
+    public void firstAminoAcidDistanceScorePeakList() {
         int charge = 1;
 
         Configuration config = new Configuration();
-        Peak x1 = new Peak(100,10, 1);
-        Peak x2 = new Peak(100 + config.getAaMass().get(1) ,10, 1);
-        Peak x3 = new Peak(100+ config.getAaMass().get(1) + config.getAaMass().get(2)  ,10, 1);
-        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get(10),10, 1);
-        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get(11),10, 1);
+        Peak x1 = new Peak(100, 10, 1);
+        Peak x2 = new Peak(100 + config.getAaMass().get(1), 10, 1);
+        Peak x3 = new Peak(100 + config.getAaMass().get(1) + config.getAaMass().get(2), 10, 1);
+        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get(10), 10, 1);
+        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get(11), 10, 1);
 
         PeakList peaklist = new PeakList();
         peaklist.add(x1).add(x2).add(x3).add(x4).add(x5);
 
-        Score score1 = new Score(x5.getMz(), charge, config);
+        Score score = new Score(x5.getMz(), charge, config);
 
-        int score = score1.firstAminoAcidDistanceScore(x1, peaklist, config);
-        score = score1.firstAminoAcidDistanceScore(x2, peaklist, config);
-        score = score1.firstAminoAcidDistanceScore(x3, peaklist, config);
-        score = score1.firstAminoAcidDistanceScore(x4, peaklist, config);
-        score = score1.firstAminoAcidDistanceScore(x5, peaklist, config);
+        int score1 = score.firstAminoAcidDistanceScore(x1, peaklist, config);
+        int score2 = score.firstAminoAcidDistanceScore(x2, peaklist, config);
+        int score3 = score.firstAminoAcidDistanceScore(x3, peaklist, config);
+        int score4 = score.firstAminoAcidDistanceScore(x4, peaklist, config);
+        int score5 = score.firstAminoAcidDistanceScore(x5, peaklist, config);
 
         // TODO : make a meaningfull test here.
-        assertEquals(0,1);
-
+        assertEquals(0, 1);
     }
 
     /**
@@ -133,68 +133,62 @@ public class ScoreTest {
      */
 
     @Test
-    public void secondComplementaryMassScore() throws Exception {
-         Configuration config = new Configuration();
-         Peak x = new Peak(123.0, 550.42, 0);
-         Peak y = new Peak(253.0, 467.55, 1);
-         double pepmass = 188.038;
-         int charge = 2;
-         double e = 0.3;
-         IsotopicCluster ic = new IsotopicCluster(
-         Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new
-         Peak(125.0, 112.02, 0)), 1,
-         config);
+    public void secondComplementaryMassScore() {
+        Configuration config = new Configuration();
+        Peak x = new Peak(123.0, 550.42, 0);
+        Peak y = new Peak(253.0, 467.55, 1);
+        double pepmass = 188.038;
+        int charge = 2;
+        IsotopicCluster ic = new IsotopicCluster(
+                Arrays.asList(new Peak(123.0, 550.42, 0), new Peak(124.0, 233.2, 0), new Peak(125.0, 112.02, 0)), 1,
+                config);
 
-         double score = Score.secondComplementaryMassScore(x, y, pepmass, charge,
-         ic, config);
+        double score = Score.secondComplementaryMassScore(x, y, pepmass, charge, ic, config);
 
-         assertEquals(score, 1, 0);
+        assertEquals(score, 1, 0);
     }
-     /**
+
+    /**
      * Tests the thirdNonintensityFeature function.
      *
      * With given x(123.0, 550.42) and y(141.0, 467.55) peaks, it is possible to
      * precalculate the results.
      *
-     * The NH3 mass is 17.03052 and the H2O mass is 18.01528. Therefore the value
-     of
+     * The NH3 mass is 17.03052 and the H2O mass is 18.01528. Therefore the value of
      * diff1, diff2, diff3 and diff4 must be in the range calculated from NH3 and
      * H2O.
      *
      * The result from diff1 (18) matches the range from H2O (18.01528 +- 0.3).
      */
     @Test
-    public void thirdSideChainLossScore() throws Exception {
-         Configuration config = new Configuration();
-         Peak x = new Peak(123.0, 550.42, 0);
-         Peak y = new Peak(141.0, 467.55, 1);
-         double e = 0.3;
+    public void thirdSideChainLossScore() {
+        Configuration config = new Configuration();
+        Peak x = new Peak(123.0, 550.42, 0);
+        Peak y = new Peak(141.0, 467.55, 1);
 
-         int score = Score.thirdSideChainLossScore(x, y, config);
+        int score = Score.thirdSideChainLossScore(x, y, config);
 
-         assertEquals(1 , score);
+        assertEquals(1, score);
     }
-     /**
+
+    /**
      * Tests the fourthNonintensityFeature function.
      *
      * With given x(123.0, 550.42) and y(138.0, 467.55) peaks, it is possible to
      * precalculate the results.
      *
-     * This function is nearly the same as in the thirdNonintensityFeature
-     function.
+     * This function is nearly the same as in the thirdNonintensityFeature function.
      *
      * The NH mass is 15.01464 and the CO mass is 28.0101. Therefore the value of
-     * diff1, diff2, diff3 and diff4 must be in the range calculated from NH and
-     CO.
+     * diff1, diff2, diff3 and diff4 must be in the range calculated from NH and CO.
      *
      * The result from diff1 (15) matches the range from NH (15.01464 +- 0.3).
      */
     @Test
-    public void fourthSupportiveAndZIonScore() throws Exception {
+    public void fourthSupportiveAndZIonScore() {
         Configuration config = new Configuration();
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(138.0, 467.55, 1);
-        double e = 0.3;
 
         double score = Score.fourthSupportiveAndZIonScore(x, y, config);
 
@@ -202,8 +196,7 @@ public class ScoreTest {
     }
 
     @Test
-    public void calculateAminoAcidDistanceScore() throws Exception {
+    public void calculateAminoAcidDistanceScore() {
     }
-
 
 }

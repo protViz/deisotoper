@@ -15,17 +15,17 @@ import java.util.Set;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicSet {
-    private String dot;
-    private List<IsotopicCluster> isotopicSet = new ArrayList<>();
-    private List<IsotopicCluster> bestPath;
-    private List<Peak> peaksInSet;
+    private List<IsotopicCluster> isotopicSet = null;
+    private List<IsotopicCluster> bestPath = null;
+    private List<Peak> peaksInSet = null;
+    private String dot = null;
     private int setId;
 
     public List<Peak> getPeaksInSet() {
         return peaksInSet;
     }
 
-    public int getSetID() {
+    public int getSetId() {
         return setId;
     }
 
@@ -48,33 +48,44 @@ public class IsotopicSet {
         return bestClusters;
     }
 
-    public IsotopicSet(MassSpectrum massSpectrum, List<Peak> isotopicSet, int setId, Configuration config) {
-        this.peaksInSet = isotopicSet;
+    public IsotopicSet(MassSpectrum massSpectrum, List<Peak> peaksInSet, int setId, Configuration config) {
         try {
-            rangeCheck(isotopicSet, config);
+            rangeCheck(peaksInSet, config);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        this.peaksInSet = peaksInSet;
+
+        this.isotopicSet = collectClusters(config, setId);
+
+        setBestPath(massSpectrum, collectClusters(config, setId), config);
+    }
+
+    private List<IsotopicCluster> collectClusters(Configuration config, int setId) {
         List<IsotopicCluster> isotopicClusters = new ArrayList<>();
 
-        isotopicClusters = collectClusterForEachCharge(isotopicClusters, isotopicSet, 3, config);
-
-        isotopicClusters = collectClusterForEachCharge(isotopicClusters, isotopicSet, 2, config);
-
-        isotopicClusters = collectClusterForEachCharge(isotopicClusters, isotopicSet, 1, config);
+        for (int charge = 3; 0 < charge; charge--) {
+            isotopicClusters = collectClusterForEachCharge(isotopicClusters, this.peaksInSet, charge, config);
+        }
 
         isotopicClusters = removeMultipleIsotopicCluster(isotopicClusters);
 
         isotopicClusters = sortIsotopicSet(isotopicClusters);
 
+        this.setId = setId;
+
+        isotopicClusters = setPositions(isotopicClusters);
+
+        return isotopicClusters;
+    }
+
+    private List<IsotopicCluster> setPositions(List<IsotopicCluster> isotopicClusters) {
         int clusterId = 0;
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             isotopicCluster.setClusterID(clusterId);
             clusterId++;
         }
-
-        this.setId = setId;
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             if (isotopicCluster.isNotNull()) {
@@ -88,22 +99,33 @@ public class IsotopicSet {
             }
         }
 
-        this.isotopicSet = isotopicClusters;
-
-        setBestPath(massSpectrum, isotopicClusters, config);
+        return isotopicClusters;
     }
 
     private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
-        List<IsotopicCluster> isotopicClusters2 = removeDoubleClusterLeaveTripleCluster(isotopicClusters);
+        // FIRST GRAPH AND BEST PATH
+        List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<>(isotopicClusters);
 
-        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicClusters2);
+        IsotopicClusterGraph isotopicClusterGraphForBestPath = new IsotopicClusterGraph(
+                removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
 
-        isotopicClusterGraph.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(), massSpectrum.getChargeState(),
-                new PeakList(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
+        isotopicClusterGraphForBestPath.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(),
+                massSpectrum.getChargeState(), new PeakList(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
 
-        this.dot = isotopicClusterGraph.toDOTGraph();
-        this.bestPath = isotopicClusterGraph.bestPath(isotopicClusterGraph.getStart(), isotopicClusterGraph.getEnd())
+        this.bestPath = isotopicClusterGraphForBestPath
+                .bestPath(isotopicClusterGraphForBestPath.getStart(), isotopicClusterGraphForBestPath.getEnd())
                 .getVertexList();
+
+        // THEN GRAPH AND DOT
+        List<IsotopicCluster> isotopicClustersForDot = new ArrayList<>(isotopicClusters);
+
+        IsotopicClusterGraph isotopicClusterGraphForDot = new IsotopicClusterGraph(isotopicClustersForDot);
+
+        isotopicClusterGraphForDot.scoreIsotopicClusterGraph(massSpectrum.getPeptideMass(),
+                massSpectrum.getChargeState(), new PeakList(massSpectrum.getMz(), massSpectrum.getIntensity()), config);
+
+        this.dot = isotopicClusterGraphForDot.toDOTGraph();
+
     }
 
     private List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
@@ -141,18 +163,18 @@ public class IsotopicSet {
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
-                    if ((config.getDistance() / charge) - config.getDelta() < distanceab
-                            && distanceab < (config.getDistance() / charge) + config.getDelta()) {
+                    if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distanceab
+                            && distanceab < (config.getIsotopicPeakDistance() / charge) + config.getDelta()) {
                         a.setCharge(charge);
                         b.setCharge(charge);
                         ic.add(a);
                         ic.add(b);
                     }
 
-                    if ((config.getDistance() / charge) - config.getDelta() < distancebc
-                            && distancebc < (config.getDistance() / charge) + config.getDelta()
-                            && ((config.getDistance() / charge) - config.getDelta()) * 2 < distanceac
-                            && distanceac < ((config.getDistance() / charge) + config.getDelta()) * 2) {
+                    if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distancebc
+                            && distancebc < (config.getIsotopicPeakDistance() / charge) + config.getDelta()
+                            && ((config.getIsotopicPeakDistance() / charge) - config.getDelta()) * 2 < distanceac
+                            && distanceac < ((config.getIsotopicPeakDistance() / charge) + config.getDelta()) * 2) {
                         c.setCharge(charge);
                         ic.add(c);
                     }
@@ -210,8 +232,8 @@ public class IsotopicSet {
 
             boolean b = false;
             for (int charge = 1; charge <= 3; charge++) {
-                if (((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
-                        && Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
+                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
                     b = true;
                 }
             }

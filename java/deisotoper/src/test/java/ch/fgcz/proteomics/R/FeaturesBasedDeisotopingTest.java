@@ -11,7 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 // TODO: Finish tests for FeaturesBasedDeisotoping!
-public class TestFeaturesBasedDeisotoping {
+public class FeaturesBasedDeisotopingTest {
     @Test
     public void test() {
         double[] mz = { 112.0871735, 113.0711823, 114.0663681, 114.1508865, 115.0868149, 115.7491302, 116.0708923,

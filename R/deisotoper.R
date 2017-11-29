@@ -17,7 +17,7 @@
 #' @return deisotoper as list of JavaRef 
 #' @import rJava
 #' @export deisotoper
-#' @aliases deisotope.list plot.deisotoper print.deisotoper getDOTGraphs summary.deisotoper getConfig 
+#' @aliases deisotope.list plot.deisotoper print.deisotoper dot.deisotoper summary.deisotoper config.deisotoper 
 #' @author Lucas Schmidt, Christian Panse
 #' @description 
 #' \code{deisotoper} returns a deisotoper object.
@@ -39,7 +39,7 @@
 #' dtoper <- deisotoper()
 #' 
 #' # return the configuration of dtoper
-#' config <- getConfig(dtoper)
+#' config <- config.deisotoper(dtoper)
 #' 
 #' # example data
 #' x <- list(mZ = c(110.07172, 111.07504, 129.10249, 130.08649, 147.11302,
@@ -103,11 +103,11 @@
 #' dtoper2 <- deisotoper(delta = 0.005, decharge = TRUE)
 #' 
 #' # return the configuration of dtoper2
-#' config2 <- getConfig(dtoper2)
+#' config2 <- config.deisotoper(dtoper2)
 #' 
 #' \dontrun{
 #' # return the GraphViz dot graphs of the above deisotoped data
-#' xdot <- getDOTGraphs(dtoper)
+#' xdot <- dot.deisotoper(dtoper)
 #' 
 #' # draws the isotopic cluster graphs in the browser (html)
 #'   if(require(DiagrammeR)){
@@ -120,7 +120,7 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
                                                 'L' = 113.08406, 'K' = 128.09496, 'M' = 131.04049, 'F' = 147.06841, 'P' = 97.05276, 
                                                 'S' = 87.03203, 'T' = 101.04768, 'W' = 186.07931, 'Y' = 163.06333, 'V' = 99.06841), 
                        F1 = 0.8, F2 = 0.5, F3 = 0.1, F4 = 0.1, F5 = 0.1, 
-                       delta = 0.003, errortolerance = 0.3, distance = 1.003, noise = 0.0, 
+                       delta = 0.003, errortolerance = 0.3, distance = 1.00048, noise = 0.0, 
                        decharge = FALSE, modus = "first", comment = "") {
   dtoper <- .jnew("ch.fgcz.proteomics.R.FeaturesBasedDeisotoping")
   
@@ -280,7 +280,6 @@ summary.deisotoper <- function(object, ...) {
 #' @import graphics
 #' @author Lucas Schmidt
 plot.deisotoper <- function(x, y, ...) {
-  
   plot(c(x$mZ, y$mZ), 
        c(x$intensity, -y$intensity),
        type = "n", 
@@ -292,17 +291,17 @@ plot.deisotoper <- function(x, y, ...) {
   lines(x$mZ, 
         x$intensity, 
         type = "h", 
-        col = "#FF000099")
+        col = "red")
   
   lines(y$mZ, 
         -y$intensity, 
         type = "h", 
-        col = "#0000FF99")
+        col = "blue")
 
   axis(side = 3, x$mZ[-1] - (0.5 * diff(x$mZ)), round(diff(x$mZ), 2) )
   
-  mtext(text = deparse(substitute(y)), line = 2, adj = 0, col="blue")
-  mtext(text = deparse(substitute(x)), line = 1, adj = 0, col="red")
+  mtext(text = deparse(substitute(y)), line = 3, adj = 0, col = "blue")
+  mtext(text = deparse(substitute(x)), line = 2, adj = 0, col = "red")
   
   axis(side = 2)
   axis(side = 1, at = c(x$mZ, y$mZ))
@@ -367,7 +366,7 @@ findNN <- function (q, vec) {
 
 #' @export
 #' @author Lucas Schmidt
-getConfig <- function(deisotoper) {
+config.deisotoper <- function(deisotoper) {
   config <- .jcall(deisotoper$javaRef, "S", "getConfiguration")
   
   con <- textConnection(config)
@@ -377,7 +376,7 @@ getConfig <- function(deisotoper) {
 
 #' @export
 #' @author Lucas Schmidt
-getDOTGraphs <- function(deisotoper) {
+dot.deisotoper <- function(deisotoper) {
   DOT <- .jcall(deisotoper$javaRef, "[S", "getDot")
   
   DOT

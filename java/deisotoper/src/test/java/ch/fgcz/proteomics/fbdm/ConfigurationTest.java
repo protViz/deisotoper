@@ -26,7 +26,7 @@ public class ConfigurationTest {
         assertEquals(config.getF5(), 0.993, 0);
         assertEquals(config.getDelta(), 0.0054, 0);
         assertEquals(config.getErrortolerance(), 0.3, 0);
-        assertEquals(config.getDistance(), 1.003, 0);
+        assertEquals(config.getIsotopicPeakDistance(), 1.003, 0);
         assertEquals(config.isDecharge(), true);
         assertEquals(config.getModus(), "highest");
     }

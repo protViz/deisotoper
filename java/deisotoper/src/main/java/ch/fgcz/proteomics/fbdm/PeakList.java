@@ -8,7 +8,9 @@ package ch.fgcz.proteomics.fbdm;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
@@ -170,7 +172,19 @@ public class PeakList {
                 return Double.compare(peakOne.getMz(), peakTwo.getMz());
             }
         });
-
         return this;
+    }
+
+    public PeakList removeMultiplePeaks() {
+        PeakList result = new PeakList();
+        Set<Peak> set = new HashSet<>();
+
+        for (Peak peak : this.getPeakList()) {
+            if (set.add(peak)) {
+                result.add(peak);
+            }
+        }
+
+        return result;
     }
 }

@@ -144,8 +144,8 @@ public class IsotopicCluster {
     private static void rangeCheck(List<Peak> peaks, Configuration config, int charge) throws Exception {
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
-            if (!((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
-                    && Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+            if (!((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
+                    && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
                 throw new Exception("Wrong distance at IsotopicCluster creation! (" + distance + ")");
             }
         }
