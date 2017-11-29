@@ -13,7 +13,7 @@ import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class MassSpecMeasureSummary {
-    public static String makeSummary(MassSpecMeasure massSpectrometryMeasurement) {
+    public static String summarize(MassSpecMeasure massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();
         String lineSep = System.getProperty("line.separator");
         stringBuilder.append("SpectrumID,Attribute,Value").append(lineSep);

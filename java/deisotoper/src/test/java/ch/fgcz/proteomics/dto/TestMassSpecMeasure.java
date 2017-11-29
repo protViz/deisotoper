@@ -43,6 +43,6 @@ public class TestMassSpecMeasure {
             assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
         }
 
-        MassSpecMeasureSummary.makeSummary(massSpectrometryMeasurement);
+        MassSpecMeasureSummary.summarize(massSpectrometryMeasurement);
     }
 }

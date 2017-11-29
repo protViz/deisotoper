@@ -23,6 +23,10 @@ public class PeakList {
         }
     }
 
+    public void setPeakList(List<Peak> peakList) {
+        this.peakList = peakList;
+    }
+
     public List<Peak> getPeakList() {
         return peakList;
     }
@@ -40,12 +44,20 @@ public class PeakList {
         return this.peakList.get(i);
     }
 
+    public void addAll(PeakList peakList) {
+        this.peakList.addAll(peakList.peakList);
+    }
+
     public void addAll(List<Peak> peakList) {
         this.peakList.addAll(peakList);
     }
 
     public int size() {
         return this.peakList.size();
+    }
+
+    public PeakList(List<Peak> peaks) {
+        this.peakList = peaks;
     }
 
     public PeakList(MassSpectrum massSpectrum) {
@@ -77,7 +89,7 @@ public class PeakList {
             }
         }
 
-        notInIsotopicSet.addAll(peakList2.getPeakList());
+        notInIsotopicSet.addAll(peakList2);
         return notInIsotopicSet;
     }
 
