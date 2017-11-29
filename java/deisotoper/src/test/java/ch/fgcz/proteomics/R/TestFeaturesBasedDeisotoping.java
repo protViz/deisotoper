@@ -89,7 +89,7 @@ public class TestFeaturesBasedDeisotoping {
 
         double[] aa = { 99.06841 };
 
-        dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.0, 0, false, "first");
+        dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
 
         dtoper.setMz(mz);
         dtoper.setIntensity(intensity);
@@ -140,13 +140,10 @@ public class TestFeaturesBasedDeisotoping {
 
         // System.out.println();
         // System.out.println(dtoper.getSummary());
-
         // System.out.println();
         // System.out.println(dtoper.getConfiguration());
-
         // System.out.println();
         // System.out.println(dtoper.getAnnotatedSpectrum());
-
         // dtoper.setMz(mz2);
         // dtoper.setIntensity(intensity2);
         // dtoper.setPepMass(1.2345);
@@ -194,16 +191,12 @@ public class TestFeaturesBasedDeisotoping {
         // for (int i = 0; i < mzlist2.size(); i++) {
         // System.out.println(mzlist2.get(i) + " " + intensitylist2.get(i));
         // }
-
         // System.out.println();
         // System.out.println(dtoper.getSummary());
-
         // System.out.println();
         // System.out.println(dtoper.getConfiguration());
-
         // System.out.println();
         // System.out.println(dtoper.getAnnotatedSpectrum());
-
         // System.out.println();
         // System.out.println(dtoper.getDot()[1]);
     }

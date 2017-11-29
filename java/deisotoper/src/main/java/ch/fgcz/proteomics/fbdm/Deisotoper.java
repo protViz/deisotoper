@@ -60,10 +60,8 @@ public class Deisotoper {
     }
 
     // Will be used to deisotope entire mgf files from Java.
-    public MassSpecMeasure deisotopeMSM(MassSpecMeasure massSpectrometryMeasurementin,
-            Configuration config) {
-        MassSpecMeasure massSpectrometryMeasurementOut = new MassSpecMeasure(
-                massSpectrometryMeasurementin.getSource());
+    public MassSpecMeasure deisotopeMSM(MassSpecMeasure massSpectrometryMeasurementin, Configuration config) {
+        MassSpecMeasure massSpectrometryMeasurementOut = new MassSpecMeasure(massSpectrometryMeasurementin.getSource());
 
         this.config = config;
 
@@ -98,91 +96,118 @@ public class Deisotoper {
         return mergedPeakList.makeResultSpectrum(massSpectrum);
     }
 
-    // NEW VERSION OF GENERATEISOTOPICSETS
+    // New version of generateIsotopicSets. Is protected because of the tests, but
+    // should be private.
     protected void generateIsotopicSets(MassSpectrum massSpectrum) {
         this.peakList = new PeakList(massSpectrum);
 
-        List<Peak> allPossiblePeaksForIsotopicSets = new ArrayList<>();
-        for (int i = 0; i < peakList.size(); i++) {
-            Peak peakI = peakList.get(i);
-            for (int j =0; j < peakList.size(); j++) {
-                Peak peakJ = peakList.get(j);
+        PeakList allPossiblePeaksForIsotopicSets = collectAllPossiblePeaksForIsotopicSets();
 
-                // check if both peaks could be in set.
+        allPossiblePeaksForIsotopicSets = removeMultiplePeaks(allPossiblePeaksForIsotopicSets);
+        allPossiblePeaksForIsotopicSets = sortListOfPeaks(allPossiblePeaksForIsotopicSets);
 
+        List<PeakList> allPossiblePeaksForIsotopicSetsParts = splitIntoParts(allPossiblePeaksForIsotopicSets);
 
-                for (int charge = 1; charge < 4; charge++) {
-                    double lowerThreshold = peakI.getMz() + config.getDistance() / charge - config.getDelta();
-                    double higherThreshold = peakI.getMz() + config.getDistance() / charge + config.getDelta();
+        goThroughParts(allPossiblePeaksForIsotopicSetsParts, massSpectrum);
+    }
 
-                    if (lowerThreshold < peakJ.getMz() && peakJ.getMz() < higherThreshold) {
-                        peakI.setInSet(true);
-                        peakJ.setInSet(true);
-                        allPossiblePeaksForIsotopicSets.add(peakI);
-                        allPossiblePeaksForIsotopicSets.add(peakJ);
-                    }
-                }
-            }
-        }
+    private void goThroughParts(List<PeakList> allPossiblePeaksForIsotopicSetsParts, MassSpectrum massSpectrum) {
+        for (PeakList part : allPossiblePeaksForIsotopicSetsParts) {
+            Set<PeakList> allIsotopicSets = splitAllPossibleIsotopicSets(new HashSet<Peak>(part.getPeakList()));
+            List<PeakList> splittedIsotopicSets = new ArrayList<>();
 
-        allPossiblePeaksForIsotopicSets = removeMultiplePeaks( allPossiblePeaksForIsotopicSets );
-        allPossiblePeaksForIsotopicSets = sortListOfPeaks( allPossiblePeaksForIsotopicSets );
-        List<List<Peak>> allPossiblePeaksForIsotopicSetsParts = splitWhenOverOne(allPossiblePeaksForIsotopicSets);
+            splittedIsotopicSets = sortAndCheckSplittedIsotopicSets(allIsotopicSets, splittedIsotopicSets);
 
-        for (List<Peak> part : allPossiblePeaksForIsotopicSetsParts) {
-            Set<List<Peak>> allIsotopicSets = splitAllPossibleIsotopicSets(new HashSet<Peak>(part));
-            List<List<Peak>> splittedIsotopicSets = new ArrayList<>();
+            splittedIsotopicSets = checkForContainingAndRemoveWrong(splittedIsotopicSets);
 
-            for (List<Peak> peaks : allIsotopicSets) {
-                if (peaks.size() > 1) {
-                    peaks = sortListOfPeaks(peaks);
-
-                    peaks = checkForCorrectRangeOfPeaks(peaks, this.config);
-
-                    if (peaks != null) {
-                        splittedIsotopicSets.add(peaks);
-                    }
-                }
-            }
-
-            splittedIsotopicSets = checkForContainingAndRemove(splittedIsotopicSets);
-
-            int id = 0;
-            for (List<Peak> peaks : splittedIsotopicSets) {
-                IsotopicSet temporaryIsotopicSet = new IsotopicSet(massSpectrum, peaks, id, config);
-                id++;
-
-                this.isotopicSets.add(temporaryIsotopicSet);
-            }
+            addSplittedIsotopicSetsToIsotopicSets(splittedIsotopicSets, massSpectrum);
         }
     }
 
-    private List<List<Peak>> splitWhenOverOne(List<Peak> peaks) {
-        List<List<Peak>> allPeaks = new ArrayList<>();
+    private void addSplittedIsotopicSetsToIsotopicSets(List<PeakList> splittedIsotopicSets, MassSpectrum massSpectrum) {
+        int id = 0;
+        for (PeakList peaks : splittedIsotopicSets) {
+            IsotopicSet temporaryIsotopicSet = new IsotopicSet(massSpectrum, peaks.getPeakList(), id, config);
+            id++;
+
+            this.isotopicSets.add(temporaryIsotopicSet);
+        }
+    }
+
+    private List<PeakList> sortAndCheckSplittedIsotopicSets(Set<PeakList> allIsotopicSets,
+            List<PeakList> splittedIsotopicSets) {
+        for (PeakList peaks : allIsotopicSets) {
+            if (peaks.size() > 1) {
+                peaks = sortListOfPeaks(peaks);
+
+                peaks = checkForCorrectRangeOfPeaks(peaks, this.config);
+
+                if (peaks != null) {
+                    splittedIsotopicSets.add(peaks);
+                }
+            }
+        }
+        return splittedIsotopicSets;
+    }
+
+    private PeakList collectAllPossiblePeaksForIsotopicSets() {
+        PeakList allPossiblePeaksForIsotopicSets = new PeakList();
+        for (int i = 0; i < peakList.size(); i++) {
+            Peak peakI = peakList.get(i);
+            for (int j = 0; j < peakList.size(); j++) {
+                Peak peakJ = peakList.get(j);
+                allPossiblePeaksForIsotopicSets = collectForEachCharge(allPossiblePeaksForIsotopicSets, peakI, peakJ);
+            }
+        }
+
+        return allPossiblePeaksForIsotopicSets;
+    }
+
+    private PeakList collectForEachCharge(PeakList allPossiblePeaksForIsotopicSets, Peak peakI, Peak peakJ) {
+        // check if both peaks could be in set.
+        for (int charge = 1; charge < 4; charge++) {
+            double lowerThreshold = peakI.getMz() + config.getDistance() / charge - config.getDelta();
+            double higherThreshold = peakI.getMz() + config.getDistance() / charge + config.getDelta();
+
+            if (lowerThreshold < peakJ.getMz() && peakJ.getMz() < higherThreshold) {
+                peakI.setInSet(true);
+                peakJ.setInSet(true);
+                allPossiblePeaksForIsotopicSets.add(peakI);
+                allPossiblePeaksForIsotopicSets.add(peakJ);
+            }
+        }
+
+        return allPossiblePeaksForIsotopicSets;
+    }
+
+    private List<PeakList> splitIntoParts(PeakList peaks) {
+        List<PeakList> parts = new ArrayList<>();
 
         int j = 0;
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
-            if (distance > 0.2 + config.getDistance()) {
-                allPeaks.add(peaks.subList(j, i + 1));
+            if (distance > config.getDistance() + 1) {
+                PeakList peaks2 = new PeakList(peaks.getPeakList().subList(j, i + 1));
+                parts.add(peaks2);
                 j = i + 1;
             } else if (i == peaks.size() - 2) {
-                allPeaks.add(peaks.subList(j, i + 2));
+                PeakList peaks2 = new PeakList(peaks.getPeakList().subList(j, i + 2));
+                parts.add(peaks2);
             }
         }
 
-        return allPeaks;
+        return parts;
     }
 
-    private static List<List<Peak>> checkForContainingAndRemove(List<List<Peak>> isotopicSets) {
-        List<List<Peak>> temp = new ArrayList<>(isotopicSets);
+    private static List<PeakList> checkForContainingAndRemoveWrong(List<PeakList> isotopicSets) {
+        List<PeakList> temp = new ArrayList<>(isotopicSets);
 
-        for (List<Peak> peaks1 : isotopicSets) {
-            for (List<Peak> peaks2 : isotopicSets) {
+        for (PeakList peaks1 : isotopicSets) {
+            for (PeakList peaks2 : isotopicSets) {
                 if (peaks1.equals(peaks2)) {
                     continue;
                 }
-                if (Collections.indexOfSubList(peaks1, peaks2) != -1) {
+                if (Collections.indexOfSubList(peaks1.getPeakList(), peaks2.getPeakList()) != -1) {
                     if (peaks1.size() > peaks2.size()) {
                         temp.remove(peaks2);
                     } else if (peaks1.size() < peaks2.size()) {
@@ -192,11 +217,33 @@ public class Deisotoper {
             }
         }
 
+        temp = checkIfRemovedCorrectly(temp);
+
         return temp;
     }
 
-    private static List<Peak> sortListOfPeaks(List<Peak> peaks) {
-        Collections.sort(peaks, new Comparator<Peak>() {
+    private static List<PeakList> checkIfRemovedCorrectly(List<PeakList> isotopicSets) {
+        List<PeakList> temp = new ArrayList<>(isotopicSets);
+
+        for (PeakList peaks1 : isotopicSets) {
+            for (PeakList peaks2 : isotopicSets) {
+                if (peaks1.size() > peaks2.size()) {
+                    if (peaks1.getPeakList().containsAll(peaks2.getPeakList())) {
+                        temp.remove(peaks2);
+                    }
+                } else if (peaks1.size() < peaks2.size()) {
+                    if (peaks2.getPeakList().containsAll(peaks1.getPeakList())) {
+                        temp.remove(peaks1);
+                    }
+                }
+            }
+        }
+
+        return temp;
+    }
+
+    private static PeakList sortListOfPeaks(PeakList peaks) {
+        Collections.sort(peaks.getPeakList(), new Comparator<Peak>() {
             @Override
             public int compare(Peak peakOne, Peak peakTwo) {
                 return Double.compare(peakOne.getMz(), peakTwo.getMz());
@@ -205,7 +252,7 @@ public class Deisotoper {
         return peaks;
     }
 
-    private static List<Peak> checkForCorrectRangeOfPeaks(List<Peak> peaks, Configuration config) {
+    private static PeakList checkForCorrectRangeOfPeaks(PeakList peaks, Configuration config) {
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
 
@@ -225,20 +272,22 @@ public class Deisotoper {
         return peaks;
     }
 
-    private static Set<List<Peak>> splitAllPossibleIsotopicSets(Set<Peak> originalPeaks) {
-        Set<List<Peak>> allPeaks = new HashSet<List<Peak>>();
+    private static Set<PeakList> splitAllPossibleIsotopicSets(Set<Peak> originalPeaks) {
+        Set<PeakList> allPeaks = new HashSet<PeakList>();
 
         if (originalPeaks.isEmpty()) {
-            allPeaks.add(new ArrayList<Peak>());
+            allPeaks.add(new PeakList());
             return allPeaks;
         }
 
-        List<Peak> listOfPeaks = new ArrayList<Peak>(originalPeaks);
-        Peak head = listOfPeaks.get(0);
-        Set<Peak> rPeaks = new HashSet<Peak>(listOfPeaks.subList(1, listOfPeaks.size()));
+        PeakList listOfPeaks = new PeakList();
+        listOfPeaks.setPeakList(new ArrayList<Peak>(originalPeaks));
 
-        for (List<Peak> peaks : splitAllPossibleIsotopicSets(rPeaks)) {
-            List<Peak> newPeaks = new ArrayList<Peak>();
+        Peak head = listOfPeaks.get(0);
+        Set<Peak> rPeaks = new HashSet<Peak>(listOfPeaks.getPeakList().subList(1, listOfPeaks.size()));
+
+        for (PeakList peaks : splitAllPossibleIsotopicSets(rPeaks)) {
+            PeakList newPeaks = new PeakList();
             newPeaks.add(head);
             newPeaks.addAll(peaks);
             allPeaks.add(newPeaks);
@@ -248,11 +297,11 @@ public class Deisotoper {
         return allPeaks;
     }
 
-    private static List<Peak> removeMultiplePeaks(List<Peak> peaks) {
-        List<Peak> result = new ArrayList<>();
+    private static PeakList removeMultiplePeaks(PeakList peaks) {
+        PeakList result = new PeakList();
         Set<Peak> set = new HashSet<>();
 
-        for (Peak peak : peaks) {
+        for (Peak peak : peaks.getPeakList()) {
             if (set.add(peak)) {
                 result.add(peak);
             }
@@ -261,7 +310,27 @@ public class Deisotoper {
         return result;
     }
 
-    // OLD VERSION OF GENERATEISOTOPICSETS
+    private List<IsotopicCluster> getBestClusters() {
+        List<IsotopicCluster> bestClusters = new ArrayList<>();
+        for (IsotopicSet isotopicSet : this.isotopicSets) {
+            bestClusters.addAll(isotopicSet.getBestPath());
+        }
+        return bestClusters;
+    }
+
+    private PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
+        PeakList resultPeakList = new PeakList();
+
+        for (IsotopicCluster istotopicCluster : isotopicClusters) {
+            IsotopicCluster aggregatedCluster = istotopicCluster.aggregation(modus);
+            Peak peak = aggregatedCluster.getPeak(0);
+            resultPeakList.add(peak);
+        }
+
+        return resultPeakList;
+    }
+
+    // Old version of generateIsotopicSets
     // protected void generateIsotopicSets(MassSpectrum massSpectrum) {
     // this.peakList = new PeakList(massSpectrum);
     //
@@ -308,24 +377,4 @@ public class Deisotoper {
     // }
     // }
     // }
-
-    private List<IsotopicCluster> getBestClusters() {
-        List<IsotopicCluster> bestClusters = new ArrayList<>();
-        for (IsotopicSet isotopicSet : this.isotopicSets) {
-            bestClusters.addAll(isotopicSet.getBestPath());
-        }
-        return bestClusters;
-    }
-
-    private PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
-        PeakList resultPeakList = new PeakList();
-
-        for (IsotopicCluster istotopicCluster : isotopicClusters) {
-            IsotopicCluster aggregatedCluster = istotopicCluster.aggregation(modus);
-            Peak peak = aggregatedCluster.getPeak(0);
-            resultPeakList.add(peak);
-        }
-
-        return resultPeakList;
-    }
 }
