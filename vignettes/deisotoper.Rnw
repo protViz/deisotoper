@@ -59,8 +59,35 @@ peaklist <- list(mZ = c(362.0196, 362.0214, 362.0233, 362.0251,
   364.0174, 364.0193, 364.0212, 364.0230, 364.0249, 364.0268,364.0286),
   intensity = c(208, 519, 858, 1009, 873, 551, 237, 284, 665, 1067,
   1195, 939, 485, 109, 321, 605, 1446, 2339, 2480, 1802, 559, 168))
+@
+
+
+fit first isotope
+
+<<>>=
 
 mean(peaklist$mZ[1:7])
+x <- peaklist$mZ[1:7]
+y <- peaklist$intensity[1:7]
+
+peak <- data.frame(logy=log(y), x=x)
+
+x.mean <- mean(peak$x)
+peak$xc <- peak$x - x.mean
+
+(fit <- lm(logy ~ xc + I(xc^2), data= peak))
+summary(fit)
+@
+
+<<include=TRUE, fig=TRUE>>=
+op <- par(mfrow=c(2,2))
+plot(logy ~ xc, data=peak)
+
+xx<- with(peak,seq(min(xc), max(xc), length=20))
+lines(xx , predict(fit, data.frame(xc=xx)), col=2)
+
+plot(peak$xc + x.mean, exp(peak$logy))
+lines(xx  + x.mean, exp(predict(fit, data.frame(xc=xx))), col=2)
 @
 
 
