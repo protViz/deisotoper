@@ -141,18 +141,18 @@ public class IsotopicSet {
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
-                    if ((config.getDistance() / charge) - config.getDelta() < distanceab
-                            && distanceab < (config.getDistance() / charge) + config.getDelta()) {
+                    if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distanceab
+                            && distanceab < (config.getIsotopicPeakDistance() / charge) + config.getDelta()) {
                         a.setCharge(charge);
                         b.setCharge(charge);
                         ic.add(a);
                         ic.add(b);
                     }
 
-                    if ((config.getDistance() / charge) - config.getDelta() < distancebc
-                            && distancebc < (config.getDistance() / charge) + config.getDelta()
-                            && ((config.getDistance() / charge) - config.getDelta()) * 2 < distanceac
-                            && distanceac < ((config.getDistance() / charge) + config.getDelta()) * 2) {
+                    if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distancebc
+                            && distancebc < (config.getIsotopicPeakDistance() / charge) + config.getDelta()
+                            && ((config.getIsotopicPeakDistance() / charge) - config.getDelta()) * 2 < distanceac
+                            && distanceac < ((config.getIsotopicPeakDistance() / charge) + config.getDelta()) * 2) {
                         c.setCharge(charge);
                         ic.add(c);
                     }
@@ -210,8 +210,8 @@ public class IsotopicSet {
 
             boolean b = false;
             for (int charge = 1; charge <= 3; charge++) {
-                if (((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
-                        && Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
+                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
                     b = true;
                 }
             }

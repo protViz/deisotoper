@@ -155,7 +155,7 @@ public class Score {
         double s3yx = sum3(y, x, H_MASS);
         double s4xy = sum4(x, y, H_MASS);
         double s4yx = sum4(y, x, H_MASS);
-        double m2i = (pepidMass * charge - charge * config.getH_MASS()) + 2 * config.getDistance() * i;
+        double m2i = (pepidMass * charge - charge * config.getH_MASS()) + 2 * config.getIsotopicPeakDistance() * i;
 
         if (m2i + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
                 && s1xy < m2i + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {

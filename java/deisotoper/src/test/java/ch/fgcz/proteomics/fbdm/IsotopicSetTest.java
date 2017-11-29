@@ -7,21 +7,44 @@ package ch.fgcz.proteomics.fbdm;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.fgcz.proteomics.dto.MassSpectrum;
 import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
 
 public class IsotopicSetTest {
     @Test
+    public void testClusterCreation() {
+        Configuration config = new Configuration();
+
+        double startMass  = 100.;
+        List<Double> mz = Arrays.asList(startMass,
+                startMass + config.getIsotopicPeakDistance(),
+                startMass + config.getIsotopicPeakDistance() * 1.5,
+                startMass + config.getIsotopicPeakDistance() * 2);
+        List<Double> intensity = Arrays.asList(1., 1., 1., 1.);
+        MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
+        List<Peak> isotpicSet = Arrays.asList(new Peak(mz.get(0), 1., 1),
+                new Peak(mz.get(1), 1., 1),
+                new Peak(mz.get(2), 1., 1),
+                new Peak(mz.get(3), 1., 1));
+
+        IsotopicSet isotopicSet = new IsotopicSet(massSpectrum, isotpicSet, 1, config);
+        assertEquals(6,isotopicSet.getIsotopicSet().size());
+    }
+
+
+    @Test
     public void testIsotopeSet() {
         String source = "Unit Test Case";
         String typ = "MS2";
         String searchEngine = "mascot";
-        double[] mz = { 0.2, 1.001, 2.002, 2.503, 3.003, 10.0 };
-        double[] intensity = { 0.5, 2.0, 1.0, 1.0, 1.0, 3.0 };
+        double[] mz = {0.2, 1.001, 2.002, 2.503, 3.003, 10.0};
+        double[] intensity = {0.5, 2.0, 1.0, 1.0, 1.0, 3.0};
         double peptidMass = 309.22;
         double rt = 383.34;
         int chargeState = 2;

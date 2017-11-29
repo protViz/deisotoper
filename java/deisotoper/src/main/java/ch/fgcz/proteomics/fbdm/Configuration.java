@@ -21,7 +21,7 @@ public class Configuration {
     private double F3 = 0.1;
     private double F4 = 0.1;
     private double F5 = 0.1;
-    private double distance = 1.003;
+    private double distance = 1.00048;
     private double errortolerance = 0.3;
     private double delta = 0.003;
     private double noise = 0;
@@ -69,7 +69,7 @@ public class Configuration {
         return NH_MASS_DIVIDED_TWO;
     }
 
-    public double getDistance() {
+    public double getIsotopicPeakDistance() {
         return distance;
     }
 

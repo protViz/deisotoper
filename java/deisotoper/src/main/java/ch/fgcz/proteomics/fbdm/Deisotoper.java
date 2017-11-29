@@ -124,18 +124,15 @@ public class Deisotoper {
         this.peakList = new PeakList(massSpectrum);
 
         PeakList allPossiblePeaksForIsotopicSets = collectAllPossiblePeaksForIsotopicSets(this.peakList, this.config);
-
         allPossiblePeaksForIsotopicSets = removeMultiplePeaks(allPossiblePeaksForIsotopicSets);
-
         allPossiblePeaksForIsotopicSets = sortListOfPeaks(allPossiblePeaksForIsotopicSets);
-
         List<PeakList> allPossiblePeaksForIsotopicSetsParts = splitIntoParts(allPossiblePeaksForIsotopicSets,
                 this.config);
-
         List<PeakList> combinedIsotopicSets = iterateThroughParts(allPossiblePeaksForIsotopicSetsParts, this.config);
 
         this.isotopicSets = addSplittedIsotopicSetsToIsotopicSets(combinedIsotopicSets, massSpectrum, this.config);
     }
+
 
     private static List<PeakList> iterateThroughParts(List<PeakList> allPossiblePeaksForIsotopicSetsParts,
             Configuration config) {
@@ -162,7 +159,6 @@ public class Deisotoper {
         for (PeakList peaks : splittedIsotopicSets) {
             IsotopicSet temporaryIsotopicSet = new IsotopicSet(massSpectrum, peaks.getPeakList(), id, config);
             id++;
-
             isotopicSets.add(temporaryIsotopicSet);
         }
 
@@ -203,8 +199,8 @@ public class Deisotoper {
             Configuration config) {
         // check if both peaks could be in set.
         for (int charge = 1; charge < 4; charge++) {
-            double lowerThreshold = peakI.getMz() + config.getDistance() / charge - config.getDelta();
-            double higherThreshold = peakI.getMz() + config.getDistance() / charge + config.getDelta();
+            double lowerThreshold = peakI.getMz() + config.getIsotopicPeakDistance() / charge - config.getDelta();
+            double higherThreshold = peakI.getMz() + config.getIsotopicPeakDistance() / charge + config.getDelta();
 
             if (lowerThreshold < peakJ.getMz() && peakJ.getMz() < higherThreshold) {
                 peakI.setInSet(true);
@@ -223,7 +219,7 @@ public class Deisotoper {
         int j = 0;
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
-            if (distance > config.getDistance() + 1) {
+            if (distance > config.getIsotopicPeakDistance() + 1) {
                 PeakList peaks2 = new PeakList(peaks.getPeakList().subList(j, i + 1));
                 parts.add(peaks2);
                 j = i + 1;
@@ -295,8 +291,8 @@ public class Deisotoper {
 
             boolean b = false;
             for (int charge = 1; charge <= 3; charge++) {
-                if (((config.getDistance() / charge - config.getDelta() < Math.abs(distance)
-                        && Math.abs(distance) < config.getDistance() / charge + config.getDelta()))) {
+                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
+                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
                     b = true;
                 }
             }
