@@ -180,7 +180,7 @@ public class Configuration {
     public Configuration() {
         this(Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146,
                 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203, 101.04768,
-                186.07931, 163.06333, 99.06841), 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.003, 0, false, "first");
+                186.07931, 163.06333, 99.06841), 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.00048, 0, false, "first");
     }
 
     public Configuration(double F1, double F2, double F3, double F4, double F5, double delta, double errortolerance,
