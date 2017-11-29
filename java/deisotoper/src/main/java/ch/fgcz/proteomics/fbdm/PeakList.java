@@ -187,4 +187,15 @@ public class PeakList {
 
         return result;
     }
+
+    public PeakList sortForAnnotating() {
+        Collections.sort(this.peakList, new Comparator<Peak>() {
+            @Override
+            public int compare(Peak peakOne, Peak peakTwo) {
+                return Double.compare(peakOne.getPeakID(), peakTwo.getPeakID());
+            }
+        });
+
+        return this;
+    }
 }

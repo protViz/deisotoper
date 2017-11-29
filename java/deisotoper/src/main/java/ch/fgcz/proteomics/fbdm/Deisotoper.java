@@ -40,8 +40,46 @@ public class Deisotoper {
         this.config = config;
     }
 
+    // TODO: Doesn't work like it should!
     public String getAnnotatedSpectrum() {
-        return mergedPeakList.saveAnnotatedSpectrum();
+        PeakList peaksInSet = collectPeaks();
+
+        if (this.config.isDecharge()) {
+            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
+        }
+
+        System.out.println(peaksInSet.getPeakList().toString());
+
+        PeakList mergedPeakListLocal = new PeakList();
+
+        mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
+
+        if (this.config.getNoise() != 0) {
+            mergedPeakListLocal = mergedPeakListLocal.filterNoisePeaks(this.config.getNoise());
+        }
+
+        mergedPeakListLocal = mergedPeakListLocal.sortPeakList();
+
+        mergedPeakListLocal.sortForAnnotating();
+
+        mergedPeakListLocal.removeMultiplePeaks();
+
+        return mergedPeakListLocal.saveAnnotatedSpectrum();
+    }
+
+    private PeakList collectPeaks() {
+        PeakList peaksInSet = new PeakList();
+        for (IsotopicSet isotopicSet : this.isotopicSets) {
+            List<IsotopicCluster> isotopicClusters = isotopicSet.getIsotopicSet();
+            for (IsotopicCluster isotopicCluster : isotopicClusters) {
+                for (Peak peak : isotopicCluster.getIsotopicCluster()) {
+                    peaksInSet.add(new Peak(peak.getMz(), peak.getIntensity(), peak.getIsotope(), peak.getCharge(),
+                            peak.getPeakID(), peak.getIsotopicClusterID(), peak.getIsotopicSetID()));
+                }
+            }
+        }
+
+        return peaksInSet.removeMultiplePeaks();
     }
 
     public List<String> getDotGraphs() {
@@ -108,8 +146,8 @@ public class Deisotoper {
     protected PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
         PeakList resultPeakList = new PeakList();
 
-        for (IsotopicCluster istotopicCluster : isotopicClusters) {
-            IsotopicCluster aggregatedCluster = istotopicCluster.aggregation(modus);
+        for (IsotopicCluster isotopicCluster : isotopicClusters) {
+            IsotopicCluster aggregatedCluster = isotopicCluster.aggregation(modus);
             Peak peak = aggregatedCluster.getPeak(0);
             resultPeakList.add(peak);
         }
