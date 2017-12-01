@@ -4,9 +4,10 @@
 ^LICENSE
 ^.*vignettes/report.*$
 ^.*vignettes/.*.html$
+^.*vignettes/.*.pdf$
+^.*vignettes/.*.Rmd$
 ^.*inst/doc/.*.tex$
 ^.*travis.*
-^.*vignettes/.*$
 ^.*inst/shiny.*$
 ^.*inst/extdata.*$
 ^.*R/mzXML.*$
