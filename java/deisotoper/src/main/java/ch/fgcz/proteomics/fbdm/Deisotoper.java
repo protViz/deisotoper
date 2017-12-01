@@ -129,11 +129,12 @@ public class Deisotoper {
     protected PeakList aggregate(List<IsotopicCluster> isotopicClusters, String modus) {
         PeakList resultPeakList = new PeakList();
 
+        double sumBefore = sumAllIntensities(isotopicClusters);
+
         isotopicClusters = removeOverlappingPeaksInClusters(isotopicClusters);
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             if (isotopicCluster.size() > 1) {
-                System.out.println(isotopicCluster.size());
                 IsotopicCluster aggregatedCluster = isotopicCluster.aggregation(modus);
                 Peak peak = aggregatedCluster.getPeak(0);
                 resultPeakList.add(peak);
@@ -144,7 +145,39 @@ public class Deisotoper {
             }
         }
 
+        double sumAfter = sumAllIntensities(isotopicClusters);
+
+        try {
+            intensityCheck(sumBefore, sumAfter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return resultPeakList;
+    }
+
+    private void intensityCheck(double before, double after) throws Exception {
+        if ((double) Math.round(before * 1000d) / 1000d != (double) Math.round(after * 1000d) / 1000d) {
+            throw new Exception("Wrong intensities after aggregation (Intensity before aggregation: " + before
+                    + " and after aggregation: " + after + "!");
+        }
+    }
+
+    private double sumAllIntensities(List<IsotopicCluster> isotopicClusters) {
+        PeakList peakList = new PeakList();
+        double intensitySum = 0;
+
+        for (IsotopicCluster isotopicCluster : isotopicClusters) {
+            peakList.addAll(isotopicCluster.getIsotopicCluster());
+        }
+
+        peakList.removeMultiplePeaks();
+
+        for (Peak peak : peakList.getPeakList()) {
+            intensitySum += peak.getIntensity();
+        }
+
+        return intensitySum;
     }
 
     private List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
