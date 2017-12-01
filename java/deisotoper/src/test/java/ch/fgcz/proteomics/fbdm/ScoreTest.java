@@ -90,7 +90,6 @@ public class ScoreTest {
 
     }
 
-    @Test
     public void firstAminoAcidDistanceScorePeakList() {
         int charge = 1;
 
