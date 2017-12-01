@@ -132,10 +132,12 @@ public class Deisotoper {
         isotopicClusters = removeOverlappingPeaksInClusters(isotopicClusters);
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
-            if (isotopicCluster.size() != 1) {
+            if (isotopicCluster.size() > 1) {
+                System.out.println(isotopicCluster.size());
                 IsotopicCluster aggregatedCluster = isotopicCluster.aggregation(modus);
                 Peak peak = aggregatedCluster.getPeak(0);
                 resultPeakList.add(peak);
+            } else if (isotopicCluster.size() == 0) {
             } else {
                 Peak peak = isotopicCluster.getPeak(0);
                 resultPeakList.add(peak);
@@ -150,7 +152,7 @@ public class Deisotoper {
         // Remove this peak in the lowest charged cluster.
         // Aggregate only the non removed cluster and add the remaining peaks from the
         // overlapping cluster to the resultPeakList.
-        
+
         for (IsotopicCluster isotopicCluster1 : isotopicClusters) {
             for (IsotopicCluster isotopicCluster2 : isotopicClusters) {
                 if (isotopicCluster1.equals(isotopicCluster2)) {
