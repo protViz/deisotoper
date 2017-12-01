@@ -5,9 +5,6 @@ package ch.fgcz.proteomics.R;
  * @since 2017-11-20
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 // TODO: Finish tests for FeaturesBasedDeisotoping!
@@ -141,10 +138,18 @@ public class FeaturesBasedDeisotopingTest {
         // 48826.28125, 11930.2041015625, 1293.1002197266, 908.5403442383,
         // 919.8944702148 };
 
-        double[] mz = { 0.2, 1.0, 2.0, 2.5, 4.0, 5.0, 6.0, 7.0, 9.0, 10.0, 11.0, 12.0, 13.0, 17.0, 18.0, 19.0, 21.0,
-                23.0, 111.0 };
-        double[] intensity = { 0.2, 1.0, 2.0, 2.5, 4.0, 5.0, 6.0, 7.0, 9.0, 10.0, 11.0, 12.0, 13.0, 17.0, 18.0, 19.0,
-                21.0, 23.0, 111.0 };
+        // double[] mz = { 0.2, 1.0, 2.0, 2.5, 4.0, 5.0, 6.0, 7.0, 9.0, 10.0, 11.0,
+        // 12.0, 13.0, 17.0, 18.0, 19.0, 21.0,
+        // 23.0, 111.0 };
+        // double[] intensity = { 0.2, 1.0, 2.0, 2.5, 4.0, 5.0, 6.0, 7.0, 9.0, 10.0,
+        // 11.0, 12.0, 13.0, 17.0, 18.0, 19.0,
+        // 21.0, 23.0, 111.0 };
+
+        double[] mz = { 101.0, 102.0, 102.5, 103.0 };
+        double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
+
+        // double[] mz = { 1011.0, 1012.0, 1015.0, 1016.0 };
+        // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
 
         FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
 
@@ -177,27 +182,27 @@ public class FeaturesBasedDeisotopingTest {
         }
         System.out.println();
 
-        System.out.println("Peaks who are in input and not anymore in output:");
-        List<Double> mzlist = new ArrayList<>();
-        List<Double> intensitylist = new ArrayList<>();
-        List<Double> mzoutlist = new ArrayList<>();
-        List<Double> intensityoutlist = new ArrayList<>();
-        for (int i = 0; i < mz.length; i++) {
-            mzlist.add(mz[i]);
-            intensitylist.add(intensity[i]);
-        }
-
-        for (int i = 0; i < mzout.length; i++) {
-            mzoutlist.add(mzout[i]);
-            intensityoutlist.add(intensityout[i]);
-        }
-
-        mzlist.removeAll(mzoutlist);
-        intensitylist.removeAll(intensityoutlist);
-
-        for (int i = 0; i < mzlist.size(); i++) {
-            System.out.println(mzlist.get(i) + " " + intensitylist.get(i));
-        }
+        // System.out.println("Peaks who are in input and not anymore in output:");
+        // List<Double> mzlist = new ArrayList<>();
+        // List<Double> intensitylist = new ArrayList<>();
+        // List<Double> mzoutlist = new ArrayList<>();
+        // List<Double> intensityoutlist = new ArrayList<>();
+        // for (int i = 0; i < mz.length; i++) {
+        // mzlist.add(mz[i]);
+        // intensitylist.add(intensity[i]);
+        // }
+        //
+        // for (int i = 0; i < mzout.length; i++) {
+        // mzoutlist.add(mzout[i]);
+        // intensityoutlist.add(intensityout[i]);
+        // }
+        //
+        // mzlist.removeAll(mzoutlist);
+        // intensitylist.removeAll(intensityoutlist);
+        //
+        // for (int i = 0; i < mzlist.size(); i++) {
+        // System.out.println(mzlist.get(i) + " " + intensitylist.get(i));
+        // }
 
         // System.out.println();
         // System.out.println(dtoper.getSummary());
