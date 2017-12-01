@@ -180,7 +180,7 @@ public class PeakList {
 
         stringBuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(lineSep);
 
-        for (Peak peak : peakList) {
+        for (Peak peak : this.peakList) {
             stringBuilder.append(peak.getIsotopicSetID()).append(",").append(peak.getIsotopicClusterID()).append(",")
                     .append(peak.getPeakID()).append(",").append(peak.getCharge()).append(",").append(peak.getMz())
                     .append(",").append(peak.getIntensity()).append(lineSep);

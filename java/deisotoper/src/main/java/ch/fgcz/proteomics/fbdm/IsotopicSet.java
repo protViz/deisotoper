@@ -14,6 +14,7 @@ import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
+// TODO: Fix id's of clusters...
 public class IsotopicSet {
     private List<IsotopicCluster> isotopicSet = null;
     private List<IsotopicCluster> bestPath = null;
@@ -27,6 +28,10 @@ public class IsotopicSet {
 
     public int getSetId() {
         return setId;
+    }
+
+    public void setSetId(int setId) {
+        this.setId = setId;
     }
 
     public List<IsotopicCluster> getIsotopicSet() {
@@ -57,7 +62,9 @@ public class IsotopicSet {
 
         this.peaksInSet = peaksInSet;
 
-        this.isotopicSet = collectClusters(config, setId);
+        List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
+
+        this.isotopicSet = tempIsotopicSet;
 
         setBestPath(massSpectrum, collectClusters(config, setId), config);
     }

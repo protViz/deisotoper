@@ -20,6 +20,7 @@ public class Deisotoper {
     private PeakList mergedPeakList;
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<>();
+    private String annotatedSpectrum;
 
     public Deisotoper() {
         config = new Configuration();
@@ -40,29 +41,8 @@ public class Deisotoper {
         this.config = config;
     }
 
-    // TODO: Doesn't work like it should!
     public String getAnnotatedSpectrum() {
-        PeakList peaksInSet = collectPeaks();
-
-        if (this.config.isDecharge()) {
-            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
-        }
-
-        PeakList mergedPeakListLocal = new PeakList();
-
-        mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
-
-        if (this.config.getNoise() != 0) {
-            mergedPeakListLocal = mergedPeakListLocal.filterNoisePeaks(this.config.getNoise());
-        }
-
-        mergedPeakListLocal = mergedPeakListLocal.sortPeakList();
-
-        mergedPeakListLocal.sortForAnnotating();
-
-        mergedPeakListLocal.removeMultiplePeaks();
-
-        return mergedPeakListLocal.saveAnnotatedSpectrum();
+        return this.annotatedSpectrum;
     }
 
     public List<String> getDotGraphs() {
@@ -113,7 +93,35 @@ public class Deisotoper {
 
         this.mergedPeakList = mergedPeakList.sortPeakList();
 
-        return this.mergedPeakList.makeResultSpectrum(massSpectrum);
+        MassSpectrum resultSpectrum = this.mergedPeakList.makeResultSpectrum(massSpectrum);
+
+        createAnnotatedSpectrum(massSpectrum);
+
+        return resultSpectrum;
+    }
+
+    private void createAnnotatedSpectrum(MassSpectrum massSpectrum) {
+        PeakList peaksInSet = collectPeaks(massSpectrum);
+
+        if (this.config.isDecharge()) {
+            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
+        }
+
+        PeakList mergedPeakListLocal = new PeakList();
+
+        mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
+
+        if (this.config.getNoise() != 0) {
+            mergedPeakListLocal = mergedPeakListLocal.filterNoisePeaks(this.config.getNoise());
+        }
+
+        mergedPeakListLocal = mergedPeakListLocal.sortPeakList();
+
+        mergedPeakListLocal.sortForAnnotating();
+
+        mergedPeakListLocal.removeMultiplePeaks();
+
+        this.annotatedSpectrum = mergedPeakListLocal.saveAnnotatedSpectrum();
     }
 
     protected List<IsotopicCluster> getBestClusters() {
@@ -196,7 +204,7 @@ public class Deisotoper {
             id++;
             isotopicSets.add(temporaryIsotopicSet);
         }
-
+        
         return isotopicSets;
     }
 
@@ -355,7 +363,9 @@ public class Deisotoper {
         return allPeaks;
     }
 
-    private PeakList collectPeaks() {
+    private PeakList collectPeaks(MassSpectrum massSpectrum) {
+        this.isotopicSets = new ArrayList<>();
+        generateIsotopicSets(massSpectrum);
         PeakList peaksInSet = new PeakList();
         for (IsotopicSet isotopicSet : this.isotopicSets) {
             List<IsotopicCluster> isotopicClusters = isotopicSet.getIsotopicSet();
