@@ -8,9 +8,8 @@ package ch.fgcz.proteomics.fbdm;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ListIterator;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
@@ -176,16 +175,31 @@ public class PeakList {
     }
 
     public PeakList removeMultiplePeaks() {
-        PeakList result = new PeakList();
-        Set<Peak> set = new HashSet<>();
-
-        for (Peak peak : this.getPeakList()) {
-            if (set.add(peak)) {
-                result.add(peak);
+        ListIterator<Peak> peakListIterator = this.peakList.listIterator();
+        while (peakListIterator.hasNext()) {
+            int index = peakListIterator.nextIndex();
+            Peak currentPeak = peakListIterator.next();
+            for (int j = 0; j < index; ++j) {
+                if (currentPeak.equals(this.peakList.get(j))) {
+                    peakListIterator.remove();
+                    break;
+                }
             }
         }
 
-        return result;
+        return this;
+
+        // Old implementation
+        // PeakList result = new PeakList();
+        // Set<Peak> set = new HashSet<>();
+        //
+        // for (Peak peak : this.getPeakList()) {
+        // if (set.add(peak)) {
+        // result.add(peak);
+        // }
+        // }
+        //
+        // return result;
     }
 
     public PeakList sortForAnnotating() {
