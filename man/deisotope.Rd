@@ -4,24 +4,37 @@
 \alias{deisotope}
 \title{Deisotope a Mass Spectrum}
 \usage{
-deisotope(deisotoper, massspectrum, method = "features-based")
+deisotope(deisotoper, massspectrum, algorithm = "features-based")
 }
 \arguments{
 \item{deisotoper}{a \code{\link{deisotoper}} object.}
 
-\item{massspectrum}{a list of numeric vectors \code{mZ} and \code{intensity}.}
+\item{massspectrum}{a list of numeric vectors \code{mZ} and \code{intensity}
+where \code{mZ} is ordered and \code{mZ} and \code{intensity} have the same length.}
 
-\item{method}{the supported deisotope algorithm, default is \code{method="features-based"}.}
+\item{algorithm}{the supported deisotope algorithms, default is \code{method="features-based"}.}
 }
 \description{
 Deisotope a Mass Spectrum
 }
+\examples{
+
+x <- list(mZ = c(1, 2, 2.5, 3), intensity = rep(1, 4), pepmass=600, charge=2)
+
+xd <- deisotope(dtoper <- deisotoper(), x)
+plot.deisotoper(x, xd)
+summary(dtoper)
+
+}
 \references{
-Features-Based Deisotoping Method for Tandem Mass Spectra \url{http://dx.doi.org/10.1155/2011/210805}.
+\itemize{
+\item{Features-Based Deisotoping Method for Tandem Mass Spectra,
+ \url{http://dx.doi.org/10.1155/2011/210805}.
+}}
 }
 \seealso{
 \code{\link{deisotoper}}
 }
 \author{
-Lucas Schmidt
+Lucas Schmidt, Christian Panse, Witold E. Wolski
 }

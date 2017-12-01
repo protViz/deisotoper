@@ -181,16 +181,29 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
 
 #' Deisotope a Mass Spectrum
 #' @param deisotoper a \code{\link{deisotoper}} object.
-#'
-#' @param massspectrum a list of numeric vectors \code{mZ} and \code{intensity}.
-#' @param method the supported deisotope algorithm, default is \code{method="features-based"}.
+#' @param massspectrum a list of numeric vectors \code{mZ} and \code{intensity}
+#' where \code{mZ} is ordered and \code{mZ} and \code{intensity} have the same length.
+#' @param algorithm the supported deisotope algorithms, default is \code{method="features-based"}.
 #' @seealso \code{\link{deisotoper}}
 #' @export deisotope
-#' @references Features-Based Deisotoping Method for Tandem Mass Spectra \url{http://dx.doi.org/10.1155/2011/210805}.
-#' @author Lucas Schmidt
-deisotope <- function(deisotoper, massspectrum, method="features-based") {
+#' @references 
+#' \itemize{
+#' \item{Features-Based Deisotoping Method for Tandem Mass Spectra,
+#'  \url{http://dx.doi.org/10.1155/2011/210805}.
+#' }}
+#' @author Lucas Schmidt, Christian Panse, Witold E. Wolski
+#' @examples
+#' 
+#' x <- list(mZ = c(1, 2, 2.5, 3), intensity = rep(1, 4), pepmass=600, charge=2)
+#' 
+#' xd <- deisotope(dtoper <- deisotoper(), x)
+#' plot.deisotoper(x, xd)
+#' summary(dtoper)
+#' 
+#' @aliases 
+deisotope <- function(deisotoper, massspectrum, algorithm = "features-based") {
   
-  stopifnot(method == "features-based")
+  stopifnot(algorithm   == "features-based")
   
   if(!("mZ" %in% names(massspectrum))) {
     stop("mZ values are missing!")
