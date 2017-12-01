@@ -91,6 +91,12 @@ public class PeakList {
     }
 
     public MassSpectrum makeResultSpectrum(MassSpectrum massSpectrum) {
+        try {
+            checkForIntensityCorrectness(new PeakList(massSpectrum), this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
         List<Double> isotope = new ArrayList<>();
@@ -105,6 +111,26 @@ public class PeakList {
         return new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), mz, intensity,
                 massSpectrum.getPeptideMass(), massSpectrum.getRt(), massSpectrum.getChargeState(),
                 massSpectrum.getId(), charge, isotope);
+    }
+
+    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
+        double sumBefore = peakList1.sumIntensities();
+        double sumAfter = peakList2.sumIntensities();
+
+        if ((double) Math.round(sumBefore * 1000d) / 1000d != (double) Math.round(sumAfter * 1000d) / 1000d) {
+            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+        }
+
+    }
+
+    public double sumIntensities() {
+        double intensitySum = 0;
+
+        for (Peak peak : this.peakList) {
+            intensitySum += peak.getIntensity();
+        }
+
+        return intensitySum;
     }
 
     public PeakList dechargePeaks(double H_MASS) {

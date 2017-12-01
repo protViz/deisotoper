@@ -156,89 +156,6 @@ public class Deisotoper {
         return resultPeakList;
     }
 
-    private void intensityCheck(double before, double after) throws Exception {
-        if ((double) Math.round(before * 1000d) / 1000d != (double) Math.round(after * 1000d) / 1000d) {
-            throw new Exception("Wrong intensities after aggregation (Intensity before aggregation: " + before
-                    + " and after aggregation: " + after + "!");
-        }
-    }
-
-    private double sumAllIntensities(List<IsotopicCluster> isotopicClusters) {
-        PeakList peakList = new PeakList();
-        double intensitySum = 0;
-
-        for (IsotopicCluster isotopicCluster : isotopicClusters) {
-            peakList.addAll(isotopicCluster.getIsotopicCluster());
-        }
-
-        peakList.removeMultiplePeaks();
-
-        for (Peak peak : peakList.getPeakList()) {
-            intensitySum += peak.getIntensity();
-        }
-
-        return intensitySum;
-    }
-
-    private List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
-        // If cluster has same peak/peaks as other cluster.
-        // Remove this peak in the lowest charged cluster.
-        // Aggregate only the non removed cluster and add the remaining peaks from the
-        // overlapping cluster to the resultPeakList.
-
-        for (IsotopicCluster isotopicCluster1 : isotopicClusters) {
-            for (IsotopicCluster isotopicCluster2 : isotopicClusters) {
-                if (isotopicCluster1.equals(isotopicCluster2)) {
-                    continue;
-                }
-
-                if (hasSamePeaks(isotopicCluster1, isotopicCluster2)) {
-                    hasSameTrue(isotopicCluster1, isotopicCluster2);
-                }
-            }
-        }
-
-        return isotopicClusters;
-    }
-
-    private void hasSameTrue(IsotopicCluster isotopicCluster1, IsotopicCluster isotopicCluster2) {
-        if (isotopicCluster1.getCharge() > isotopicCluster2.getCharge()) {
-            isotopicCluster1.getIsotopicCluster().removeAll(isotopicCluster2.getIsotopicCluster());
-        } else if (isotopicCluster1.getCharge() < isotopicCluster2.getCharge()) {
-            isotopicCluster2.getIsotopicCluster().removeAll(isotopicCluster1.getIsotopicCluster());
-        } else {
-            double intensitySumOfCluster1 = sumIntensity(isotopicCluster1);
-            double intensitySumOfCluster2 = sumIntensity(isotopicCluster2);
-            if (intensitySumOfCluster1 > intensitySumOfCluster2) {
-                isotopicCluster2.getIsotopicCluster().removeAll(isotopicCluster1.getIsotopicCluster());
-            } else {
-                isotopicCluster1.getIsotopicCluster().removeAll(isotopicCluster2.getIsotopicCluster());
-            }
-        }
-    }
-
-    private double sumIntensity(IsotopicCluster isotopicCluster1) {
-        double intensitySum = 0;
-
-        for (Peak peak : isotopicCluster1.getIsotopicCluster()) {
-            intensitySum += peak.getIntensity();
-        }
-
-        return intensitySum;
-    }
-
-    private boolean hasSamePeaks(IsotopicCluster isotopicCluster1, IsotopicCluster isotopicCluster2) {
-        for (Peak peak1 : isotopicCluster1.getIsotopicCluster()) {
-            for (Peak peak2 : isotopicCluster2.getIsotopicCluster()) {
-                if (peak1.equals(peak2)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     // New version of generateIsotopicSets.
     protected void generateIsotopicSets(MassSpectrum massSpectrum) {
         this.peakList = new PeakList(massSpectrum);
@@ -451,6 +368,89 @@ public class Deisotoper {
         }
 
         return peaksInSet.removeMultiplePeaks();
+    }
+
+    private void intensityCheck(double before, double after) throws Exception {
+        if ((double) Math.round(before * 1000d) / 1000d != (double) Math.round(after * 1000d) / 1000d) {
+            throw new Exception("Wrong intensities after aggregation (Intensity before aggregation: " + before
+                    + " and after aggregation: " + after + "!");
+        }
+    }
+
+    private double sumAllIntensities(List<IsotopicCluster> isotopicClusters) {
+        PeakList peakList = new PeakList();
+        double intensitySum = 0;
+
+        for (IsotopicCluster isotopicCluster : isotopicClusters) {
+            peakList.addAll(isotopicCluster.getIsotopicCluster());
+        }
+
+        peakList.removeMultiplePeaks();
+
+        for (Peak peak : peakList.getPeakList()) {
+            intensitySum += peak.getIntensity();
+        }
+
+        return intensitySum;
+    }
+
+    private List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
+        // If cluster has same peak/peaks as other cluster.
+        // Remove this peak in the lowest charged cluster.
+        // Aggregate only the non removed cluster and add the remaining peaks from the
+        // overlapping cluster to the resultPeakList.
+
+        for (IsotopicCluster isotopicCluster1 : isotopicClusters) {
+            for (IsotopicCluster isotopicCluster2 : isotopicClusters) {
+                if (isotopicCluster1.equals(isotopicCluster2)) {
+                    continue;
+                }
+
+                if (hasSamePeaks(isotopicCluster1, isotopicCluster2)) {
+                    hasSameTrue(isotopicCluster1, isotopicCluster2);
+                }
+            }
+        }
+
+        return isotopicClusters;
+    }
+
+    private void hasSameTrue(IsotopicCluster isotopicCluster1, IsotopicCluster isotopicCluster2) {
+        if (isotopicCluster1.getCharge() > isotopicCluster2.getCharge()) {
+            isotopicCluster1.getIsotopicCluster().removeAll(isotopicCluster2.getIsotopicCluster());
+        } else if (isotopicCluster1.getCharge() < isotopicCluster2.getCharge()) {
+            isotopicCluster2.getIsotopicCluster().removeAll(isotopicCluster1.getIsotopicCluster());
+        } else {
+            double intensitySumOfCluster1 = sumIntensity(isotopicCluster1);
+            double intensitySumOfCluster2 = sumIntensity(isotopicCluster2);
+            if (intensitySumOfCluster1 > intensitySumOfCluster2) {
+                isotopicCluster2.getIsotopicCluster().removeAll(isotopicCluster1.getIsotopicCluster());
+            } else {
+                isotopicCluster1.getIsotopicCluster().removeAll(isotopicCluster2.getIsotopicCluster());
+            }
+        }
+    }
+
+    private double sumIntensity(IsotopicCluster isotopicCluster1) {
+        double intensitySum = 0;
+
+        for (Peak peak : isotopicCluster1.getIsotopicCluster()) {
+            intensitySum += peak.getIntensity();
+        }
+
+        return intensitySum;
+    }
+
+    private boolean hasSamePeaks(IsotopicCluster isotopicCluster1, IsotopicCluster isotopicCluster2) {
+        for (Peak peak1 : isotopicCluster1.getIsotopicCluster()) {
+            for (Peak peak2 : isotopicCluster2.getIsotopicCluster()) {
+                if (peak1.equals(peak2)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     // Old version of generateIsotopicSets
