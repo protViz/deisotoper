@@ -8,10 +8,10 @@
 %\newcommand{\Robject}[1]{{\texttt{#1}}}
 %\newcommand{\Rpackage}[1]{{\pkg{#1}}}
 
-\author{Christian Panse, Lucas Schmidt, Witold Wolski}
-\title{Detection of Isotope Pattern of a Mass Spectrometric Measurement - The CRAN deisotoper package.}
+\author{Christian Panse, Lucas Schmidt, Witold E. Wolski}
+\title{Hands-on the Detection of Isotope Pattern of Mass Spectrometric Measurements}
 
-\Plainauthor{Christian Panse, Lucas Schmidt, Witold Wolski}
+\Plainauthor{Christian Panse, Lucas Schmidt, Witold E. Wolski}
 \Plaintitle{The CRAN deisotoper package.}
 \Shorttitle{CRAN deisotoper}
 
@@ -19,13 +19,13 @@
 \Plainkeywords{proteomics, mass spectrometry}
 
 \Abstract{
-
-Provides a low-level interface for a deisotoper container 
-  implemented in the 'Java' programming language and means of S3 helper 
-  functions for plotting and debugging isotopes of mass spectrometric data. 
-  The deisotoper algorithm detects and aggregates peaks which belong to the 
-  same isotopic cluster of a given mass spectrum. See \code{?deisotope} for an
-  introduction.}
+The CRAN package \pkg{deisotoper} provides a low-level interface for a 
+deisotoper container implemented in the 'Java' programming language and means
+of S3 helper functions for plotting and debugging isotopes of mass spectrometric 
+data. The implemented feature-based algorithm detects and aggregates peaks which
+belong to the same isotopic cluster of a given mass spectrum.
+One feature of the algorithm is that it can handle overlapping clusters.
+}
 
 \Address{
   Christian Panse \& Witold E. Wolski\\
@@ -33,11 +33,14 @@ Provides a low-level interface for a deisotoper container
   Winterthurerstr. 190\\
   CH-8057, Z{\"u}rich, Switzerland\\
   Telephone: +41-44-63-53912\\
-  E-mail: \email{cp@fgcz.ethz.ch}\\
-  URL: \href{http://www.fgcz.ethz.ch}
+  E-mail: \email{\{cp,wew\}@fgcz.ethz.ch}\\
+  URL: \url{http://www.fgcz.ethz.ch}
 }
 
 \begin{document}
+
+%\tableofcontents
+
 <<echo = FALSE, eval = TRUE>>=
 options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 @
@@ -49,10 +52,28 @@ options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 %\tableofcontents
 %\newpage
 
-\section{Introduction}
+\section{Preliminary notes}
 
+One chemical element can have different atomic masses caused by the different number of neutrons.
+The elementary mass of one neutron is approximately 1 Dalton.
+The chemical elements hydrogen, carbon, oxygen, nitrogen, and sulfate composing chemical structures known as amino acids. 
+The amino acids are the building blocks for the construction of protein sequences.
+All these chemical structures are carrying the different number of neutron distributions of the containing elemental composition.
+In the area of proteomics mass spectrometry is the method of choice. Peptides, digested proteins, are measured in a mass spectrometric device. 
+All mass spectra are queried to a set of in-silico computed peptide spectra. This process is usually done by using a tandem mass spectrometry (MS/MS) sequence database search software as  mascot \citet{pmid10612281} or comet \citet{pmid26115965}.
+De-isotope mass spectra have an impact on the score of the peptide-spectrum match (PSM) of the  search algorithm. 
+A Filtered and convoluted mass spectrum leads to a  higher coverage between fragment ions and in-silico computed ions and results in a better score. Here we implemented and tested the feature-based algorithm described in \citet{pmid22262971}.
 
-<<>>=
+Related work ...
+
+In the following sections, we will demonstrate the usage of the \pkg{deisotoper} package.
+The vignette is organized as follow:
+...
+
+\newpage
+\section{The input}
+
+<<echo = FALSE>>=
 peaklist <- list(mZ = c(362.0196, 362.0214, 362.0233, 362.0251,
   362.0270, 362.0288, 362.0307, 363.0164, 363.0183, 
   363.0202, 363.0220, 363.0239, 363.0257, 363.0276, 364.0156,
@@ -60,37 +81,138 @@ peaklist <- list(mZ = c(362.0196, 362.0214, 362.0233, 362.0251,
   intensity = c(208, 519, 858, 1009, 873, 551, 237, 284, 665, 1067,
   1195, 939, 485, 109, 321, 605, 1446, 2339, 2480, 1802, 559, 168))
 
-mean(peaklist$mZ[1:7])
+peaklist <- list(
+  mZ = c(636.2465, 636.2508, 636.2551, 636.2594, 636.2637, 636.2680, 636.2724, 636.2767, 636.2810, 636.2853, 636.2896, 636.2939, 636.2982, 636.3025, 636.3068, 636.3111, 637.2558, 637.2601, 637.2644, 637.2687, 637.2731, 637.2774, 637.2817, 637.2860, 637.2903, 637.2947, 637.2990, 637.3033, 638.2762, 638.2805, 638.2849, 638.2892, 638.2935),
+  intensity = c(506, 10420, 15754, 38867, 136295, 423890, 750226, 1018163, 838389, 501517, 188589, 51669, 17388, 14255, 4033, 2541, 652, 3043, 14262, 50218, 105484, 165082, 172807, 115814, 59915, 17850, 4219, 1341, 1369, 2067, 2333, 1974, 1211)
+  )
+
+
+peaklist <- list(
+  mZ = c(695.3586, 695.3636, 695.3685, 695.3734, 695.3783, 695.3832, 695.3882, 695.3931, 695.3980, 695.4029, 695.4079, 696.3692, 696.3741, 696.3791, 696.3840, 696.3889, 696.3939, 696.3988, 696.4037, 697.3569, 697.3618, 697.3668, 697.3717, 697.3767, 697.3816),
+intensity = c(129, 849, 4148, 13688, 24213, 32592, 26475, 15754, 5862, 1613, 358, 371, 1156, 2947, 4869, 5348, 3605, 1817, 526, 755, 1479, 1934, 1805, 1201, 541))
 @
 
-
-<<include=TRUE>>=
+If the mass spec software delivers profile data, the profiles have to be fitted, e.g., by a Gaussian curve fitting and the expectation value has to be determined.
+In this section, we briefly demonstrate for the sake of completeness how that so-called peak picking preprocessing step can be handled using R. 
+The plot below displays an isotope cluster in measured profile mode.
+<<include=TRUE, fig=TRUE, height=3>>=
 plot(peaklist$mZ, peaklist$intensity, type = 'h')
 @
 
-<<echo=TRUE>>=
-library(deisotoper)
+
+For demonstration purpose only we use the \code{lm} function for the fit of the 
+first isotope. Therefore we apply a \code{log} transformation the Gaussian
+distribution equation. 
+
+<<>>=
+isotope1 <- 1:11
+mean(peaklist$mZ[isotope1])
+x <- peaklist$mZ[isotope1]
+y <- peaklist$intensity[isotope1]
+
+peak <- data.frame(logy=log(y), x=x)
+
+x.mean <- mean(peak$x)
+peak$xc <- peak$x - x.mean
+
+(fit <- lm(logy ~ xc + I(xc^2), data= peak))
 @
+
+The plots below display the quadratic curve (left) and the predicted values of
+the model. The right figure shows the fitted Gaussian curve.
+Please note, the x-axis transformation by \code{x.mean} is applied to achieve
+a better numerical conditioning of the problem.
+
+<<include=TRUE, fig=TRUE, height=3>>=
+op <- par(mfrow=c(1,2))
+
+plot(logy ~ xc, data=peak)
+xx <- with(peak, seq(min(xc), max(xc), length=20))
+lines(xx , predict(fit, data.frame(xc=xx)), col=2)
+
+plot(peak$xc + x.mean, exp(peak$logy))
+lines(xx + x.mean, exp(predict(fit, data.frame(xc = xx))), col=2)
+x0 <- -fit$coefficients[2] / (2 *fit$coefficients[3])
+abline(v=x0 + x.mean)
+axis(3, x0 + x.mean, round(x0 + x.mean,4))
+@
+
+The graphics below show the fits (red curve) and expectation values (picked peaks) as tickmarks for all three isotopes of the isotopic cluster.
+
+<<echo=FALSE, fig=TRUE, include=TRUE, height=3>>=
+plot(peaklist$mZ, peaklist$intensity, type = 'h')
+
+profileFit <- function(x, y){
+  peak <- data.frame(logy=log(y), x=x)
+
+  x.mean <- mean(peak$x)
+  peak$xc <- peak$x - x.mean
+
+  fit <- lm(logy ~ xc + I(xc^2), data= peak)
+  xx <- with(peak,seq(min(xc), max(xc), length=20))
+ 
+  #plot(peak$xc + x.mean, exp(peak$logy))
+  lines(xx + x.mean, exp(predict(fit, data.frame(xc = xx))), col=2)
+  x0 <- -fit$coefficients[2] / (2 *fit$coefficients[3])
+  #abline(v=x0 + x.mean)
+  #axis(3, x0 + x.mean, round(x0 + x.mean,4))
+  
+   x0 + x.mean
+}
+
+#op<-par(mfrow=c(1,3))
+set.seed(1)
+isotopes <- kmeans(peaklist$mZ, 3, nstart=length(peaklist$mZ))
+
+
+rv <- sapply(1:3, function(id){
+  profileFit(peaklist$mZ[isotopes$cl == id], 
+             peaklist$intensity[isotopes$cl == id])})
+axis(3, rv, round(rv, 4))
+@
+
+Nevertheless, today's mass spec devices are usually able to deliver the data in
+centroid mode.
+\newpage
+\section{The package usage}
 
 \subsection{Input example 1: in-silico}
 
 <<>>=
-x <- list(mZ = c(1, 2, 2.5, 3), intensity = rep(1, 4), pepmass=600, charge=2)
-# standart configurated deisotoper
-dtoper <- deisotoper(delta = 0.15)
-
-# deisotope the data
-xd <- deisotope(dtoper, x)
+library(deisotoper)
 @
 
-<<include=TRUE, fig=TRUE>>=
+Lets define a blackboard example to demonstrate the ``deisotoping'' algorithm on
+two overlapping isotope clusters.
+<<>>=
+x <- list(mZ = c(1, 2, 2.5, 3), intensity = rep(1, 4),
+          pepmass=600, charge=2)
+@
+\code{deisotoper()} returns a reference to a standard configurated deisotoper
+object.
+<<>>=
+dtoper <- deisotoper()
+@
+
+The following line calls the deisotoper method of the object.
+<<>>=
+(xd <- deisotope(dtoper, x))
+@
+
+plot both spectra
+<<include=TRUE, fig=TRUE, height=3>>=
 plot.deisotoper(x, xd)
+@
+
+The following line displays the content of the deisotoper object.
+<<>>=
+print(dtoper)
 @
 
 \subsection{Input example 2: tandem mass spectrum}
 
-Given: A pick peaked mass spectrum.
-<<>>=
+\paragraph{Given: A centroid mode generated mass spectrum.}
+<<echo=FALSE>>=
 # EXAMPLE 2
 # example data
 x <- list(
@@ -134,8 +256,11 @@ x <- list(
   pepmass = 592.8093)
 @
 
+<<fig=TRUE, include=TRUE, height=3>>=
+plot(x$mZ, x$intensity, type='h')
+@
 
-\subsection{Sanity check}
+\paragraph{Sanity check}
 
 <<>>=
 eps <- 0.025
@@ -159,7 +284,7 @@ rv
 dtoper <- deisotoper(delta = 0.15)
 
 # return the configuration of dtoper
-config <- getConfig(dtoper)
+config <- config.deisotoper(dtoper)
 
 # deisotope the data
 xd <- deisotope(dtoper, x)
@@ -181,7 +306,8 @@ par(op)
 <<eval =TRUE, fig = TRUE, height = 10>>=
 charge <- 1;
 
-(eps <- as.numeric(as.character(config$Value[which(config$Configuration == "Delta")])))
+(eps <- as.numeric(
+  as.character(config$Value[which(config$Configuration == "Delta")])))
 
 diff.mZ <- (1 / charge - eps) < diff(x$mZ) & diff(x$mZ) < (1 / charge + eps)
 idx <- which( diff.mZ )
@@ -200,9 +326,10 @@ rv <- lapply(idx, function(i){
 
 
 
-<<eval = TRUE, fig = TRUE, height = 10>>=
+<<eval = TRUE, fig = TRUE, height = 5>>=
 charge <- 2;
-(eps <- as.numeric(as.character(config$Value[which(config$Configuration == "Delta")])))
+(eps <- as.numeric(
+  as.character(config$Value[which(config$Configuration == "Delta")])))
 
 diff.mZ <- diff(x$mZ)
 idx <- which( (1 / charge - eps) < diff.mZ  & diff.mZ  < (1 / charge + eps))
@@ -221,13 +348,28 @@ rv <- lapply(idx, function(i){
 })
 @
 
+\newpage
+\section{Evaluation}
+maybe we do not include this section it in the vignette
 
+\subsection{Qualitative} 
+two isotope clusters of each quantile of a score.
 
-<<eval =TRUE>>=
-charge <- 3;
-eps <- 0.05; 
-idx <- which( ((1 / charge) - eps) < diff(x$mZ)
-              & diff(x$mZ) < ((1  / charge) + eps))
-print(idx)
+\subsection{Quantitative}
+compare PD versus CRAN \pkg{deisotoper}
+
+\section{Implementation Details}
+The package is interfacing the Java code by using the  the \pkg{rJava} 
+package \citet{rJava}.
+
+\section{Session information}
+
+An overview of the package versions used to produce this document are
+shown below.
+
+<<sessioninfo, results=tex, echo=FALSE>>=
+toLatex(sessionInfo())
 @
+
+\bibliography{deisotoper}
 \end{document}
