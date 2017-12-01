@@ -4,7 +4,7 @@ context("Test deisotoper")
 
 
 test_that("test deisotoper::deisotoper", {
-  dtoper <- deisotoper()
+  dtoper <- deisotoper(distance = 1.003)
   x <-
     list(
       mZ = c(

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class TestMassSpecMeasure {
+public class MassSpecMeasureTest {
     @Test
     public void testMassSpectrometryMeasurementCreation() {
         String s = "Unit Test Case";
@@ -43,6 +43,6 @@ public class TestMassSpecMeasure {
             assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
         }
 
-        MassSpecMeasureSummary.makeSummary(massSpectrometryMeasurement);
+        MassSpecMeasureSummary.summarize(massSpectrometryMeasurement);
     }
 }

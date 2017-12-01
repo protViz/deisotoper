@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
@@ -16,11 +17,11 @@ public class PeakList {
     private List<Peak> peakList = new ArrayList<>();
 
     public boolean isEmpty() {
-        if (peakList.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return peakList.isEmpty();
+    }
+
+    public void setPeakList(List<Peak> peakList) {
+        this.peakList = peakList;
     }
 
     public List<Peak> getPeakList() {
@@ -40,12 +41,20 @@ public class PeakList {
         return this.peakList.get(i);
     }
 
+    public void addAll(PeakList peakList) {
+        this.peakList.addAll(peakList.peakList);
+    }
+
     public void addAll(List<Peak> peakList) {
         this.peakList.addAll(peakList);
     }
 
     public int size() {
         return this.peakList.size();
+    }
+
+    public PeakList(List<Peak> peaks) {
+        this.peakList = peaks;
     }
 
     public PeakList(MassSpectrum massSpectrum) {
@@ -77,11 +86,17 @@ public class PeakList {
             }
         }
 
-        notInIsotopicSet.addAll(peakList2.getPeakList());
+        notInIsotopicSet.addAll(peakList2);
         return notInIsotopicSet;
     }
 
     public MassSpectrum makeResultSpectrum(MassSpectrum massSpectrum) {
+        try {
+            checkForIntensityCorrectness(new PeakList(massSpectrum), this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         List<Double> mz = new ArrayList<>();
         List<Double> intensity = new ArrayList<>();
         List<Double> isotope = new ArrayList<>();
@@ -96,6 +111,26 @@ public class PeakList {
         return new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), mz, intensity,
                 massSpectrum.getPeptideMass(), massSpectrum.getRt(), massSpectrum.getChargeState(),
                 massSpectrum.getId(), charge, isotope);
+    }
+
+    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
+        double sumBefore = peakList1.sumIntensities();
+        double sumAfter = peakList2.sumIntensities();
+
+        if ((double) Math.round(sumBefore * 1000d) / 1000d != (double) Math.round(sumAfter * 1000d) / 1000d) {
+            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+        }
+
+    }
+
+    public double sumIntensities() {
+        double intensitySum = 0;
+
+        for (Peak peak : this.peakList) {
+            intensitySum += peak.getIntensity();
+        }
+
+        return intensitySum;
     }
 
     public PeakList dechargePeaks(double H_MASS) {
@@ -145,7 +180,7 @@ public class PeakList {
 
         stringBuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(lineSep);
 
-        for (Peak peak : peakList) {
+        for (Peak peak : this.peakList) {
             stringBuilder.append(peak.getIsotopicSetID()).append(",").append(peak.getIsotopicClusterID()).append(",")
                     .append(peak.getPeakID()).append(",").append(peak.getCharge()).append(",").append(peak.getMz())
                     .append(",").append(peak.getIntensity()).append(lineSep);
@@ -160,6 +195,44 @@ public class PeakList {
             @Override
             public int compare(Peak peakOne, Peak peakTwo) {
                 return Double.compare(peakOne.getMz(), peakTwo.getMz());
+            }
+        });
+        return this;
+    }
+
+    public PeakList removeMultiplePeaks() {
+        ListIterator<Peak> peakListIterator = this.peakList.listIterator();
+        while (peakListIterator.hasNext()) {
+            int index = peakListIterator.nextIndex();
+            Peak currentPeak = peakListIterator.next();
+            for (int j = 0; j < index; ++j) {
+                if (currentPeak.equals(this.peakList.get(j))) {
+                    peakListIterator.remove();
+                    break;
+                }
+            }
+        }
+
+        return this;
+
+        // Old implementation
+        // PeakList result = new PeakList();
+        // Set<Peak> set = new HashSet<>();
+        //
+        // for (Peak peak : this.getPeakList()) {
+        // if (set.add(peak)) {
+        // result.add(peak);
+        // }
+        // }
+        //
+        // return result;
+    }
+
+    public PeakList sortForAnnotating() {
+        Collections.sort(this.peakList, new Comparator<Peak>() {
+            @Override
+            public int compare(Peak peakOne, Peak peakTwo) {
+                return Double.compare(peakOne.getPeakID(), peakTwo.getPeakID());
             }
         });
 

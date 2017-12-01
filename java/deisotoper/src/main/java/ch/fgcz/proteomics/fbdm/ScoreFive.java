@@ -7,10 +7,24 @@ package ch.fgcz.proteomics.fbdm;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
-//TODO : needs to be finished and
+// TODO: Needs to be finished and included.
 public class ScoreFive {
+    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph;
+    private Configuration config;
+
+    public ScoreFive(DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph,
+            Configuration config) {
+        this.isotopicClusterGraph = isotopicClusterGraph;
+        this.config = config;
+    }
+
+    public double calculateFifthScore(Connection connection) {
+        return config.getF5() * calculateScoreBasedOnExperimentalIsotopicDistribution(connection,
+                this.isotopicClusterGraph, this.config);
+    }
+
     // NOT FINISHED YET
-    protected static int calculateFifthScoringFeature(Connection connection,
+    public static int calculateScoreBasedOnExperimentalIsotopicDistribution(Connection connection,
             DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph, Configuration config) {
         int F5 = 0;
 

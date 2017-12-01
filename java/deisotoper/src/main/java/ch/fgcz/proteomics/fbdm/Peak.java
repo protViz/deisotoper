@@ -1,7 +1,5 @@
 package ch.fgcz.proteomics.fbdm;
 
-import java.util.List;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-09-04
@@ -94,7 +92,8 @@ public class Peak {
 
     public boolean equals(Peak peak) {
         if (this.getMz() == peak.getMz() && this.getIntensity() == peak.getIntensity()
-                && this.getCharge() == peak.getCharge() && this.getIsotope() == peak.getIsotope()) {
+                && this.getCharge() == peak.getCharge() && this.getIsotope() == peak.getIsotope()
+                && this.getPeakID() == peak.getPeakID() && this.isInSet() == peak.isInSet()) {
             return true;
         } else {
             return false;
