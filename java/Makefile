@@ -1,3 +1,6 @@
 
-maven:
-	cd deisotoper && mvn install  -Dmaven.test.skip=true -X
+MVNOPT=
+MVNOPT=-Dmaven.test.skip=true -X
+
+mvn:
+	cd deisotoper && mvn install $(MVNOPT)
