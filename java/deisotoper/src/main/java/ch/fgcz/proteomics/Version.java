@@ -30,6 +30,10 @@ public class Version {
         return "Java Package: Utilities, Date: 2017-11-22, Author: Lucas Schmidt";
     }
 
+    private static String javaVersion() {
+        return "Java Version: " + System.getProperty("java.version");
+    }
+
     public static String version() {
         String linesep = System.getProperty("line.separator");
         StringBuilder sb = new StringBuilder();
@@ -39,7 +43,8 @@ public class Version {
         sb.append(versionOfMspy()).append(linesep);
         sb.append(versionOfMgf()).append(linesep);
         sb.append(versionOfRAdapter()).append(linesep);
-        sb.append(versionOfUtilities());
+        sb.append(versionOfUtilities()).append(linesep);
+        sb.append(javaVersion());
 
         return sb.toString();
     }
