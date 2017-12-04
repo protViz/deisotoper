@@ -102,6 +102,6 @@ public class Peak {
 
     @Override
     public String toString() {
-        return "(" + mz + ", " + intensity + ")";
+        return "(" + mz + ", " + intensity + ", " + isotope + ", " + charge + ", " + isotopicClusterId + ")";
     }
 }

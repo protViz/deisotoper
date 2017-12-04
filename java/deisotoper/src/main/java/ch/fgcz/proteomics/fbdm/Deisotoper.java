@@ -367,14 +367,20 @@ public class Deisotoper {
         this.isotopicSets = new ArrayList<IsotopicSet>();
         generateIsotopicSets(massSpectrum);
         PeakList peaksInSet = new PeakList();
+
+        // IDs are recreated
+        int setID = 0;
         for (IsotopicSet isotopicSet : this.isotopicSets) {
+            int clusterID = 0;
             List<IsotopicCluster> isotopicClusters = isotopicSet.getIsotopicSet();
             for (IsotopicCluster isotopicCluster : isotopicClusters) {
                 for (Peak peak : isotopicCluster.getIsotopicCluster()) {
                     peaksInSet.add(new Peak(peak.getMz(), peak.getIntensity(), peak.getIsotope(), peak.getCharge(),
-                            peak.getPeakID(), peak.getIsotopicClusterID(), peak.getIsotopicSetID()));
+                            peak.getPeakID(), clusterID, setID));
                 }
+                clusterID++;
             }
+            setID++;
         }
 
         return peaksInSet.removeMultiplePeaks();

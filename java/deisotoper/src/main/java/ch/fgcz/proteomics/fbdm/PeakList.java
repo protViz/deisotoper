@@ -239,4 +239,18 @@ public class PeakList {
 
     }
 
+    @Override
+    public String toString() {
+        return "PeakList: " + System.getProperty("line.separator") + print();
+    }
+
+    private String print() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Peak peak : this.peakList) {
+            stringBuilder.append(peak.toString()).append(System.getProperty("line.separator"));
+        }
+
+        return stringBuilder.toString();
+    }
 }
