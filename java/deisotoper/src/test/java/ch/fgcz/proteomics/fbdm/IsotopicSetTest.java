@@ -28,8 +28,5 @@ public class IsotopicSetTest {
 
         IsotopicSet isotopicSet = new IsotopicSet(massSpectrum, isotpicSet, 1, config);
         assertEquals(6, isotopicSet.getIsotopicSet().size());
-        System.out.println(isotopicSet.getDot());
-        System.out.println(isotopicSet.getIsotopicSet().toString());
-        System.out.println(isotopicSet.getBestPath().toString());
     }
 }
