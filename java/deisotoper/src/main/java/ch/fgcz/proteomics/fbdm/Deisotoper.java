@@ -19,7 +19,7 @@ public class Deisotoper {
     private PeakList peakList;
     private PeakList mergedPeakList;
     private Configuration config;
-    private List<IsotopicSet> isotopicSets = new ArrayList<>();
+    private List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
     private String annotatedSpectrum;
 
     public Deisotoper() {
@@ -46,7 +46,7 @@ public class Deisotoper {
     }
 
     public List<String> getDotGraphs() {
-        List<String> graph = new ArrayList<>();
+        List<String> graph = new ArrayList<String>();
 
         for (IsotopicSet isotopicSet : this.isotopicSets) {
             graph.add(isotopicSet.getDot());
@@ -74,7 +74,7 @@ public class Deisotoper {
 
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
         this.running = true;
-        this.isotopicSets = new ArrayList<>();
+        this.isotopicSets = new ArrayList<IsotopicSet>();
         generateIsotopicSets(massSpectrum);
 
         List<IsotopicCluster> bestClusters = getBestClusters();
@@ -125,7 +125,7 @@ public class Deisotoper {
     }
 
     protected List<IsotopicCluster> getBestClusters() {
-        List<IsotopicCluster> bestClusters = new ArrayList<>();
+        List<IsotopicCluster> bestClusters = new ArrayList<IsotopicCluster>();
 
         for (IsotopicSet isotopicSet : this.isotopicSets) {
             bestClusters.addAll(isotopicSet.getBestPath());
@@ -178,11 +178,11 @@ public class Deisotoper {
     }
 
     private static List<PeakList> iterateThroughParts(List<PeakList> parts, Configuration config) {
-        List<PeakList> combinedPeakLists = new ArrayList<>();
+        List<PeakList> combinedPeakLists = new ArrayList<PeakList>();
 
         for (PeakList part : parts) {
             Set<PeakList> setOfPeakLists = splitAllPossibleIsotopicSets(new HashSet<Peak>(part.getPeakList()));
-            List<PeakList> listOfPeakLists = new ArrayList<>();
+            List<PeakList> listOfPeakLists = new ArrayList<PeakList>();
 
             listOfPeakLists = sortAndCheckCorrectnessOfSplittedIsotopicSets(setOfPeakLists, listOfPeakLists, config);
 
@@ -196,7 +196,7 @@ public class Deisotoper {
 
     private static List<IsotopicSet> addSplittedIsotopicSetsToIsotopicSets(List<PeakList> listOfIsotopicSets,
             MassSpectrum massSpectrum, Configuration config) {
-        List<IsotopicSet> isotopicSets = new ArrayList<>();
+        List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
         int id = 0;
 
         for (PeakList isotopicSet : listOfIsotopicSets) {
@@ -204,7 +204,7 @@ public class Deisotoper {
             id++;
             isotopicSets.add(temporaryIsotopicSet);
         }
-        
+
         return isotopicSets;
     }
 
@@ -257,7 +257,7 @@ public class Deisotoper {
     }
 
     private static List<PeakList> splitIntoParts(PeakList peaks, Configuration config) {
-        List<PeakList> partsOfPeaks = new ArrayList<>();
+        List<PeakList> partsOfPeaks = new ArrayList<PeakList>();
 
         int j = 0;
         for (int i = 0; i < peaks.size() - 1; i++) {
@@ -276,7 +276,7 @@ public class Deisotoper {
     }
 
     private static List<PeakList> checkForContainingAndRemoveWrongSets(List<PeakList> listOfPeakLists) {
-        List<PeakList> tempListOfPeakLists = new ArrayList<>(listOfPeakLists);
+        List<PeakList> tempListOfPeakLists = new ArrayList<PeakList>(listOfPeakLists);
 
         for (PeakList peakList1 : listOfPeakLists) {
             for (PeakList peakList2 : listOfPeakLists) {
@@ -299,7 +299,7 @@ public class Deisotoper {
     }
 
     private static List<PeakList> checkIfRemovedCorrectly(List<PeakList> listOfPeakLists) {
-        List<PeakList> tempListOfPeakLists = new ArrayList<>(listOfPeakLists);
+        List<PeakList> tempListOfPeakLists = new ArrayList<PeakList>(listOfPeakLists);
 
         for (PeakList peaks1 : listOfPeakLists) {
             for (PeakList peaks2 : listOfPeakLists) {
@@ -364,7 +364,7 @@ public class Deisotoper {
     }
 
     private PeakList collectPeaks(MassSpectrum massSpectrum) {
-        this.isotopicSets = new ArrayList<>();
+        this.isotopicSets = new ArrayList<IsotopicSet>();
         generateIsotopicSets(massSpectrum);
         PeakList peaksInSet = new PeakList();
         for (IsotopicSet isotopicSet : this.isotopicSets) {
@@ -469,7 +469,7 @@ public class Deisotoper {
     //
     // int id = 0;
     // for (int i = 0; i < peakList.size(); i++) {
-    // List<Peak> isotopicSet = new ArrayList<>();
+    // List<Peak> isotopicSet = new ArrayList<Peak>();
     //
     // while (i < peakList.size() - 1) {
     // boolean trigger = false;

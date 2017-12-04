@@ -30,8 +30,8 @@ public class ReadStdIn {
             String typ = null;
             double peptidMass = 0;
             double rt = 0;
-            List<Double> mz = new ArrayList<>();
-            List<Double> intensity = new ArrayList<>();
+            List<Double> mz = new ArrayList<Double>();
+            List<Double> intensity = new ArrayList<Double>();
 
             while ((line = bufferedreader.readLine()) != null) {
                 String[] partEqual = line.split("=");
@@ -44,8 +44,8 @@ public class ReadStdIn {
                     typ = null;
                     peptidMass = 0;
                     rt = 0;
-                    mz = new ArrayList<>();
-                    intensity = new ArrayList<>();
+                    mz = new ArrayList<Double>();
+                    intensity = new ArrayList<Double>();
                 } else if (line.equals("END IONS")) {
                     massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState,
                             id);

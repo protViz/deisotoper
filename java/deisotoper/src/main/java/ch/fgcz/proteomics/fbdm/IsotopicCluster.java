@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsotopicCluster {
-    private List<Peak> isotopicCluster = new ArrayList<>();
+    private List<Peak> isotopicCluster = new ArrayList<Peak>();
     private int charge;
     private int clusterId;
     private String status;

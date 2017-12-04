@@ -14,7 +14,7 @@ import java.util.ListIterator;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class PeakList {
-    private List<Peak> peakList = new ArrayList<>();
+    private List<Peak> peakList = new ArrayList<Peak>();
 
     public boolean isEmpty() {
         return peakList.isEmpty();
@@ -29,7 +29,7 @@ public class PeakList {
     }
 
     public PeakList() {
-        this.peakList = new ArrayList<>();
+        this.peakList = new ArrayList<Peak>();
     }
 
     public PeakList add(Peak peak) {
@@ -58,7 +58,7 @@ public class PeakList {
     }
 
     public PeakList(MassSpectrum massSpectrum) {
-        List<Peak> plist = new ArrayList<>();
+        List<Peak> plist = new ArrayList<Peak>();
 
         for (int i = 0; i < massSpectrum.getMz().size() || i < massSpectrum.getIntensity().size(); i++) {
             plist.add(new Peak(massSpectrum.getMz().get(i), massSpectrum.getIntensity().get(i), i));
@@ -68,7 +68,7 @@ public class PeakList {
     }
 
     public PeakList(List<Double> mz, List<Double> intensity) {
-        List<Peak> plist = new ArrayList<>();
+        List<Peak> plist = new ArrayList<Peak>();
 
         for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
             plist.add(new Peak(mz.get(i), intensity.get(i), i));
@@ -97,10 +97,10 @@ public class PeakList {
             e.printStackTrace();
         }
 
-        List<Double> mz = new ArrayList<>();
-        List<Double> intensity = new ArrayList<>();
-        List<Double> isotope = new ArrayList<>();
-        List<Integer> charge = new ArrayList<>();
+        List<Double> mz = new ArrayList<Double>();
+        List<Double> intensity = new ArrayList<Double>();
+        List<Double> isotope = new ArrayList<Double>();
+        List<Integer> charge = new ArrayList<Integer>();
         for (int i = 0; i < this.peakList.size(); i++) {
             mz.add(this.peakList.get(i).getMz());
             intensity.add(this.peakList.get(i).getIntensity());
@@ -157,7 +157,7 @@ public class PeakList {
     }
 
     public PeakList filterNoisePeaks(double noise) {
-        List<Double> intensity = new ArrayList<>();
+        List<Double> intensity = new ArrayList<Double>();
         for (Peak peak : peakList) {
             intensity.add(peak.getIntensity());
         }
@@ -217,7 +217,7 @@ public class PeakList {
 
         // Old implementation
         // PeakList result = new PeakList();
-        // Set<Peak> set = new HashSet<>();
+        // Set<Peak> set = new HashSet<Peak>();
         //
         // for (Peak peak : this.getPeakList()) {
         // if (set.add(peak)) {

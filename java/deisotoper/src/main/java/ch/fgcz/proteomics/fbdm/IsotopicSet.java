@@ -43,7 +43,7 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getBestPath() {
-        List<IsotopicCluster> bestClusters = new ArrayList<>();
+        List<IsotopicCluster> bestClusters = new ArrayList<IsotopicCluster>();
         for (IsotopicCluster isotopicCluster : bestPath) {
             if (isotopicCluster.isNotNull()) {
                 bestClusters.add(isotopicCluster);
@@ -70,7 +70,7 @@ public class IsotopicSet {
     }
 
     private List<IsotopicCluster> collectClusters(Configuration config, int setId) {
-        List<IsotopicCluster> isotopicClusters = new ArrayList<>();
+        List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
 
         for (int charge = 3; 0 < charge; charge--) {
             isotopicClusters = collectClusterForEachCharge(isotopicClusters, this.peaksInSet, charge, config);
@@ -111,7 +111,7 @@ public class IsotopicSet {
 
     private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
         // FIRST GRAPH AND BEST PATH
-        List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<>(isotopicClusters);
+        List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
 
         IsotopicClusterGraph isotopicClusterGraphForBestPath = new IsotopicClusterGraph(
                 removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
@@ -124,7 +124,7 @@ public class IsotopicSet {
                 .getVertexList();
 
         // THEN GRAPH AND DOT
-        List<IsotopicCluster> isotopicClustersForDot = new ArrayList<>(isotopicClusters);
+        List<IsotopicCluster> isotopicClustersForDot = new ArrayList<IsotopicCluster>(isotopicClusters);
 
         IsotopicClusterGraph isotopicClusterGraphForDot = new IsotopicClusterGraph(isotopicClustersForDot);
 
@@ -136,7 +136,7 @@ public class IsotopicSet {
     }
 
     private List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
-        List<IsotopicCluster> isotopicClusters2 = new ArrayList<>();
+        List<IsotopicCluster> isotopicClusters2 = new ArrayList<IsotopicCluster>();
 
         for (IsotopicCluster cluster1 : isotopicClusters) {
             for (IsotopicCluster cluster2 : isotopicClusters) {
@@ -166,7 +166,7 @@ public class IsotopicSet {
             for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
                 for (Peak c : isotopicSet) {
-                    List<Peak> ic = new ArrayList<>();
+                    List<Peak> ic = new ArrayList<Peak>();
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
 
@@ -221,8 +221,8 @@ public class IsotopicSet {
     }
 
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicClusters) {
-        List<IsotopicCluster> result = new ArrayList<>();
-        Set<List<Peak>> set = new HashSet<>();
+        List<IsotopicCluster> result = new ArrayList<IsotopicCluster>();
+        Set<List<Peak>> set = new HashSet<List<Peak>>();
 
         for (IsotopicCluster cluster : isotopicClusters) {
             if (set.add(cluster.getIsotopicCluster())) {

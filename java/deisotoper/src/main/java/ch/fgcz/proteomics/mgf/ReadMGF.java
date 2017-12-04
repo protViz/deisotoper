@@ -31,7 +31,14 @@ public class ReadMGF {
     }
 
     private static String readHeader(String fileName) {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(fileName));
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
             String line = "";
             String[] partEqual = line.split("=");
 
@@ -52,7 +59,15 @@ public class ReadMGF {
     }
 
     private static MassSpecMeasure readLocal(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
-        try (BufferedReader bufferedreader = new BufferedReader(new FileReader(fileName))) {
+        BufferedReader bufferedreader = null;
+        try {
+            bufferedreader = new BufferedReader(new FileReader(fileName));
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        try {
             String line = "";
             int chargeState = 0;
             int id = 0;
@@ -60,8 +75,8 @@ public class ReadMGF {
             String typ = null;
             double peptidMass = 0;
             double rt = 0;
-            List<Double> mz = new ArrayList<>();
-            List<Double> intensity = new ArrayList<>();
+            List<Double> mz = new ArrayList<Double>();
+            List<Double> intensity = new ArrayList<Double>();
 
             while ((line = bufferedreader.readLine()) != null) {
                 String[] partEqual = line.split("=");
@@ -74,8 +89,8 @@ public class ReadMGF {
                     typ = null;
                     peptidMass = 0;
                     rt = 0;
-                    mz = new ArrayList<>();
-                    intensity = new ArrayList<>();
+                    mz = new ArrayList<Double>();
+                    intensity = new ArrayList<Double>();
                 } else if (line.equals("END IONS")) {
                     massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState,
                             id);

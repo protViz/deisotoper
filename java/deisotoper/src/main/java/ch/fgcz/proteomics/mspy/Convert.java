@@ -15,12 +15,19 @@ import java.util.List;
 @Deprecated
 public class Convert {
     public static Peaklist msdToPeaklist(String file) {
-        List<Double> mz = new ArrayList<>();
-        List<Double> intensity = new ArrayList<>();
-        List<Integer> charge = new ArrayList<>();
-        List<Double> isotope = new ArrayList<>();
+        List<Double> mz = new ArrayList<Double>();
+        List<Double> intensity = new ArrayList<Double>();
+        List<Integer> charge = new ArrayList<Integer>();
+        List<Double> isotope = new ArrayList<Double>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+
+        try {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.contains("peak mz")) {
@@ -71,10 +78,17 @@ public class Convert {
      * ...
      */
     public static Peaklist mgfToPeaklist(String file) {
-        List<Double> mz = new ArrayList<>();
-        List<Double> intensity = new ArrayList<>();
+        List<Double> mz = new ArrayList<Double>();
+        List<Double> intensity = new ArrayList<Double>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+
+        try {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");

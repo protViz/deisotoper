@@ -26,6 +26,11 @@ public class MassSpecMeasureSummary {
                 distance.add(massSpectrum.getMz().get(i) - massSpectrum.getMz().get(i - 1));
             }
 
+            double intensitySum = 0;
+            for (double intensity : massSpectrum.getIntensity()) {
+                intensitySum += intensity;
+            }
+
             // summary.append(spectrum.getId()).append(",spectrum_type,").append(spectrum.getTyp()).append(linesep);
             stringBuilder.append(massSpectrum.getId()).append(",nr_of_peaks,").append(massSpectrum.getMz().size())
                     .append(lineSep);
@@ -38,9 +43,7 @@ public class MassSpecMeasureSummary {
                 stringBuilder.append(massSpectrum.getId()).append(",min_intensity,").append("0").append(lineSep);
                 stringBuilder.append(massSpectrum.getId()).append(",max_intensity,").append("0").append(lineSep);
             }
-            stringBuilder.append(massSpectrum.getId()).append(",sum_intensity,")
-                    .append(massSpectrum.getIntensity().stream().mapToDouble(f -> f.doubleValue()).sum())
-                    .append(lineSep);
+            stringBuilder.append(massSpectrum.getId()).append(",sum_intensity,").append(intensitySum).append(lineSep);
             if (massSpectrum.getMz().size() != 0) {
                 stringBuilder.append(massSpectrum.getId()).append(",min_mass,")
                         .append(Collections.min(massSpectrum.getMz())).append(lineSep);

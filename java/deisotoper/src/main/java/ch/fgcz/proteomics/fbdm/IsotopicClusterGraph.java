@@ -24,7 +24,8 @@ public class IsotopicClusterGraph {
     }
 
     public GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster startCluster, IsotopicCluster endCluster) {
-        KShortestPaths<IsotopicCluster, Connection> kPaths = new KShortestPaths<>(this.isotopicClusterGraph, 999999);
+        KShortestPaths<IsotopicCluster, Connection> kPaths = new KShortestPaths<IsotopicCluster, Connection>(
+                this.isotopicClusterGraph, 999999);
 
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
@@ -102,7 +103,7 @@ public class IsotopicClusterGraph {
     }
 
     public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
-        List<IsotopicCluster> isotopicSet2 = new ArrayList<>();
+        List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>();
         isotopicSet2.addAll(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
@@ -125,7 +126,7 @@ public class IsotopicClusterGraph {
         }
 
         // End
-        List<IsotopicCluster> isotopicClusters = new ArrayList<>();
+        List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
         for (IsotopicCluster cluster1 : this.isotopicClusterGraph.vertexSet()) {
             int edgeCount = 0;
             for (IsotopicCluster cluster2 : this.isotopicClusterGraph.vertexSet()) {

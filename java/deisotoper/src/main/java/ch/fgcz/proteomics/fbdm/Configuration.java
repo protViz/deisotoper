@@ -12,8 +12,8 @@ import java.util.List;
 
 public class Configuration {
     private List<Double> aaMass = new ArrayList<Double>();
-    private List<Double> aaMassDividedTwo = new ArrayList<>();
-    private List<Double> aaMassDividedThree = new ArrayList<>();
+    private List<Double> aaMassDividedTwo = new ArrayList<Double>();
+    private List<Double> aaMassDividedThree = new ArrayList<Double>();
     private double minimum = 0;
     private double maximum = Double.MAX_VALUE;
     private double F1 = 0.8;

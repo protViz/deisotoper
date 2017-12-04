@@ -26,7 +26,7 @@ public class FeaturesBasedDeisotoping {
             double errortolerance, double distance, double noise, boolean decharge, String modus) {
         Configuration config;
         if (aaMass.length > 1) {
-            List<Double> aaMassList = new ArrayList<>();
+            List<Double> aaMassList = new ArrayList<Double>();
             for (int i = 0; i < aaMass.length; i++) {
                 aaMassList.add(aaMass[i]);
             }
@@ -45,7 +45,7 @@ public class FeaturesBasedDeisotoping {
     }
 
     public void setMz(double[] mz) {
-        List<Double> mzList = new ArrayList<>();
+        List<Double> mzList = new ArrayList<Double>();
         for (int i = 0; i < mz.length; i++) {
             mzList.add(mz[i]);
         }
@@ -54,7 +54,7 @@ public class FeaturesBasedDeisotoping {
     }
 
     public void setIntensity(double[] intensity) {
-        List<Double> intensityList = new ArrayList<>();
+        List<Double> intensityList = new ArrayList<Double>();
         for (int i = 0; i < intensity.length; i++) {
             intensityList.add(intensity[i]);
         }
@@ -126,7 +126,7 @@ public class FeaturesBasedDeisotoping {
 
         for (IsotopicSet isotopicSet : this.deisotoper.getIsotopicSets()) {
             numberOfIsotopicClusters += isotopicSet.getIsotopicSet().size();
-            List<Peak> peaksOfIsotopicClusters = new ArrayList<>();
+            List<Peak> peaksOfIsotopicClusters = new ArrayList<Peak>();
 
             for (IsotopicCluster isotopicCluster : isotopicSet.getIsotopicSet()) {
                 if (isotopicCluster.getIsotopicCluster() != null) {
