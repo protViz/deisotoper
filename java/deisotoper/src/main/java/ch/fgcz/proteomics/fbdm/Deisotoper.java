@@ -100,30 +100,6 @@ public class Deisotoper {
         return resultSpectrum;
     }
 
-    private void createAnnotatedSpectrum(MassSpectrum massSpectrum) {
-        PeakList peaksInSet = collectPeaks(massSpectrum);
-
-        if (this.config.isDecharge()) {
-            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
-        }
-
-        PeakList mergedPeakListLocal = new PeakList();
-
-        mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
-
-        if (this.config.getNoise() != 0) {
-            mergedPeakListLocal = mergedPeakListLocal.filterNoisePeaks(this.config.getNoise());
-        }
-
-        mergedPeakListLocal = mergedPeakListLocal.sortPeakList();
-
-        mergedPeakListLocal.sortForAnnotating();
-
-        mergedPeakListLocal.removeMultiplePeaks();
-
-        this.annotatedSpectrum = mergedPeakListLocal.saveAnnotatedSpectrum();
-    }
-
     protected List<IsotopicCluster> getBestClusters() {
         List<IsotopicCluster> bestClusters = new ArrayList<IsotopicCluster>();
 
@@ -175,6 +151,30 @@ public class Deisotoper {
         List<PeakList> listOfIsotopicSets = iterateThroughParts(allPossiblePeaksParts, this.config);
 
         this.isotopicSets = addSplittedIsotopicSetsToIsotopicSets(listOfIsotopicSets, massSpectrum, this.config);
+    }
+
+    private void createAnnotatedSpectrum(MassSpectrum massSpectrum) {
+        PeakList peaksInSet = collectPeaks(massSpectrum);
+
+        if (this.config.isDecharge()) {
+            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
+        }
+
+        PeakList mergedPeakListLocal = new PeakList();
+
+        mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
+
+        if (this.config.getNoise() != 0) {
+            mergedPeakListLocal = mergedPeakListLocal.filterNoisePeaks(this.config.getNoise());
+        }
+
+        mergedPeakListLocal = mergedPeakListLocal.sortPeakList();
+
+        mergedPeakListLocal.sortForAnnotating();
+
+        mergedPeakListLocal.removeMultiplePeaks();
+
+        this.annotatedSpectrum = mergedPeakListLocal.saveAnnotatedSpectrum();
     }
 
     private static List<PeakList> iterateThroughParts(List<PeakList> parts, Configuration config) {

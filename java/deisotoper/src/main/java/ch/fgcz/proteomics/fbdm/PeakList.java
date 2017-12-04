@@ -113,16 +113,6 @@ public class PeakList {
                 massSpectrum.getId(), charge, isotope);
     }
 
-    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
-        double sumBefore = peakList1.sumIntensities();
-        double sumAfter = peakList2.sumIntensities();
-
-        if ((double) Math.round(sumBefore * 1000d) / 1000d != (double) Math.round(sumAfter * 1000d) / 1000d) {
-            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
-        }
-
-    }
-
     public double sumIntensities() {
         double intensitySum = 0;
 
@@ -238,4 +228,15 @@ public class PeakList {
 
         return this;
     }
+
+    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
+        double sumBefore = peakList1.sumIntensities();
+        double sumAfter = peakList2.sumIntensities();
+
+        if ((double) Math.round(sumBefore * 1000d) / 1000d != (double) Math.round(sumAfter * 1000d) / 1000d) {
+            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+        }
+
+    }
+
 }
