@@ -33,10 +33,7 @@ public class IsotopicClusterGraph {
         for (GraphPath<IsotopicCluster, Connection> path : paths) {
             weights.add(path.getWeight());
         }
-        if (weights.size() == 1 && paths.size() != 1) {
-            System.err.println(
-                    "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct! This could have a minimal impact on the results.");
-        }
+        weightsCheck(weights.size(), paths.size());
 
         return paths.get(paths.size() - 1);
     }
@@ -103,8 +100,7 @@ public class IsotopicClusterGraph {
     }
 
     public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
-        List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>();
-        isotopicSet2.addAll(isotopicSet);
+        List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
         isotopicSet2.add(new IsotopicCluster("start"));
@@ -236,5 +232,12 @@ public class IsotopicClusterGraph {
         }
 
         return null;
+    }
+
+    private void weightsCheck(int weightsSize, int pathsSize) {
+        if (weightsSize == 1 && pathsSize != 1) {
+            System.err.println(
+                    "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct! This could have a minimal impact on the results.");
+        }
     }
 }

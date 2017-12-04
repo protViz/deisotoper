@@ -141,7 +141,7 @@ public class Deisotoper {
     }
 
     // New version of generateIsotopicSets.
-    protected void generateIsotopicSets(MassSpectrum massSpectrum) {
+    protected void generateIsotopicSets(MassSpectrum massSpectrum) {        
         this.peakList = new PeakList(massSpectrum);
 
         PeakList allPossiblePeaks = collectAllPossiblePeaks(this.peakList, this.config);
