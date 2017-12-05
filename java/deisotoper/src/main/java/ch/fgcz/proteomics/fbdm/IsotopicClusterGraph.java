@@ -71,14 +71,6 @@ public class IsotopicClusterGraph {
 
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
-        // SYSOSYSOSYSOSYSOSYSOSYSO
-        int get = 0;
-        for (GraphPath<IsotopicCluster, Connection> path : paths) {
-            System.out.println(get + " > " + path.toString());
-            get++;
-        }
-        // SYSOSYSOSYSOSYSOSYSOSYSO
-
         Set<Double> weights = new HashSet<Double>();
         for (GraphPath<IsotopicCluster, Connection> path : paths) {
             weights.add(path.getWeight());
