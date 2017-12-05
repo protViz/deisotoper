@@ -32,7 +32,7 @@ public class Deisotoper {
     public PeakList deisotopeMS(PeakList peaklist){
         this.peakList = peaklist;
         this.running = true;
-        this.isotopicSets = new ArrayList<>();
+        this.isotopicSets = new ArrayList();
 
         isotopicSets =  generateIsotopicSets(peakList, config);
         List<IsotopicCluster> bestClusters = getBestClusters();
@@ -203,7 +203,7 @@ public class Deisotoper {
 
     private static List<IsotopicSet> addSplittedIsotopicSetsToIsotopicSets(List<PeakList> listOfIsotopicSets,
             PeakList peakList, Configuration config) {
-        List<IsotopicSet> isotopicSets = new ArrayList<>();
+        List<IsotopicSet> isotopicSets = new ArrayList();
         int id = 0;
 
         for (PeakList isotopicSet : listOfIsotopicSets) {

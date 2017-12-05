@@ -15,7 +15,7 @@ import org.junit.Test;
 public class IsotopicClusterTest {
     @Test
     public void testIsotopicCluster() {
-        List<Peak> peaks = new ArrayList<>();
+        List<Peak> peaks = new ArrayList();
         peaks.add(new Peak(1.0, 50.0, 0));
         peaks.add(new Peak(2.0, 5.0, 1));
         IsotopicCluster isotopicCluster = new IsotopicCluster(peaks, 1, new Configuration());
