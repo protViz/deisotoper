@@ -3,7 +3,7 @@
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
-	<!-- <buildDirectory>/tmp/</buildDirectory> -->
+   <!--     <buildDirectory>/tmp/deisotoper.1.6</buildDirectory>  -->
 	<buildDirectory>../../inst/java/</buildDirectory> 
     </properties>
     <modelVersion>4.0.0</modelVersion>

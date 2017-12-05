@@ -106,8 +106,9 @@ public class Score {
                 double aa2 = config.getAaMassDividedTwo().get(i);
                 double aa3 = config.getAaMassDividedThree().get(i);
 
-                if (MathUtils.fuzzyEqual(d1xy, aa, error) || MathUtils.fuzzyEqual(d1xy, aa2, error) || MathUtils.fuzzyEqual(d1xy, aa3, error)
-                        || MathUtils.fuzzyEqual(d2xy, aa2, error) || MathUtils.fuzzyEqual(d2yx, aa2, error) || MathUtils.fuzzyEqual(d3xy, aa3, error)
+                if (MathUtils.fuzzyEqual(d1xy, aa, error) || MathUtils.fuzzyEqual(d1xy, aa2, error)
+                        || MathUtils.fuzzyEqual(d1xy, aa3, error) || MathUtils.fuzzyEqual(d2xy, aa2, error)
+                        || MathUtils.fuzzyEqual(d2yx, aa2, error) || MathUtils.fuzzyEqual(d3xy, aa3, error)
                         || MathUtils.fuzzyEqual(d3yx, aa3, error) || MathUtils.fuzzyEqual(d4xy, aa3, error)
                         || MathUtils.fuzzyEqual(d4yx, aa3, error)) {
                     F1++;

@@ -378,8 +378,10 @@ public class FeaturesBasedDeisotopingTest {
         // 11.0, 12.0, 13.0, 17.0, 18.0, 19.0,
         // 21.0, 23.0, 111.0 };
 
-        double[] mz = { 101.0, 102.0, 102.5, 103.0 };
+        double[] mz = { 1.0, 2.0, 2.5, 3.0 };
         double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
+        // double[] mz = { 1.01, 2.0, 2.5, 3.0 };
+        // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
 
         // double[] mz = { 1011.0, 1012.0, 1015.0, 1016.0 };
         // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };

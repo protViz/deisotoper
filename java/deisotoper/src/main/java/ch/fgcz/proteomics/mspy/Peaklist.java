@@ -23,7 +23,7 @@ public class Peaklist {
     }
 
     public Peaklist(MassSpectrum ms) {
-        List<Peak> plist = new ArrayList<>();
+        List<Peak> plist = new ArrayList<Peak>();
 
         if (ms.getCharge().size() != 0 && ms.getIsotope().size() != 0) {
             for (int i = 0; i < ms.getMz().size() || i < ms.getIntensity().size(); i++) {
@@ -40,7 +40,7 @@ public class Peaklist {
     }
 
     public Peaklist(List<Double> mz, List<Double> intensity) {
-        List<Peak> plist = new ArrayList<>();
+        List<Peak> plist = new ArrayList<Peak>();
 
         for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
             plist.add(new Peak(mz.get(i), intensity.get(i)));
@@ -50,7 +50,7 @@ public class Peaklist {
     }
 
     public Peaklist(List<Double> mz, List<Double> intensity, List<Integer> charge, List<Double> isotope) {
-        List<Peak> plist = new ArrayList<>();
+        List<Peak> plist = new ArrayList<Peak>();
 
         for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
             plist.add(new Peak(mz.get(i), intensity.get(i), isotope.get(i), charge.get(i)));
