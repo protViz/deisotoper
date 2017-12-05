@@ -19,6 +19,12 @@ test_that("test deisotoper::deisotoper", {
   xd1 <- deisotope(dtoper, x1)
 
   # number of ions can not disappear
-  expect_true(sum(xd0$intensity)  == sum(x1$intensity))
+  expect_true(sum(xd0$intensity)  == sum(x0$intensity))
   expect_true(sum(xd1$intensity)  == sum(x1$intensity))
+
+  expect_true(xd0$mZ == c(1.0, 2.51) && rep(TRUE, 2))
+  expect_true(xd1$mZ == c(1.01, 2.0) && rep(TRUE, 2))
+	   
+  expect_true(xd0$intensity == c(3, 1) && rep(TRUE, 2))
+  expect_true(xd1$intensity == c(1, 3) && rep(TRUE, 2))
 })
