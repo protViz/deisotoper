@@ -77,7 +77,7 @@ public class IsotopicClusterGraph {
         }
 
         if (weights.size() == 1 && paths.size() != 1) {
-            paths = sortPaths(paths);
+            // paths = sortPaths(paths);
         }
 
         return paths.get(paths.size() - 1);
