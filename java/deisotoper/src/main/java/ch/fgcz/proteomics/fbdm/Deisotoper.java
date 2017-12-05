@@ -106,12 +106,11 @@ public class Deisotoper {
 
         double sumBefore = sumAllIntensities(isotopicClusters);
 
-        isotopicClusters = removeOverlappingPeaksInClusters(isotopicClusters);
+        isotopicClusters = IsotopicCluster.removeOverlappingPeaksInClusters(isotopicClusters);
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             if (isotopicCluster.size() > 1) {
-                IsotopicCluster aggregatedCluster = isotopicCluster.aggregation(modus);
-                Peak peak = aggregatedCluster.getPeak(0);
+                Peak peak =  isotopicCluster.aggregation(modus);
                 resultPeakList.add(peak);
             } else if (isotopicCluster.size() == 0) {
             } else {
@@ -353,27 +352,6 @@ public class Deisotoper {
         }
 
         return intensitySum;
-    }
-
-    private static List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
-        // If cluster has same peak/peaks as other cluster.
-        // Remove this peak in the lowest charged cluster.
-        // Aggregate only the non removed cluster and add the remaining peaks from the
-        // overlapping cluster to the resultPeakList.
-
-        for (IsotopicCluster isotopicCluster1 : isotopicClusters) {
-            for (IsotopicCluster isotopicCluster2 : isotopicClusters) {
-                if (isotopicCluster1.equals(isotopicCluster2)) {
-                    continue;
-                }
-
-                if (isotopicCluster1.hasSamePeaks(isotopicCluster2)) {
-                    isotopicCluster1.manipulateWhenHasSamePeaks(isotopicCluster2);
-                }
-            }
-        }
-
-        return isotopicClusters;
     }
 
     // Old version of generateIsotopicSets

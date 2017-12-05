@@ -14,6 +14,22 @@ import org.junit.Test;
 
 public class IsotopicClusterTest {
     @Test
+    public void aggregation() throws Exception {
+    }
+
+    @Test
+    public void sumIntensity() throws Exception {
+    }
+
+    @Test
+    public void hasSamePeaks() throws Exception {
+    }
+
+    @Test
+    public void manipulateWhenHasSamePeaks() throws Exception {
+    }
+
+    @Test
     public void testIsotopicCluster() {
         List<Peak> peaks = new ArrayList();
         peaks.add(new Peak(1.0, 50.0, 0));
@@ -22,7 +38,7 @@ public class IsotopicClusterTest {
 
         assertEquals(isotopicCluster.toString(), "(0) [ 1.0 2.0 ]");
 
-        IsotopicCluster isotopicClusterAggregated = isotopicCluster.aggregation("first");
+        Peak isotopicClusterAggregated = isotopicCluster.aggregation("first");
 
         assertEquals(isotopicClusterAggregated.toString(), "(0) [ 1.0 ]");
     }
