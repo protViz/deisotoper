@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
+import ch.fgcz.proteomics.dto.MassSpectrumMetaInformation;
+import ch.fgcz.proteomics.utilities.MathUtils;
 
 // TODO: Fix id's of clusters...
 public class IsotopicSet {
@@ -36,6 +38,36 @@ public class IsotopicSet {
         this.isotopicSet = tempIsotopicSet;
 
         setBestPath(massSpectrum, collectClusters(config, setId), config);
+    }
+
+    // TODO Looks to me like an isotopicSet method.
+    static public PeakList checkForCorrectRangeOfPeaks(PeakList peakList, Configuration config) throws IllegalArgumentException {
+        if (peakList.isSortedByMass()) {
+            // first check if sorted.
+            // do we want to limit us to charge 3?
+            // max charge in config.
+            for (int i = 0; i < peakList.size() - 1; i++) {
+                double distance = peakList.get(i + 1).getMz() - peakList.get(i).getMz();
+
+                boolean b = false;
+                for (int charge = 1; charge <= 3; charge++) {
+                    if (MathUtils.fuzzyEqual(config.getIsotopicPeakDistance() / charge,
+                            Math.abs(distance),
+                            config.getDelta())) {
+                        b = true;
+                    }
+
+                }
+
+                if (b == false) {
+                    return null;
+                }
+            }
+
+            return peakList;
+        } else {
+            throw new IllegalArgumentException("Not Sorted");
+        }
     }
 
     public List<Peak> getPeaksInSet() {
@@ -109,7 +141,7 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private void setBestPath(MassSpectrum massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
+    private void setBestPath(MassSpectrumMetaInformation massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
         // FIRST GRAPH AND BEST PATH
         List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
 

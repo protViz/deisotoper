@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
+import ch.fgcz.proteomics.utilities.MathUtils;
 
 public class PeakList {
     private List<Peak> peakList = new ArrayList<Peak>();
@@ -180,7 +181,7 @@ public class PeakList {
         return stringBuilder.toString();
     }
 
-    public PeakList sortPeakList() {
+    public PeakList sortByMZ() {
         Collections.sort(this.peakList, new Comparator<Peak>() {
             @Override
             public int compare(Peak peakOne, Peak peakTwo) {
@@ -190,7 +191,9 @@ public class PeakList {
         return this;
     }
 
+
     public PeakList removeMultiplePeaks() {
+        // TODO (LS) :
         ListIterator<Peak> peakListIterator = this.peakList.listIterator();
         while (peakListIterator.hasNext()) {
             int index = peakListIterator.nextIndex();
@@ -198,26 +201,17 @@ public class PeakList {
             for (int j = 0; j < index; ++j) {
                 if (currentPeak.equals(this.peakList.get(j))) {
                     peakListIterator.remove();
-                    break;
+                    break; //TODO why break ?
                 }
             }
         }
 
         return this;
 
-        // Old implementation
-        // PeakList result = new PeakList();
-        // Set<Peak> set = new HashSet<Peak>();
-        //
-        // for (Peak peak : this.getPeakList()) {
-        // if (set.add(peak)) {
-        // result.add(peak);
-        // }
-        // }
-        //
-        // return result;
+
     }
 
+    // TODO (LS)
     public PeakList collectForEachCharge(Peak peakI, Peak peakJ, Configuration config) {
         // check if both peaks could be in set.
         for (int charge = 1; charge < 4; charge++) {
@@ -235,27 +229,8 @@ public class PeakList {
         return this;
     }
 
-    public PeakList checkForCorrectRangeOfPeaks(Configuration config) {
-        for (int i = 0; i < this.size() - 1; i++) {
-            double distance = this.get(i + 1).getMz() - this.get(i).getMz();
 
-            boolean b = false;
-            for (int charge = 1; charge <= 3; charge++) {
-                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
-                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
-                    b = true;
-                }
-            }
-
-            if (b == false) {
-                return null;
-            }
-        }
-
-        return this;
-    }
-
-    public PeakList sortForAnnotating() {
+    public PeakList sortByPeakID() {
         Collections.sort(this.peakList, new Comparator<Peak>() {
             @Override
             public int compare(Peak peakOne, Peak peakTwo) {
@@ -266,28 +241,33 @@ public class PeakList {
         return this;
     }
 
+    public boolean isSortedByMass()
+    {
+        boolean sorted = true;
+        for (int i = 1; i < peakList.size(); i++) {
+            if (peakList.get(i-1).getMz() > (peakList.get(i).getMz())) sorted = false;
+        }
+        return sorted;
+    }
+
     @Override
     public String toString() {
-        return "PeakList: " + System.getProperty("line.separator") + print();
-    }
-
-    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
-        double sumBefore = peakList1.sumIntensities();
-        double sumAfter = peakList2.sumIntensities();
-
-        if ((double) Math.round(sumBefore * 1000d) / 1000d != (double) Math.round(sumAfter * 1000d) / 1000d) {
-            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
-        }
-
-    }
-
-    private String print() {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Peak peak : this.peakList) {
             stringBuilder.append(peak.toString()).append(System.getProperty("line.separator"));
         }
 
-        return stringBuilder.toString();
+        return "PeakList: " + System.getProperty("line.separator") + stringBuilder.toString();
     }
+
+    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
+        double sumBefore = peakList1.sumIntensities();
+        double sumAfter = peakList2.sumIntensities();
+        if(! MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)){
+            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+        }
+    }
+
+
 }
