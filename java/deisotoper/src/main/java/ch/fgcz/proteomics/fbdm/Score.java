@@ -1,5 +1,7 @@
 package ch.fgcz.proteomics.fbdm;
 
+import ch.fgcz.proteomics.utilities.MathUtils;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-19
@@ -26,10 +28,6 @@ public class Score {
                         this.chargeValue, isotopicClusterOfPeakX, this.config)
                 + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
                 + this.config.getF4() * fourthSupportiveAndZIonScore(peakX, peakY, this.config);
-    }
-
-    public static boolean fuzzyEqual(double a, double b, double tolerance) {
-        return Math.abs(a - b) < tolerance;
     }
 
     public static class Range {
@@ -108,10 +106,10 @@ public class Score {
                 double aa2 = config.getAaMassDividedTwo().get(i);
                 double aa3 = config.getAaMassDividedThree().get(i);
 
-                if (fuzzyEqual(d1xy, aa, error) || fuzzyEqual(d1xy, aa2, error) || fuzzyEqual(d1xy, aa3, error)
-                        || fuzzyEqual(d2xy, aa2, error) || fuzzyEqual(d2yx, aa2, error) || fuzzyEqual(d3xy, aa3, error)
-                        || fuzzyEqual(d3yx, aa3, error) || fuzzyEqual(d4xy, aa3, error)
-                        || fuzzyEqual(d4yx, aa3, error)) {
+                if (MathUtils.fuzzyEqual(d1xy, aa, error) || MathUtils.fuzzyEqual(d1xy, aa2, error) || MathUtils.fuzzyEqual(d1xy, aa3, error)
+                        || MathUtils.fuzzyEqual(d2xy, aa2, error) || MathUtils.fuzzyEqual(d2yx, aa2, error) || MathUtils.fuzzyEqual(d3xy, aa3, error)
+                        || MathUtils.fuzzyEqual(d3yx, aa3, error) || MathUtils.fuzzyEqual(d4xy, aa3, error)
+                        || MathUtils.fuzzyEqual(d4yx, aa3, error)) {
                     F1++;
                 }
             }
