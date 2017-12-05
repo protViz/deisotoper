@@ -26,7 +26,7 @@ public class IsotopicSetTest {
         List<Peak> isotpicSet = Arrays.asList(new Peak(mz.get(0), 1., 1), new Peak(mz.get(1), 1., 1),
                 new Peak(mz.get(2), 1., 1), new Peak(mz.get(3), 1., 1));
 
-        IsotopicSet isotopicSet = new IsotopicSet(massSpectrum, isotpicSet, 1, config);
+        IsotopicSet isotopicSet = new IsotopicSet(new PeakList(massSpectrum), isotpicSet, 1, config);
         assertEquals(6, isotopicSet.getIsotopicSet().size());
     }
 }
