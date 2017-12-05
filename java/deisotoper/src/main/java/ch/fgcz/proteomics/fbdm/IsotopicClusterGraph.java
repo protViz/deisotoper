@@ -10,7 +10,10 @@ import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class IsotopicClusterGraph {
     private double minimum = Double.MAX_VALUE;
@@ -68,16 +71,57 @@ public class IsotopicClusterGraph {
 
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
-        // Set<Double> weights = new HashSet<Double>();
-        // for (GraphPath<IsotopicCluster, Connection> path : paths) {
-        // weights.add(path.getWeight());
-        // }
-        //
-        // if (weights.size() == 1 && paths.size() != 1) {
-        // System.out.println("error");
-        // }
+        // SYSOSYSOSYSOSYSOSYSOSYSO
+        int get = 0;
+        for (GraphPath<IsotopicCluster, Connection> path : paths) {
+            System.out.println(get + " > " + path.toString());
+            get++;
+        }
+        // SYSOSYSOSYSOSYSOSYSOSYSO
+
+        Set<Double> weights = new HashSet<Double>();
+        for (GraphPath<IsotopicCluster, Connection> path : paths) {
+            weights.add(path.getWeight());
+        }
+
+        if (weights.size() == 1 && paths.size() != 1) {
+            paths = sortPaths(paths);
+        }
 
         return paths.get(paths.size() - 1);
+    }
+
+    private List<GraphPath<IsotopicCluster, Connection>> sortPaths(List<GraphPath<IsotopicCluster, Connection>> paths) {
+        paths.sort(new Comparator<GraphPath<IsotopicCluster, Connection>>() {
+            @Override
+            public int compare(GraphPath<IsotopicCluster, Connection> path1,
+                    GraphPath<IsotopicCluster, Connection> path2) {
+                int sumSizeOfPath1 = 0;
+                for (IsotopicCluster cluster : path1.getVertexList()) {
+                    sumSizeOfPath1 += cluster.size();
+                }
+
+                int sumSizeOfPath2 = 0;
+                for (IsotopicCluster cluster : path2.getVertexList()) {
+                    sumSizeOfPath2 += cluster.size();
+                }
+
+                // TODO return 1 if path2 should be before path1
+                // return -1 if path1 should be before path2
+                // return 0 otherwise
+
+                if (sumSizeOfPath1 < sumSizeOfPath2) {
+                    return 1;
+                }
+                if (sumSizeOfPath1 > sumSizeOfPath2) {
+                    return -1;
+                }
+
+                return 0;
+            }
+        });
+
+        return null;
     }
 
     public String toDOTGraph() {

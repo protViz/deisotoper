@@ -20,7 +20,7 @@ public class MassSpecMeasureSummary {
 
         List<MassSpectrum> massSpectrumList = massSpectrometryMeasurement.getMSlist();
         for (MassSpectrum massSpectrum : massSpectrumList) {
-            List<Double> distance = new ArrayList<>();
+            List<Double> distance = new ArrayList<Double>();
 
             for (int i = 1; i < massSpectrum.getMz().size(); i++) {
                 distance.add(massSpectrum.getMz().get(i) - massSpectrum.getMz().get(i - 1));

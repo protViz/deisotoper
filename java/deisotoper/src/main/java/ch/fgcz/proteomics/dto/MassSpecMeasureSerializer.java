@@ -20,11 +20,14 @@ public class MassSpecMeasureSerializer {
 
         String data = gson.toJson(massSpectrometryMeasurement);
 
-        try (PrintWriter out = new PrintWriter(fileName)) {
-            out.println(data);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(fileName);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
+
+        out.println(data);
 
         return data;
     }
@@ -34,7 +37,14 @@ public class MassSpecMeasureSerializer {
 
         String data = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(fileName));
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+
+        try {
             StringBuilder stringbBuilder = new StringBuilder();
             String line = br.readLine();
 

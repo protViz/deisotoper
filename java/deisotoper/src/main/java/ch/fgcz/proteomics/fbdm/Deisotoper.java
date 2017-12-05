@@ -89,7 +89,7 @@ public class Deisotoper {
 
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
         this.running = true;
-        this.isotopicSets = new ArrayList<>();
+        this.isotopicSets = new ArrayList<IsotopicSet>();
         this.massSpectrum = massSpectrum;
 
         generateIsotopicSets(massSpectrum);

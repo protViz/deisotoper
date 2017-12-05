@@ -12,20 +12,20 @@ import java.util.stream.Collectors;
 public class MassSpectrum implements MassSpectrumMetaInformation {
     private String typ;
     private String searchEngine;
-    private List<Double> mz = new ArrayList<>();
-    private List<Double> intensity = new ArrayList<>();
-    private List<Integer> charge = new ArrayList<>();
-    private List<Double> isotope = new ArrayList<>();
+    private List<Double> mz = new ArrayList<Double>();
+    private List<Double> intensity = new ArrayList<Double>();
+    private List<Integer> charge = new ArrayList<Integer>();
+    private List<Double> isotope = new ArrayList<Double>();
     private double peptideMass;
     private double rt;
     private int chargeState;
     private int id;
 
     public MassSpectrum() {
-        this.mz = new ArrayList<>();
-        this.intensity = new ArrayList<>();
-        this.charge = new ArrayList<>();
-        this.isotope = new ArrayList<>();
+        this.mz = new ArrayList<Double>();
+        this.intensity = new ArrayList<Double>();
+        this.charge = new ArrayList<Integer>();
+        this.isotope = new ArrayList<Double>();
         this.typ = null;
         this.searchEngine = null;
         this.id = 0;
@@ -46,8 +46,8 @@ public class MassSpectrum implements MassSpectrumMetaInformation {
 
         this.mz = mz;
         this.intensity = intensity;
-        this.charge = new ArrayList<>();
-        this.isotope = new ArrayList<>();
+        this.charge = new ArrayList<Integer>();
+        this.isotope = new ArrayList<Double>();
         this.typ = typ;
         this.searchEngine = searchEngine;
         this.id = id;
