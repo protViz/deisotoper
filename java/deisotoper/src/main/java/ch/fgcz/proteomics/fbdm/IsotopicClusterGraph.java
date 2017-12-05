@@ -148,6 +148,7 @@ public class IsotopicClusterGraph {
 
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
             double scoreSum = 0;
+            int additionalScore = 0;
             if (this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
                 for (Peak peakX : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
                     for (Peak peakY : peakList.getPeakList()) {
@@ -156,12 +157,18 @@ public class IsotopicClusterGraph {
                         // }
 
                         double scoreResult = score.calculateAggregatedScore(peakX, peakY,
-                                this.isotopicClusterGraph.getEdgeTarget(connection)) + 0.0001;
+                                this.isotopicClusterGraph.getEdgeTarget(connection));
 
-                        double scoreFiveResult = scoreFive.calculateFifthScore(connection) + 0.0001;
+                        double scoreFiveResult = scoreFive.calculateFifthScore(connection);
+
+                        additionalScore++;
 
                         scoreSum += scoreResult + scoreFiveResult;
                     }
+                }
+
+                if (scoreSum == 0) {
+                    scoreSum = additionalScore;
                 }
                 connection.setScore(scoreSum);
                 this.isotopicClusterGraph.setEdgeWeight(connection, scoreSum);
