@@ -10,9 +10,7 @@ import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class IsotopicClusterGraph {
     private double minimum = Double.MAX_VALUE;
@@ -70,11 +68,14 @@ public class IsotopicClusterGraph {
 
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
-        Set<Double> weights = new HashSet<Double>();
-        for (GraphPath<IsotopicCluster, Connection> path : paths) {
-            weights.add(path.getWeight());
-        }
-        weightsCheck(weights.size(), paths.size());
+        // Set<Double> weights = new HashSet<Double>();
+        // for (GraphPath<IsotopicCluster, Connection> path : paths) {
+        // weights.add(path.getWeight());
+        // }
+        //
+        // if (weights.size() == 1 && paths.size() != 1) {
+        // System.out.println("error");
+        // }
 
         return paths.get(paths.size() - 1);
     }
@@ -232,12 +233,5 @@ public class IsotopicClusterGraph {
         }
 
         return null;
-    }
-
-    private static void weightsCheck(int weightsSize, int pathsSize) {
-        if (weightsSize == 1 && pathsSize != 1) {
-            System.err.println(
-                    "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct! This could have a minimal impact on the results.");
-        }
     }
 }

@@ -41,7 +41,8 @@ public class IsotopicSet {
     }
 
     // TODO Looks to me like an isotopicSet method.
-    static public PeakList checkForCorrectRangeOfPeaks(PeakList peakList, Configuration config) throws IllegalArgumentException {
+    static public PeakList checkForCorrectRangeOfPeaks(PeakList peakList, Configuration config)
+            throws IllegalArgumentException {
         if (peakList.isSortedByMass()) {
             // first check if sorted.
             // do we want to limit us to charge 3?
@@ -51,8 +52,7 @@ public class IsotopicSet {
 
                 boolean b = false;
                 for (int charge = 1; charge <= 3; charge++) {
-                    if (MathUtils.fuzzyEqual(config.getIsotopicPeakDistance() / charge,
-                            Math.abs(distance),
+                    if (MathUtils.fuzzyEqual(config.getIsotopicPeakDistance() / charge, Math.abs(distance),
                             config.getDelta())) {
                         b = true;
                     }
@@ -141,7 +141,8 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private void setBestPath(MassSpectrumMetaInformation massSpectrum, List<IsotopicCluster> isotopicClusters, Configuration config) {
+    private void setBestPath(MassSpectrumMetaInformation massSpectrum, List<IsotopicCluster> isotopicClusters,
+            Configuration config) {
         // FIRST GRAPH AND BEST PATH
         List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
 

@@ -22,14 +22,13 @@ public class Deisotoper {
     private List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
     private MassSpectrum massSpectrum;
 
-
     public Deisotoper() {
-        this( new Configuration());
+        this(new Configuration());
     }
 
     // TODO constructor with configuration.
     public Deisotoper(Configuration config) {
-        this.config  = config;
+        this.config = config;
     }
 
     public void wasRunning() throws Exception {
@@ -42,7 +41,6 @@ public class Deisotoper {
     public Configuration getConfiguration() {
         return config;
     }
-
 
     // OK.
     public void setConfiguration(Configuration config) {
@@ -81,11 +79,11 @@ public class Deisotoper {
         return massSpectrometryMeasurementOut;
     }
 
-    public PeakList deisotopeMS(PeakList peaklist){
+    public PeakList deisotopeMS(PeakList peaklist) {
         return null;
     }
 
-    public MassSpectrum deisotopeMS2(MassSpectrum massSpectrum){
+    public MassSpectrum deisotopeMS2(MassSpectrum massSpectrum) {
         return null;
     }
 
@@ -113,8 +111,6 @@ public class Deisotoper {
         this.mergedPeakList = mergedPeakList.sortByMZ();
 
         MassSpectrum resultSpectrum = this.mergedPeakList.makeResultSpectrum(massSpectrum);
-
-
 
         return resultSpectrum;
     }
@@ -187,7 +183,7 @@ public class Deisotoper {
         mergedPeakListLocal.sortByPeakID();
         mergedPeakListLocal.removeMultiplePeaks();
 
-       return mergedPeakListLocal.saveAnnotatedSpectrum();
+        return mergedPeakListLocal.saveAnnotatedSpectrum();
     }
 
     private PeakList collectPeaksFromSets(MassSpectrum massSpectrum) {

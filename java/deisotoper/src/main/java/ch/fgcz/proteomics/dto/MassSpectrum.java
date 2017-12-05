@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MassSpectrum implements MassSpectrumMetaInformation{
+public class MassSpectrum implements MassSpectrumMetaInformation {
     private String typ;
     private String searchEngine;
     private List<Double> mz = new ArrayList<>();

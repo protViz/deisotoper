@@ -9,5 +9,6 @@ public interface MassSpectrumMetaInformation {
     int getChargeState();
 
     List<Double> getMz();
+
     List<Double> getIntensity();
 }

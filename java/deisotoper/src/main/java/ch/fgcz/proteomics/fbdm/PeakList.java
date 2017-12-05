@@ -191,7 +191,6 @@ public class PeakList {
         return this;
     }
 
-
     public PeakList removeMultiplePeaks() {
         // TODO (LS) :
         ListIterator<Peak> peakListIterator = this.peakList.listIterator();
@@ -201,13 +200,12 @@ public class PeakList {
             for (int j = 0; j < index; ++j) {
                 if (currentPeak.equals(this.peakList.get(j))) {
                     peakListIterator.remove();
-                    break; //TODO why break ?
+                    break; // TODO why break ?
                 }
             }
         }
 
         return this;
-
 
     }
 
@@ -229,7 +227,6 @@ public class PeakList {
         return this;
     }
 
-
     public PeakList sortByPeakID() {
         Collections.sort(this.peakList, new Comparator<Peak>() {
             @Override
@@ -241,11 +238,11 @@ public class PeakList {
         return this;
     }
 
-    public boolean isSortedByMass()
-    {
+    public boolean isSortedByMass() {
         boolean sorted = true;
         for (int i = 1; i < peakList.size(); i++) {
-            if (peakList.get(i-1).getMz() > (peakList.get(i).getMz())) sorted = false;
+            if (peakList.get(i - 1).getMz() > (peakList.get(i).getMz()))
+                sorted = false;
         }
         return sorted;
     }
@@ -264,10 +261,9 @@ public class PeakList {
     private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
         double sumBefore = peakList1.sumIntensities();
         double sumAfter = peakList2.sumIntensities();
-        if(! MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)){
+        if (!MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)) {
             throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
         }
     }
-
 
 }
