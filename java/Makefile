@@ -1,6 +1,11 @@
+MVNOPT=-X
 
-MVNOPT=
-MVNOPT=-Dmaven.test.skip=true -X
-
-mvn:
+cmp:
 	cd deisotoper && mvn install $(MVNOPT)
+
+clean:
+	cd deisotoper && mvn clean:clean $(MVNOPT)
+
+test:
+	cd deisotoper && mvn -Dmaven.test.skip=true $(MVNOPT)
+
