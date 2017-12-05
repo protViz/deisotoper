@@ -71,49 +71,14 @@ public class IsotopicClusterGraph {
 
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
-        Set<Double> weights = new HashSet<Double>();
-        for (GraphPath<IsotopicCluster, Connection> path : paths) {
-            weights.add(path.getWeight());
-        }
-
-        if (weights.size() == 1 && paths.size() != 1) {
-            // paths = sortPaths(paths);
-        }
+        // Set<Double> weights = new HashSet<Double>();
+        // for (GraphPath<IsotopicCluster, Connection> path : paths) {
+        // weights.add(path.getWeight());
+        // }
+        // if (weights.size() == 1 && paths.size() != 1) {
+        // }
 
         return paths.get(paths.size() - 1);
-    }
-
-    private List<GraphPath<IsotopicCluster, Connection>> sortPaths(List<GraphPath<IsotopicCluster, Connection>> paths) {
-        paths.sort(new Comparator<GraphPath<IsotopicCluster, Connection>>() {
-            @Override
-            public int compare(GraphPath<IsotopicCluster, Connection> path1,
-                    GraphPath<IsotopicCluster, Connection> path2) {
-                int sumSizeOfPath1 = 0;
-                for (IsotopicCluster cluster : path1.getVertexList()) {
-                    sumSizeOfPath1 += cluster.size();
-                }
-
-                int sumSizeOfPath2 = 0;
-                for (IsotopicCluster cluster : path2.getVertexList()) {
-                    sumSizeOfPath2 += cluster.size();
-                }
-
-                // TODO return 1 if path2 should be before path1
-                // return -1 if path1 should be before path2
-                // return 0 otherwise
-
-                if (sumSizeOfPath1 < sumSizeOfPath2) {
-                    return 1;
-                }
-                if (sumSizeOfPath1 > sumSizeOfPath2) {
-                    return -1;
-                }
-
-                return 0;
-            }
-        });
-
-        return null;
     }
 
     public String toDOTGraph() {
@@ -191,9 +156,9 @@ public class IsotopicClusterGraph {
                         // }
 
                         double scoreResult = score.calculateAggregatedScore(peakX, peakY,
-                                this.isotopicClusterGraph.getEdgeTarget(connection));
+                                this.isotopicClusterGraph.getEdgeTarget(connection)) + 0.0001;
 
-                        double scoreFiveResult = scoreFive.calculateFifthScore(connection);
+                        double scoreFiveResult = scoreFive.calculateFifthScore(connection) + 0.0001;
 
                         scoreSum += scoreResult + scoreFiveResult;
                     }
