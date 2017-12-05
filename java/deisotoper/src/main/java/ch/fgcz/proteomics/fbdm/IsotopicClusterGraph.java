@@ -19,6 +19,47 @@ public class IsotopicClusterGraph {
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
             Connection.class);
 
+    public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
+        List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
+
+        this.minimum = Double.MAX_VALUE;
+        isotopicSet2.add(new IsotopicCluster("start"));
+
+        for (IsotopicCluster cluster1 : isotopicSet2) {
+            for (IsotopicCluster cluster2 : isotopicSet2) {
+                String color = calculateConnection(cluster1, cluster2);
+
+                // Start
+                if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
+                    connectClusters(cluster1, cluster2, color);
+                }
+
+                // Other
+                if (color != null && cluster1.isNotNull() && cluster2.isNotNull()) {
+                    connectClusters(cluster1, cluster2, color);
+                }
+            }
+        }
+
+        // End
+        List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
+        for (IsotopicCluster cluster1 : this.isotopicClusterGraph.vertexSet()) {
+            int edgeCount = 0;
+            for (IsotopicCluster cluster2 : this.isotopicClusterGraph.vertexSet()) {
+                edgeCount += this.isotopicClusterGraph.getAllEdges(cluster1, cluster2).size();
+            }
+
+            if (edgeCount == 0) {
+                isotopicClusters.add(cluster1);
+            }
+        }
+
+        IsotopicCluster endCluster = new IsotopicCluster("end");
+        for (IsotopicCluster cluster : isotopicClusters) {
+            connectClusters(cluster, endCluster, "black");
+        }
+    }
+
     public DefaultDirectedWeightedGraph<IsotopicCluster, Connection> getIsotopicClusterGraph() {
         return isotopicClusterGraph;
     }
@@ -97,47 +138,6 @@ public class IsotopicClusterGraph {
         stringBuilder.append("}");
 
         return stringBuilder.toString();
-    }
-
-    public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
-        List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
-
-        this.minimum = Double.MAX_VALUE;
-        isotopicSet2.add(new IsotopicCluster("start"));
-
-        for (IsotopicCluster cluster1 : isotopicSet2) {
-            for (IsotopicCluster cluster2 : isotopicSet2) {
-                String color = calculateConnection(cluster1, cluster2);
-
-                // Start
-                if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color);
-                }
-
-                // Other
-                if (color != null && cluster1.isNotNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color);
-                }
-            }
-        }
-
-        // End
-        List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
-        for (IsotopicCluster cluster1 : this.isotopicClusterGraph.vertexSet()) {
-            int edgeCount = 0;
-            for (IsotopicCluster cluster2 : this.isotopicClusterGraph.vertexSet()) {
-                edgeCount += this.isotopicClusterGraph.getAllEdges(cluster1, cluster2).size();
-            }
-
-            if (edgeCount == 0) {
-                isotopicClusters.add(cluster1);
-            }
-        }
-
-        IsotopicCluster endCluster = new IsotopicCluster("end");
-        for (IsotopicCluster cluster : isotopicClusters) {
-            connectClusters(cluster, endCluster, "black");
-        }
     }
 
     public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, PeakList peakList, Configuration config) {
@@ -234,7 +234,7 @@ public class IsotopicClusterGraph {
         return null;
     }
 
-    private void weightsCheck(int weightsSize, int pathsSize) {
+    private static void weightsCheck(int weightsSize, int pathsSize) {
         if (weightsSize == 1 && pathsSize != 1) {
             System.err.println(
                     "WARNING: All scores are the same, therefore there is no valid best path! Please check if your input mass spectrum is correct! This could have a minimal impact on the results.");

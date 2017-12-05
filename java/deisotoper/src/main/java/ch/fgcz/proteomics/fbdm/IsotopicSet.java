@@ -22,6 +22,22 @@ public class IsotopicSet {
     private String dot = null;
     private int setId;
 
+    public IsotopicSet(MassSpectrum massSpectrum, List<Peak> peaksInSet, int setId, Configuration config) {
+        try {
+            rangeCheck(peaksInSet, config);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.peaksInSet = peaksInSet;
+
+        List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
+
+        this.isotopicSet = tempIsotopicSet;
+
+        setBestPath(massSpectrum, collectClusters(config, setId), config);
+    }
+
     public List<Peak> getPeaksInSet() {
         return peaksInSet;
     }
@@ -51,22 +67,6 @@ public class IsotopicSet {
         }
 
         return bestClusters;
-    }
-
-    public IsotopicSet(MassSpectrum massSpectrum, List<Peak> peaksInSet, int setId, Configuration config) {
-        try {
-            rangeCheck(peaksInSet, config);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        this.peaksInSet = peaksInSet;
-
-        List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
-
-        this.isotopicSet = tempIsotopicSet;
-
-        setBestPath(massSpectrum, collectClusters(config, setId), config);
     }
 
     private List<IsotopicCluster> collectClusters(Configuration config, int setId) {
@@ -197,29 +197,6 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> isotopicClusters) {
-        Collections.sort(isotopicClusters, new Comparator<IsotopicCluster>() {
-            @Override
-            public int compare(IsotopicCluster cluster1, IsotopicCluster cluster2) {
-                int result = Double.compare(cluster1.getPeak(0).getMz(), cluster2.getPeak(0).getMz());
-
-                if (result == 0) {
-                    result = Double.compare(cluster1.getPeak(1).getMz(), cluster2.getPeak(1).getMz());
-                    if (result == 0) {
-                        if (cluster1.size() == 3 && cluster2.size() == 3) {
-                            result = Double.compare(cluster1.getPeak(2).getMz(), cluster2.getPeak(2).getMz());
-                            return result;
-                        }
-                    }
-                }
-
-                return result;
-            }
-        });
-
-        return isotopicClusters;
-    }
-
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicClusters) {
         List<IsotopicCluster> result = new ArrayList<IsotopicCluster>();
         Set<List<Peak>> set = new HashSet<List<Peak>>();
@@ -249,5 +226,28 @@ public class IsotopicSet {
                 throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
             }
         }
+    }
+
+    private static List<IsotopicCluster> sortIsotopicSet(List<IsotopicCluster> isotopicClusters) {
+        Collections.sort(isotopicClusters, new Comparator<IsotopicCluster>() {
+            @Override
+            public int compare(IsotopicCluster cluster1, IsotopicCluster cluster2) {
+                int result = Double.compare(cluster1.getPeak(0).getMz(), cluster2.getPeak(0).getMz());
+
+                if (result == 0) {
+                    result = Double.compare(cluster1.getPeak(1).getMz(), cluster2.getPeak(1).getMz());
+                    if (result == 0) {
+                        if (cluster1.size() == 3 && cluster2.size() == 3) {
+                            result = Double.compare(cluster1.getPeak(2).getMz(), cluster2.getPeak(2).getMz());
+                            return result;
+                        }
+                    }
+                }
+
+                return result;
+            }
+        });
+
+        return isotopicClusters;
     }
 }

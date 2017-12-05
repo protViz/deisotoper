@@ -218,6 +218,43 @@ public class PeakList {
         // return result;
     }
 
+    public PeakList collectForEachCharge(Peak peakI, Peak peakJ, Configuration config) {
+        // check if both peaks could be in set.
+        for (int charge = 1; charge < 4; charge++) {
+            double lowerThreshold = peakI.getMz() + config.getIsotopicPeakDistance() / charge - config.getDelta();
+            double higherThreshold = peakI.getMz() + config.getIsotopicPeakDistance() / charge + config.getDelta();
+
+            if (lowerThreshold < peakJ.getMz() && peakJ.getMz() < higherThreshold) {
+                peakI.setInSet(true);
+                peakJ.setInSet(true);
+                this.add(peakI);
+                this.add(peakJ);
+            }
+        }
+
+        return this;
+    }
+
+    public PeakList checkForCorrectRangeOfPeaks(Configuration config) {
+        for (int i = 0; i < this.size() - 1; i++) {
+            double distance = this.get(i + 1).getMz() - this.get(i).getMz();
+
+            boolean b = false;
+            for (int charge = 1; charge <= 3; charge++) {
+                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
+                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
+                    b = true;
+                }
+            }
+
+            if (b == false) {
+                return null;
+            }
+        }
+
+        return this;
+    }
+
     public PeakList sortForAnnotating() {
         Collections.sort(this.peakList, new Comparator<Peak>() {
             @Override
@@ -229,6 +266,11 @@ public class PeakList {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "PeakList: " + System.getProperty("line.separator") + print();
+    }
+
     private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
         double sumBefore = peakList1.sumIntensities();
         double sumAfter = peakList2.sumIntensities();
@@ -237,11 +279,6 @@ public class PeakList {
             throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
         }
 
-    }
-
-    @Override
-    public String toString() {
-        return "PeakList: " + System.getProperty("line.separator") + print();
     }
 
     private String print() {

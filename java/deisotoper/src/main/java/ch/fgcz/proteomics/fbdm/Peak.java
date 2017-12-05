@@ -15,6 +15,21 @@ public class Peak {
     private int isotopicSetId;
     private boolean inSet = false;
 
+    public Peak(double mz, double intensity, int peakId) {
+        this(mz, intensity, -1.0, -1, peakId, -1, -1);
+    }
+
+    public Peak(double mz, double intensity, double isotope, int charge, int peakID, int isotopicClusterId,
+            int isotopicSetId) {
+        this.mz = mz;
+        this.intensity = intensity;
+        this.peakId = peakID;
+        this.charge = charge;
+        this.isotope = isotope;
+        this.isotopicClusterId = isotopicClusterId;
+        this.isotopicSetId = isotopicSetId;
+    }
+
     public void setIsotope(double isotope) {
         this.isotope = isotope;
     }
@@ -73,21 +88,6 @@ public class Peak {
 
     public void setIntensity(double intensity) {
         this.intensity = intensity;
-    }
-
-    public Peak(double mz, double intensity, int peakId) {
-        this(mz, intensity, -1.0, -1, peakId, -1, -1);
-    }
-
-    public Peak(double mz, double intensity, double isotope, int charge, int peakID, int isotopicClusterId,
-            int isotopicSetId) {
-        this.mz = mz;
-        this.intensity = intensity;
-        this.peakId = peakID;
-        this.charge = charge;
-        this.isotope = isotope;
-        this.isotopicClusterId = isotopicClusterId;
-        this.isotopicSetId = isotopicSetId;
     }
 
     public boolean equals(Peak peak) {

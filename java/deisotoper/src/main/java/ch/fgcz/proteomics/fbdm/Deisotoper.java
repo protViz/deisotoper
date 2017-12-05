@@ -141,7 +141,7 @@ public class Deisotoper {
     }
 
     // New version of generateIsotopicSets.
-    protected void generateIsotopicSets(MassSpectrum massSpectrum) {        
+    protected void generateIsotopicSets(MassSpectrum massSpectrum) {
         this.peakList = new PeakList(massSpectrum);
 
         PeakList allPossiblePeaks = collectAllPossiblePeaks(this.peakList, this.config);
@@ -154,7 +154,7 @@ public class Deisotoper {
     }
 
     private void createAnnotatedSpectrum(MassSpectrum massSpectrum) {
-        PeakList peaksInSet = collectPeaks(massSpectrum);
+        PeakList peaksInSet = collectPeaksFromSets(massSpectrum);
 
         if (this.config.isDecharge()) {
             peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
@@ -175,6 +175,29 @@ public class Deisotoper {
         mergedPeakListLocal.removeMultiplePeaks();
 
         this.annotatedSpectrum = mergedPeakListLocal.saveAnnotatedSpectrum();
+    }
+
+    private PeakList collectPeaksFromSets(MassSpectrum massSpectrum) {
+        this.isotopicSets = new ArrayList<IsotopicSet>();
+        generateIsotopicSets(massSpectrum);
+        PeakList peaksInSet = new PeakList();
+
+        // IDs are recreated
+        int setID = 0;
+        for (IsotopicSet isotopicSet : this.isotopicSets) {
+            int clusterID = 0;
+            List<IsotopicCluster> isotopicClusters = isotopicSet.getIsotopicSet();
+            for (IsotopicCluster isotopicCluster : isotopicClusters) {
+                for (Peak peak : isotopicCluster.getIsotopicCluster()) {
+                    peaksInSet.add(new Peak(peak.getMz(), peak.getIntensity(), peak.getIsotope(), peak.getCharge(),
+                            peak.getPeakID(), clusterID, setID));
+                }
+                clusterID++;
+            }
+            setID++;
+        }
+
+        return peaksInSet.removeMultiplePeaks();
     }
 
     private static List<PeakList> iterateThroughParts(List<PeakList> parts, Configuration config) {
@@ -214,7 +237,7 @@ public class Deisotoper {
             if (1 < possiblePeaks.size()) {
                 possiblePeaks = possiblePeaks.sortPeakList();
 
-                possiblePeaks = checkForCorrectRangeOfPeaks(possiblePeaks, config);
+                possiblePeaks = possiblePeaks.checkForCorrectRangeOfPeaks(config);
 
                 if (possiblePeaks != null) {
                     correctIsotopicSets.add(possiblePeaks);
@@ -231,25 +254,7 @@ public class Deisotoper {
             Peak peakI = peakList.get(i);
             for (int j = 0; j < peakList.size(); j++) {
                 Peak peakJ = peakList.get(j);
-                allPossiblePeaks = collectForEachCharge(allPossiblePeaks, peakI, peakJ, config);
-            }
-        }
-
-        return allPossiblePeaks;
-    }
-
-    private static PeakList collectForEachCharge(PeakList allPossiblePeaks, Peak peakI, Peak peakJ,
-            Configuration config) {
-        // check if both peaks could be in set.
-        for (int charge = 1; charge < 4; charge++) {
-            double lowerThreshold = peakI.getMz() + config.getIsotopicPeakDistance() / charge - config.getDelta();
-            double higherThreshold = peakI.getMz() + config.getIsotopicPeakDistance() / charge + config.getDelta();
-
-            if (lowerThreshold < peakJ.getMz() && peakJ.getMz() < higherThreshold) {
-                peakI.setInSet(true);
-                peakJ.setInSet(true);
-                allPossiblePeaks.add(peakI);
-                allPossiblePeaks.add(peakJ);
+                allPossiblePeaks = allPossiblePeaks.collectForEachCharge(peakI, peakJ, config);
             }
         }
 
@@ -318,26 +323,6 @@ public class Deisotoper {
         return tempListOfPeakLists;
     }
 
-    private static PeakList checkForCorrectRangeOfPeaks(PeakList peakList, Configuration config) {
-        for (int i = 0; i < peakList.size() - 1; i++) {
-            double distance = peakList.get(i + 1).getMz() - peakList.get(i).getMz();
-
-            boolean b = false;
-            for (int charge = 1; charge <= 3; charge++) {
-                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
-                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
-                    b = true;
-                }
-            }
-
-            if (b == false) {
-                return null;
-            }
-        }
-
-        return peakList;
-    }
-
     private static Set<PeakList> splitAllPossibleIsotopicSets(Set<Peak> setOfPeaks) {
         Set<PeakList> allPeaks = new HashSet<PeakList>();
 
@@ -363,37 +348,14 @@ public class Deisotoper {
         return allPeaks;
     }
 
-    private PeakList collectPeaks(MassSpectrum massSpectrum) {
-        this.isotopicSets = new ArrayList<IsotopicSet>();
-        generateIsotopicSets(massSpectrum);
-        PeakList peaksInSet = new PeakList();
-
-        // IDs are recreated
-        int setID = 0;
-        for (IsotopicSet isotopicSet : this.isotopicSets) {
-            int clusterID = 0;
-            List<IsotopicCluster> isotopicClusters = isotopicSet.getIsotopicSet();
-            for (IsotopicCluster isotopicCluster : isotopicClusters) {
-                for (Peak peak : isotopicCluster.getIsotopicCluster()) {
-                    peaksInSet.add(new Peak(peak.getMz(), peak.getIntensity(), peak.getIsotope(), peak.getCharge(),
-                            peak.getPeakID(), clusterID, setID));
-                }
-                clusterID++;
-            }
-            setID++;
-        }
-
-        return peaksInSet.removeMultiplePeaks();
-    }
-
-    private void intensityCheck(double before, double after) throws Exception {
+    private static void intensityCheck(double before, double after) throws Exception {
         if ((double) Math.round(before * 1000d) / 1000d != (double) Math.round(after * 1000d) / 1000d) {
             throw new Exception("Wrong intensities after aggregation (Intensity before aggregation: " + before
                     + " and after aggregation: " + after + "!");
         }
     }
 
-    private double sumAllIntensities(List<IsotopicCluster> isotopicClusters) {
+    private static double sumAllIntensities(List<IsotopicCluster> isotopicClusters) {
         PeakList peakList = new PeakList();
         double intensitySum = 0;
 
@@ -410,7 +372,7 @@ public class Deisotoper {
         return intensitySum;
     }
 
-    private List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
+    private static List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
         // If cluster has same peak/peaks as other cluster.
         // Remove this peak in the lowest charged cluster.
         // Aggregate only the non removed cluster and add the remaining peaks from the
@@ -422,51 +384,13 @@ public class Deisotoper {
                     continue;
                 }
 
-                if (hasSamePeaks(isotopicCluster1, isotopicCluster2)) {
-                    hasSameTrue(isotopicCluster1, isotopicCluster2);
+                if (isotopicCluster1.hasSamePeaks(isotopicCluster2)) {
+                    isotopicCluster1.manipulateWhenHasSamePeaks(isotopicCluster2);
                 }
             }
         }
 
         return isotopicClusters;
-    }
-
-    private void hasSameTrue(IsotopicCluster isotopicCluster1, IsotopicCluster isotopicCluster2) {
-        if (isotopicCluster1.getCharge() > isotopicCluster2.getCharge()) {
-            isotopicCluster1.getIsotopicCluster().removeAll(isotopicCluster2.getIsotopicCluster());
-        } else if (isotopicCluster1.getCharge() < isotopicCluster2.getCharge()) {
-            isotopicCluster2.getIsotopicCluster().removeAll(isotopicCluster1.getIsotopicCluster());
-        } else {
-            double intensitySumOfCluster1 = sumIntensity(isotopicCluster1);
-            double intensitySumOfCluster2 = sumIntensity(isotopicCluster2);
-            if (intensitySumOfCluster1 > intensitySumOfCluster2) {
-                isotopicCluster2.getIsotopicCluster().removeAll(isotopicCluster1.getIsotopicCluster());
-            } else {
-                isotopicCluster1.getIsotopicCluster().removeAll(isotopicCluster2.getIsotopicCluster());
-            }
-        }
-    }
-
-    private double sumIntensity(IsotopicCluster isotopicCluster1) {
-        double intensitySum = 0;
-
-        for (Peak peak : isotopicCluster1.getIsotopicCluster()) {
-            intensitySum += peak.getIntensity();
-        }
-
-        return intensitySum;
-    }
-
-    private boolean hasSamePeaks(IsotopicCluster isotopicCluster1, IsotopicCluster isotopicCluster2) {
-        for (Peak peak1 : isotopicCluster1.getIsotopicCluster()) {
-            for (Peak peak2 : isotopicCluster2.getIsotopicCluster()) {
-                if (peak1.equals(peak2)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     // Old version of generateIsotopicSets
