@@ -12,9 +12,13 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
+import ch.fgcz.proteomics.dto.MassSpectrumMetaInformation;
 import ch.fgcz.proteomics.utilities.MathUtils;
 
-public class PeakList {
+public class PeakList implements MassSpectrumMetaInformation {
+    private double peptideMass;
+    private int chargeState;
+
     private List<Peak> peakList = new ArrayList<Peak>();
 
     public boolean isEmpty() {
@@ -30,8 +34,26 @@ public class PeakList {
     }
 
     public PeakList() {
+        chargeState = 0;
+        peptideMass = 0.;
         this.peakList = new ArrayList<Peak>();
     }
+
+
+    public PeakList(MassSpectrum massSpectrum) {
+        this.peptideMass = massSpectrum.getPeptideMass();
+        this.chargeState = massSpectrum.getChargeState();
+
+        List<Peak> plist = new ArrayList<Peak>();
+
+        for (int i = 0; i < massSpectrum.getMz().size() || i < massSpectrum.getIntensity().size(); i++) {
+            plist.add(new Peak(massSpectrum.getMz().get(i), massSpectrum.getIntensity().get(i), i));
+        }
+
+        this.peakList = plist;
+    }
+
+
 
     public PeakList add(Peak peak) {
         this.peakList.add(peak);
@@ -58,25 +80,6 @@ public class PeakList {
         this.peakList = peaks;
     }
 
-    public PeakList(MassSpectrum massSpectrum) {
-        List<Peak> plist = new ArrayList<Peak>();
-
-        for (int i = 0; i < massSpectrum.getMz().size() || i < massSpectrum.getIntensity().size(); i++) {
-            plist.add(new Peak(massSpectrum.getMz().get(i), massSpectrum.getIntensity().get(i), i));
-        }
-
-        this.peakList = plist;
-    }
-
-    public PeakList(List<Double> mz, List<Double> intensity) {
-        List<Peak> plist = new ArrayList<Peak>();
-
-        for (int i = 0; i < mz.size() || i < intensity.size(); i++) {
-            plist.add(new Peak(mz.get(i), intensity.get(i), i));
-        }
-
-        this.peakList = plist;
-    }
 
     public PeakList mergePeakLists(PeakList peakList2) {
         PeakList notInIsotopicSet = new PeakList();
@@ -91,28 +94,7 @@ public class PeakList {
         return notInIsotopicSet;
     }
 
-    public MassSpectrum makeResultSpectrum(MassSpectrum massSpectrum) {
-        try {
-            checkForIntensityCorrectness(new PeakList(massSpectrum), this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        List<Double> mz = new ArrayList<Double>();
-        List<Double> intensity = new ArrayList<Double>();
-        List<Double> isotope = new ArrayList<Double>();
-        List<Integer> charge = new ArrayList<Integer>();
-        for (int i = 0; i < this.peakList.size(); i++) {
-            mz.add(this.peakList.get(i).getMz());
-            intensity.add(this.peakList.get(i).getIntensity());
-            isotope.add(this.peakList.get(i).getIsotope());
-            charge.add(this.peakList.get(i).getCharge());
-        }
-
-        return new MassSpectrum(massSpectrum.getTyp(), massSpectrum.getSearchEngine(), mz, intensity,
-                massSpectrum.getPeptideMass(), massSpectrum.getRt(), massSpectrum.getChargeState(),
-                massSpectrum.getId(), charge, isotope);
-    }
 
     public double sumIntensities() {
         double intensitySum = 0;
@@ -261,13 +243,22 @@ public class PeakList {
         return "PeakList: " + System.getProperty("line.separator") + stringBuilder.toString();
     }
 
-    private void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws Exception {
+    static public void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws IllegalStateException {
         double sumBefore = peakList1.sumIntensities();
         double sumAfter = peakList2.sumIntensities();
         if(! MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)){
-            throw new Exception("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+            throw new IllegalStateException("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
         }
     }
 
 
+    @Override
+    public double getPeptideMass() {
+        return this.peptideMass;
+    }
+
+    @Override
+    public int getChargeState() {
+        return this.chargeState;
+    }
 }
