@@ -25,7 +25,7 @@ public class IsotopicSet {
     private String dot = null;
     private int setId;
 
-    public IsotopicSet(PeakList peakList,  List<Peak> peaksInSet, int setId, Configuration config) {
+    public IsotopicSet(PeakList peakList, List<Peak> peaksInSet, int setId, Configuration config) {
         try {
             rangeCheck(peaksInSet, config);
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class IsotopicSet {
         List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
 
         this.isotopicSet = tempIsotopicSet;
-        setBestPath(peakList , tempIsotopicSet , config);
+        setBestPath(peakList, tempIsotopicSet, config);
     }
 
     // TODO Looks to me like an isotopicSet method.
@@ -148,8 +148,8 @@ public class IsotopicSet {
         IsotopicClusterGraph isotopicClusterGraphForBestPath = new IsotopicClusterGraph(
                 removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
 
-        isotopicClusterGraphForBestPath.scoreIsotopicClusterGraph(peaklist.getPeptideMass(),
-                peaklist.getChargeState(), peaklist, config);
+        isotopicClusterGraphForBestPath.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
+                peaklist, config);
 
         this.bestPath = isotopicClusterGraphForBestPath
                 .bestPath(isotopicClusterGraphForBestPath.getStart(), isotopicClusterGraphForBestPath.getEnd())
@@ -160,8 +160,8 @@ public class IsotopicSet {
 
         IsotopicClusterGraph isotopicClusterGraphForDot = new IsotopicClusterGraph(isotopicClustersForDot);
 
-        isotopicClusterGraphForDot.scoreIsotopicClusterGraph(peaklist.getPeptideMass(),
-                peaklist.getChargeState(), peaklist, config);
+        isotopicClusterGraphForDot.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
+                peaklist, config);
 
         this.dot = isotopicClusterGraphForDot.toDOTGraph();
 

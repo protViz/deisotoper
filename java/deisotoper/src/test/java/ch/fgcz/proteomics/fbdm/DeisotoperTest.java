@@ -46,11 +46,10 @@ public class DeisotoperTest {
         List<Double> intensity = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0);
         MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
 
-
         List<IsotopicSet> isotopicSets = Deisotoper.generateIsotopicSets(new PeakList(massSpectrum), config);
         assertEquals(2, isotopicSets.size());
         assertEquals(3, isotopicSets.get(0).getPeaksInSet().size());
-        assertEquals(3,isotopicSets.get(1).getPeaksInSet().size());
+        assertEquals(3, isotopicSets.get(1).getPeaksInSet().size());
     }
 
     @Test
@@ -64,8 +63,6 @@ public class DeisotoperTest {
                 oneSetStart + config.getIsotopicPeakDistance() * 2);
         List<Double> intensity2 = Arrays.asList(4.0, 4.0, 5.0, 6.0);
         MassSpectrum massSpectrum2 = new MassSpectrum(mz2, intensity2);
-
-
 
         List<IsotopicSet> isotopicSets = Deisotoper.generateIsotopicSets(new PeakList(massSpectrum2), config);
         assertEquals(1, isotopicSets.size());
@@ -84,7 +81,6 @@ public class DeisotoperTest {
         List<Double> intensity3 = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0);
         MassSpectrum massSpectrum3 = new MassSpectrum(mz3, intensity3);
 
-
         List<IsotopicSet> isotopicSets = Deisotoper.generateIsotopicSets(new PeakList(massSpectrum3), config);
         assertEquals(1, isotopicSets.size());
         assertEquals(5, isotopicSets.get(0).getPeaksInSet().size());
@@ -102,7 +98,6 @@ public class DeisotoperTest {
                 oneSetStart + config.getIsotopicPeakDistance() * 3); // 100.0, 101.0, 102.0, 102.5, 103.0
         List<Double> intensity4 = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0);
         MassSpectrum massSpectrum4 = new MassSpectrum(mz4, intensity4);
-
 
         List<IsotopicSet> isotopicSets = Deisotoper.generateIsotopicSets(new PeakList(massSpectrum4), config);
 
@@ -124,7 +119,6 @@ public class DeisotoperTest {
                                                                                                                      // 103.0
         List<Double> intensity4 = Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0);
         MassSpectrum massSpectrum4 = new MassSpectrum(mz4, intensity4);
-
 
         List<IsotopicSet> isotopicSets = Deisotoper.generateIsotopicSets(new PeakList(massSpectrum4), config);
         assertEquals(2, isotopicSets.size());
@@ -197,7 +191,7 @@ public class DeisotoperTest {
 
         Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
 
-        DeisotoperMassSpectrumAdapter deisotoper = new DeisotoperMassSpectrumAdapter( new Deisotoper(config));
+        DeisotoperMassSpectrumAdapter deisotoper = new DeisotoperMassSpectrumAdapter(new Deisotoper(config));
 
         MassSpectrum massSpectrumOut = deisotoper.deisotopeMS(massSpectrometryMeasurementin.getMSlist().get(0));
 
@@ -208,8 +202,8 @@ public class DeisotoperTest {
 
         assertEquals(massSpectrumOut.getIntensity(), Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 23.0));
 
-        assertEquals(massSpectrumOut.getIsotope(), Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0));
+        assertEquals(massSpectrumOut.getIsotope(), Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0));
 
-        assertEquals(massSpectrumOut.getCharge(), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(massSpectrumOut.getCharge(), Arrays.asList(1, 1, 1, 1, 1, 1, 1, -1));
     }
 }

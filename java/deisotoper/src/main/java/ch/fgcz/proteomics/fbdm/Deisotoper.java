@@ -17,8 +17,7 @@ public class Deisotoper {
     private PeakList mergedPeakList;
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
-    //private MassSpectrum massSpectrum;
-
+    // private MassSpectrum massSpectrum;
 
     public Deisotoper() {
         this(new Configuration());
@@ -29,12 +28,12 @@ public class Deisotoper {
         this.config = config;
     }
 
-    public PeakList deisotopeMS(PeakList peaklist){
+    public PeakList deisotopeMS(PeakList peaklist) {
         this.peakList = peaklist;
         this.running = true;
-        this.isotopicSets = new ArrayList();
+        this.isotopicSets = new ArrayList<IsotopicSet>();
 
-        isotopicSets =  generateIsotopicSets(peakList, config);
+        isotopicSets = generateIsotopicSets(peakList, config);
         List<IsotopicCluster> bestClusters = getBestClusters();
 
         PeakList peakListAggregated = aggregate(bestClusters, this.config.getModus());
@@ -51,8 +50,6 @@ public class Deisotoper {
         PeakList.checkForIntensityCorrectness(this.mergedPeakList, peaklist);
         return this.mergedPeakList;
     }
-
-
 
     public boolean wasRunning() {
         return this.running;
@@ -74,7 +71,7 @@ public class Deisotoper {
     }
 
     public List<String> getDotGraphs() {
-        if(!this.wasRunning()){
+        if (!this.wasRunning()) {
             throw new IllegalStateException("Deisotope spectrum first");
         }
 
@@ -110,7 +107,7 @@ public class Deisotoper {
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             if (isotopicCluster.size() > 1) {
-                Peak peak =  isotopicCluster.aggregation(modus);
+                Peak peak = isotopicCluster.aggregation(modus);
                 resultPeakList.add(peak);
             } else if (isotopicCluster.size() == 0) {
             } else {
@@ -131,7 +128,7 @@ public class Deisotoper {
     }
 
     // New version of generateIsotopicSets.
-    static protected List<IsotopicSet> generateIsotopicSets(PeakList  peakList , Configuration config) {
+    static protected List<IsotopicSet> generateIsotopicSets(PeakList peakList, Configuration config) {
         PeakList allPossiblePeaks = isoSet_collectAllPossiblePeaks(peakList, config);
         allPossiblePeaks = allPossiblePeaks.removeMultiplePeaks();
         allPossiblePeaks = allPossiblePeaks.sortByMZ();
@@ -202,7 +199,7 @@ public class Deisotoper {
 
     private static List<IsotopicSet> addSplittedIsotopicSetsToIsotopicSets(List<PeakList> listOfIsotopicSets,
             PeakList peakList, Configuration config) {
-        List<IsotopicSet> isotopicSets = new ArrayList();
+        List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
         int id = 0;
 
         for (PeakList isotopicSet : listOfIsotopicSets) {

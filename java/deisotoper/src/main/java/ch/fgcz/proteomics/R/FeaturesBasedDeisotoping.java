@@ -12,7 +12,7 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.*;
 
 public class FeaturesBasedDeisotoping {
-    //private Deisotoper deisotoper = new Deisotoper();
+    // private Deisotoper deisotoper = new Deisotoper();
     private DeisotoperMassSpectrumAdapter deisotoper = new DeisotoperMassSpectrumAdapter(new Deisotoper());
     private MassSpectrum massSpectrum = new MassSpectrum();
     private MassSpectrum resultSpectrum = new MassSpectrum();
@@ -101,9 +101,6 @@ public class FeaturesBasedDeisotoping {
         int numberOfIsotopicClusters = this.deisotoper.getNrOfIsotopePatterns();
         int numberOfIsotopicPeaks = this.deisotoper.getNrOfPeaksInIsotopePatterns();
         int numberOfPeaks = massspectrum.getMz().size();
-
-
-
 
         StringBuilder stringBuilder = new StringBuilder();
         String linesep = System.getProperty("line.separator");

@@ -40,6 +40,7 @@ public class IsotopicClusterTest {
 
         Peak isotopicClusterAggregated = isotopicCluster.aggregation("first");
 
-        assertEquals(isotopicClusterAggregated.toString(), "(0) [ 1.0 ]");
+        assertEquals(1.0, isotopicClusterAggregated.getMz(), 0);
+        assertEquals(55.0, isotopicClusterAggregated.getIntensity(), 0);
     }
 }
