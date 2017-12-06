@@ -11,10 +11,9 @@ import java.util.Set;
 public class DeisotoperMassSpectrumAdapter {
     Deisotoper deisotoper;
 
-    public DeisotoperMassSpectrumAdapter(Deisotoper deisotoper){
+    public DeisotoperMassSpectrumAdapter(Deisotoper deisotoper) {
         this.deisotoper = deisotoper;
     }
-
 
     public MassSpecMeasure deisotopeMSM(MassSpecMeasure massSpectrometryMeasurementin, Configuration config) {
         MassSpecMeasure massSpectrometryMeasurementOut = new MassSpecMeasure(massSpectrometryMeasurementin.getSource());
@@ -45,12 +44,10 @@ public class DeisotoperMassSpectrumAdapter {
                 massSpectrum.getId(), charge, isotope);
     }
 
-
     public MassSpectrum deisotopeMS(MassSpectrum massSpectrum) {
         PeakList peakList = this.deisotoper.deisotopeMS(new PeakList(massSpectrum));
         return makeResultSpectrum(massSpectrum, peakList);
     }
-
 
     public void setConfiguration(Configuration config) {
         this.deisotoper.setConfiguration(config);
@@ -65,7 +62,7 @@ public class DeisotoperMassSpectrumAdapter {
     }
 
     public String getAnnotatedSpectrum() {
-        return this.getAnnotatedSpectrum();
+        return this.deisotoper.getAnnotatedSpectrum();
     }
 
     public int getNrOfIsotopicSets() {

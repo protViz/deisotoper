@@ -17,8 +17,7 @@ public class Deisotoper {
     private PeakList mergedPeakList;
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
-    //private MassSpectrum massSpectrum;
-
+    // private MassSpectrum massSpectrum;
 
     public Deisotoper() {
         this(new Configuration());
@@ -29,18 +28,18 @@ public class Deisotoper {
         this.config = config;
     }
 
-    public PeakList deisotopeMS(PeakList peaklist){
+    public PeakList deisotopeMS(PeakList peaklist) {
         this.peakList = peaklist;
         this.running = true;
-        this.isotopicSets = new ArrayList<>();
+        this.isotopicSets = new ArrayList<IsotopicSet>();
 
-        isotopicSets =  generateIsotopicSets(peakList, config);
+        isotopicSets = generateIsotopicSets(peakList, config);
         List<IsotopicCluster> bestClusters = getBestClusters();
 
         PeakList peakListAggregated = aggregate(bestClusters, this.config.getModus());
 
         if (this.config.isDecharge()) {
-            peakListAggregated = peakListAggregated.dechargePeaks(this.config.getH_MASS());
+            peakListAggregated = peakListAggregated.dechargePeaks(this.config.getH_MASS(1));
         }
 
         this.mergedPeakList = this.peakList.mergePeakLists(peakListAggregated);
@@ -51,8 +50,6 @@ public class Deisotoper {
         PeakList.checkForIntensityCorrectness(this.mergedPeakList, peaklist);
         return this.mergedPeakList;
     }
-
-
 
     public boolean wasRunning() {
         return this.running;
@@ -74,7 +71,7 @@ public class Deisotoper {
     }
 
     public List<String> getDotGraphs() {
-        if(!this.wasRunning()){
+        if (!this.wasRunning()) {
             throw new IllegalStateException("Deisotope spectrum first");
         }
 
@@ -106,12 +103,11 @@ public class Deisotoper {
 
         double sumBefore = sumAllIntensities(isotopicClusters);
 
-        isotopicClusters = removeOverlappingPeaksInClusters(isotopicClusters);
+        isotopicClusters = IsotopicCluster.removeOverlappingPeaksInClusters(isotopicClusters);
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             if (isotopicCluster.size() > 1) {
-                IsotopicCluster aggregatedCluster = isotopicCluster.aggregation(modus);
-                Peak peak = aggregatedCluster.getPeak(0);
+                Peak peak = isotopicCluster.aggregation(modus);
                 resultPeakList.add(peak);
             } else if (isotopicCluster.size() == 0) {
             } else {
@@ -132,7 +128,7 @@ public class Deisotoper {
     }
 
     // New version of generateIsotopicSets.
-    static protected List<IsotopicSet> generateIsotopicSets(PeakList  peakList , Configuration config) {
+    static protected List<IsotopicSet> generateIsotopicSets(PeakList peakList, Configuration config) {
         PeakList allPossiblePeaks = isoSet_collectAllPossiblePeaks(peakList, config);
         allPossiblePeaks = allPossiblePeaks.removeMultiplePeaks();
         allPossiblePeaks = allPossiblePeaks.sortByMZ();
@@ -145,7 +141,7 @@ public class Deisotoper {
         PeakList peaksInSet = collectPeaksFromSets(peakList);
 
         if (this.config.isDecharge()) {
-            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
+            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS(1));
         }
 
         PeakList mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
@@ -203,7 +199,7 @@ public class Deisotoper {
 
     private static List<IsotopicSet> addSplittedIsotopicSetsToIsotopicSets(List<PeakList> listOfIsotopicSets,
             PeakList peakList, Configuration config) {
-        List<IsotopicSet> isotopicSets = new ArrayList<>();
+        List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
         int id = 0;
 
         for (PeakList isotopicSet : listOfIsotopicSets) {
@@ -353,27 +349,6 @@ public class Deisotoper {
         }
 
         return intensitySum;
-    }
-
-    private static List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
-        // If cluster has same peak/peaks as other cluster.
-        // Remove this peak in the lowest charged cluster.
-        // Aggregate only the non removed cluster and add the remaining peaks from the
-        // overlapping cluster to the resultPeakList.
-
-        for (IsotopicCluster isotopicCluster1 : isotopicClusters) {
-            for (IsotopicCluster isotopicCluster2 : isotopicClusters) {
-                if (isotopicCluster1.equals(isotopicCluster2)) {
-                    continue;
-                }
-
-                if (isotopicCluster1.hasSamePeaks(isotopicCluster2)) {
-                    isotopicCluster1.manipulateWhenHasSamePeaks(isotopicCluster2);
-                }
-            }
-        }
-
-        return isotopicClusters;
     }
 
     // Old version of generateIsotopicSets

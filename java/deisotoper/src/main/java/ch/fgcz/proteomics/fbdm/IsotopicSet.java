@@ -19,6 +19,7 @@ import ch.fgcz.proteomics.utilities.MathUtils;
 // TODO: Fix id's of clusters...
 
 public class IsotopicSet {
+    private final PeakList peakList;
     private List<IsotopicCluster> isotopicSet = null;
     private List<IsotopicCluster> bestPath = null;
     private List<Peak> peaksInSet = null;
@@ -26,18 +27,17 @@ public class IsotopicSet {
     private int setId;
 
     public IsotopicSet(PeakList peakList,  List<Peak> peaksInSet, int setId, Configuration config) {
-        try {
-            rangeCheck(peaksInSet, config);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        this.peakList = peakList;
+        rangeCheck(peaksInSet, config);
+
 
         this.peaksInSet = peaksInSet;
 
         List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
 
         this.isotopicSet = tempIsotopicSet;
-        setBestPath(peakList , tempIsotopicSet , config);
+        setBestPath(peakList, tempIsotopicSet, config);
     }
 
     // TODO Looks to me like an isotopicSet method.
@@ -148,8 +148,8 @@ public class IsotopicSet {
         IsotopicClusterGraph isotopicClusterGraphForBestPath = new IsotopicClusterGraph(
                 removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
 
-        isotopicClusterGraphForBestPath.scoreIsotopicClusterGraph(peaklist.getPeptideMass(),
-                peaklist.getChargeState(), peaklist, config);
+        isotopicClusterGraphForBestPath.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
+                peaklist, config);
 
         this.bestPath = isotopicClusterGraphForBestPath
                 .bestPath(isotopicClusterGraphForBestPath.getStart(), isotopicClusterGraphForBestPath.getEnd())
@@ -160,8 +160,8 @@ public class IsotopicSet {
 
         IsotopicClusterGraph isotopicClusterGraphForDot = new IsotopicClusterGraph(isotopicClustersForDot);
 
-        isotopicClusterGraphForDot.scoreIsotopicClusterGraph(peaklist.getPeptideMass(),
-                peaklist.getChargeState(), peaklist, config);
+        isotopicClusterGraphForDot.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
+                peaklist, config);
 
         this.dot = isotopicClusterGraphForDot.toDOTGraph();
 
@@ -192,8 +192,10 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
-            List<Peak> isotopicSet, int charge, Configuration config) {
+    private List<IsotopicCluster> collectClusterForEachCharge(
+            List<IsotopicCluster> isotopicClusters,
+            List<Peak> isotopicSet,
+            int charge, Configuration config) {
         for (Peak a : isotopicSet) {
             for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
@@ -219,7 +221,7 @@ public class IsotopicSet {
                     }
 
                     if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic, charge, config);
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge, this.peakList, config.getIsotopicPeakDistance(), config.getDelta());
                         isotopicClusters.add(cluster);
                     }
                 }
@@ -242,7 +244,7 @@ public class IsotopicSet {
         return result;
     }
 
-    private static void rangeCheck(List<Peak> peaks, Configuration config) throws Exception {
+    private static void rangeCheck(List<Peak> peaks, Configuration config) {
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
 
@@ -255,7 +257,7 @@ public class IsotopicSet {
             }
 
             if (b == false) {
-                throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
+                throw new IllegalArgumentException("Wrong distance at IsotopicSet creation! (" + distance + ")");
             }
         }
     }

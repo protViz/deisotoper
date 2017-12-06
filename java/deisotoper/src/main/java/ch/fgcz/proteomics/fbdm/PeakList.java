@@ -39,7 +39,6 @@ public class PeakList implements MassSpectrumMetaInformation {
         this.peakList = new ArrayList<Peak>();
     }
 
-
     public PeakList(MassSpectrum massSpectrum) {
         this.peptideMass = massSpectrum.getPeptideMass();
         this.chargeState = massSpectrum.getChargeState();
@@ -52,8 +51,6 @@ public class PeakList implements MassSpectrumMetaInformation {
 
         this.peakList = plist;
     }
-
-
 
     public PeakList add(Peak peak) {
         this.peakList.add(peak);
@@ -80,7 +77,6 @@ public class PeakList implements MassSpectrumMetaInformation {
         this.peakList = peaks;
     }
 
-
     public PeakList mergePeakLists(PeakList peakList2) {
         PeakList notInIsotopicSet = new PeakList();
 
@@ -93,8 +89,6 @@ public class PeakList implements MassSpectrumMetaInformation {
         notInIsotopicSet.addAll(peakList2);
         return notInIsotopicSet;
     }
-
-
 
     public double sumIntensities() {
         double intensitySum = 0;
@@ -240,15 +234,16 @@ public class PeakList implements MassSpectrumMetaInformation {
         return "PeakList: " + System.getProperty("line.separator") + stringBuilder.toString();
     }
 
-    static public void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) throws IllegalStateException {
+    static public void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2)
+            throws IllegalStateException {
         double sumBefore = peakList1.sumIntensities();
         double sumAfter = peakList2.sumIntensities();
 
-        if(! MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)){
-            throw new IllegalStateException("Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+        if (!MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)) {
+            throw new IllegalStateException(
+                    "Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
         }
     }
-
 
     @Override
     public double getPeptideMass() {

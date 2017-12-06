@@ -418,10 +418,10 @@ public class FeaturesBasedDeisotopingTest {
         System.out.println();
 
         // System.out.println("Peaks who are in input and not anymore in output:");
-        // List<Double> mzlist = new ArrayList<>();
-        // List<Double> intensitylist = new ArrayList<>();
-        // List<Double> mzoutlist = new ArrayList<>();
-        // List<Double> intensityoutlist = new ArrayList<>();
+        // List<Double> mzlist = new ArrayList();
+        // List<Double> intensitylist = new ArrayList();
+        // List<Double> mzoutlist = new ArrayList();
+        // List<Double> intensityoutlist = new ArrayList();
         // for (int i = 0; i < mz.length; i++) {
         // mzlist.add(mz[i]);
         // intensitylist.add(intensity[i]);
@@ -475,10 +475,10 @@ public class FeaturesBasedDeisotopingTest {
         // System.out.println();
         //
         // System.out.println("Peaks who are in input and not anymore in output:");
-        // List<Double> mzlist2 = new ArrayList<>();
-        // List<Double> intensitylist2 = new ArrayList<>();
-        // List<Double> mzoutlist2 = new ArrayList<>();
-        // List<Double> intensityoutlist2 = new ArrayList<>();
+        // List<Double> mzlist2 = new ArrayList();
+        // List<Double> intensitylist2 = new ArrayList();
+        // List<Double> mzoutlist2 = new ArrayList();
+        // List<Double> intensityoutlist2 = new ArrayList();
         // for (int i = 0; i < mz.length; i++) {
         // mzlist2.add(mz[i]);
         // intensitylist2.add(intensity[i]);
