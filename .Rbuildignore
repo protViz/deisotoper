@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^.*git.*
 ^LICENSE
+^.*vignettes/.*$
 ^.*vignettes/report.*$
 ^.*vignettes/.*.html$
 ^.*vignettes/.*.pdf$
