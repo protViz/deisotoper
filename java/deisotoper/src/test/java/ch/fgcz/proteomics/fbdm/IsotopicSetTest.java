@@ -36,7 +36,7 @@ public class IsotopicSetTest {
     }
 
     @Test  (expected = IllegalArgumentException.class)
-    public void testClusterCreation_MustFail11() {
+    public void testSetCreation_MustFail11() {
         Configuration config = new Configuration();
         double startMass = 100.;
         List<Double> mz = Arrays.asList(startMass, startMass +
@@ -51,7 +51,7 @@ public class IsotopicSetTest {
     }
 
     @Test  (expected = IllegalArgumentException.class)
-    public void testClusterCreation_MustFail12() {
+    public void testSetCreation_MustFail12() {
         // second scenario
         Configuration config = new Configuration();
         double startMass = 100.;

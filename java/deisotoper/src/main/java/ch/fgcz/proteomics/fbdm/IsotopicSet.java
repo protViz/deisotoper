@@ -19,6 +19,7 @@ import ch.fgcz.proteomics.utilities.MathUtils;
 // TODO: Fix id's of clusters...
 
 public class IsotopicSet {
+    private final PeakList peakList;
     private List<IsotopicCluster> isotopicSet = null;
     private List<IsotopicCluster> bestPath = null;
     private List<Peak> peaksInSet = null;
@@ -27,6 +28,7 @@ public class IsotopicSet {
 
     public IsotopicSet(PeakList peakList,  List<Peak> peaksInSet, int setId, Configuration config) {
 
+        this.peakList = peakList;
         rangeCheck(peaksInSet, config);
 
 
@@ -190,8 +192,10 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
-            List<Peak> isotopicSet, int charge, Configuration config) {
+    private List<IsotopicCluster> collectClusterForEachCharge(
+            List<IsotopicCluster> isotopicClusters,
+            List<Peak> isotopicSet,
+            int charge, Configuration config) {
         for (Peak a : isotopicSet) {
             for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
@@ -217,7 +221,7 @@ public class IsotopicSet {
                     }
 
                     if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic, charge, config);
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge, this.peakList, config.getIsotopicPeakDistance(), config.getDelta());
                         isotopicClusters.add(cluster);
                     }
                 }
