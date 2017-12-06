@@ -55,7 +55,7 @@ public class IsotopicCluster {
         if (modus.equals("first")) {
             return this.aggregateFirst();
         } else if (modus.equals("highest")) {
-           throw new IllegalArgumentException("Modus: " + modus + " is deprecated");
+            throw new IllegalArgumentException("Modus: " + modus + " is deprecated");
         } else {
             throw new IllegalArgumentException("Modus not found (" + modus + ")");
         }
@@ -160,7 +160,6 @@ public class IsotopicCluster {
         double intensitySum = this.sumIntensity();
         return this.rearrangeCluster(intensitySum);
     }
-
 
     private Peak rearrangeCluster(double intensitySum) {
         return new Peak(this.isotopicCluster.get(0).getMz(), intensitySum, this.charge);
