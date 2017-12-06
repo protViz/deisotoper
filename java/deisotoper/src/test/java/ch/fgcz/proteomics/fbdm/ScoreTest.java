@@ -193,7 +193,7 @@ public class ScoreTest {
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(138.0, 467.55, 1);
 
-        double score = Score.fourthSupportiveAndZIonScore(x, y, config);
+        double score = Score.fourthSupportiveAZIonsScore(x, y, config);
 
         assertEquals(score, 1, 0);
     }

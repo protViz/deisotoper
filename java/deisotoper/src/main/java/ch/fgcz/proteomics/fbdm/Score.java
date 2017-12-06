@@ -103,6 +103,15 @@ public class Score {
         return F1;
     }
 
+    public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, Configuration config) {
+        int peaklistScore = 0;
+        for (Peak y : peaklist.getPeakList()) {
+            peaklistScore += firstAminoAcidDistanceScore(x, y, config);
+        }
+        return peaklistScore;
+    }
+
+
     // is based on the number collection of peaks representing fragment ions that
     // complement with fragment ion represented by .
     public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
@@ -226,7 +235,7 @@ public class Score {
 
     // considers two supportive ions a-ions and z-ions which can be used to indicate
     // the existence of the corresponding b-ions and y-ions.
-    public static int fourthSupportiveAndZIonScore(Peak x, Peak y, Configuration config) {
+    public static int fourthSupportiveAZIonsScore(Peak x, Peak y, Configuration config) {
         int F4 = 0;
 
         double d1xy = Math.abs(diff1(x, y));
@@ -302,16 +311,9 @@ public class Score {
                 + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
                         this.chargeValue, isotopicClusterOfPeakX, this.config)
                 + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
-                + this.config.getF4() * fourthSupportiveAndZIonScore(peakX, peakY, this.config);
+                + this.config.getF4() * fourthSupportiveAZIonsScore(peakX, peakY, this.config);
     }
 
-    public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, Configuration config) {
-        int peaklistScore = 0;
-        for (Peak y : peaklist.getPeakList()) {
-            peaklistScore += firstAminoAcidDistanceScore(x, y, config);
-        }
-        return peaklistScore;
-    }
 
     public static class Range {
         double min, max;
