@@ -86,14 +86,10 @@ public class Score {
                 double aa2 = config.getAaMassDividedTwo().get(i);
                 double aa3 = config.getAaMassDividedThree().get(i);
 
-                if (MathUtils.fuzzyEqual(d1xy, aa, error)
-                        || MathUtils.fuzzyEqual(d1xy, aa2, error)
-                        || MathUtils.fuzzyEqual(d1xy, aa3, error)
-                        || MathUtils.fuzzyEqual(d2xy, aa2, error)
-                        || MathUtils.fuzzyEqual(d2yx, aa2, error)
-                        || MathUtils.fuzzyEqual(d3xy, aa3, error)
-                        || MathUtils.fuzzyEqual(d3yx, aa3, error)
-                        || MathUtils.fuzzyEqual(d4xy, aa3, error)
+                if (MathUtils.fuzzyEqual(d1xy, aa, error) || MathUtils.fuzzyEqual(d1xy, aa2, error)
+                        || MathUtils.fuzzyEqual(d1xy, aa3, error) || MathUtils.fuzzyEqual(d2xy, aa2, error)
+                        || MathUtils.fuzzyEqual(d2yx, aa2, error) || MathUtils.fuzzyEqual(d3xy, aa3, error)
+                        || MathUtils.fuzzyEqual(d3yx, aa3, error) || MathUtils.fuzzyEqual(d4xy, aa3, error)
                         || MathUtils.fuzzyEqual(d4yx, aa3, error)) {
                     F1++;
                 }
@@ -111,11 +107,10 @@ public class Score {
         return peaklistScore;
     }
 
-
     // is based on the number collection of peaks representing fragment ions that
     // complement with fragment ion represented by .
     public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
-                                                   List<Peak> isotopicCluster, Configuration config) {
+            List<Peak> isotopicCluster, Configuration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : isotopicCluster) {
@@ -134,34 +129,19 @@ public class Score {
         double s4yx = sum4(y, x, H_MASS);
         double m2i = (pepidMass * charge - charge * config.getH_MASS()) + 2 * config.getIsotopicPeakDistance() * i;
 
-        if (m2i + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
-                && s1xy < m2i + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
-                && s1xy < m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s1xy
-                && s1xy < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s2xy
-                && s2xy < m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s2yx
-                && s2yx < m2i / 2 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s3xy
-                && s3xy < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s3yx
-                && s3yx < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s4xy
-                && s4xy < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
-            F2++;
-        } else if (m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() - config.getErrortolerance() < s4yx
-                && s4yx < m2i / 3 + config.getH_MASS_MULTIPLIED_TWO() + config.getErrortolerance()) {
+        if (MathUtils.fuzzyEqual(s1xy, m2i + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s1xy, m2i / 2 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s1xy, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s2xy, m2i / 2 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s2yx, m2i / 2 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s3xy, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s3yx, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s4xy, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(s4yx, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(),
+                        config.getErrortolerance())) {
             F2++;
         }
+
         return F2;
     }
 
@@ -175,61 +155,27 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config.getH_MASS()));
         double d4yx = Math.abs(diff4(y, x, config.getH_MASS()));
 
-        if (config.getH2O_MASS() - config.getErrortolerance() < d1xy
-                && d1xy < config.getH2O_MASS() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH3_MASS() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
-                && d1xy < config.getH2O_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH3_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
-                && d1xy < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
-                && d2xy < config.getH2O_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
-                && d2xy < config.getNH3_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
-                && d2yx < config.getH2O_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
-                && d2yx < config.getNH3_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
-                && d3xy < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
-                && d3xy < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
-                && d3yx < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
-                && d3yx < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
-                && d4xy < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
-                && d4xy < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getH2O_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
-                && d4yx < config.getH2O_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F3++;
-        } else if (config.getNH3_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
-                && d4yx < config.getNH3_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
+        if (MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getH2O_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getNH3_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getH2O_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getNH3_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getH2O_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getNH3_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getH2O_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getNH3_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getH2O_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getNH3_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getH2O_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getNH3_MASS_DIVIDED_THREE(), config.getErrortolerance())) {
             F3++;
         }
+
         return F3;
     }
 
@@ -246,59 +192,24 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config.getH_MASS()));
         double d4yx = Math.abs(diff4(y, x, config.getH_MASS()));
 
-        if (config.getNH_MASS() - config.getErrortolerance() < d1xy
-                && d1xy < config.getCO_MASS() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS() - config.getErrortolerance() < d1xy
-                && d1xy < config.getCO_MASS() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_TWO() - config.getErrortolerance() < d1xy
-                && d1xy < config.getCO_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
-                && d1xy < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d1xy
-                && d1xy < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
-                && d2xy < config.getNH_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2xy
-                && d2xy < config.getCO_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
-                && d2yx < config.getNH_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_TWO() - config.getErrortolerance() < d2yx
-                && d2yx < config.getCO_MASS_DIVIDED_TWO() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
-                && d3xy < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3xy
-                && d3xy < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
-                && d3yx < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d3yx
-                && d3yx < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
-                && d4xy < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4xy
-                && d4xy < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getNH_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
-                && d4yx < config.getNH_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
-            F4++;
-        } else if (config.getCO_MASS_DIVIDED_THREE() - config.getErrortolerance() < d4yx
-                && d4yx < config.getCO_MASS_DIVIDED_THREE() + config.getErrortolerance()) {
+        if (MathUtils.fuzzyEqual(d1xy, config.getNH_MASS(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getNH_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getCO_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getNH_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getCO_MASS_DIVIDED_TWO(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getNH_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getNH_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getCO_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getNH_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getNH_MASS_DIVIDED_THREE(), config.getErrortolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getCO_MASS_DIVIDED_THREE(), config.getErrortolerance())) {
             F4++;
         }
 
@@ -313,7 +224,6 @@ public class Score {
                 + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
                 + this.config.getF4() * fourthSupportiveAZIonsScore(peakX, peakY, this.config);
     }
-
 
     public static class Range {
         double min, max;
