@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Configuration {
+public class Configuration implements ScoringConfiguration {
     private List<Double> aaMass = new ArrayList<Double>();
     private List<Double> aaMassDividedTwo = new ArrayList<Double>();
     private List<Double> aaMassDividedThree = new ArrayList<Double>();
@@ -53,7 +53,7 @@ public class Configuration {
         return modus;
     }
 
-    public double getErrortolerance() {
+    public double getErrorTolerance() {
         return errortolerance;
     }
 
@@ -125,6 +125,7 @@ public class Configuration {
         return H_MASS_MULTIPLIED_TWO;
     }
 
+    @Override
     public double getH_MASS() {
         return H_MASS;
     }
