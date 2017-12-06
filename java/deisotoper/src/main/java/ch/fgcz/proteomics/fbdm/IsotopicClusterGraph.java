@@ -158,7 +158,7 @@ public class IsotopicClusterGraph {
 
                         double scoreFiveResult = scoreFive.calculateFifthScore(connection);
 
-                        additionalScore++;
+                        additionalScore += 0.00001;
 
                         scoreSum += scoreResult + scoreFiveResult;
                     }
