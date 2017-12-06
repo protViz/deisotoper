@@ -43,4 +43,6 @@ public class IsotopicClusterTest {
         assertEquals(1.0, isotopicClusterAggregated.getMz(), 0);
         assertEquals(55.0, isotopicClusterAggregated.getIntensity(), 0);
     }
+
+
 }

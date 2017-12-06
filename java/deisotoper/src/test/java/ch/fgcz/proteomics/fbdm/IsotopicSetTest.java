@@ -35,8 +35,8 @@ public class IsotopicSetTest {
         assertEquals(6, isotopicSet.getIsotopicSet().size());
     }
 
-    @Test
-    public void testClusterCreation_MustFail(){
+    @Test  (expected = IllegalArgumentException.class)
+    public void testClusterCreation_MustFail11() {
         Configuration config = new Configuration();
         double startMass = 100.;
         List<Double> mz = Arrays.asList(startMass, startMass +
@@ -47,7 +47,23 @@ public class IsotopicSetTest {
         MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
         PeakList peakList = new PeakList(massSpectrum);
 
-        IsotopicSet isotopicSet = new IsotopicSet(peakList, peakList.getPeakList(), 1, config);
+        new IsotopicSet(peakList, peakList.getPeakList(), 1, config);
+    }
+
+    @Test  (expected = IllegalArgumentException.class)
+    public void testClusterCreation_MustFail12() {
+        // second scenario
+        Configuration config = new Configuration();
+        double startMass = 100.;
+        List<Double> mz = Arrays.asList(startMass, startMass +
+                        config.getIsotopicPeakDistance(),
+                startMass + config.getIsotopicPeakDistance() * 2,
+                startMass + config.getIsotopicPeakDistance() * 2.25);
+        List<Double> intensity = Arrays.asList(1., 1., 1., 1.);
+        MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
+        PeakList peakList = new PeakList(massSpectrum);
+
+        new IsotopicSet(peakList, peakList.getPeakList(), 1, config);
 
     }
 }
