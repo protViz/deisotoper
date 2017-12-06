@@ -89,7 +89,6 @@ public class FeaturesBasedDeisotoping {
     }
 
     public String getAnnotatedSpectrum() {
-
         return this.deisotoper.getAnnotatedSpectrum();
     }
 
