@@ -26,11 +26,9 @@ public class IsotopicSet {
     private int setId;
 
     public IsotopicSet(PeakList peakList,  List<Peak> peaksInSet, int setId, Configuration config) {
-        try {
-            rangeCheck(peaksInSet, config);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        rangeCheck(peaksInSet, config);
+
 
         this.peaksInSet = peaksInSet;
 
@@ -242,7 +240,7 @@ public class IsotopicSet {
         return result;
     }
 
-    private static void rangeCheck(List<Peak> peaks, Configuration config) throws Exception {
+    private static void rangeCheck(List<Peak> peaks, Configuration config) {
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
 
@@ -255,7 +253,7 @@ public class IsotopicSet {
             }
 
             if (b == false) {
-                throw new Exception("Wrong distance at IsotopicSet creation! (" + distance + ")");
+                throw new IllegalArgumentException("Wrong distance at IsotopicSet creation! (" + distance + ")");
             }
         }
     }

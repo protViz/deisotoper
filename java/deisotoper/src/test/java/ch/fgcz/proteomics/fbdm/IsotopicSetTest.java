@@ -19,14 +19,35 @@ public class IsotopicSetTest {
         Configuration config = new Configuration();
 
         double startMass = 100.;
-        List<Double> mz = Arrays.asList(startMass, startMass + config.getIsotopicPeakDistance(),
-                startMass + config.getIsotopicPeakDistance() * 1.5, startMass + config.getIsotopicPeakDistance() * 2);
+        List<Double> mz = Arrays.asList(startMass,
+                startMass + config.getIsotopicPeakDistance(),
+                startMass + config.getIsotopicPeakDistance() * 1.5,
+                startMass + config.getIsotopicPeakDistance() * 2);
         List<Double> intensity = Arrays.asList(1., 1., 1., 1.);
         MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
-        List<Peak> isotpicSet = Arrays.asList(new Peak(mz.get(0), 1., 1), new Peak(mz.get(1), 1., 1),
-                new Peak(mz.get(2), 1., 1), new Peak(mz.get(3), 1., 1));
+        List<Peak> isotpicSet = Arrays.asList(
+                new Peak(mz.get(0), 1., 1),
+                new Peak(mz.get(1), 1., 1),
+                new Peak(mz.get(2), 1., 1),
+                new Peak(mz.get(3), 1., 1));
 
         IsotopicSet isotopicSet = new IsotopicSet(new PeakList(massSpectrum), isotpicSet, 1, config);
         assertEquals(6, isotopicSet.getIsotopicSet().size());
+    }
+
+    @Test
+    public void testClusterCreation_MustFail(){
+        Configuration config = new Configuration();
+        double startMass = 100.;
+        List<Double> mz = Arrays.asList(startMass, startMass +
+                        config.getIsotopicPeakDistance(),
+                startMass + config.getIsotopicPeakDistance() * 2,
+                startMass + config.getIsotopicPeakDistance() * 3.5);
+        List<Double> intensity = Arrays.asList(1., 1., 1., 1.);
+        MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
+        PeakList peakList = new PeakList(massSpectrum);
+
+        IsotopicSet isotopicSet = new IsotopicSet(peakList, peakList.getPeakList(), 1, config);
+
     }
 }
