@@ -65,9 +65,6 @@ public class Configuration implements ScoringConfiguration {
         return noise;
     }
 
-    public double getNH_MASS_DIVIDED_TWO() {
-        return NH_MASS_DIVIDED_TWO;
-    }
 
     public double getIsotopicPeakDistance() {
         return distance;
@@ -93,10 +90,7 @@ public class Configuration implements ScoringConfiguration {
         return F5;
     }
 
-    public double getNH_MASS_DIVIDED_THREE() {
-        return NH_MASS_DIVIDED_THREE;
-    }
-
+    
     public double getCO_MASS_DIVIDED_TWO() {
         return CO_MASS_DIVIDED_TWO;
     }
@@ -138,9 +132,11 @@ public class Configuration implements ScoringConfiguration {
         return H2O_MASS;
     }
 
-    public double getNH_MASS() {
-        return NH_MASS;
+    @Override
+    public double getNH(int charge){
+        return NH_MASS/charge;
     }
+
 
     public double getCO_MASS() {
         return CO_MASS;

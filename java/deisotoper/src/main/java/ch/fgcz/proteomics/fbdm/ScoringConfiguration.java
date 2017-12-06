@@ -5,17 +5,14 @@ import java.util.List;
 public interface ScoringConfiguration {
     double getH_MASS();
 
-    double getNH_MASS();
 
     double getErrorTolerance();
 
+    double getNH(int charge);
+
     double getCO_MASS();
 
-    double getNH_MASS_DIVIDED_TWO();
-
     double getCO_MASS_DIVIDED_TWO();
-
-    double getNH_MASS_DIVIDED_THREE();
 
     double getCO_MASS_DIVIDED_THREE();
 

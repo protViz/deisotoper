@@ -188,23 +188,23 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, config.getH_MASS()));
         double d4yx = Math.abs(diff4(y, x, config.getH_MASS()));
 
-        if (MathUtils.fuzzyEqual(d1xy, config.getNH_MASS(), config.getErrorTolerance())
+        if (MathUtils.fuzzyEqual(d1xy, config.getNH(1), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH_MASS_DIVIDED_TWO(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH(2), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH_MASS_DIVIDED_THREE(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH(3), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2xy, config.getNH_MASS_DIVIDED_TWO(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getNH(2), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d2xy, config.getCO_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2yx, config.getNH_MASS_DIVIDED_TWO(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getNH(2), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d2yx, config.getCO_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3xy, config.getNH_MASS_DIVIDED_THREE(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getNH(3), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d3xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3yx, config.getNH_MASS_DIVIDED_THREE(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getNH(3), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d3yx, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4xy, config.getNH_MASS_DIVIDED_THREE(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getNH(3), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d4xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4yx, config.getNH_MASS_DIVIDED_THREE(), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getNH(3), config.getErrorTolerance())
                 || MathUtils.fuzzyEqual(d4yx, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())) {
             F4++;
         }
