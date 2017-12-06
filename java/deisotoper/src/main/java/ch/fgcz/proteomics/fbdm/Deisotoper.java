@@ -39,7 +39,7 @@ public class Deisotoper {
         PeakList peakListAggregated = aggregate(bestClusters, this.config.getModus());
 
         if (this.config.isDecharge()) {
-            peakListAggregated = peakListAggregated.dechargePeaks(this.config.getH_MASS());
+            peakListAggregated = peakListAggregated.dechargePeaks(this.config.getH_MASS(1));
         }
 
         this.mergedPeakList = this.peakList.mergePeakLists(peakListAggregated);
@@ -141,7 +141,7 @@ public class Deisotoper {
         PeakList peaksInSet = collectPeaksFromSets(peakList);
 
         if (this.config.isDecharge()) {
-            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS());
+            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS(1));
         }
 
         PeakList mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);

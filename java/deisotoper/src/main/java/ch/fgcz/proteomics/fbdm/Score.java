@@ -64,7 +64,7 @@ public class Score {
     public static int firstAminoAcidDistanceScore(Peak x, Peak y, ScoringConfiguration config) {
         int F1 = 0;
         double error = config.getErrorTolerance();
-        double H_MASS = config.getH_MASS();
+        double H_MASS = config.getH_MASS(1);
 
         Range aminoAcidMassRange = new Range(config.getMin() - 2, config.getMax() + 2);
 
@@ -101,12 +101,8 @@ public class Score {
 
     // is based on the number collection of peaks representing fragment ions that
     // complement with fragment ion represented by .
-    public static int secondComplementaryMassScore(Peak x,
-                                                   Peak y,
-                                                   double pepidMass,
-                                                   double charge,
-                                                   List<Peak> isotopicCluster,
-                                                   ScoringConfiguration config) {
+    public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
+            List<Peak> isotopicCluster, ScoringConfiguration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : isotopicCluster) {
@@ -115,7 +111,7 @@ public class Score {
             }
             i++;
         }
-        double H_MASS = config.getH_MASS();
+        double H_MASS = config.getH_MASS(1);
         double s1xy = sum1(x, y);
         double s2xy = sum2(x, y, H_MASS);
         double s2yx = sum2(y, x, H_MASS);
@@ -123,18 +119,17 @@ public class Score {
         double s3yx = sum3(y, x, H_MASS);
         double s4xy = sum4(x, y, H_MASS);
         double s4yx = sum4(y, x, H_MASS);
-        double m2i = (pepidMass * charge - charge * config.getH_MASS()) + 2 * config.getIsotopicPeakDistance() * i;
+        double m2i = (pepidMass * charge - charge * config.getH_MASS(1)) + 2 * config.getIsotopicPeakDistance() * i;
 
-        if (MathUtils.fuzzyEqual(s1xy, m2i + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s1xy, m2i / 2 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s1xy, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s2xy, m2i / 2 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s2yx, m2i / 2 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s3xy, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s3yx, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s4xy, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(s4yx, m2i / 3 + config.getH_MASS_MULTIPLIED_TWO(),
-                config.getErrorTolerance())) {
+        if (MathUtils.fuzzyEqual(s1xy, m2i + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s1xy, m2i / 2 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s1xy, m2i / 3 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s2xy, m2i / 2 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s2yx, m2i / 2 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s3xy, m2i / 3 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s3yx, m2i / 3 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s4xy, m2i / 3 + config.getH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(s4yx, m2i / 3 + config.getH_MASS(2), config.getErrorTolerance())) {
             F2++;
         }
 
@@ -144,31 +139,31 @@ public class Score {
     public static int thirdSideChainLossScore(Peak x, Peak y, ScoringConfiguration config) {
         int F3 = 0;
         double d1xy = Math.abs(diff1(x, y));
-        double d2xy = Math.abs(diff2(x, y, config.getH_MASS()));
-        double d2yx = Math.abs(diff2(y, x, config.getH_MASS()));
-        double d3xy = Math.abs(diff3(x, y, config.getH_MASS()));
-        double d3yx = Math.abs(diff3(y, x, config.getH_MASS()));
-        double d4xy = Math.abs(diff4(x, y, config.getH_MASS()));
-        double d4yx = Math.abs(diff4(y, x, config.getH_MASS()));
+        double d2xy = Math.abs(diff2(x, y, config.getH_MASS(1)));
+        double d2yx = Math.abs(diff2(y, x, config.getH_MASS(1)));
+        double d3xy = Math.abs(diff3(x, y, config.getH_MASS(1)));
+        double d3yx = Math.abs(diff3(y, x, config.getH_MASS(1)));
+        double d4xy = Math.abs(diff4(x, y, config.getH_MASS(1)));
+        double d4yx = Math.abs(diff4(y, x, config.getH_MASS(1)));
 
-        if (MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2xy, config.getH2O_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2xy, config.getNH3_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2yx, config.getH2O_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2yx, config.getNH3_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3xy, config.getH2O_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3xy, config.getNH3_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3yx, config.getH2O_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3yx, config.getNH3_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4xy, config.getH2O_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4xy, config.getNH3_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4yx, config.getH2O_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4yx, config.getNH3_MASS_DIVIDED_THREE(), config.getErrorTolerance())) {
+        if (MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS(1), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS(1), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getH2O_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH3_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getH2O_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getNH3_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getH2O_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getNH3_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getH2O_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getNH3_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getH2O_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getNH3_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getH2O_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getNH3_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getH2O_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getNH3_MASS(3), config.getErrorTolerance())) {
             F3++;
         }
 
@@ -181,31 +176,31 @@ public class Score {
         int F4 = 0;
 
         double d1xy = Math.abs(diff1(x, y));
-        double d2xy = Math.abs(diff2(x, y, config.getH_MASS()));
-        double d2yx = Math.abs(diff2(y, x, config.getH_MASS()));
-        double d3xy = Math.abs(diff3(x, y, config.getH_MASS()));
-        double d3yx = Math.abs(diff3(y, x, config.getH_MASS()));
-        double d4xy = Math.abs(diff4(x, y, config.getH_MASS()));
-        double d4yx = Math.abs(diff4(y, x, config.getH_MASS()));
+        double d2xy = Math.abs(diff2(x, y, config.getH_MASS(1)));
+        double d2yx = Math.abs(diff2(y, x, config.getH_MASS(1)));
+        double d3xy = Math.abs(diff3(x, y, config.getH_MASS(1)));
+        double d3yx = Math.abs(diff3(y, x, config.getH_MASS(1)));
+        double d4xy = Math.abs(diff4(x, y, config.getH_MASS(1)));
+        double d4yx = Math.abs(diff4(y, x, config.getH_MASS(1)));
 
-        if (MathUtils.fuzzyEqual(d1xy, config.getNH(1), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH(2), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getNH(3), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2xy, config.getNH(2), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2xy, config.getCO_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2yx, config.getNH(2), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d2yx, config.getCO_MASS_DIVIDED_TWO(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3xy, config.getNH(3), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3yx, config.getNH(3), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d3yx, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4xy, config.getNH(3), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4xy, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4yx, config.getNH(3), config.getErrorTolerance())
-                || MathUtils.fuzzyEqual(d4yx, config.getCO_MASS_DIVIDED_THREE(), config.getErrorTolerance())) {
+        if (MathUtils.fuzzyEqual(d1xy, config.getNH_MASS(1), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS(1), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getNH_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d1xy, config.getCO_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getNH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2xy, config.getCO_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getNH_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d2yx, config.getCO_MASS(2), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getNH_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3xy, config.getCO_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getNH_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d3yx, config.getCO_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getNH_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4xy, config.getCO_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getNH_MASS(3), config.getErrorTolerance())
+                || MathUtils.fuzzyEqual(d4yx, config.getCO_MASS(3), config.getErrorTolerance())) {
             F4++;
         }
 
@@ -224,7 +219,7 @@ public class Score {
     public double calculateAggregatedScore(Peak peakX, Peak peakY, List<Peak> isotopicClusterOfPeakX) {
         return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
                 + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
-                this.chargeValue, isotopicClusterOfPeakX, this.config)
+                        this.chargeValue, isotopicClusterOfPeakX, this.config)
                 + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
                 + this.config.getF4() * fourthSupportiveAZIonsScore(peakX, peakY, this.config);
     }

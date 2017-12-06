@@ -36,9 +36,9 @@ public class ScoreTest {
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 1);
         double d1 = Score.diff1(x, y);
-        double d2 = Score.diff2(x, y, config.getH_MASS());
-        double d3 = Score.diff3(x, y, config.getH_MASS());
-        double d4 = Score.diff4(x, y, config.getH_MASS());
+        double d2 = Score.diff2(x, y, config.getH_MASS(1));
+        double d3 = Score.diff3(x, y, config.getH_MASS(1));
+        double d4 = Score.diff4(x, y, config.getH_MASS(1));
 
         assertEquals(d1, -30, 0);
         assertEquals(d2, 44.495999999999995, 0);
@@ -52,9 +52,9 @@ public class ScoreTest {
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 0);
         double s1 = Score.sum1(x, y);
-        double s2 = Score.sum2(x, y, config.getH_MASS());
-        double s3 = Score.sum3(x, y, config.getH_MASS());
-        double s4 = Score.sum4(x, y, config.getH_MASS());
+        double s2 = Score.sum2(x, y, config.getH_MASS(1));
+        double s3 = Score.sum3(x, y, config.getH_MASS(1));
+        double s4 = Score.sum4(x, y, config.getH_MASS(1));
 
         assertEquals(s1, 270.0, 0);
         assertEquals(s2, 195.50400000000002, 0);
@@ -114,7 +114,7 @@ public class ScoreTest {
         int score5 = score.firstAminoAcidDistanceScore(x5, peaklist, config);
 
         // TODO : make a meaningfull test here.
-        //assertEquals(0, 1);
+        // assertEquals(0, 1);
     }
 
     /**
@@ -141,15 +141,11 @@ public class ScoreTest {
         double pepmass = 188.038;
         int charge = 2;
 
-        List<Peak> cluster = Arrays.asList(
-                new Peak(123.0, 1, 0),
-                new Peak(124.0, 1, 0),
-                new Peak(125.0, 1, 0)
-        );
+        List<Peak> cluster = Arrays.asList(new Peak(123.0, 1, 0), new Peak(124.0, 1, 0), new Peak(125.0, 1, 0));
 
         double score = Score.secondComplementaryMassScore(x, y, pepmass, charge, cluster, config);
 
-        //assertEquals(score, 1, 0);
+        // assertEquals(score, 1, 0);
     }
 
     /**

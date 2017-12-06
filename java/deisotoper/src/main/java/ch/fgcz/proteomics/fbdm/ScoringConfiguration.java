@@ -3,22 +3,15 @@ package ch.fgcz.proteomics.fbdm;
 import java.util.List;
 
 public interface ScoringConfiguration {
-    double getH_MASS();
-
+    double getH_MASS(int multiplier);
 
     double getErrorTolerance();
 
-    double getNH(int charge);
+    double getNH_MASS(int charge);
 
-    double getCO_MASS();
-
-    double getCO_MASS_DIVIDED_TWO();
-
-    double getCO_MASS_DIVIDED_THREE();
+    double getCO_MASS(int charge);
 
     double getIsotopicPeakDistance();
-
-    double getH_MASS_MULTIPLIED_TWO();
 
     double getMin();
 
@@ -26,9 +19,9 @@ public interface ScoringConfiguration {
 
     List<Double> getAaMass();
 
-    List<Double>  getAaMassDividedTwo();
+    List<Double> getAaMassDividedTwo();
 
-    List<Double>  getAaMassDividedThree();
+    List<Double> getAaMassDividedThree();
 
     double getF1();
 
@@ -38,15 +31,9 @@ public interface ScoringConfiguration {
 
     double getF4();
 
-    double getH2O_MASS();
+    double getF5();
 
-    double getNH3_MASS();
+    double getH2O_MASS(int charge);
 
-    double getH2O_MASS_DIVIDED_TWO();
-
-    double getNH3_MASS_DIVIDED_TWO();
-
-    double getH2O_MASS_DIVIDED_THREE();
-
-    double getNH3_MASS_DIVIDED_THREE();
+    double getNH3_MASS(int charge);
 }

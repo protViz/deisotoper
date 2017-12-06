@@ -35,15 +35,6 @@ public class Configuration implements ScoringConfiguration {
     private final double PHE_MASS = 165.192;
     private final double ASP_MASS = 133.104;
     private final double AVE_UPDATED_MASS = 111.125;
-    private final double H_MASS_MULTIPLIED_TWO = 2 * H_MASS;
-    private final double H2O_MASS_DIVIDED_TWO = H2O_MASS / 2;
-    private final double H2O_MASS_DIVIDED_THREE = H2O_MASS / 3;
-    private final double NH3_MASS_DIVIDED_TWO = NH3_MASS / 2;
-    private final double NH3_MASS_DIVIDED_THREE = NH3_MASS / 3;
-    private final double NH_MASS_DIVIDED_TWO = NH_MASS / 2;
-    private final double NH_MASS_DIVIDED_THREE = NH_MASS / 2;
-    private final double CO_MASS_DIVIDED_TWO = CO_MASS / 2;
-    private final double CO_MASS_DIVIDED_THREE = CO_MASS / 3;
 
     public boolean isDecharge() {
         return decharge;
@@ -53,6 +44,7 @@ public class Configuration implements ScoringConfiguration {
         return modus;
     }
 
+    @Override
     public double getErrorTolerance() {
         return errortolerance;
     }
@@ -65,81 +57,59 @@ public class Configuration implements ScoringConfiguration {
         return noise;
     }
 
-
+    @Override
     public double getIsotopicPeakDistance() {
         return distance;
     }
 
+    @Override
     public double getF1() {
         return F1;
     }
 
+    @Override
     public double getF2() {
         return F2;
     }
 
+    @Override
     public double getF3() {
         return F3;
     }
 
+    @Override
     public double getF4() {
         return F4;
     }
 
+    @Override
     public double getF5() {
         return F5;
     }
 
-    
-    public double getCO_MASS_DIVIDED_TWO() {
-        return CO_MASS_DIVIDED_TWO;
-    }
-
-    public double getCO_MASS_DIVIDED_THREE() {
-        return CO_MASS_DIVIDED_THREE;
-    }
-
-    public double getH2O_MASS_DIVIDED_TWO() {
-        return H2O_MASS_DIVIDED_TWO;
-    }
-
-    public double getH2O_MASS_DIVIDED_THREE() {
-        return H2O_MASS_DIVIDED_THREE;
-    }
-
-    public double getNH3_MASS_DIVIDED_TWO() {
-        return NH3_MASS_DIVIDED_TWO;
-    }
-
-    public double getNH3_MASS_DIVIDED_THREE() {
-        return NH3_MASS_DIVIDED_THREE;
-    }
-
-    public double getH_MASS_MULTIPLIED_TWO() {
-        return H_MASS_MULTIPLIED_TWO;
+    @Override
+    public double getH_MASS(int multiplier) {
+        return H_MASS * multiplier;
     }
 
     @Override
-    public double getH_MASS() {
-        return H_MASS;
-    }
-
-    public double getNH3_MASS() {
-        return NH3_MASS;
-    }
-
-    public double getH2O_MASS() {
-        return H2O_MASS;
+    public double getNH3_MASS(int charge) {
+        return NH3_MASS / charge;
     }
 
     @Override
-    public double getNH(int charge){
-        return NH_MASS/charge;
+    public double getH2O_MASS(int charge) {
+        return H2O_MASS / charge;
     }
 
+    @Override
+    public double getNH_MASS(int charge) {
+        return NH_MASS / charge;
+    }
 
-    public double getCO_MASS() {
-        return CO_MASS;
+    @Override
+    public double getCO_MASS(int charge) {
+        return CO_MASS / charge;
     }
 
     public double getPHE_MASS() {
@@ -154,22 +124,27 @@ public class Configuration implements ScoringConfiguration {
         return AVE_UPDATED_MASS;
     }
 
+    @Override
     public double getMin() {
         return minimum;
     }
 
+    @Override
     public double getMax() {
         return maximum;
     }
 
+    @Override
     public List<Double> getAaMass() {
         return aaMass;
     }
 
+    @Override
     public List<Double> getAaMassDividedTwo() {
         return aaMassDividedTwo;
     }
 
+    @Override
     public List<Double> getAaMassDividedThree() {
         return aaMassDividedThree;
     }
