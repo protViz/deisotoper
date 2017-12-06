@@ -5,7 +5,7 @@ import ch.fgcz.proteomics.utilities.MathUtils;
 import java.util.List;
 
 /**
- * @author Lucas Schmidt
+ * @author Witold Wolski, Lucas Schmidt
  * @since 2017-09-19
  */
 
@@ -21,28 +21,6 @@ public class Score {
         this.peptidMassValue = peptidMass;
         this.chargeValue = charge;
         this.config = config;
-    }
-
-    // TODO integrate 5 th score
-    public double calculateAggregatedScore(Peak peakX, Peak peakY, List<Peak> isotopicClusterOfPeakX) {
-        return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
-                + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
-                        this.chargeValue, isotopicClusterOfPeakX, this.config)
-                + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
-                + this.config.getF4() * fourthSupportiveAndZIonScore(peakX, peakY, this.config);
-    }
-
-    public static class Range {
-        double min, max;
-
-        Range(double min, double max) {
-            this.min = min;
-            this.max = max;
-        }
-
-        public boolean in(double value) {
-            return (min < value && value < max);
-        }
     }
 
     // same charge
@@ -108,10 +86,14 @@ public class Score {
                 double aa2 = config.getAaMassDividedTwo().get(i);
                 double aa3 = config.getAaMassDividedThree().get(i);
 
-                if (MathUtils.fuzzyEqual(d1xy, aa, error) || MathUtils.fuzzyEqual(d1xy, aa2, error)
-                        || MathUtils.fuzzyEqual(d1xy, aa3, error) || MathUtils.fuzzyEqual(d2xy, aa2, error)
-                        || MathUtils.fuzzyEqual(d2yx, aa2, error) || MathUtils.fuzzyEqual(d3xy, aa3, error)
-                        || MathUtils.fuzzyEqual(d3yx, aa3, error) || MathUtils.fuzzyEqual(d4xy, aa3, error)
+                if (MathUtils.fuzzyEqual(d1xy, aa, error)
+                        || MathUtils.fuzzyEqual(d1xy, aa2, error)
+                        || MathUtils.fuzzyEqual(d1xy, aa3, error)
+                        || MathUtils.fuzzyEqual(d2xy, aa2, error)
+                        || MathUtils.fuzzyEqual(d2yx, aa2, error)
+                        || MathUtils.fuzzyEqual(d3xy, aa3, error)
+                        || MathUtils.fuzzyEqual(d3yx, aa3, error)
+                        || MathUtils.fuzzyEqual(d4xy, aa3, error)
                         || MathUtils.fuzzyEqual(d4yx, aa3, error)) {
                     F1++;
                 }
@@ -119,14 +101,6 @@ public class Score {
         }
 
         return F1;
-    }
-
-    public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, Configuration config) {
-        int peaklistScore = 0;
-        for (Peak y : peaklist.getPeakList()) {
-            peaklistScore += firstAminoAcidDistanceScore(x, y, config);
-        }
-        return peaklistScore;
     }
 
     // is based on the number collection of peaks representing fragment ions that
@@ -320,6 +294,36 @@ public class Score {
         }
 
         return F4;
+    }
+
+    // TODO integrate 5 th score
+    public double calculateAggregatedScore(Peak peakX, Peak peakY, List<Peak> isotopicClusterOfPeakX) {
+        return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
+                + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
+                        this.chargeValue, isotopicClusterOfPeakX, this.config)
+                + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
+                + this.config.getF4() * fourthSupportiveAndZIonScore(peakX, peakY, this.config);
+    }
+
+    public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, Configuration config) {
+        int peaklistScore = 0;
+        for (Peak y : peaklist.getPeakList()) {
+            peaklistScore += firstAminoAcidDistanceScore(x, y, config);
+        }
+        return peaklistScore;
+    }
+
+    public static class Range {
+        double min, max;
+
+        Range(double min, double max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public boolean in(double value) {
+            return (min < value && value < max);
+        }
     }
 
 }
