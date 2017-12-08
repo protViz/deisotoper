@@ -1,13 +1,14 @@
 package ch.fgcz.proteomics.R;
 
-import java.util.Arrays;
-import java.util.Random;
-
 /**
  * @author Lucas Schmidt
  * @since 2017-11-20
  */
 
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+import java.util.Random;
 import org.junit.Test;
 
 // TODO: Finish tests for FeaturesBasedDeisotoping!
@@ -533,7 +534,7 @@ public class FeaturesBasedDeisotopingTest {
 
     @Test
     public void randomTest() {
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 3; x++) {
             double[] mz = generateRandomMz();
             double[] intensity = generateRandomIntensity();
             double pepMass = generateRandomPepMass();
@@ -554,23 +555,40 @@ public class FeaturesBasedDeisotopingTest {
             double[] mzout = dtoper.getMz();
             double[] intensityout = dtoper.getIntensity();
 
-            System.out.println("Input Peaklist (" + mz.length + "):   Output Peaklist(" + mzout.length + "):");
-            for (int i = 0; i < mz.length || i < intensity.length; i++) {
-                System.out.print(mz[i] + " ");
-                System.out.print(intensity[i] + "    ");
-                if (i < mzout.length || i < intensityout.length) {
-                    System.out.print(mzout[i] + " ");
-                    System.out.print(intensityout[i]);
-                } else {
-                    System.out.print(" ");
-                }
+            // System.out.println("Input Peaklist (" + mz.length + "): Output Peaklist(" +
+            // mzout.length + "):");
+            // for (int i = 0; i < mz.length || i < intensity.length; i++) {
+            // System.out.print(mz[i] + " ");
+            // System.out.print(intensity[i] + " ");
+            // if (i < mzout.length || i < intensityout.length) {
+            // System.out.print(mzout[i] + " ");
+            // System.out.print(intensityout[i]);
+            // } else {
+            // System.out.print(" ");
+            // }
+            //
+            // System.out.println();
+            // }
+            // System.out.println();
+            //
+            // System.out.println(pepMass);
 
-                System.out.println();
-            }
-            System.out.println();
+            double before = sum(intensity);
+            double after = sum(intensityout);
 
-            System.out.println(pepMass);
+            // System.out.println("difference: " + Math.abs(before - after));
+
+            assertEquals(before, after, 0.0001);
         }
+    }
+
+    private double sum(double[] array) {
+        double sum = 0;
+        for (int i = 0; i < array.length; i++) {
+            sum += array[i];
+        }
+
+        return sum;
     }
 
     private double generateRandom(double min, double max) {
