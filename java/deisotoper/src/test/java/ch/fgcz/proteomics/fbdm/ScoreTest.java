@@ -30,38 +30,6 @@ public class ScoreTest {
 
     }
 
-    @Test
-    public void testDiff() {
-        Configuration config = new Configuration();
-        Peak x = new Peak(120.0, 550.42, 0);
-        Peak y = new Peak(150.0, 467.55, 1);
-        double d1 = Score.diff1(x, y);
-        double d2 = Score.diff2(x, y, config.getH_MASS(1));
-        double d3 = Score.diff3(x, y, config.getH_MASS(1));
-        double d4 = Score.diff4(x, y, config.getH_MASS(1));
-
-        assertEquals(d1, -30, 0);
-        assertEquals(d2, 44.495999999999995, 0);
-        assertEquals(d3, 69.328, 0);
-        assertEquals(d4, 19.664, 0);
-    }
-
-    @Test
-    public void testSum() {
-        Configuration config = new Configuration();
-        Peak x = new Peak(120.0, 550.42, 0);
-        Peak y = new Peak(150.0, 467.55, 0);
-        double s1 = Score.sum1(x, y);
-        double s2 = Score.sum2(x, y, config.getH_MASS(1));
-        double s3 = Score.sum3(x, y, config.getH_MASS(1));
-        double s4 = Score.sum4(x, y, config.getH_MASS(1));
-
-        assertEquals(s1, 270.0, 0);
-        assertEquals(s2, 195.50400000000002, 0);
-        assertEquals(s3, 170.672, 0);
-        assertEquals(s4, 220.336, 0);
-    }
-
     /**
      * Tests the firstNonintensityFeature function.
      *
@@ -85,7 +53,7 @@ public class ScoreTest {
         Configuration config = new Configuration();
         Peak x = new Peak(123.0, 1, 0);
         Peak y = new Peak(125.86, 1, 1);
-        double score1 = Score.firstAminoAcidDistanceScore(x, y, config);
+        double score1 = Score.firstAminoAcidDistanceScore(x.getMz(), y.getMz(), config);
 
         assertEquals(3, score1, 0);
 
@@ -107,14 +75,19 @@ public class ScoreTest {
 
         Score score = new Score(x5.getMz(), charge, config);
 
-        int score1 = score.firstAminoAcidDistanceScore(x1, peaklist, config);
-        int score2 = score.firstAminoAcidDistanceScore(x2, peaklist, config);
-        int score3 = score.firstAminoAcidDistanceScore(x3, peaklist, config);
-        int score4 = score.firstAminoAcidDistanceScore(x4, peaklist, config);
-        int score5 = score.firstAminoAcidDistanceScore(x5, peaklist, config);
+        int score1 = score.firstAminoAcidDistanceScore(x1.getMz(), peaklist, config);
+        int score2 = score.firstAminoAcidDistanceScore(x2.getMz(), peaklist, config);
+        int score3 = score.firstAminoAcidDistanceScore(x3.getMz(), peaklist, config);
+        int score4 = score.firstAminoAcidDistanceScore(x4.getMz(), peaklist, config);
+        int score5 = score.firstAminoAcidDistanceScore(x5.getMz(), peaklist, config);
 
         // TODO : make a meaningfull test here.
-        // assertEquals(0, 1);
+        assertEquals(score1, 4);
+        assertEquals(score2, 3);
+        assertEquals(score3, 8);
+        assertEquals(score4, 5);
+        assertEquals(score5, 7);
+
     }
 
     /**
@@ -143,9 +116,9 @@ public class ScoreTest {
 
         List<Peak> cluster = Arrays.asList(new Peak(123.0, 1, 0), new Peak(124.0, 1, 0), new Peak(125.0, 1, 0));
 
-        double score = Score.secondComplementaryMassScore(x, y, pepmass, charge, cluster, config);
+        double score = Score.secondComplementaryMassScore(x.getMz(), y.getMz(), pepmass, charge, cluster, config);
 
-        // assertEquals(score, 1, 0);
+        assertEquals(score, 1, 0);
     }
 
     /**
@@ -166,7 +139,7 @@ public class ScoreTest {
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(141.0, 467.55, 1);
 
-        int score = Score.thirdSideChainLossScore(x, y, config);
+        int score = Score.thirdSideChainLossScore(x.getMz(), y.getMz(), config);
 
         assertEquals(1, score);
     }
@@ -190,7 +163,7 @@ public class ScoreTest {
         Peak x = new Peak(123.0, 550.42, 0);
         Peak y = new Peak(138.0, 467.55, 1);
 
-        double score = Score.fourthSupportiveAZIonsScore(x, y, config);
+        double score = Score.fourthSupportiveAZIonsScore(x.getMz(), y.getMz(), config);
 
         assertEquals(score, 1, 0);
     }
@@ -199,4 +172,43 @@ public class ScoreTest {
     public void calculateAminoAcidDistanceScore() {
     }
 
+    @Test
+    public void diff1Test() {
+        assertEquals(Score.diff1(120, 150), -30, 0);
+    }
+
+    @Test
+    public void diff2Test() {
+        assertEquals(Score.diff2(120, 150, new Configuration().getH_MASS(1)), 44.5, 0.01);
+    }
+
+    @Test
+    public void diff3Test() {
+        assertEquals(Score.diff3(120, 150, new Configuration().getH_MASS(1)), 69.328, 0);
+    }
+
+    @Test
+    public void diff4Test() {
+        assertEquals(Score.diff4(120, 150, new Configuration().getH_MASS(1)), 19.664, 0);
+    }
+
+    @Test
+    public void sum1Test() {
+        assertEquals(Score.sum1(120, 150), 270, 0);
+    }
+
+    @Test
+    public void sum2Test() {
+        assertEquals(Score.sum2(120, 150, new Configuration().getH_MASS(1)), 195.5, 0.01);
+    }
+
+    @Test
+    public void sum3Test() {
+        assertEquals(Score.sum3(120, 150, new Configuration().getH_MASS(1)), 170.672, 0);
+    }
+
+    @Test
+    public void sum4Test() {
+        assertEquals(Score.sum4(120, 150, new Configuration().getH_MASS(1)), 220.336, 0);
+    }
 }

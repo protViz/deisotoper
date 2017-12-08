@@ -153,7 +153,7 @@ public class IsotopicClusterGraph {
                         // continue;
                         // }
 
-                        double scoreResult = score.calculateAggregatedScore(peakX, peakY,
+                        double scoreResult = score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
                                 this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster());
 
                         double scoreFiveResult = scoreFive.calculateFifthScore(connection);
