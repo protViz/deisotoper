@@ -5,6 +5,8 @@
         <maven.compiler.target>1.6</maven.compiler.target>
    <!--     <buildDirectory>/tmp/deisotoper.1.6</buildDirectory>  -->
 	<buildDirectory>../../inst/java/</buildDirectory> 
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.fgcz.proteomics.deisotoper</groupId>

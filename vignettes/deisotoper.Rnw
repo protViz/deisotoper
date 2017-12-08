@@ -64,11 +64,12 @@ All mass spectra are queried to a set of in-silico computed peptide spectra. Thi
 De-isotope mass spectra have an impact on the score of the peptide-spectrum match (PSM) of the  search algorithm. 
 A Filtered and convoluted mass spectrum leads to a  higher coverage between fragment ions and in-silico computed ions and results in a better score. Here we implemented and tested the feature-based algorithm described in \citet{pmid22262971}.
 
-Related work ...
+%Related work ...\citet{protViz}
 
 In the following sections, we will demonstrate the usage of the \pkg{deisotoper} package.
-The vignette is organized as follow:
-...
+
+%The vignette is organized as follow:
+%...
 
 \newpage
 \section{The input}
@@ -185,7 +186,9 @@ library(deisotoper)
 Lets define a blackboard example to demonstrate the ``deisotoping'' algorithm on
 two overlapping isotope clusters.
 <<>>=
-x <- list(mZ = c(1, 2, 2.5, 3), intensity = rep(1, 4),
+x0 <- list(mZ = c(1, 2, 2.5, 3), intensity = rep(1, 4),
+          pepmass=600, charge=2)
+x1 <- list(mZ = c(1.01, 2, 2.5, 3), intensity = rep(1, 4),
           pepmass=600, charge=2)
 @
 \code{deisotoper()} returns a reference to a standard configurated deisotoper
@@ -196,12 +199,16 @@ dtoper <- deisotoper()
 
 The following line calls the deisotoper method of the object.
 <<>>=
-(xd <- deisotope(dtoper, x))
+(xd0 <- deisotope(dtoper, x0))
+print(dtoper)
+(xd1 <- deisotope(dtoper, x1))
 @
 
 plot both spectra
 <<include=TRUE, fig=TRUE, height=3>>=
-plot.deisotoper(x, xd)
+op <- par(mfrow=c(1,2))
+plot.deisotoper(x0, xd0)
+plot.deisotoper(x1, xd1)
 @
 
 The following line displays the content of the deisotoper object.
@@ -348,15 +355,15 @@ rv <- lapply(idx, function(i){
 })
 @
 
-\newpage
-\section{Evaluation}
-maybe we do not include this section it in the vignette
+%\newpage
+%\section{Evaluation}
+%maybe we do not include this section it in the vignette
 
-\subsection{Qualitative} 
-two isotope clusters of each quantile of a score.
+%\subsection{Qualitative} 
+%two isotope clusters of each quantile of a score.
 
-\subsection{Quantitative}
-compare PD versus CRAN \pkg{deisotoper}
+%\subsection{Quantitative}
+%compare PD versus CRAN \pkg{deisotoper}
 
 \section{Implementation Details}
 The package is interfacing the Java code by using the  the \pkg{rJava} 
@@ -371,5 +378,6 @@ shown below.
 toLatex(sessionInfo())
 @
 
+\nocite{protViz}
 \bibliography{deisotoper}
 \end{document}
