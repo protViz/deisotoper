@@ -16,7 +16,6 @@ public class Score {
     // isotopicClusterGraph;
     private ScoringConfiguration config;
 
-    // @TODO remove depedency on config.
     public Score(double peptidMass, int charge, ScoringConfiguration config) {
         this.peptidMassValue = peptidMass;
         this.chargeValue = charge;
@@ -24,8 +23,8 @@ public class Score {
     }
 
     // same charge
-    public static double diff1(Peak x, Peak y) {
-        return x.getMz() - y.getMz();
+    public static double diff1(double x, double y) {
+        return x - y;
     }
 
     // single versus double
@@ -68,7 +67,7 @@ public class Score {
 
         Range aminoAcidMassRange = new Range(config.getMin() - 2, config.getMax() + 2);
 
-        double d1xy = Math.abs(diff1(x, y));
+        double d1xy = Math.abs(diff1(x.getMz(), y.getMz()));
         double d2xy = Math.abs(diff2(x, y, H_MASS));
         double d2yx = Math.abs(diff2(y, x, H_MASS));
         double d3xy = Math.abs(diff3(x, y, H_MASS));
@@ -138,7 +137,7 @@ public class Score {
 
     public static int thirdSideChainLossScore(Peak x, Peak y, ScoringConfiguration config) {
         int F3 = 0;
-        double d1xy = Math.abs(diff1(x, y));
+        double d1xy = Math.abs(diff1(x.getMz(), y.getMz()));
         double d2xy = Math.abs(diff2(x, y, config.getH_MASS(1)));
         double d2yx = Math.abs(diff2(y, x, config.getH_MASS(1)));
         double d3xy = Math.abs(diff3(x, y, config.getH_MASS(1)));
@@ -175,7 +174,7 @@ public class Score {
     public static int fourthSupportiveAZIonsScore(Peak x, Peak y, ScoringConfiguration config) {
         int F4 = 0;
 
-        double d1xy = Math.abs(diff1(x, y));
+        double d1xy = Math.abs(diff1(x.getMz(), y.getMz()));
         double d2xy = Math.abs(diff2(x, y, config.getH_MASS(1)));
         double d2yx = Math.abs(diff2(y, x, config.getH_MASS(1)));
         double d3xy = Math.abs(diff3(x, y, config.getH_MASS(1)));

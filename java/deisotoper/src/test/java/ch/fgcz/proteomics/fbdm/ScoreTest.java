@@ -35,7 +35,7 @@ public class ScoreTest {
         Configuration config = new Configuration();
         Peak x = new Peak(120.0, 550.42, 0);
         Peak y = new Peak(150.0, 467.55, 1);
-        double d1 = Score.diff1(x, y);
+        double d1 = Score.diff1(x.getMz(), y.getMz());
         double d2 = Score.diff2(x, y, config.getH_MASS(1));
         double d3 = Score.diff3(x, y, config.getH_MASS(1));
         double d4 = Score.diff4(x, y, config.getH_MASS(1));
