@@ -27,7 +27,7 @@ public class DeisotoperTest {
 
         System.out.println("INPUT: " + mz.toString());
 
-        List<IsotopicSet> isotopicSets = Deisotoper.generateIsotopicSets(new PeakList(massSpectrum), config);
+        Deisotoper.generateIsotopicSets(new PeakList(massSpectrum), config); // List<IsotopicSet> isotopicSets =
         System.out.println(
                 "[(125.0, 1.0), (126.0, 1.0), (126.5, 1.0), (127.0, 1.0), (128.5, 1.0), (129.0, 1.0), (133.0, 1.0), (133.2, 1.0), (134.0, 1.0), (134.2, 1.0), (135.0, 1.0), (137.0, 1.0), (138.0, 1.0)]");
         System.out.println("13");

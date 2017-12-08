@@ -16,18 +16,12 @@ public class IsotopicCluster {
     private int clusterId;
     private String status;
 
-    public IsotopicCluster(List<Peak> isotopicCluster,
-                           int charge,
-                           PeakList peakList,
-                           double isotopicPeakDistance,
-                           double delta
-                           ){
-        rangeCheck(isotopicCluster,  charge, isotopicPeakDistance, delta);
+    public IsotopicCluster(List<Peak> isotopicCluster, int charge, PeakList peakList, double isotopicPeakDistance,
+            double delta) {
+        rangeCheck(isotopicCluster, charge, isotopicPeakDistance, delta);
         this.isotopicCluster = isotopicCluster;
         this.charge = charge;
     }
-
-
 
     public IsotopicCluster(String status) {
         this.isotopicCluster = null;
@@ -171,15 +165,13 @@ public class IsotopicCluster {
 
     }
 
-    private static void rangeCheck(List<Peak> peaks,
-                                   int charge,
-                                   double isotopicDistance, double delta) {
+    private static void rangeCheck(List<Peak> peaks, int charge, double isotopicDistance, double delta) {
         for (int i = 0; i < peaks.size() - 1; i++) {
             double distance = peaks.get(i + 1).getMz() - peaks.get(i).getMz();
             double theorDistance = isotopicDistance / charge;
-            if(!MathUtils.fuzzyEqual(distance, theorDistance, delta)){
-                throw new IllegalArgumentException("Wrong distance at IsotopicCluster creation! (" + distance +
-                        "while only " + theorDistance + " allowed.)");
+            if (!MathUtils.fuzzyEqual(distance, theorDistance, delta)) {
+                throw new IllegalArgumentException("Wrong distance at IsotopicCluster creation! (" + distance
+                        + "while only " + theorDistance + " allowed.)");
             }
         }
     }

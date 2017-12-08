@@ -4,9 +4,7 @@ import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DeisotoperMassSpectrumAdapter {
     Deisotoper deisotoper;

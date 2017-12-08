@@ -28,46 +28,46 @@ public class Score {
     }
 
     // single versus double
-    public static double diff2(Peak x, Peak y, double H_MASS) {
-        return x.getMz() - ((y.getMz() + H_MASS) / 2);
+    public static double diff2(double x, double y, double H_MASS) {
+        return x - ((y + H_MASS) / 2);
     }
 
     // single versus triply charged
-    public static double diff3(Peak x, Peak y, double H_MASS) {
-        return x.getMz() - ((y.getMz() + (2 * H_MASS)) / 3);
+    public static double diff3(double x, double y, double H_MASS) {
+        return x - ((y + (2 * H_MASS)) / 3);
     }
 
-    public static double diff4(Peak x, Peak y, double H_MASS) {
-        return x.getMz() - (((y.getMz() * 2) + H_MASS) / 3);
+    public static double diff4(double x, double y, double H_MASS) {
+        return x - (((y * 2) + H_MASS) / 3);
     }
 
-    public static double sum1(Peak x, Peak y) {
-        return x.getMz() + y.getMz();
+    public static double sum1(double x, double y) {
+        return x + y;
     }
 
-    public static double sum2(Peak x, Peak y, double H_MASS) {
-        return x.getMz() + ((y.getMz() + H_MASS) / 2);
+    public static double sum2(double x, double y, double H_MASS) {
+        return x + ((y + H_MASS) / 2);
     }
 
-    public static double sum3(Peak x, Peak y, double H_MASS) {
-        return x.getMz() + ((y.getMz() + (2 * H_MASS)) / 3);
+    public static double sum3(double x, double y, double H_MASS) {
+        return x + ((y + (2 * H_MASS)) / 3);
     }
 
-    public static double sum4(Peak x, Peak y, double H_MASS) {
-        return x.getMz() + (((y.getMz() * 2) + H_MASS) / 3);
+    public static double sum4(double x, double y, double H_MASS) {
+        return x + (((y * 2) + H_MASS) / 3);
     }
 
     // TODO : Look into paper and try to find out what is being scored.
     // is based on the number collection of peaks whose mass differences with
     // approximate the residue mass of one of the twenty amino acids.
-    public static int firstAminoAcidDistanceScore(Peak x, Peak y, ScoringConfiguration config) {
+    public static int firstAminoAcidDistanceScore(double x, double y, ScoringConfiguration config) {
         int F1 = 0;
         double error = config.getErrorTolerance();
         double H_MASS = config.getH_MASS(1);
 
         Range aminoAcidMassRange = new Range(config.getMin() - 2, config.getMax() + 2);
 
-        double d1xy = Math.abs(diff1(x.getMz(), y.getMz()));
+        double d1xy = Math.abs(diff1(x, y));
         double d2xy = Math.abs(diff2(x, y, H_MASS));
         double d2yx = Math.abs(diff2(y, x, H_MASS));
         double d3xy = Math.abs(diff3(x, y, H_MASS));
@@ -100,12 +100,12 @@ public class Score {
 
     // is based on the number collection of peaks representing fragment ions that
     // complement with fragment ion represented by .
-    public static int secondComplementaryMassScore(Peak x, Peak y, double pepidMass, double charge,
+    public static int secondComplementaryMassScore(double x, double y, double pepidMass, double charge,
             List<Peak> isotopicCluster, ScoringConfiguration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : isotopicCluster) {
-            if (c.getMz() == x.getMz() && c.getIntensity() == x.getIntensity()) {
+            if (c.getMz() == x) {
                 break;
             }
             i++;
@@ -135,9 +135,9 @@ public class Score {
         return F2;
     }
 
-    public static int thirdSideChainLossScore(Peak x, Peak y, ScoringConfiguration config) {
+    public static int thirdSideChainLossScore(double x, double y, ScoringConfiguration config) {
         int F3 = 0;
-        double d1xy = Math.abs(diff1(x.getMz(), y.getMz()));
+        double d1xy = Math.abs(diff1(x, y));
         double d2xy = Math.abs(diff2(x, y, config.getH_MASS(1)));
         double d2yx = Math.abs(diff2(y, x, config.getH_MASS(1)));
         double d3xy = Math.abs(diff3(x, y, config.getH_MASS(1)));
@@ -171,10 +171,10 @@ public class Score {
 
     // considers two supportive ions a-ions and z-ions which can be used to indicate
     // the existence of the corresponding b-ions and y-ions.
-    public static int fourthSupportiveAZIonsScore(Peak x, Peak y, ScoringConfiguration config) {
+    public static int fourthSupportiveAZIonsScore(double x, double y, ScoringConfiguration config) {
         int F4 = 0;
 
-        double d1xy = Math.abs(diff1(x.getMz(), y.getMz()));
+        double d1xy = Math.abs(diff1(x, y));
         double d2xy = Math.abs(diff2(x, y, config.getH_MASS(1)));
         double d2yx = Math.abs(diff2(y, x, config.getH_MASS(1)));
         double d3xy = Math.abs(diff3(x, y, config.getH_MASS(1)));
@@ -206,21 +206,21 @@ public class Score {
         return F4;
     }
 
-    public int firstAminoAcidDistanceScore(Peak x, PeakList peaklist, ScoringConfiguration config) {
+    public int firstAminoAcidDistanceScore(double x, PeakList peaklist, ScoringConfiguration config) {
         int peaklistScore = 0;
         for (Peak y : peaklist.getPeakList()) {
-            peaklistScore += firstAminoAcidDistanceScore(x, y, config);
+            peaklistScore += firstAminoAcidDistanceScore(x, y.getMz(), config);
         }
         return peaklistScore;
     }
 
     // TODO integrate 5 th score
-    public double calculateAggregatedScore(Peak peakX, Peak peakY, List<Peak> isotopicClusterOfPeakX) {
-        return this.config.getF1() * firstAminoAcidDistanceScore(peakX, peakY, this.config)
-                + this.config.getF2() * secondComplementaryMassScore(peakX, peakY, this.peptidMassValue,
-                        this.chargeValue, isotopicClusterOfPeakX, this.config)
-                + this.config.getF3() * thirdSideChainLossScore(peakX, peakY, this.config)
-                + this.config.getF4() * fourthSupportiveAZIonsScore(peakX, peakY, this.config);
+    public double calculateAggregatedScore(double xMz, double yMz, List<Peak> isotopicClusterOfPeakX) {
+        return this.config.getF1() * firstAminoAcidDistanceScore(xMz, yMz, this.config)
+                + this.config.getF2() * secondComplementaryMassScore(xMz, yMz, this.peptidMassValue, this.chargeValue,
+                        isotopicClusterOfPeakX, this.config)
+                + this.config.getF3() * thirdSideChainLossScore(xMz, yMz, this.config)
+                + this.config.getF4() * fourthSupportiveAZIonsScore(xMz, yMz, this.config);
     }
 
     public static class Range {
