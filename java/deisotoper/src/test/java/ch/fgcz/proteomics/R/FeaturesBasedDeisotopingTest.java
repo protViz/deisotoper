@@ -1,5 +1,8 @@
 package ch.fgcz.proteomics.R;
 
+import java.util.Arrays;
+import java.util.Random;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-11-20
@@ -526,5 +529,80 @@ public class FeaturesBasedDeisotopingTest {
         // System.out.println(dtoper.getAnnotatedSpectrum());
         // System.out.println();
         // System.out.println(dtoper.getDot()[1]);
+    }
+
+    @Test
+    public void randomTest() {
+        for (int x = 0; x < 10; x++) {
+            double[] mz = generateRandomMz();
+            double[] intensity = generateRandomIntensity();
+            double pepMass = generateRandomPepMass();
+
+            FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
+
+            double[] aa = { 99.06841 };
+
+            dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
+
+            dtoper.setMz(mz);
+            dtoper.setIntensity(intensity);
+            dtoper.setPepMass(pepMass);
+            dtoper.setCharge(2);
+
+            dtoper.deisotope();
+
+            double[] mzout = dtoper.getMz();
+            double[] intensityout = dtoper.getIntensity();
+
+            System.out.println("Input Peaklist (" + mz.length + "):   Output Peaklist(" + mzout.length + "):");
+            for (int i = 0; i < mz.length || i < intensity.length; i++) {
+                System.out.print(mz[i] + " ");
+                System.out.print(intensity[i] + "    ");
+                if (i < mzout.length || i < intensityout.length) {
+                    System.out.print(mzout[i] + " ");
+                    System.out.print(intensityout[i]);
+                } else {
+                    System.out.print(" ");
+                }
+
+                System.out.println();
+            }
+            System.out.println();
+
+            System.out.println(pepMass);
+        }
+    }
+
+    private double generateRandom(double min, double max) {
+        Random random = new Random();
+        double randomValue = min + (max - min) * random.nextDouble();
+
+        return (double) Math.round(randomValue * 1000d) / 1000d;
+    }
+
+    private double generateRandomPepMass() {
+        return generateRandom(100, 1500);
+    }
+
+    private double[] generateRandomIntensity() {
+        double[] intensity = new double[300];
+
+        for (int i = 0; i < intensity.length; i++) {
+            intensity[i] = generateRandom(100, 10000);
+        }
+
+        return intensity;
+    }
+
+    private double[] generateRandomMz() {
+        double[] mz = new double[300];
+
+        for (int i = 0; i < mz.length; i++) {
+            mz[i] = generateRandom(120, 1000);
+        }
+
+        Arrays.sort(mz);
+
+        return mz;
     }
 }
