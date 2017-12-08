@@ -145,7 +145,7 @@ public class IsotopicClusterGraph {
 
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
             double scoreSum = 0;
-            int additionalScore = 0;
+            double additionalScore = 0;
             if (this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
                 for (Peak peakX : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
                     for (Peak peakY : peakList.getPeakList()) {

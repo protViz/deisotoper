@@ -231,7 +231,7 @@ public class ScoreTest {
     @Test
     public void sum4Test() {
         assertEquals(Score.sum4(120, 150, new Configuration().getH_MASS(1)), 220.336, 0);
-        assertEquals(Score.sum4(333, 321, new Configuration().getH_MASS(1)), 547.336,0);
+        assertEquals(Score.sum4(333, 321, new Configuration().getH_MASS(1)), 547.336, 0);
         assertEquals(Score.sum4(130.99, 999.9, new Configuration().getH_MASS(1)), 797.926, 0);
         assertEquals(Score.sum4(199, 144, new Configuration().getH_MASS(1)), 295.336, 0);
     }

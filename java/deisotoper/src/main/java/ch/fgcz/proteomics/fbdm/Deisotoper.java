@@ -28,12 +28,12 @@ public class Deisotoper {
         this.config = config;
     }
 
-    public PeakList deisotopeMS(PeakList peaklist) {
-        this.peakList = peaklist;
+    public PeakList deisotopeMS(PeakList peakList) {
+        this.peakList = peakList;
         this.running = true;
         this.isotopicSets = new ArrayList<IsotopicSet>();
 
-        isotopicSets = generateIsotopicSets(peakList, config);
+        isotopicSets = generateIsotopicSets(this.peakList, config);
         List<IsotopicCluster> bestClusters = getBestClusters();
 
         PeakList peakListAggregated = aggregate(bestClusters, this.config.getModus());
@@ -47,7 +47,7 @@ public class Deisotoper {
             this.mergedPeakList = this.mergedPeakList.filterNoisePeaks(this.config.getNoise());
         }
         this.mergedPeakList = mergedPeakList.sortByMZ();
-        PeakList.checkForIntensityCorrectness(this.mergedPeakList, peaklist);
+        PeakList.checkForIntensityCorrectness(peakList, this.mergedPeakList);
         return this.mergedPeakList;
     }
 

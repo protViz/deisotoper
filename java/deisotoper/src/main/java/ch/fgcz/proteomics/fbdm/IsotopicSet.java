@@ -161,7 +161,6 @@ public class IsotopicSet {
                 peaklist, config);
 
         this.dot = isotopicClusterGraphForDot.toDOTGraph();
-
     }
 
     private List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {

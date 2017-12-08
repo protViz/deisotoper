@@ -380,8 +380,8 @@ public class FeaturesBasedDeisotopingTest {
 
         double[] mz = { 1.0, 2.0, 2.5, 3.0 };
         double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
-        // double[] mz = { 1.01, 2.0, 2.5, 3.0 };
-        // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
+        double[] mz2 = { 1.01, 2.0, 2.5, 3.0 };
+        double[] intensity2 = { 1.0, 1.0, 1.0, 1.0 };
 
         // double[] mz = { 1011.0, 1012.0, 1015.0, 1016.0 };
         // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
@@ -394,7 +394,7 @@ public class FeaturesBasedDeisotopingTest {
 
         dtoper.setMz(mz);
         dtoper.setIntensity(intensity);
-        dtoper.setPepMass(1.2345);
+        dtoper.setPepMass(600);
         dtoper.setCharge(2);
 
         dtoper.deisotope();
@@ -417,6 +417,30 @@ public class FeaturesBasedDeisotopingTest {
         }
         System.out.println();
 
+        dtoper.setMz(mz2);
+        dtoper.setIntensity(intensity2);
+        dtoper.setPepMass(600);
+        dtoper.setCharge(2);
+
+        dtoper.deisotope();
+
+        double[] mzout2 = dtoper.getMz();
+        double[] intensityout2 = dtoper.getIntensity();
+
+        System.out.println("Input Peaklist (" + mz2.length + "):   Output Peaklist(" + mzout2.length + "):");
+        for (int i = 0; i < mz2.length || i < intensity2.length; i++) {
+            System.out.print(mz2[i] + " ");
+            System.out.print(intensity2[i] + "    ");
+            if (i < mzout2.length || i < intensityout2.length) {
+                System.out.print(mzout2[i] + " ");
+                System.out.print(intensityout2[i]);
+            } else {
+                System.out.print(" ");
+            }
+
+            System.out.println();
+        }
+        System.out.println();
         // System.out.println("Peaks who are in input and not anymore in output:");
         // List<Double> mzlist = new ArrayList();
         // List<Double> intensitylist = new ArrayList();
@@ -438,16 +462,15 @@ public class FeaturesBasedDeisotopingTest {
         // for (int i = 0; i < mzlist.size(); i++) {
         // System.out.println(mzlist.get(i) + " " + intensitylist.get(i));
         // }
-
-        System.out.println();
-        System.out.println(dtoper.getSummary());
-        System.out.println();
-        System.out.println(dtoper.getAnnotatedSpectrum());
-
-        System.out.println();
-        for (String dot : dtoper.getDot()) {
-            System.out.println(dot);
-        }
+        // System.out.println();
+        // System.out.println(dtoper.getSummary());
+        // System.out.println();
+        // System.out.println(dtoper.getAnnotatedSpectrum());
+        //
+        // System.out.println();
+        // for (String dot : dtoper.getDot()) {
+        // System.out.println(dot);
+        // }
         // dtoper.setMz(mz2);
         // dtoper.setIntensity(intensity2);
         // dtoper.setPepMass(1.2345);
