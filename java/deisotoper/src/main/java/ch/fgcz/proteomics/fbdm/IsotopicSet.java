@@ -163,7 +163,8 @@ public class IsotopicSet {
         this.dot = isotopicClusterGraphForDot.toDOTGraph();
     }
 
-    private List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
+    // TODO : write a few tests.
+    protected List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
         List<IsotopicCluster> isotopicClusters2 = new ArrayList<IsotopicCluster>();
 
         for (IsotopicCluster cluster1 : isotopicClusters) {

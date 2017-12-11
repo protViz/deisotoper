@@ -15,12 +15,14 @@ public class IsotopicCluster {
     private int charge;
     private int clusterId;
     private String status;
+    private PeakList peakList;
 
     public IsotopicCluster(List<Peak> isotopicCluster, int charge, PeakList peakList, double isotopicPeakDistance,
             double delta) {
         rangeCheck(isotopicCluster, charge, isotopicPeakDistance, delta);
         this.isotopicCluster = isotopicCluster;
         this.charge = charge;
+        this.peakList = peakList;
     }
 
     public IsotopicCluster(String status) {
@@ -175,4 +177,22 @@ public class IsotopicCluster {
             }
         }
     }
+
+    void scoreCluster(Configuration config) {
+        Score score = new Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(), config);
+        for (Peak peakX : this.isotopicCluster) {
+
+            for (Peak peakY : peakList.getPeakList()) {
+                double scoreResult = score.calculateAggregatedScore(peakX.getMz(),
+                        peakY.getMz(),
+                        this.getIsotopicCluster());
+
+                //double scoreFiveResult = scoreFive.calculateFifthScore(connection);
+
+
+                //scoreSum += scoreResult + scoreFiveResult;
+            }
+        }
+    }
+
 }

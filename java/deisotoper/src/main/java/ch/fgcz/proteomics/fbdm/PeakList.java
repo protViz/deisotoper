@@ -180,9 +180,7 @@ public class PeakList implements MassSpectrumMetaInformation {
                 }
             }
         }
-
         return this;
-
     }
 
     // TODO (LS)

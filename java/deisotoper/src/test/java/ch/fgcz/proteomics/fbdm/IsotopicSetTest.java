@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class IsotopicSetTest {
@@ -56,5 +57,10 @@ public class IsotopicSetTest {
 
         new IsotopicSet(peakList, peakList.getPeakList(), 1, config);
 
+    }
+
+    @Test
+    public void testRemoveDoubleClusterLeaveTripleCluster(){
+       assertEquals(0,1);
     }
 }
