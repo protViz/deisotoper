@@ -164,7 +164,7 @@ public class IsotopicSet {
     }
 
     // TODO : write a few tests.
-    protected List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
+    protected static List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(List<IsotopicCluster> isotopicClusters) {
         List<IsotopicCluster> isotopicClusters2 = new ArrayList<IsotopicCluster>();
 
         for (IsotopicCluster cluster1 : isotopicClusters) {
