@@ -21,6 +21,10 @@ import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 public class ReadMGF {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
+    private ReadMGF() {
+        throw new IllegalStateException("Reader class");
+    }
+    
     public static MassSpecMeasure read(String fileName) {
         String source = readHeader(fileName);
 

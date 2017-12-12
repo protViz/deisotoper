@@ -21,6 +21,10 @@ import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 public class ReadStdIn {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
+    private ReadStdIn() {
+        throw new IllegalStateException("Reader class");
+    }
+
     public static MassSpecMeasure read() {
         InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 

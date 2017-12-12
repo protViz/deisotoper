@@ -12,6 +12,10 @@ import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class WriteStdOut {
+    private WriteStdOut() {
+        throw new IllegalStateException("Writer class");
+    }
+
     public static void write(MassSpecMeasure massSpectrometryMeasurement) {
         System.out.println(
                 "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));

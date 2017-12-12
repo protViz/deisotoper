@@ -45,7 +45,7 @@ public class MassSpecMeasureSummary {
 
         stringBuilder.append(massSpectrum.getId()).append(",nr_of_peaks,").append(massSpectrum.getMz().size())
                 .append(lineSep);
-        if (massSpectrum.getIntensity().size() != 0) {
+        if (!massSpectrum.getIntensity().isEmpty()) {
             stringBuilder.append(massSpectrum.getId()).append(",min_intensity,")
                     .append(Collections.min(massSpectrum.getIntensity())).append(lineSep);
             stringBuilder.append(massSpectrum.getId()).append(",max_intensity,")
@@ -55,7 +55,7 @@ public class MassSpecMeasureSummary {
             stringBuilder.append(massSpectrum.getId()).append(",max_intensity,").append("0").append(lineSep);
         }
         stringBuilder.append(massSpectrum.getId()).append(",sum_intensity,").append(intensitySum).append(lineSep);
-        if (massSpectrum.getMz().size() != 0) {
+        if (!massSpectrum.getMz().isEmpty()) {
             stringBuilder.append(massSpectrum.getId()).append(",min_mass,")
                     .append(Collections.min(massSpectrum.getMz())).append(lineSep);
             stringBuilder.append(massSpectrum.getId()).append(",max_mass,")
@@ -64,7 +64,7 @@ public class MassSpecMeasureSummary {
             stringBuilder.append(massSpectrum.getId()).append(",min_mass,").append("0").append(lineSep);
             stringBuilder.append(massSpectrum.getId()).append(",max_mass,").append("0").append(lineSep);
         }
-        if (distance.size() != 0) {
+        if (!distance.isEmpty()) {
             stringBuilder.append(massSpectrum.getId()).append(",min_peak_distance,").append(Collections.min(distance))
                     .append(lineSep);
             stringBuilder.append(massSpectrum.getId()).append(",max_peak_distance,").append(Collections.max(distance))

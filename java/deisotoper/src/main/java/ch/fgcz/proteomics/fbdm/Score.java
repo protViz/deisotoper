@@ -12,8 +12,6 @@ import ch.fgcz.proteomics.utilities.MathUtils;
 public class Score {
     private double peptidMassValue;
     private double chargeValue;
-    // private DefaultDirectedWeightedGraph<IsotopicCluster, Connection>
-    // isotopicClusterGraph;
     private ScoringConfiguration config;
 
     public Score(double peptidMass, int charge, ScoringConfiguration config) {

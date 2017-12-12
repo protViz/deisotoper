@@ -15,10 +15,9 @@ import java.util.Set;
 import ch.fgcz.proteomics.utilities.MathUtils;
 
 // TODO: Fix id's of clusters...
-
 public class IsotopicSet {
     private final PeakList peakList;
-    private List<IsotopicCluster> isotopicSet = null;
+    private List<IsotopicCluster> iSet = null;
     private List<IsotopicCluster> bestPath = null;
     private List<Peak> peaksInSet = null;
     private String dot = null;
@@ -33,7 +32,7 @@ public class IsotopicSet {
 
         List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
 
-        this.isotopicSet = tempIsotopicSet;
+        this.iSet = tempIsotopicSet;
         setBestPath(peakList, tempIsotopicSet, config);
     }
 
@@ -79,7 +78,7 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getIsotopicSet() {
-        return isotopicSet;
+        return iSet;
     }
 
     public String getDot() {
@@ -180,16 +179,12 @@ public class IsotopicSet {
 
     private static void innerIfStatementsOfRemoveDoubleCluster(List<IsotopicCluster> isotopicClusters,
             IsotopicCluster cluster1, IsotopicCluster cluster2) {
-        if (cluster1.size() == 3 && cluster2.size() == 2) {
-            if (cluster1.getPeak(1).equalsPeak(cluster2.getPeak(0))
-                    && cluster1.getPeak(2).equalsPeak(cluster2.getPeak(1))) {
-                isotopicClusters.add(cluster2);
-            }
-        } else if (cluster1.size() == 2 && cluster2.size() == 3) {
-            if (cluster1.getPeak(0).equalsPeak(cluster2.getPeak(0))
-                    && cluster1.getPeak(1).equalsPeak(cluster2.getPeak(1))) {
-                isotopicClusters.add(cluster1);
-            }
+        if (cluster1.size() == 3 && cluster2.size() == 2 && (cluster1.getPeak(1).equalsPeak(cluster2.getPeak(0))
+                && cluster1.getPeak(2).equalsPeak(cluster2.getPeak(1)))) {
+            isotopicClusters.add(cluster2);
+        } else if (cluster1.size() == 2 && cluster2.size() == 3 && (cluster1.getPeak(0).equalsPeak(cluster2.getPeak(0))
+                && cluster1.getPeak(1).equalsPeak(cluster2.getPeak(1)))) {
+            isotopicClusters.add(cluster1);
         }
     }
 
@@ -199,10 +194,8 @@ public class IsotopicSet {
             for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
                 for (Peak c : isotopicSet) {
-                    double distanceac = c.getMz() - a.getMz();
-                    double distancebc = c.getMz() - b.getMz();
-                    innerIfStatementsOfCollectCluster(isotopicClusters, a, b, c, charge, config, distanceab, distanceac,
-                            distancebc);
+
+                    innerIfStatementsOfCollectCluster(isotopicClusters, a, b, c, charge, config, distanceab);
                 }
             }
         }
@@ -211,8 +204,10 @@ public class IsotopicSet {
     }
 
     private void innerIfStatementsOfCollectCluster(List<IsotopicCluster> isotopicClusters, Peak a, Peak b, Peak c,
-            int charge, Configuration config, double distanceab, double distanceac, double distancebc) {
+            int charge, Configuration config, double distanceab) {
         List<Peak> ic = new ArrayList<Peak>();
+        double distanceac = c.getMz() - a.getMz();
+        double distancebc = c.getMz() - b.getMz();
 
         if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distanceab
                 && distanceab < (config.getIsotopicPeakDistance() / charge) + config.getDelta()) {
@@ -256,8 +251,8 @@ public class IsotopicSet {
 
             boolean b = false;
             for (int charge = 1; charge <= 3; charge++) {
-                if (((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
-                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta()))) {
+                if ((config.getIsotopicPeakDistance() / charge - config.getDelta() < Math.abs(distance)
+                        && Math.abs(distance) < config.getIsotopicPeakDistance() / charge + config.getDelta())) {
                     b = true;
                 }
             }
@@ -276,11 +271,9 @@ public class IsotopicSet {
 
                 if (result == 0) {
                     result = Double.compare(cluster1.getPeak(1).getMz(), cluster2.getPeak(1).getMz());
-                    if (result == 0) {
-                        if (cluster1.size() == 3 && cluster2.size() == 3) {
-                            result = Double.compare(cluster1.getPeak(2).getMz(), cluster2.getPeak(2).getMz());
-                            return result;
-                        }
+                    if (result == 0 && (cluster1.size() == 3 && cluster2.size() == 3)) {
+                        result = Double.compare(cluster1.getPeak(2).getMz(), cluster2.getPeak(2).getMz());
+                        return result;
                     }
                 }
 

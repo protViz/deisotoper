@@ -37,18 +37,15 @@ public class ScoreFive {
             double tMeanOverlap = calculateTMeanOverlap(isotopicClusterGraph, connection, i, peak, config);
 
             double tMax = (peak.getMz() / config.getPHE_MASS()) * peak.getIntensity();
-            if (connection.getColor() == "black") {
-                if (Math.min(Math.abs(peak.getIntensity() - tMin), Math.abs(peak.getIntensity() - tMax))
-                        / tMean <= threshold) {
-                    F5++;
-                }
+            if (connection.getColor() == "black"
+                    && (Math.min(Math.abs(peak.getIntensity() - tMin), Math.abs(peak.getIntensity() - tMax))
+                            / tMean <= threshold)) {
+                F5++;
             }
 
-            if (connection.getColor() == "red") {
-                if (Math.min(Math.abs((peak.getIntensity() - tMeanOverlap) - tMin),
-                        Math.abs((peak.getIntensity() - tMeanOverlap) - tMax)) / tMean <= threshold) {
-                    F5++;
-                }
+            if (connection.getColor() == "red" && (Math.min(Math.abs((peak.getIntensity() - tMeanOverlap) - tMin),
+                    Math.abs((peak.getIntensity() - tMeanOverlap) - tMax)) / tMean <= threshold)) {
+                F5++;
             }
             i++;
         }

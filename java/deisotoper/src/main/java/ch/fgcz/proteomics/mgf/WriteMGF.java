@@ -22,6 +22,10 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 public class WriteMGF {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
+    private WriteMGF() {
+        throw new IllegalStateException("Writer class");
+    }
+
     public static void write(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         File f = new File(fileName);
 
