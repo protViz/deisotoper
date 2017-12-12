@@ -17,6 +17,7 @@ public class FindNearestNeighbor {
                 index[i] = -(index[i]) - 1;
 
             if (index[i] == 0) {
+                // do nothing
             } else if (index[i] >= data.length) {
                 index[i] = index[i] - 1;
             } else {

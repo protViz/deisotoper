@@ -199,12 +199,12 @@ public class DeisotoperTest {
         assertNotEquals("Size of mZ-Values must be not equal, becuase there should be isotopic sets!",
                 massSpectrometryMeasurementin.getMSlist().get(0).getMz().size(), massSpectrumOut.getMz().size());
 
-        assertEquals(massSpectrumOut.getMz(), Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0));
+        assertEquals(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), massSpectrumOut.getMz());
 
-        assertEquals(massSpectrumOut.getIntensity(), Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 23.0));
+        assertEquals(Arrays.asList(4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 23.0), massSpectrumOut.getIntensity());
 
-        assertEquals(massSpectrumOut.getIsotope(), Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0));
+        assertEquals(Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0), massSpectrumOut.getIsotope());
 
-        assertEquals(massSpectrumOut.getCharge(), Arrays.asList(1, 1, 1, 1, 1, 1, 1, -1));
+        assertEquals(Arrays.asList(1, 1, 1, 1, 1, 1, 1, -1), massSpectrumOut.getCharge());
     }
 }

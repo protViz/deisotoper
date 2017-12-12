@@ -67,11 +67,9 @@ public class ReadStdIn {
                 } else if (line.contains("PEPMASS")) {
                     String[] pepmasssplit = partEqual[1].split(" ");
                     peptidMass = Double.parseDouble(pepmasssplit[0]);
-                } else if (partSpace.length > 1) {
-                    if (isDouble(partSpace[0]) && isDouble(partSpace[1])) {
-                        mz.add(Double.parseDouble(partSpace[0]));
-                        intensity.add(Double.parseDouble(partSpace[1]));
-                    }
+                } else if (partSpace.length > 1 && isDouble(partSpace[0]) && isDouble(partSpace[1])) {
+                    mz.add(Double.parseDouble(partSpace[0]));
+                    intensity.add(Double.parseDouble(partSpace[1]));
                 }
             }
         } catch (FileNotFoundException e) {

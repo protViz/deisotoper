@@ -17,6 +17,10 @@ public class Mspy {
     public static final double ELECTRON_MASS = 0.00054857990924;
     public static final double H_MASS = 1.008;
 
+    private Mspy() {
+        throw new IllegalStateException("This is an algorithm");
+    }
+
     // public static List<Peak> deisotope(List<Peak> peaklist, int maxcharge, double
     // mztolerance, double inttolerance,
     // double isotopeshift) {

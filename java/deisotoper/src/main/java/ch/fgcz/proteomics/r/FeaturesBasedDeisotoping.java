@@ -14,7 +14,6 @@ import ch.fgcz.proteomics.fbdm.Deisotoper;
 import ch.fgcz.proteomics.fbdm.DeisotoperMassSpectrumAdapter;
 
 public class FeaturesBasedDeisotoping {
-    // private Deisotoper deisotoper = new Deisotoper();
     private DeisotoperMassSpectrumAdapter deisotoper = new DeisotoperMassSpectrumAdapter(new Deisotoper());
     private MassSpectrum massSpectrum = new MassSpectrum();
     private MassSpectrum resultSpectrum = new MassSpectrum();

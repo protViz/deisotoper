@@ -20,6 +20,10 @@ import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 public class Convert {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
+    private Convert() {
+        throw new IllegalStateException("Convert class");
+    }
+
     public static Peaklist msdToPeaklist(String file) {
         List<Double> mz = new ArrayList<Double>();
         List<Double> intensity = new ArrayList<Double>();

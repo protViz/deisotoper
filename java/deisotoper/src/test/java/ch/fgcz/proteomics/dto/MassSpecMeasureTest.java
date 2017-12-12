@@ -36,11 +36,11 @@ public class MassSpecMeasureTest {
         massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
         massSpectrometryMeasurement.addMS(typ2, searchEngine2, mz2, intensity2, peptidMass2, rt2, chargeState2, id2);
 
-        assertEquals("Source must be right!", massSpectrometryMeasurement.getSource(), "Unit Test Case");
+        assertEquals("Source must be right!", "Unit Test Case", massSpectrometryMeasurement.getSource());
 
         for (MassSpectrum i : massSpectrometryMeasurement.getMSlist()) {
-            assertEquals("Length of List must be correct", i.getMz().size(), 10);
-            assertEquals("Length of List must be correct", i.getIntensity().size(), 10);
+            assertEquals("Length of List must be correct", 10, i.getMz().size());
+            assertEquals("Length of List must be correct", 10, i.getIntensity().size());
         }
 
         MassSpecMeasureSummary.summarize(massSpectrometryMeasurement);
