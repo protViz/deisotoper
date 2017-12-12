@@ -10,6 +10,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class MassSpecMeasureSummary {
+    private MassSpecMeasureSummary() {
+        throw new IllegalStateException("Summary class");
+    }
+
     public static String summarize(MassSpecMeasure massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();
         String lineSep = System.getProperty("line.separator");
@@ -39,7 +43,6 @@ public class MassSpecMeasureSummary {
             intensitySum += intensity;
         }
 
-        // summary.append(spectrum.getId()).append(",spectrum_type,").append(spectrum.getTyp()).append(linesep);
         stringBuilder.append(massSpectrum.getId()).append(",nr_of_peaks,").append(massSpectrum.getMz().size())
                 .append(lineSep);
         if (massSpectrum.getIntensity().size() != 0) {
@@ -112,10 +115,8 @@ public class MassSpecMeasureSummary {
     private static int calculateDeisotopeSum(MassSpectrum massSpectrum) {
         int deisotopeSum = 0;
         for (double iso : massSpectrum.getIsotope()) {
-            if (iso != -1) {
-                if (iso == 1) {
-                    deisotopeSum++;
-                }
+            if (iso != -1 && iso == 1) {
+                deisotopeSum++;
             }
         }
         return deisotopeSum;
@@ -144,10 +145,8 @@ public class MassSpecMeasureSummary {
     private static int calculatez1Sum(MassSpectrum massSpectrum) {
         int z1Sum = 0;
         for (int c : massSpectrum.getCharge()) {
-            if (c != -1) {
-                if (c == 1) {
-                    z1Sum++;
-                }
+            if (c != -1 && c == 1) {
+                z1Sum++;
             }
         }
         return z1Sum;
@@ -156,10 +155,8 @@ public class MassSpecMeasureSummary {
     private static int calculatez2Sum(MassSpectrum massSpectrum) {
         int z2Sum = 0;
         for (int c : massSpectrum.getCharge()) {
-            if (c != -1) {
-                if (c == 2) {
-                    z2Sum++;
-                }
+            if (c != -1 && c == 2) {
+                z2Sum++;
             }
         }
         return z2Sum;
@@ -168,10 +165,8 @@ public class MassSpecMeasureSummary {
     private static int calculatez3Sum(MassSpectrum massSpectrum) {
         int z2Sum = 0;
         for (int c : massSpectrum.getCharge()) {
-            if (c != -1) {
-                if (c == 3) {
-                    z2Sum++;
-                }
+            if (c != -1 && c == 3) {
+                z2Sum++;
             }
         }
         return z2Sum;

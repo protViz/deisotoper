@@ -9,7 +9,7 @@ import ch.fgcz.proteomics.utilities.FindNearestNeighbor;
 
 public class Utilities {
     private Utilities() {
-        throw new IllegalStateException("Utility class");
+        // Utility class
     }
 
     public static double[] findNNR(double[] vector, double[] query) {

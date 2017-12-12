@@ -11,7 +11,7 @@ import java.util.List;
 import ch.fgcz.proteomics.utilities.MathUtils;
 
 public class IsotopicCluster {
-    private List<Peak> isotopicCluster = new ArrayList<Peak>();
+    private List<Peak> iCluster = new ArrayList<Peak>();
     private int charge;
     private int clusterId;
     private String status;
@@ -20,13 +20,13 @@ public class IsotopicCluster {
     public IsotopicCluster(List<Peak> isotopicCluster, int charge, PeakList peakList, double isotopicPeakDistance,
             double delta) {
         rangeCheck(isotopicCluster, charge, isotopicPeakDistance, delta);
-        this.isotopicCluster = isotopicCluster;
+        this.iCluster = isotopicCluster;
         this.charge = charge;
         this.peakList = peakList;
     }
 
     public IsotopicCluster(String status) {
-        this.isotopicCluster = null;
+        this.iCluster = null;
         this.charge = 0;
         this.status = status;
     }
@@ -63,11 +63,11 @@ public class IsotopicCluster {
     }
 
     public Peak getPeak(int i) {
-        return this.isotopicCluster.get(i);
+        return this.iCluster.get(i);
     }
 
     public int size() {
-        return this.isotopicCluster.size();
+        return this.iCluster.size();
     }
 
     public int getClusterID() {
@@ -87,11 +87,11 @@ public class IsotopicCluster {
     }
 
     public List<Peak> getIsotopicCluster() {
-        return isotopicCluster;
+        return iCluster;
     }
 
     public boolean isNotNull() {
-        if (this.isotopicCluster == null) {
+        if (this.iCluster == null) {
             return false;
         } else {
             return true;
@@ -99,7 +99,7 @@ public class IsotopicCluster {
     }
 
     public boolean isNull() {
-        if (this.isotopicCluster == null) {
+        if (this.iCluster == null) {
             return true;
         } else {
             return false;
@@ -108,7 +108,7 @@ public class IsotopicCluster {
 
     public double sumIntensity() {
         double intensitySum = 0;
-        for (Peak peak : this.isotopicCluster) {
+        for (Peak peak : this.iCluster) {
             intensitySum += peak.getIntensity();
         }
 
@@ -147,10 +147,10 @@ public class IsotopicCluster {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("(" + this.clusterId + ") [ ");
-        if (this.isotopicCluster == null) {
+        if (this.iCluster == null) {
             return this.status;
         }
-        for (Peak p : this.isotopicCluster) {
+        for (Peak p : this.iCluster) {
             stringBuilder.append(p.getMz() + " ");
         }
         stringBuilder.append("]");
@@ -163,7 +163,7 @@ public class IsotopicCluster {
     }
 
     private Peak rearrangeCluster(double intensitySum) {
-        return new Peak(this.isotopicCluster.get(0).getMz(), intensitySum, this.charge);
+        return new Peak(this.iCluster.get(0).getMz(), intensitySum, this.charge);
 
     }
 
