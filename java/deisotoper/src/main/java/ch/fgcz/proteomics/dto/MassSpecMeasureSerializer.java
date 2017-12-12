@@ -36,24 +36,31 @@ public class MassSpecMeasureSerializer {
 
         String data = null;
 
+        BufferedReader bufferedReader = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            bufferedReader = new BufferedReader(new FileReader(fileName));
 
             StringBuilder stringbBuilder = new StringBuilder();
-            String line = br.readLine();
+            String line = bufferedReader.readLine();
 
             while (line != null) {
                 stringbBuilder.append(line);
                 // stringbBuilder.append();
-                line = br.readLine();
+                line = bufferedReader.readLine();
             }
             data = stringbBuilder.toString();
 
-            br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                }
+            }
         }
 
         java.lang.reflect.Type type = new TypeToken<MassSpecMeasure>() {

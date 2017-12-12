@@ -20,13 +20,13 @@ public class Convert {
         List<Integer> charge = new ArrayList<Integer>();
         List<Double> isotope = new ArrayList<Double>();
 
-        BufferedReader br = null;
+        BufferedReader bufferedReader = null;
 
         try {
-            br = new BufferedReader(new FileReader(file));
+            bufferedReader = new BufferedReader(new FileReader(file));
 
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains("peak mz")) {
                     String[] parts = line.split("\"");
                     if (parts.length <= 7) {
@@ -51,10 +51,12 @@ public class Convert {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    // Should already catched!
+                }
             }
         }
 
@@ -84,13 +86,13 @@ public class Convert {
         List<Double> mz = new ArrayList<Double>();
         List<Double> intensity = new ArrayList<Double>();
 
-        BufferedReader br = null;
+        BufferedReader bufferedReader = null;
 
         try {
-            br = new BufferedReader(new FileReader(file));
+            bufferedReader = new BufferedReader(new FileReader(file));
 
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(" ");
                 for (int i = 0; i < parts.length; i++) {
                     if (i == 0) {
@@ -105,10 +107,12 @@ public class Convert {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    // Should already catched!
+                }
             }
         }
 

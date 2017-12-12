@@ -9,4 +9,4 @@ clean:
 
 test:
 	cd deisotoper && mvn install $(MVNOPT)
-
+	mv ../temp/java/deisotoper-1.0-SNAPSHOT.jar ../inst/java/

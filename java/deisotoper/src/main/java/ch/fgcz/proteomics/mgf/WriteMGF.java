@@ -39,7 +39,9 @@ public class WriteMGF {
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
-            out.close();
+            if (out != null) {
+                out.close();
+            }
         }
 
         return true;
@@ -67,7 +69,9 @@ public class WriteMGF {
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
-            out.close();
+            if (out != null) {
+                out.close();
+            }
         }
 
         return true;

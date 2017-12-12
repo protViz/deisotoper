@@ -45,15 +45,18 @@ public class ReadMGF {
                     return partEqual[1];
                 }
             }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    // Should already catched!
+                }
             }
         }
 
@@ -61,10 +64,9 @@ public class ReadMGF {
     }
 
     private static MassSpecMeasure readLocal(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
-        BufferedReader bufferedreader = null;
-
+        BufferedReader bufferedReader = null;
         try {
-            bufferedreader = new BufferedReader(new FileReader(fileName));
+            bufferedReader = new BufferedReader(new FileReader(fileName));
 
             String line = "";
             int chargeState = 0;
@@ -76,7 +78,7 @@ public class ReadMGF {
             List<Double> mz = new ArrayList<Double>();
             List<Double> intensity = new ArrayList<Double>();
 
-            while ((line = bufferedreader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] partEqual = line.split("=");
                 String[] partSpace = line.split(" ");
 
@@ -111,10 +113,12 @@ public class ReadMGF {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                bufferedreader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    // Should already catched!
+                }
             }
         }
 
