@@ -44,5 +44,6 @@ inst/doc/*.synctex.gz
 inst/doc/*.tex
 inst/doc/*.toc
 # Ignore java class files
-inst/java/**
-inst/java/*.jar
+inst/java/classes/
+inst/java/*/
+temp/**
