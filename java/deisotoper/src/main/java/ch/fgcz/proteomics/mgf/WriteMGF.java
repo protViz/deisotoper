@@ -22,13 +22,13 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 public class WriteMGF {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
-    public static boolean write(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
+    public static void write(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         File f = new File(fileName);
 
-        return writeConnect(f, massSpectrometryMeasurement);
+        writeConnect(f, massSpectrometryMeasurement);
     }
 
-    private static boolean writeHeader(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
+    private static void writeHeader(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         PrintWriter out = null;
 
         try {
@@ -43,11 +43,9 @@ public class WriteMGF {
                 out.close();
             }
         }
-
-        return true;
     }
 
-    private static boolean writeLocal(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
+    private static void writeLocal(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         PrintWriter out = null;
 
         try {
@@ -73,18 +71,10 @@ public class WriteMGF {
                 out.close();
             }
         }
-
-        return true;
     }
 
-    private static boolean writeConnect(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
-        boolean header = writeHeader(fileName, massSpectrometryMeasurement);
-        boolean local = writeLocal(fileName, massSpectrometryMeasurement);
-
-        if (local == false || header == false) {
-            return false;
-        } else {
-            return true;
-        }
+    private static void writeConnect(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
+        writeHeader(fileName, massSpectrometryMeasurement);
+        writeLocal(fileName, massSpectrometryMeasurement);
     }
 }
