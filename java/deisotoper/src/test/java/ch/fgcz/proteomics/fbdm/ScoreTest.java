@@ -1,5 +1,10 @@
 package ch.fgcz.proteomics.fbdm;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-11-28
@@ -7,11 +12,6 @@ package ch.fgcz.proteomics.fbdm;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class ScoreTest {
     Configuration config;

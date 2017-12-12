@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
-import ch.fgcz.proteomics.fbdm.*;
+import ch.fgcz.proteomics.fbdm.Configuration;
+import ch.fgcz.proteomics.fbdm.Deisotoper;
+import ch.fgcz.proteomics.fbdm.DeisotoperMassSpectrumAdapter;
 
 public class FeaturesBasedDeisotoping {
     // private Deisotoper deisotoper = new Deisotoper();

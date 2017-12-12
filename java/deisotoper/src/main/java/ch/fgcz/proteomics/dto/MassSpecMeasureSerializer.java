@@ -11,24 +11,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import static java.lang.System.*;
 
 public class MassSpecMeasureSerializer {
     public static String serializeToJson(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         Gson gson = new Gson();
 
         String data = gson.toJson(massSpectrometryMeasurement);
-        PrintWriter out = null;
         try {
-            out = new PrintWriter(fileName);
+            PrintWriter out = new PrintWriter(fileName);
             out.println(data);
+            out.close();
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
-        } finally {
-            out.close();
         }
 
         return data;
@@ -39,29 +36,24 @@ public class MassSpecMeasureSerializer {
 
         String data = null;
 
-        BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(fileName));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
 
             StringBuilder stringbBuilder = new StringBuilder();
             String line = br.readLine();
 
             while (line != null) {
                 stringbBuilder.append(line);
-                //stringbBuilder.append();
+                // stringbBuilder.append();
                 line = br.readLine();
             }
             data = stringbBuilder.toString();
+
+            br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         java.lang.reflect.Type type = new TypeToken<MassSpecMeasure>() {

@@ -4,11 +4,11 @@ package ch.fgcz.proteomics.R;
  * @author Lucas Schmidt
  * @since 2017-11-20
  */
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Random;
+
 import org.junit.Test;
 
 // TODO: Finish tests for FeaturesBasedDeisotoping!

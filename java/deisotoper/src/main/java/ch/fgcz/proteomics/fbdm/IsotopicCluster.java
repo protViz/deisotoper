@@ -1,14 +1,14 @@
 package ch.fgcz.proteomics.fbdm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-18
  */
 
 import ch.fgcz.proteomics.utilities.MathUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class IsotopicCluster {
     private List<Peak> isotopicCluster = new ArrayList<Peak>();
@@ -178,21 +178,20 @@ public class IsotopicCluster {
         }
     }
 
-    void scoreCluster(Configuration config) {
-        Score score = new Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(), config);
-        for (Peak peakX : this.isotopicCluster) {
-
-            for (Peak peakY : peakList.getPeakList()) {
-                double scoreResult = score.calculateAggregatedScore(peakX.getMz(),
-                        peakY.getMz(),
-                        this.getIsotopicCluster());
-
-                //double scoreFiveResult = scoreFive.calculateFifthScore(connection);
-
-
-                //scoreSum += scoreResult + scoreFiveResult;
-            }
-        }
-    }
-
+    // public void scoreCluster(Configuration config) {
+    // Score score = new Score(this.peakList.getPeptideMass(),
+    // this.peakList.getChargeState(), config);
+    // for (Peak peakX : this.isotopicCluster) {
+    //
+    // for (Peak peakY : peakList.getPeakList()) {
+    // double scoreResult = score.calculateAggregatedScore(peakX.getMz(),
+    // peakY.getMz(),
+    // this.getIsotopicCluster());
+    //
+    // // double scoreFiveResult = scoreFive.calculateFifthScore(connection);
+    //
+    // // scoreSum += scoreResult + scoreFiveResult;
+    // }
+    // }
+    // }
 }

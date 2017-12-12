@@ -1,5 +1,8 @@
 package ch.fgcz.proteomics.fbdm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-20
@@ -8,9 +11,6 @@ package ch.fgcz.proteomics.fbdm;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class IsotopicClusterGraph {
     private double minimum = Double.MAX_VALUE;

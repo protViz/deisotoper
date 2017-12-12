@@ -1,10 +1,10 @@
 package ch.fgcz.proteomics.fbdm;
 
-import ch.fgcz.proteomics.dto.MassSpecMeasure;
-import ch.fgcz.proteomics.dto.MassSpectrum;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import ch.fgcz.proteomics.dto.MassSpecMeasure;
+import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class DeisotoperMassSpectrumAdapter {
     Deisotoper deisotoper;

@@ -4,11 +4,12 @@ package ch.fgcz.proteomics.fbdm;
  * @author Lucas Schmidt
  * @since 2017-11-23
  */
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;

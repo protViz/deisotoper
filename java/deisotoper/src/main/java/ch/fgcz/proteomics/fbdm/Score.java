@@ -1,8 +1,8 @@
 package ch.fgcz.proteomics.fbdm;
 
-import ch.fgcz.proteomics.utilities.MathUtils;
-
 import java.util.List;
+
+import ch.fgcz.proteomics.utilities.MathUtils;
 
 /**
  * @author Witold Wolski, Lucas Schmidt
@@ -101,7 +101,7 @@ public class Score {
     // is based on the number collection of peaks representing fragment ions that
     // complement with fragment ion represented by .
     public static int secondComplementaryMassScore(double x, double y, double pepidMass, double charge,
-                                                   List<Peak> isotopicCluster, ScoringConfiguration config) {
+            List<Peak> isotopicCluster, ScoringConfiguration config) {
         int F2 = 0;
         int i = 0;
         for (Peak c : isotopicCluster) {
@@ -218,7 +218,7 @@ public class Score {
     public double calculateAggregatedScore(double xMz, double yMz, List<Peak> isotopicClusterOfPeakX) {
         return this.config.getF1() * firstAminoAcidDistanceScore(xMz, yMz, this.config)
                 + this.config.getF2() * secondComplementaryMassScore(xMz, yMz, this.peptidMassValue, this.chargeValue,
-                isotopicClusterOfPeakX, this.config)
+                        isotopicClusterOfPeakX, this.config)
                 + this.config.getF3() * thirdSideChainLossScore(xMz, yMz, this.config)
                 + this.config.getF4() * fourthSupportiveAZIonsScore(xMz, yMz, this.config);
     }

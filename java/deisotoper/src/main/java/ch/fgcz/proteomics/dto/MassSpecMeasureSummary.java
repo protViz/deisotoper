@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.fgcz.proteomics.dto.MassSpecMeasure;
-import ch.fgcz.proteomics.dto.MassSpectrum;
-
 public class MassSpecMeasureSummary {
     public static String summarize(MassSpecMeasure massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();

@@ -4,15 +4,15 @@ package ch.fgcz.proteomics.fbdm;
  * @author Lucas Schmidt
  * @since 2017-10-26
  */
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.fgcz.proteomics.dto.MassSpectrum;
 import org.junit.Test;
+
+import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicSetTest {
     @Test
@@ -66,7 +66,7 @@ public class IsotopicSetTest {
         peakList.add(new Peak(2, 200, 1));
         peakList.add(new Peak(3, 300, 2));
 
-        List<IsotopicCluster> inputSet = new ArrayList();
+        List<IsotopicCluster> inputSet = new ArrayList<IsotopicCluster>();
         inputSet.add(new IsotopicCluster(Arrays.asList(peakList.get(0), peakList.get(1), peakList.get(2)), 1, peakList,
                 config.getIsotopicPeakDistance(), config.getDelta()));
         inputSet.add(new IsotopicCluster(Arrays.asList(peakList.get(0), peakList.get(1)), 1, peakList,
@@ -90,7 +90,7 @@ public class IsotopicSetTest {
         peakList.add(new Peak(4, 300, 2));
         peakList.add(new Peak(5, 400, 3));
 
-        List<IsotopicCluster> inputSet = new ArrayList();
+        List<IsotopicCluster> inputSet = new ArrayList<IsotopicCluster>();
         inputSet.add(new IsotopicCluster(Arrays.asList(peakList.get(0), peakList.get(1)), 1, peakList,
                 config.getIsotopicPeakDistance(), config.getDelta()));
         inputSet.add(new IsotopicCluster(Arrays.asList(peakList.get(2), peakList.get(3)), 1, peakList,
@@ -116,7 +116,7 @@ public class IsotopicSetTest {
         peakList.add(new Peak(6, 500, 4));
         peakList.add(new Peak(7, 600, 5));
 
-        List<IsotopicCluster> inputSet = new ArrayList();
+        List<IsotopicCluster> inputSet = new ArrayList<IsotopicCluster>();
         inputSet.add(new IsotopicCluster(Arrays.asList(peakList.get(0), peakList.get(1), peakList.get(2)), 1, peakList,
                 config.getIsotopicPeakDistance(), config.getDelta()));
         inputSet.add(new IsotopicCluster(Arrays.asList(peakList.get(0), peakList.get(1)), 1, peakList,

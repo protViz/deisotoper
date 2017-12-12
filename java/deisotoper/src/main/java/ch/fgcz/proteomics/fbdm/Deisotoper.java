@@ -1,17 +1,17 @@
 package ch.fgcz.proteomics.fbdm;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Lucas Schmidt
  * @since 2017-09-21
  */
 
 import ch.fgcz.proteomics.utilities.MathUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class Deisotoper {
     private boolean running = false;
@@ -323,10 +323,10 @@ public class Deisotoper {
         return allPeaks;
     }
 
-    private static void intensityCheck(double before, double after){
-        if (MathUtils.fuzzyEqual(before, after, 0.001)) {
-            throw new IllegalStateException("Wrong intensities after aggregation (Intensity before aggregation: " + before
-                    + " and after aggregation: " + after + "!");
+    private static void intensityCheck(double before, double after) {
+        if (!MathUtils.fuzzyEqual(before, after, 0.001)) {
+            throw new IllegalStateException("Wrong intensities after aggregation (Intensity before aggregation: "
+                    + before + " and after aggregation: " + after + "!");
         }
     }
 
