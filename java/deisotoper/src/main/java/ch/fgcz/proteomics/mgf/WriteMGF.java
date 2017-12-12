@@ -20,11 +20,6 @@ public class WriteMGF {
     public static boolean write(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         File f = new File(fileName);
 
-        if (f.exists()) {
-            System.err.println("WARNING: The requested output (" + fileName + ") exists already!");
-            return false;
-        }
-
         return writeConnect(f, massSpectrometryMeasurement);
     }
 
