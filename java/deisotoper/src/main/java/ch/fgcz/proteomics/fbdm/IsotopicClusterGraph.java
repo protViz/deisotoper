@@ -13,6 +13,10 @@ import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class IsotopicClusterGraph {
+    private final String BLACK = "black";
+    private final String RED = "red";
+    private final String START = "start";
+    private final String END = "end";
     private double minimum = Double.MAX_VALUE;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
             Connection.class);
@@ -21,10 +25,16 @@ public class IsotopicClusterGraph {
         List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
-        isotopicSet2.add(new IsotopicCluster("start"));
+        isotopicSet2.add(new IsotopicCluster(START));
 
-        for (IsotopicCluster cluster1 : isotopicSet2) {
-            for (IsotopicCluster cluster2 : isotopicSet2) {
+        assignStartAndOther(isotopicSet2);
+
+        assignEnd();
+    }
+
+    private void assignStartAndOther(List<IsotopicCluster> isotopicSet) {
+        for (IsotopicCluster cluster1 : isotopicSet) {
+            for (IsotopicCluster cluster2 : isotopicSet) {
                 String color = calculateConnection(cluster1, cluster2);
 
                 // Start
@@ -38,7 +48,9 @@ public class IsotopicClusterGraph {
                 }
             }
         }
+    }
 
+    private void assignEnd() {
         // End
         List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
         for (IsotopicCluster cluster1 : this.isotopicClusterGraph.vertexSet()) {
@@ -52,9 +64,9 @@ public class IsotopicClusterGraph {
             }
         }
 
-        IsotopicCluster endCluster = new IsotopicCluster("end");
+        IsotopicCluster endCluster = new IsotopicCluster(END);
         for (IsotopicCluster cluster : isotopicClusters) {
-            connectClusters(cluster, endCluster, "black");
+            connectClusters(cluster, endCluster, BLACK);
         }
     }
 
@@ -175,7 +187,7 @@ public class IsotopicClusterGraph {
 
     public IsotopicCluster getStart() {
         for (IsotopicCluster cluster : this.isotopicClusterGraph.vertexSet()) {
-            if (cluster.isNull() && cluster.getStatus() == "start") {
+            if (cluster.isNull() && cluster.getStatus() == START) {
                 return cluster;
             }
         }
@@ -184,7 +196,7 @@ public class IsotopicClusterGraph {
 
     public IsotopicCluster getEnd() {
         for (IsotopicCluster cluster : this.isotopicClusterGraph.vertexSet()) {
-            if (cluster.isNull() && cluster.getStatus() == "end") {
+            if (cluster.isNull() && cluster.getStatus() == END) {
                 return cluster;
             }
         }
@@ -206,9 +218,9 @@ public class IsotopicClusterGraph {
             }
         }
 
-        if (cluster1.getStatus() == "start" && cluster2.isNotNull() && cluster1.isNull()
+        if (cluster1.getStatus() == START && cluster2.isNotNull() && cluster1.isNull()
                 && cluster2.getPeak(0).getMz() == this.minimum) {
-            return "black";
+            return BLACK;
         }
 
         if (cluster1.isNull() || cluster2.isNull()) {
@@ -216,23 +228,23 @@ public class IsotopicClusterGraph {
         }
 
         if (cluster1.getPeak(cluster1.size() - 1).getMz() < cluster2.getPeak(0).getMz()) {
-            return "black";
+            return BLACK;
         }
 
         if (cluster1.getPeak(0).getMz() < cluster2.getPeak(0).getMz()) {
             if (cluster1.size() == 2) {
                 if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()) {
-                    return "red";
+                    return RED;
                 } else {
                     return null;
                 }
             } else if (cluster1.size() == 3) {
                 if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()
                         || cluster1.getPeak(2).getMz() == cluster2.getPeak(0).getMz()) {
-                    return "red";
+                    return RED;
                 } else if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()
                         && cluster1.getPeak(2).getMz() == cluster2.getPeak(1).getMz()) {
-                    return "red";
+                    return RED;
                 } else {
                     return null;
                 }
