@@ -174,7 +174,7 @@ public class PeakList implements MassSpectrumMetaInformation {
             int index = peakListIterator.nextIndex();
             Peak currentPeak = peakListIterator.next();
             for (int j = 0; j < index; ++j) {
-                if (currentPeak.equals(this.peakList.get(j))) {
+                if (currentPeak.equalsPeak(this.peakList.get(j))) {
                     peakListIterator.remove();
                     break; // TODO why break ?
                 }

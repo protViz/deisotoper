@@ -118,7 +118,7 @@ public class IsotopicCluster {
     public boolean hasSamePeaks(IsotopicCluster isotopicClusterToCompare) {
         for (Peak peak1 : this.getIsotopicCluster()) {
             for (Peak peak2 : isotopicClusterToCompare.getIsotopicCluster()) {
-                if (peak1.equals(peak2)) {
+                if (peak1.equalsPeak(peak2)) {
                     return true;
                 }
             }

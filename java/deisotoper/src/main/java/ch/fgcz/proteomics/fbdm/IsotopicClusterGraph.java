@@ -223,6 +223,8 @@ public class IsotopicClusterGraph {
             if (cluster1.size() == 2) {
                 if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()) {
                     return "red";
+                } else {
+                    return null;
                 }
             } else if (cluster1.size() == 3) {
                 if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()
@@ -231,6 +233,8 @@ public class IsotopicClusterGraph {
                 } else if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()
                         && cluster1.getPeak(2).getMz() == cluster2.getPeak(1).getMz()) {
                     return "red";
+                } else {
+                    return null;
                 }
             }
         }

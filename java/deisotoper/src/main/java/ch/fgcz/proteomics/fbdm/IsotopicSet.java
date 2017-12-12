@@ -170,14 +170,14 @@ public class IsotopicSet {
         for (IsotopicCluster cluster1 : isotopicClusters) {
             for (IsotopicCluster cluster2 : isotopicClusters) {
                 if (cluster1.size() == 3 && cluster2.size() == 2) {
-                    if (cluster1.getPeak(1).equals(cluster2.getPeak(0))
-                            && cluster1.getPeak(2).equals(cluster2.getPeak(1))) {
+                    if (cluster1.getPeak(1).equalsPeak(cluster2.getPeak(0))
+                            && cluster1.getPeak(2).equalsPeak(cluster2.getPeak(1))) {
                         isotopicClusters2.add(cluster2);
                     }
                 }
                 if (cluster1.size() == 2 && cluster2.size() == 3) {
-                    if (cluster1.getPeak(0).equals(cluster2.getPeak(0))
-                            && cluster1.getPeak(1).equals(cluster2.getPeak(1))) {
+                    if (cluster1.getPeak(0).equalsPeak(cluster2.getPeak(0))
+                            && cluster1.getPeak(1).equalsPeak(cluster2.getPeak(1))) {
                         isotopicClusters2.add(cluster1);
                     }
                 }
