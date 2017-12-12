@@ -16,6 +16,7 @@ import ch.fgcz.proteomics.dto.MassSpectrumMetaInformation;
 import ch.fgcz.proteomics.utilities.MathUtils;
 
 public class PeakList implements MassSpectrumMetaInformation {
+    private final String LINESEP = System.lineSeparator();
     private double peptideMass;
     private int chargeState;
 
@@ -143,14 +144,13 @@ public class PeakList implements MassSpectrumMetaInformation {
 
     public String saveAnnotatedSpectrum() {
         StringBuilder stringBuilder = new StringBuilder();
-        String lineSep = System.getProperty("line.separator");
 
-        stringBuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(lineSep);
+        stringBuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(LINESEP);
 
         for (Peak peak : this.peakList) {
             stringBuilder.append(peak.getIsotopicSetID()).append(",").append(peak.getIsotopicClusterID()).append(",")
                     .append(peak.getPeakID()).append(",").append(peak.getCharge()).append(",").append(peak.getMz())
-                    .append(",").append(peak.getIntensity()).append(lineSep);
+                    .append(",").append(peak.getIntensity()).append(LINESEP);
 
         }
 
@@ -226,10 +226,10 @@ public class PeakList implements MassSpectrumMetaInformation {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Peak peak : this.peakList) {
-            stringBuilder.append(peak.toString()).append(System.getProperty("line.separator"));
+            stringBuilder.append(peak.toString()).append(LINESEP);
         }
 
-        return "PeakList: " + System.getProperty("line.separator") + stringBuilder.toString();
+        return "PeakList: " + LINESEP + stringBuilder.toString();
     }
 
     static public void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2)

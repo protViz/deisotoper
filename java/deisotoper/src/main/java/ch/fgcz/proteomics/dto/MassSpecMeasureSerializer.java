@@ -63,6 +63,7 @@ public class MassSpecMeasureSerializer {
                 try {
                     bufferedReader.close();
                 } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, ex.toString(), ex);
                 }
             }
         }

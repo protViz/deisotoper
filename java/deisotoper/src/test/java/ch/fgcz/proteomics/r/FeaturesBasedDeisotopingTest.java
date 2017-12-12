@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.R;
+package ch.fgcz.proteomics.r;
 
 /**
  * @author Lucas Schmidt

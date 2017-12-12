@@ -1,4 +1,4 @@
-package ch.fgcz.proteomics.R;
+package ch.fgcz.proteomics.r;
 
 /**
  * @author Lucas Schmidt
@@ -8,6 +8,10 @@ package ch.fgcz.proteomics.R;
 import ch.fgcz.proteomics.utilities.FindNearestNeighbor;
 
 public class Utilities {
+    public Utilities() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static double[] findNNR(double[] vector, double[] query) {
         return FindNearestNeighbor.findNearestNeighbor(vector, query);
     }

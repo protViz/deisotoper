@@ -101,7 +101,7 @@ public class IsotopicSet {
         List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
 
         for (int charge = 3; 0 < charge; charge--) {
-            isotopicClusters = collectClusterForEachCharge(isotopicClusters, this.peaksInSet, charge, config);
+            collectClusterForEachCharge(isotopicClusters, this.peaksInSet, charge, config);
         }
 
         isotopicClusters = removeMultipleIsotopicCluster(isotopicClusters);
@@ -169,18 +169,7 @@ public class IsotopicSet {
 
         for (IsotopicCluster cluster1 : isotopicClusters) {
             for (IsotopicCluster cluster2 : isotopicClusters) {
-                if (cluster1.size() == 3 && cluster2.size() == 2) {
-                    if (cluster1.getPeak(1).equalsPeak(cluster2.getPeak(0))
-                            && cluster1.getPeak(2).equalsPeak(cluster2.getPeak(1))) {
-                        isotopicClusters2.add(cluster2);
-                    }
-                }
-                if (cluster1.size() == 2 && cluster2.size() == 3) {
-                    if (cluster1.getPeak(0).equalsPeak(cluster2.getPeak(0))
-                            && cluster1.getPeak(1).equalsPeak(cluster2.getPeak(1))) {
-                        isotopicClusters2.add(cluster1);
-                    }
-                }
+                innerIfStatementsOfRemoveDoubleCluster(isotopicClusters2, cluster1, cluster2);
             }
         }
 
@@ -189,42 +178,63 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
+    private static void innerIfStatementsOfRemoveDoubleCluster(List<IsotopicCluster> isotopicClusters,
+            IsotopicCluster cluster1, IsotopicCluster cluster2) {
+        if (cluster1.size() == 3 && cluster2.size() == 2) {
+            if (cluster1.getPeak(1).equalsPeak(cluster2.getPeak(0))
+                    && cluster1.getPeak(2).equalsPeak(cluster2.getPeak(1))) {
+                isotopicClusters.add(cluster2);
+            }
+        } else if (cluster1.size() == 2 && cluster2.size() == 3) {
+            if (cluster1.getPeak(0).equalsPeak(cluster2.getPeak(0))
+                    && cluster1.getPeak(1).equalsPeak(cluster2.getPeak(1))) {
+                isotopicClusters.add(cluster1);
+            }
+        }
+    }
+
     private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
             List<Peak> isotopicSet, int charge, Configuration config) {
         for (Peak a : isotopicSet) {
             for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
                 for (Peak c : isotopicSet) {
-                    List<Peak> ic = new ArrayList<Peak>();
                     double distanceac = c.getMz() - a.getMz();
                     double distancebc = c.getMz() - b.getMz();
-
-                    if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distanceab
-                            && distanceab < (config.getIsotopicPeakDistance() / charge) + config.getDelta()) {
-                        a.setCharge(charge);
-                        b.setCharge(charge);
-                        ic.add(a);
-                        ic.add(b);
-                    }
-
-                    if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distancebc
-                            && distancebc < (config.getIsotopicPeakDistance() / charge) + config.getDelta()
-                            && ((config.getIsotopicPeakDistance() / charge) - config.getDelta()) * 2 < distanceac
-                            && distanceac < ((config.getIsotopicPeakDistance() / charge) + config.getDelta()) * 2) {
-                        c.setCharge(charge);
-                        ic.add(c);
-                    }
-
-                    if (ic.size() == 2 || ic.size() == 3) {
-                        IsotopicCluster cluster = new IsotopicCluster(ic, charge, this.peakList,
-                                config.getIsotopicPeakDistance(), config.getDelta());
-                        isotopicClusters.add(cluster);
-                    }
+                    innerIfStatementsOfCollectCluster(isotopicClusters, a, b, c, charge, config, distanceab, distanceac,
+                            distancebc);
                 }
             }
         }
 
         return isotopicClusters;
+    }
+
+    private void innerIfStatementsOfCollectCluster(List<IsotopicCluster> isotopicClusters, Peak a, Peak b, Peak c,
+            int charge, Configuration config, double distanceab, double distanceac, double distancebc) {
+        List<Peak> ic = new ArrayList<Peak>();
+
+        if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distanceab
+                && distanceab < (config.getIsotopicPeakDistance() / charge) + config.getDelta()) {
+            a.setCharge(charge);
+            b.setCharge(charge);
+            ic.add(a);
+            ic.add(b);
+        }
+
+        if ((config.getIsotopicPeakDistance() / charge) - config.getDelta() < distancebc
+                && distancebc < (config.getIsotopicPeakDistance() / charge) + config.getDelta()
+                && ((config.getIsotopicPeakDistance() / charge) - config.getDelta()) * 2 < distanceac
+                && distanceac < ((config.getIsotopicPeakDistance() / charge) + config.getDelta()) * 2) {
+            c.setCharge(charge);
+            ic.add(c);
+        }
+
+        if (ic.size() == 2 || ic.size() == 3) {
+            IsotopicCluster cluster = new IsotopicCluster(ic, charge, this.peakList, config.getIsotopicPeakDistance(),
+                    config.getDelta());
+            isotopicClusters.add(cluster);
+        }
     }
 
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicClusters) {

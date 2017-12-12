@@ -31,6 +31,25 @@ public class Convert {
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
 
+            msdToPeaklistHelper(bufferedReader, mz, intensity, charge, isotope);
+        } catch (FileNotFoundException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    LOGGER.log(Level.SEVERE, e.toString(), e);
+                }
+            }
+        }
+
+        return new Peaklist(mz, intensity, charge, isotope);
+    }
+
+    private static void msdToPeaklistHelper(BufferedReader bufferedReader, List<Double> mz, List<Double> intensity,
+            List<Integer> charge, List<Double> isotope) {
+        try {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains("peak mz")) {
@@ -52,21 +71,11 @@ public class Convert {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (NumberFormatException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, e.toString(), e);
-                }
-            }
         }
-
-        return new Peaklist(mz, intensity, charge, isotope);
     }
 
     /**
