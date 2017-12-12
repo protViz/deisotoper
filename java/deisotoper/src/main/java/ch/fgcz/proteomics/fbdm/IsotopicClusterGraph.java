@@ -13,6 +13,10 @@ import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class IsotopicClusterGraph {
+    private final String LINESEP = System.lineSeparator();
+    private final String COLOR = "[color=\"";
+    private final String LABEL = "\",label=\"";
+    private final String WEIGHT = "\",weight=\"";
     private final String BLACK = "black";
     private final String RED = "red";
     private final String START = "start";
@@ -101,54 +105,60 @@ public class IsotopicClusterGraph {
         for (Connection connection : this.isotopicClusterGraph.edgeSet()) {
             if (this.isotopicClusterGraph.getEdgeSource(connection).isNotNull()
                     && this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
-                stringBuilder
-                        .append("\"(" + this.isotopicClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
-                for (Peak peak : this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
-                    stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-                }
-                stringBuilder.append("] z:" + this.isotopicClusterGraph.getEdgeSource(connection).getCharge()
-                        + "\" -> \"(" + this.isotopicClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
-                for (Peak peak : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-                    stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-                }
-                stringBuilder.append("] z:" + this.isotopicClusterGraph.getEdgeTarget(connection).getCharge() + "\"")
-                        .append("[color=\"" + connection.getColor() + "\",label=\""
-                                + Math.round(connection.getScore() * 10000d) / 10000d + "\",weight=\""
-                                + connection.getScore() + "\"];")
-                        .append(lineSep);
+                firstIfStatement(stringBuilder, connection);
             } else if (this.isotopicClusterGraph.getEdgeSource(connection).isNull()
                     && this.isotopicClusterGraph.getEdgeTarget(connection).isNotNull()) {
-                stringBuilder.append(this.isotopicClusterGraph.getEdgeSource(connection).getStatus());
-                stringBuilder.append(
-                        " -> \"(" + this.isotopicClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
-                for (Peak peak : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-                    stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-                }
-                stringBuilder.append("] z:" + this.isotopicClusterGraph.getEdgeTarget(connection).getCharge() + "\"")
-                        .append("[color=\"" + connection.getColor() + "\",label=\""
-                                + Math.round(connection.getScore() * 10000d) / 10000d + "\",weight=\""
-                                + connection.getScore() + "\"];")
-                        .append(lineSep);
+                secondIfStatement(stringBuilder, connection);
             } else if (this.isotopicClusterGraph.getEdgeTarget(connection).isNull()
                     && this.isotopicClusterGraph.getEdgeSource(connection).isNotNull()) {
-                stringBuilder
-                        .append("\"(" + this.isotopicClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
-                for (Peak peak : this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
-                    stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-                }
-                stringBuilder
-                        .append("] z:" + this.isotopicClusterGraph.getEdgeSource(connection).getCharge() + "\" -> "
-                                + this.isotopicClusterGraph.getEdgeTarget(connection).getStatus())
-                        .append("[color=\"" + connection.getColor() + "\",label=\""
-                                + Math.round(connection.getScore() * 10000d) / 10000d + "\",weight=\""
-                                + connection.getScore() + "\"];")
-                        .append(lineSep);
+                thirdIfStatement(stringBuilder, connection);
             }
         }
 
         stringBuilder.append("}");
 
         return stringBuilder.toString();
+    }
+
+    private void firstIfStatement(StringBuilder stringBuilder, Connection connection) {
+        stringBuilder.append("\"(" + this.isotopicClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
+        for (Peak peak : this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
+            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
+        }
+        stringBuilder.append("] z:" + this.isotopicClusterGraph.getEdgeSource(connection).getCharge() + "\" -> \"("
+                + this.isotopicClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
+        for (Peak peak : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
+            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
+        }
+        stringBuilder.append("] z:" + this.isotopicClusterGraph.getEdgeTarget(connection).getCharge() + "\"")
+                .append(COLOR + connection.getColor() + LABEL + Math.round(connection.getScore() * 10000d) / 10000d
+                        + WEIGHT + connection.getScore() + "\"];")
+                .append(LINESEP);
+    }
+
+    private void secondIfStatement(StringBuilder stringBuilder, Connection connection) {
+        stringBuilder.append(this.isotopicClusterGraph.getEdgeSource(connection).getStatus());
+        stringBuilder.append(" -> \"(" + this.isotopicClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
+        for (Peak peak : this.isotopicClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
+            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
+        }
+        stringBuilder.append("] z:" + this.isotopicClusterGraph.getEdgeTarget(connection).getCharge() + "\"")
+                .append(COLOR + connection.getColor() + LABEL + Math.round(connection.getScore() * 10000d) / 10000d
+                        + WEIGHT + connection.getScore() + "\"];")
+                .append(LINESEP);
+    }
+
+    private void thirdIfStatement(StringBuilder stringBuilder, Connection connection) {
+        stringBuilder.append("\"(" + this.isotopicClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
+        for (Peak peak : this.isotopicClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
+            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
+        }
+        stringBuilder
+                .append("] z:" + this.isotopicClusterGraph.getEdgeSource(connection).getCharge() + "\" -> "
+                        + this.isotopicClusterGraph.getEdgeTarget(connection).getStatus())
+                .append(COLOR + connection.getColor() + LABEL + Math.round(connection.getScore() * 10000d) / 10000d
+                        + WEIGHT + connection.getScore() + "\"];")
+                .append(LINESEP);
     }
 
     public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, PeakList peakList, Configuration config) {
@@ -231,6 +241,10 @@ public class IsotopicClusterGraph {
             return BLACK;
         }
 
+        return calculateConnectionCompare(cluster1, cluster2);
+    }
+
+    private String calculateConnectionCompare(IsotopicCluster cluster1, IsotopicCluster cluster2) {
         if (cluster1.getPeak(0).getMz() < cluster2.getPeak(0).getMz()) {
             if (cluster1.size() == 2) {
                 if (cluster1.getPeak(1).getMz() == cluster2.getPeak(0).getMz()) {
