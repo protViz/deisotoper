@@ -12,10 +12,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
+import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 
 public class ReadStdIn {
+    private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
+
     public static MassSpecMeasure read() {
         InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 
@@ -66,9 +71,9 @@ public class ReadStdIn {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
         return massSpectrometryMeasurement;

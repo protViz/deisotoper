@@ -11,11 +11,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class MassSpecMeasureSerializer {
+    private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
+
     public static String serializeToJson(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         Gson gson = new Gson();
 
@@ -24,8 +28,8 @@ public class MassSpecMeasureSerializer {
             PrintWriter out = new PrintWriter(fileName);
             out.println(data);
             out.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (FileNotFoundException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
         return data;
@@ -45,15 +49,15 @@ public class MassSpecMeasureSerializer {
 
             while (line != null) {
                 stringbBuilder.append(line);
-                // stringbBuilder.append();
+                stringbBuilder.append(System.lineSeparator());
                 line = bufferedReader.readLine();
             }
             data = stringbBuilder.toString();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } finally {
             if (bufferedReader != null) {
                 try {

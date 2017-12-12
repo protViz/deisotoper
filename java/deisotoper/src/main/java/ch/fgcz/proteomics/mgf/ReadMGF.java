@@ -12,10 +12,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
+import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 
 public class ReadMGF {
+    private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
+
     public static MassSpecMeasure read(String fileName) {
         String source = readHeader(fileName);
 
@@ -47,9 +52,9 @@ public class ReadMGF {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } finally {
             if (bufferedReader != null) {
                 try {
@@ -109,9 +114,9 @@ public class ReadMGF {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } finally {
             if (bufferedReader != null) {
                 try {
