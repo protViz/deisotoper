@@ -125,7 +125,7 @@ public class Mspy {
     private static double calculateMass(double mass, int charge, int currentcharge, int masstype) {
         int agentcharge = 1;
         double agentmass = H_MASS;
-        double agentcount = currentcharge / agentcharge;
+        double agentcount = currentcharge / (double) agentcharge;
         agentmass = agentmass - agentcharge * ELECTRON_MASS;
 
         if (currentcharge != 0) {
@@ -136,7 +136,7 @@ public class Mspy {
             return mass;
         }
 
-        double agentcount2 = charge / agentcharge;
+        double agentcount2 = (double) charge / agentcharge;
         return (mass + agentmass * agentcount2) / Math.abs(charge);
     }
 

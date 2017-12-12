@@ -14,20 +14,22 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import static java.lang.System.*;
+
 public class MassSpecMeasureSerializer {
     public static String serializeToJson(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         Gson gson = new Gson();
 
         String data = gson.toJson(massSpectrometryMeasurement);
-
         PrintWriter out = null;
         try {
             out = new PrintWriter(fileName);
+            out.println(data);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
+        } finally {
+            out.close();
         }
-
-        out.println(data);
 
         return data;
     }
@@ -40,17 +42,13 @@ public class MassSpecMeasureSerializer {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(fileName));
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
 
-        try {
             StringBuilder stringbBuilder = new StringBuilder();
             String line = br.readLine();
 
             while (line != null) {
                 stringbBuilder.append(line);
-                stringbBuilder.append(System.lineSeparator());
+                //stringbBuilder.append();
                 line = br.readLine();
             }
             data = stringbBuilder.toString();
@@ -58,6 +56,12 @@ public class MassSpecMeasureSerializer {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         java.lang.reflect.Type type = new TypeToken<MassSpecMeasure>() {

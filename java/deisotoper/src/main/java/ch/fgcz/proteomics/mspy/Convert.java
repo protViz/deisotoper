@@ -21,13 +21,10 @@ public class Convert {
         List<Double> isotope = new ArrayList<Double>();
 
         BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
 
         try {
+            br = new BufferedReader(new FileReader(file));
+
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.contains("peak mz")) {
@@ -53,6 +50,12 @@ public class Convert {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return new Peaklist(mz, intensity, charge, isotope);
@@ -82,13 +85,10 @@ public class Convert {
         List<Double> intensity = new ArrayList<Double>();
 
         BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
 
         try {
+            br = new BufferedReader(new FileReader(file));
+
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
@@ -104,6 +104,12 @@ public class Convert {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return new ch.fgcz.proteomics.mspy.Peaklist(mz, intensity);

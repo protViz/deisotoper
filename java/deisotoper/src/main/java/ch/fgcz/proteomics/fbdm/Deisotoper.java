@@ -5,6 +5,8 @@ package ch.fgcz.proteomics.fbdm;
  * @since 2017-09-21
  */
 
+import ch.fgcz.proteomics.utilities.MathUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -117,13 +119,7 @@ public class Deisotoper {
         }
 
         double sumAfter = sumAllIntensities(isotopicClusters);
-
-        try {
-            intensityCheck(sumBefore, sumAfter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        intensityCheck(sumBefore, sumAfter);
         return resultPeakList;
     }
 
@@ -187,7 +183,7 @@ public class Deisotoper {
             Set<PeakList> setOfPeakLists = splitAllPossibleIsotopicSets(new HashSet<Peak>(part.getPeakList()));
             List<PeakList> listOfPeakLists = new ArrayList<PeakList>();
 
-            listOfPeakLists = sortAndCheckCorrectnessOfSplittedIsotopicSets(setOfPeakLists, listOfPeakLists, config);
+            sortAndCheckCorrectnessOfSplittedIsotopicSets(setOfPeakLists, listOfPeakLists, config);
 
             listOfPeakLists = checkForContainingAndRemoveWrongSets(listOfPeakLists);
 
@@ -327,9 +323,9 @@ public class Deisotoper {
         return allPeaks;
     }
 
-    private static void intensityCheck(double before, double after) throws Exception {
-        if ((double) Math.round(before * 1000d) / 1000d != (double) Math.round(after * 1000d) / 1000d) {
-            throw new Exception("Wrong intensities after aggregation (Intensity before aggregation: " + before
+    private static void intensityCheck(double before, double after){
+        if (MathUtils.fuzzyEqual(before, after, 0.001)) {
+            throw new IllegalStateException("Wrong intensities after aggregation (Intensity before aggregation: " + before
                     + " and after aggregation: " + after + "!");
         }
     }
