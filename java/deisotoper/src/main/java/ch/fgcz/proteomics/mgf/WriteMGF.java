@@ -30,36 +30,44 @@ public class WriteMGF {
 
     private static boolean writeHeader(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         PrintWriter out = null;
+
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
+            out.println(
+                    "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
+            out.println("COM=" + massSpectrometryMeasurement.getSource());
         } catch (IOException e1) {
             e1.printStackTrace();
+        } finally {
+            out.close();
         }
-        out.println("# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
-        out.println("COM=" + massSpectrometryMeasurement.getSource());
+
         return true;
     }
 
     private static boolean writeLocal(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
         PrintWriter out = null;
+
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
+
+            for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
+                out.println("BEGIN IONS");
+
+                out.println("TITLE=" + MS.getTyp());
+                out.println("PEPMASS=" + MS.getPeptideMass());
+                out.println("CHARGE=" + MS.getChargeState() + "+");
+                out.println("RTINSECONDS=" + MS.getRt());
+                int i = 0;
+                for (i = 0; i < MS.getMz().size(); i++) {
+                    out.println(MS.getMz().get(i) + " " + MS.getIntensity().get(i));
+                }
+                out.println("END IONS");
+            }
         } catch (IOException e1) {
             e1.printStackTrace();
-        }
-
-        for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
-            out.println("BEGIN IONS");
-
-            out.println("TITLE=" + MS.getTyp());
-            out.println("PEPMASS=" + MS.getPeptideMass());
-            out.println("CHARGE=" + MS.getChargeState() + "+");
-            out.println("RTINSECONDS=" + MS.getRt());
-            int i = 0;
-            for (i = 0; i < MS.getMz().size(); i++) {
-                out.println(MS.getMz().get(i) + " " + MS.getIntensity().get(i));
-            }
-            out.println("END IONS");
+        } finally {
+            out.close();
         }
 
         return true;

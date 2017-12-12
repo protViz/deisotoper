@@ -107,11 +107,11 @@ public class IsotopicSet {
 
         isotopicClusters = removeMultipleIsotopicCluster(isotopicClusters);
 
-        isotopicClusters = sortIsotopicSet(isotopicClusters);
+        sortIsotopicSet(isotopicClusters);
 
         this.setId = setId;
 
-        isotopicClusters = setPositions(isotopicClusters);
+        setPositions(isotopicClusters);
 
         return isotopicClusters;
     }

@@ -34,11 +34,7 @@ public class ReadMGF {
         BufferedReader bufferedReader = null;
         try {
             bufferedReader = new BufferedReader(new FileReader(fileName));
-        } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        try {
+
             String line = "";
             String[] partEqual = line.split("=");
 
@@ -53,6 +49,12 @@ public class ReadMGF {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
@@ -60,14 +62,10 @@ public class ReadMGF {
 
     private static MassSpecMeasure readLocal(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         BufferedReader bufferedreader = null;
-        try {
-            bufferedreader = new BufferedReader(new FileReader(fileName));
-        } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
 
         try {
+            bufferedreader = new BufferedReader(new FileReader(fileName));
+
             String line = "";
             int chargeState = 0;
             int id = 0;
@@ -112,6 +110,12 @@ public class ReadMGF {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                bufferedreader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return massSpectrometryMeasurement;

@@ -187,7 +187,7 @@ public class Deisotoper {
             Set<PeakList> setOfPeakLists = splitAllPossibleIsotopicSets(new HashSet<Peak>(part.getPeakList()));
             List<PeakList> listOfPeakLists = new ArrayList<PeakList>();
 
-            listOfPeakLists = sortAndCheckCorrectnessOfSplittedIsotopicSets(setOfPeakLists, listOfPeakLists, config);
+            sortAndCheckCorrectnessOfSplittedIsotopicSets(setOfPeakLists, listOfPeakLists, config);
 
             listOfPeakLists = checkForContainingAndRemoveWrongSets(listOfPeakLists);
 
