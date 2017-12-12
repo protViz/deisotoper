@@ -11,9 +11,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 
 @Deprecated
 public class Convert {
+    private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
+
     public static Peaklist msdToPeaklist(String file) {
         List<Double> mz = new ArrayList<Double>();
         List<Double> intensity = new ArrayList<Double>();
@@ -47,15 +53,15 @@ public class Convert {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
-                } catch (IOException ex) {
-                    // Should already catched!
+                } catch (IOException e) {
+                    LOGGER.log(Level.SEVERE, e.toString(), e);
                 }
             }
         }
@@ -103,15 +109,15 @@ public class Convert {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
-                } catch (IOException ex) {
-                    // Should already catched!
+                } catch (IOException e) {
+                    LOGGER.log(Level.SEVERE, e.toString(), e);
                 }
             }
         }
