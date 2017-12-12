@@ -6,10 +6,10 @@ package ch.fgcz.proteomics;
  */
 
 public class Version {
-    public Version() {
-        throw new IllegalStateException("Version class");
+    private Version() {
+        // Empty constructor
     }
-    
+
     private static String versionOfDto() {
         return "Java Package: DTO, Date: 2017-12-04, Author: Lucas Schmidt";
     }

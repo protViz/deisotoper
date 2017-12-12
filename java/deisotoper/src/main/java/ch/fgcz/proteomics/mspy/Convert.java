@@ -52,29 +52,34 @@ public class Convert {
         try {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.contains("peak mz")) {
-                    String[] parts = line.split("\"");
-                    if (parts.length <= 7) {
-                        charge.add(-1);
-                        isotope.add(-1.0);
-                    }
-                    for (int i = 0; i < parts.length; i++) {
-                        if (i == 1) {
-                            mz.add(Double.parseDouble(parts[i]));
-                        } else if (i == 3) {
-                            intensity.add(Double.parseDouble(parts[i]));
-                        } else if (i == 7) {
-                            charge.add(Integer.parseInt(parts[i]));
-                        } else if (i == 9) {
-                            isotope.add(Double.parseDouble(parts[i]));
-                        }
-                    }
-                }
+                msdToPeaklistHelperWhile(line, mz, intensity, charge, isotope);
             }
         } catch (NumberFormatException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
+    }
+
+    private static void msdToPeaklistHelperWhile(String line, List<Double> mz, List<Double> intensity,
+            List<Integer> charge, List<Double> isotope) {
+        if (line.contains("peak mz")) {
+            String[] parts = line.split("\"");
+            if (parts.length <= 7) {
+                charge.add(-1);
+                isotope.add(-1.0);
+            }
+            for (int i = 0; i < parts.length; i++) {
+                if (i == 1) {
+                    mz.add(Double.parseDouble(parts[i]));
+                } else if (i == 3) {
+                    intensity.add(Double.parseDouble(parts[i]));
+                } else if (i == 7) {
+                    charge.add(Integer.parseInt(parts[i]));
+                } else if (i == 9) {
+                    isotope.add(Double.parseDouble(parts[i]));
+                }
+            }
         }
     }
 

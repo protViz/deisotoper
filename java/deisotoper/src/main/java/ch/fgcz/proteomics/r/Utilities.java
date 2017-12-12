@@ -8,7 +8,7 @@ package ch.fgcz.proteomics.r;
 import ch.fgcz.proteomics.utilities.FindNearestNeighbor;
 
 public class Utilities {
-    public Utilities() {
+    private Utilities() {
         throw new IllegalStateException("Utility class");
     }
 

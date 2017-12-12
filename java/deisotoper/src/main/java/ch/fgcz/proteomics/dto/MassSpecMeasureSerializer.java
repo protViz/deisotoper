@@ -20,6 +20,10 @@ import com.google.gson.reflect.TypeToken;
 public class MassSpecMeasureSerializer {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
+    private MassSpecMeasureSerializer() {
+        throw new IllegalStateException("Serializer class");
+    }
+
     public static String serializeToJson(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
         Gson gson = new Gson();
 
