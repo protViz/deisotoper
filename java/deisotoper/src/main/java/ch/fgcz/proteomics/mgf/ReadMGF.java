@@ -22,9 +22,9 @@ public class ReadMGF {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
     private ReadMGF() {
-        throw new IllegalStateException("Reader class");
+        throw new IllegalStateException("Reader (mgf) class");
     }
-    
+
     public static MassSpecMeasure read(String fileName) {
         String source = readHeader(fileName);
 
@@ -43,7 +43,6 @@ public class ReadMGF {
         BufferedReader bufferedReader = null;
         try {
             bufferedReader = new BufferedReader(new FileReader(fileName));
-
             String line = "";
             String[] partEqual = line.split("=");
 
@@ -55,10 +54,10 @@ public class ReadMGF {
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        } catch (FileNotFoundException e1) {
+            LOGGER.log(Level.SEVERE, e1.toString(), e1);
+        } catch (IOException e2) {
+            LOGGER.log(Level.SEVERE, e2.toString(), e2);
         } finally {
             if (bufferedReader != null) {
                 try {

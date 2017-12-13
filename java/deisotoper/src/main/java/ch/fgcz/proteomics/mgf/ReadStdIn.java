@@ -6,14 +6,14 @@ package ch.fgcz.proteomics.mgf;
  */
 
 import java.io.BufferedReader;
+import java.util.logging.Level;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
@@ -22,7 +22,7 @@ public class ReadStdIn {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());
 
     private ReadStdIn() {
-        throw new IllegalStateException("Reader class");
+        throw new IllegalStateException("Reader (standart in) class");
     }
 
     public static MassSpecMeasure read() {
@@ -72,10 +72,10 @@ public class ReadStdIn {
                     intensity.add(Double.parseDouble(partSpace[1]));
                 }
             }
-        } catch (FileNotFoundException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        } catch (FileNotFoundException e1) {
+            LOGGER.log(Level.SEVERE, e1.toString(), e1);
+        } catch (IOException e2) {
+            LOGGER.log(Level.SEVERE, e2.toString(), e2);
         }
 
         return massSpectrometryMeasurement;
