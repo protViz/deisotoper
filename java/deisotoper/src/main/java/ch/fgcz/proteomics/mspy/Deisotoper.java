@@ -8,14 +8,18 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 
 @Deprecated
 public class Deisotoper {
+    private Deisotoper() {
+        throw new IllegalStateException("Algorithm");
+    }
+
     public static MassSpecMeasure deisotopeMSM(MassSpecMeasure input) {
         MassSpecMeasure output = new MassSpecMeasure(input.getSource() + "_output");
 
         for (MassSpectrum ms : input.getMSlist()) {
             Peaklist inputpeaklist = new Peaklist(ms);
 
-            List<Peak> outputpeaklist = Mspy.deconvolute(Mspy.deisotope(inputpeaklist.getPeaklist(), 3, 0.05, 0.5, 0.0),
-                    0);
+            List<Peak> outputpeaklist = Mspy
+                    .deconvolute(Mspy.deisotope(inputpeaklist.getPeaklist(), 3, 0.05, 0.5, 0.0));
 
             List<Integer> chargelist = new ArrayList<Integer>();
             List<Double> isotopelist = new ArrayList<Double>();

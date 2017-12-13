@@ -70,7 +70,7 @@ public class Mspy {
                     continue;
                 }
 
-                int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z, 0)) / 200; // NOT CLEAR
+                int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
 
                 List<Double> pattern = initPattern(mass);
 
@@ -102,17 +102,16 @@ public class Mspy {
                         valid = false;
                         break;
                     } else if (interror > 0) {
+                        // do nothing
                     }
 
                     isotope++;
                 }
 
-                if (valid) {
-                    if (z < 4) {
-                        parent.setIsotope(0);
-                        parent.setCharge(z);
-                        break;
-                    }
+                if (valid && z < 4) {
+                    parent.setIsotope(0);
+                    parent.setCharge(z);
+                    break;
                 }
             }
             x++;
@@ -126,7 +125,7 @@ public class Mspy {
         return list;
     }
 
-    private static double calculateMass(double mass, int charge, int currentcharge, int masstype) {
+    private static double calculateMass(double mass, int charge, int currentcharge) {
         int agentcharge = 1;
         double agentmass = H_MASS;
         double agentcount = currentcharge / (double) agentcharge;
@@ -292,7 +291,7 @@ public class Mspy {
         return patternLookupTable.get(mass);
     }
 
-    public static List<Peak> deconvolute(List<Peak> peaklist, int masstype) {
+    public static List<Peak> deconvolute(List<Peak> peaklist) {
         List<Peak> buff = new ArrayList<Peak>();
         List<Peak> peaklistcopy = new ArrayList<Peak>();
 
@@ -312,10 +311,10 @@ public class Mspy {
                 }
 
                 if (peak.getCharge() < 0) {
-                    peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge(), masstype));
+                    peak.setMz(calculateMass(peak.getMz(), -1, peak.getCharge()));
                     peak.setCharge(-1);
                 } else {
-                    peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge(), masstype));
+                    peak.setMz(calculateMass(peak.getMz(), 1, peak.getCharge()));
                     peak.setCharge(1);
                 }
 

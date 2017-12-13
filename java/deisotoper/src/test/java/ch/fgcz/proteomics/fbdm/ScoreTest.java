@@ -14,20 +14,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ScoreTest {
-    Configuration config;
-    Score score;
-    Peak x1;
-    Peak x2;
+    private static final double MIN = Double.MIN_VALUE;
+    private Configuration config;
+    private Peak x1;
+    private Peak x2;
 
     @Before
     public void initialize() {
-
         config = new Configuration();
 
         x1 = new Peak(100, 10, 1);
         x2 = new Peak(100 + config.getAaMass().get(1), 10, 2);
-        score = new Score(x1.getMz() + x2.getMz(), 1, config);
-
+        new Score(x1.getMz() + x2.getMz(), 1, config);
     }
 
     /**
@@ -55,7 +53,7 @@ public class ScoreTest {
         Peak y = new Peak(125.86, 1, 1);
         double score1 = Score.firstAminoAcidDistanceScore(x.getMz(), y.getMz(), config);
 
-        assertEquals(3, score1, 0);
+        assertEquals(3.0, score1, MIN);
 
     }
 
@@ -118,7 +116,7 @@ public class ScoreTest {
 
         double score = Score.secondComplementaryMassScore(x.getMz(), y.getMz(), pepmass, charge, cluster, config);
 
-        assertEquals(1, score, 0);
+        assertEquals(1.0, score, MIN);
     }
 
     /**
@@ -165,7 +163,7 @@ public class ScoreTest {
 
         double score = Score.fourthSupportiveAZIonsScore(x.getMz(), y.getMz(), config);
 
-        assertEquals(1, score, 0);
+        assertEquals(1.0, score, MIN);
     }
 
     @Test
@@ -174,42 +172,42 @@ public class ScoreTest {
 
     @Test
     public void diff1Test() {
-        assertEquals(-30, Score.diff1(120, 150), 0);
-        assertEquals(12, Score.diff1(333, 321), 0);
-        assertEquals(-868.91, Score.diff1(130.99, 999.9), 0);
-        assertEquals(55, Score.diff1(199, 144), 0);
+        assertEquals(-30.0, Score.diff1(120, 150), MIN);
+        assertEquals(12.0, Score.diff1(333, 321), MIN);
+        assertEquals(-868.91, Score.diff1(130.99, 999.9), MIN);
+        assertEquals(55.0, Score.diff1(199, 144), MIN);
     }
 
     @Test
     public void diff2Test() {
         assertEquals(44.5, Score.diff2(120, 150, new Configuration().getHMass(1)), 0.01);
-        assertEquals(171.996, Score.diff2(333, 321, new Configuration().getHMass(1)), 0);
-        assertEquals(-369.464, Score.diff2(130.99, 999.9, new Configuration().getHMass(1)), 0);
-        assertEquals(126.496, Score.diff2(199, 144, new Configuration().getHMass(1)), 0);
+        assertEquals(171.996, Score.diff2(333, 321, new Configuration().getHMass(1)), MIN);
+        assertEquals(-369.464, Score.diff2(130.99, 999.9, new Configuration().getHMass(1)), MIN);
+        assertEquals(126.496, Score.diff2(199, 144, new Configuration().getHMass(1)), MIN);
     }
 
     @Test
     public void diff3Test() {
-        assertEquals(69.328, Score.diff3(120, 150, new Configuration().getHMass(1)), 0);
+        assertEquals(69.328, Score.diff3(120, 150, new Configuration().getHMass(1)), MIN);
         assertEquals(225.327, Score.diff3(333, 321, new Configuration().getHMass(1)), 0.01);
         assertEquals(-202.981, Score.diff3(130.99, 999.9, new Configuration().getHMass(1)), 0.01);
-        assertEquals(150.328, Score.diff3(199, 144, new Configuration().getHMass(1)), 0);
+        assertEquals(150.328, Score.diff3(199, 144, new Configuration().getHMass(1)), MIN);
     }
 
     @Test
     public void diff4Test() {
-        assertEquals(19.664, Score.diff4(120, 150, new Configuration().getHMass(1)), 0);
+        assertEquals(19.664, Score.diff4(120, 150, new Configuration().getHMass(1)), MIN);
         assertEquals(118.66, Score.diff4(333, 321, new Configuration().getHMass(1)), 0.01);
-        assertEquals(-535.946, Score.diff4(130.99, 999.9, new Configuration().getHMass(1)), 0);
-        assertEquals(102.664, Score.diff4(199, 144, new Configuration().getHMass(1)), 0);
+        assertEquals(-535.946, Score.diff4(130.99, 999.9, new Configuration().getHMass(1)), MIN);
+        assertEquals(102.664, Score.diff4(199, 144, new Configuration().getHMass(1)), MIN);
     }
 
     @Test
     public void sum1Test() {
-        assertEquals(270, Score.sum1(120, 150), 0);
-        assertEquals(654, Score.sum1(333, 321), 0);
+        assertEquals(270.0, Score.sum1(120, 150), MIN);
+        assertEquals(654.0, Score.sum1(333, 321), MIN);
         assertEquals(1130.88, Score.sum1(130.99, 999.9), 0.01);
-        assertEquals(343, Score.sum1(199, 144), 0);
+        assertEquals(343.0, Score.sum1(199, 144), MIN);
     }
 
     @Test
@@ -222,17 +220,17 @@ public class ScoreTest {
 
     @Test
     public void sum3Test() {
-        assertEquals(170.672, Score.sum3(120, 150, new Configuration().getHMass(1)), 0);
-        assertEquals(440.672, Score.sum3(333, 321, new Configuration().getHMass(1)), 0);
-        assertEquals(464.962, Score.sum3(130.99, 999.9, new Configuration().getHMass(1)), 0);
-        assertEquals(247.672, Score.sum3(199, 144, new Configuration().getHMass(1)), 0);
+        assertEquals(170.672, Score.sum3(120, 150, new Configuration().getHMass(1)), MIN);
+        assertEquals(440.672, Score.sum3(333, 321, new Configuration().getHMass(1)), MIN);
+        assertEquals(464.962, Score.sum3(130.99, 999.9, new Configuration().getHMass(1)), MIN);
+        assertEquals(247.672, Score.sum3(199, 144, new Configuration().getHMass(1)), MIN);
     }
 
     @Test
     public void sum4Test() {
-        assertEquals(220.336, Score.sum4(120, 150, new Configuration().getHMass(1)), 0);
-        assertEquals(547.336, Score.sum4(333, 321, new Configuration().getHMass(1)), 0);
-        assertEquals(797.926, Score.sum4(130.99, 999.9, new Configuration().getHMass(1)), 0);
-        assertEquals(295.336, Score.sum4(199, 144, new Configuration().getHMass(1)), 0);
+        assertEquals(220.336, Score.sum4(120, 150, new Configuration().getHMass(1)), MIN);
+        assertEquals(547.336, Score.sum4(333, 321, new Configuration().getHMass(1)), MIN);
+        assertEquals(797.926, Score.sum4(130.99, 999.9, new Configuration().getHMass(1)), MIN);
+        assertEquals(295.336, Score.sum4(199, 144, new Configuration().getHMass(1)), MIN);
     }
 }

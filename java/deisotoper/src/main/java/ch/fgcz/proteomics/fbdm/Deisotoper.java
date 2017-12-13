@@ -341,34 +341,4 @@ public class Deisotoper {
 
         return intensitySum;
     }
-
-    /*
-     * // Old version of generateIsotopicSets protected void
-     * generateIsotopicSets(MassSpectrum massSpectrum) { this.peakList = new
-     * PeakList(massSpectrum);
-     * 
-     * int id = 0; for (int i = 0; i < peakList.size(); i++) { List<Peak>
-     * isotopicSet = new ArrayList<Peak>();
-     * 
-     * while (i < peakList.size() - 1) { boolean trigger = false; double distance =
-     * peakList.get(i + 1).getMz() - peakList.get(i).getMz();
-     * 
-     * for (int charge = 1; charge <= 3; charge++) { if ((config.getDistance() /
-     * charge) - config.getDelta() < distance && distance < (config.getDistance() /
-     * charge) + config.getDelta()) { if (isotopicSet.size() == 0) { Peak peak =
-     * peakList.get(i); peak.setInSet(true); isotopicSet.add(peak); } Peak peak =
-     * peakList.get(i + 1); peak.setInSet(true); isotopicSet.add(peak); trigger =
-     * true; } }
-     * 
-     * if (trigger == false) { break; }
-     * 
-     * i++; }
-     * 
-     * if (1 < isotopicSet.size()) { IsotopicSet temporaryIsotopicSet = new
-     * IsotopicSet(massSpectrum, isotopicSet, id, config); id++;
-     * 
-     * this.isotopicSets.add(temporaryIsotopicSet);
-     * 
-     * if (isotopicSet.size() == peakList.size()) { break; } } } }
-     */
 }

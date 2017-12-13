@@ -12,14 +12,14 @@ import ch.fgcz.proteomics.dto.MassSpectrum;
 
 @Deprecated
 public class Peaklist {
-    private List<Peak> peaklist = new ArrayList<Peak>();
+    private List<Peak> pList = new ArrayList<Peak>();
 
     public List<Peak> getPeaklist() {
-        return peaklist;
+        return pList;
     }
 
     public void setPeaklist(List<Peak> peaklist) {
-        this.peaklist = peaklist;
+        this.pList = peaklist;
     }
 
     public Peaklist(MassSpectrum ms) {
@@ -36,7 +36,7 @@ public class Peaklist {
             }
         }
 
-        this.peaklist = plist;
+        this.pList = plist;
     }
 
     public Peaklist(List<Double> mz, List<Double> intensity) {
@@ -46,7 +46,7 @@ public class Peaklist {
             plist.add(new Peak(mz.get(i), intensity.get(i)));
         }
 
-        this.peaklist = plist;
+        this.pList = plist;
     }
 
     public Peaklist(List<Double> mz, List<Double> intensity, List<Integer> charge, List<Double> isotope) {
@@ -56,6 +56,6 @@ public class Peaklist {
             plist.add(new Peak(mz.get(i), intensity.get(i), isotope.get(i), charge.get(i)));
         }
 
-        this.peaklist = plist;
+        this.pList = plist;
     }
 }
