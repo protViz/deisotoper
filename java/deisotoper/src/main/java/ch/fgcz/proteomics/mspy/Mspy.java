@@ -42,18 +42,19 @@ public class Mspy {
                 continue;
             }
 
-            goThroughPossibleCharges(charges, peaklist, parent, x, maxindex, isotopeshift, mztolerance, inttolerance);
+            x = goThroughPossibleCharges(charges, peaklist, parent, x, maxindex, isotopeshift, mztolerance,
+                    inttolerance);
         }
 
         // REMOVE EMTPY PEAKS
         List<Peak> list = removeEmptyPeaks(peaklist);
 
-        list = sortPeaklist(list);
+        sortPeaklist(list);
 
         return list;
     }
 
-    private static void goThroughPossibleCharges(List<Integer> charges, List<Peak> peaklist, Peak parent, int x,
+    private static int goThroughPossibleCharges(List<Integer> charges, List<Peak> peaklist, Peak parent, int x,
             int maxindex, double isotopeshift, double mztolerance, double inttolerance) {
         for (int z : charges) {
             List<Peak> cluster = collectPeaksForCluster(peaklist, parent, x, z, maxindex, isotopeshift, mztolerance);
@@ -85,6 +86,8 @@ public class Mspy {
             }
         }
         x++;
+
+        return x;
     }
 
     private static int calculateLim(List<Double> pattern) {
