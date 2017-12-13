@@ -8,6 +8,10 @@ package ch.fgcz.proteomics.utilities;
 import java.util.Arrays;
 
 public class FindNearestNeighbor {
+    private FindNearestNeighbor() {
+        throw new IllegalStateException("Find nearest neighbor utilities class");
+    }
+
     public static double[] findNearestNeighbor(double[] pattern, double[] data) {
         double[] index = new double[pattern.length];
 

@@ -26,7 +26,7 @@ public class IsotopicClusterGraphTest {
 
         Set<IsotopicCluster> isotopicClusters = isotopicClusterGraph.getIsotopicClusterGraph().vertexSet();
 
-        assertEquals(isotopicClusters.size(), 5);
+        assertEquals(5, isotopicClusters.size());
 
         int startCount = 0;
         int endCount = 0;
@@ -43,9 +43,9 @@ public class IsotopicClusterGraphTest {
             }
         }
 
-        assertEquals(startCount, 1);
-        assertEquals(endCount, 1);
-        assertEquals(normalCount, 3);
+        assertEquals(1, startCount);
+        assertEquals(1, endCount);
+        assertEquals(3, normalCount);
 
         // Add tests for connections
     }
