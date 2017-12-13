@@ -14,13 +14,13 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class IsotopicClusterGraph {
     private final String LINESEP = System.lineSeparator();
-    private final String COLOR = "[color=\"";
-    private final String LABEL = "\",label=\"";
-    private final String WEIGHT = "\",weight=\"";
-    private final String BLACK = "black";
-    private final String RED = "red";
-    private final String START = "start";
-    private final String END = "end";
+    private static final String COLOR = "[color=\"";
+    private static final String LABEL = "\",label=\"";
+    private static final String WEIGHT = "\",weight=\"";
+    private static final String BLACK = "black";
+    private static final String RED = "red";
+    private static final String START = "start";
+    private static final String END = "end";
     private double minimum = Double.MAX_VALUE;
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> iClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
             Connection.class);

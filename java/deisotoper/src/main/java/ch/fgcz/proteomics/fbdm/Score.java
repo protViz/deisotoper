@@ -222,7 +222,8 @@ public class Score {
     }
 
     public static class Range {
-        double min, max;
+        double min;
+        double max;
 
         Range(double min, double max) {
             this.min = min;

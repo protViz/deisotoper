@@ -37,8 +37,7 @@ public class IsotopicSet {
     }
 
     // TODO Looks to me like an isotopicSet method.
-    static public PeakList checkForCorrectRangeOfPeaks(PeakList peakList, Configuration config)
-            throws IllegalArgumentException {
+    public static PeakList checkForCorrectRangeOfPeaks(PeakList peakList, Configuration config) {
         if (peakList.isSortedByMass()) {
             // first check if sorted.
             // do we want to limit us to charge 3?
@@ -54,7 +53,7 @@ public class IsotopicSet {
                     }
                 }
 
-                if (b == false) {
+                if (!b) {
                     return null;
                 }
             }
@@ -257,7 +256,7 @@ public class IsotopicSet {
                 }
             }
 
-            if (b == false) {
+            if (!b) {
                 throw new IllegalArgumentException("Wrong distance at IsotopicSet creation! (" + distance + ")");
             }
         }

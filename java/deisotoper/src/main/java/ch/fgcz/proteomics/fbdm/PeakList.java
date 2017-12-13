@@ -232,8 +232,7 @@ public class PeakList implements MassSpectrumMetaInformation {
         return "PeakList: " + LINESEP + stringBuilder.toString();
     }
 
-    static public void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2)
-            throws IllegalStateException {
+    public static void checkForIntensityCorrectness(PeakList peakList1, PeakList peakList2) {
         double sumBefore = peakList1.sumIntensities();
         double sumAfter = peakList2.sumIntensities();
 
