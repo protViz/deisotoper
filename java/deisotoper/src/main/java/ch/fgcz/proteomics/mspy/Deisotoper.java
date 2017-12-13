@@ -6,6 +6,9 @@ import java.util.List;
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
+/**
+ * @deprecated isn't up to date anymore.
+ */
 @Deprecated
 public class Deisotoper {
     private Deisotoper() {

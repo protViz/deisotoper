@@ -16,6 +16,9 @@ import java.util.logging.Logger;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
 
+/**
+ * @deprecated isn't up to date anymore.
+ */
 @Deprecated
 public class Convert {
     private static final Logger LOGGER = Logger.getLogger(MassSpecMeasureSerializer.class.getName());

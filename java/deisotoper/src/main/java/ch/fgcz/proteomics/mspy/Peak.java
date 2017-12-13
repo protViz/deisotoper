@@ -1,10 +1,8 @@
 package ch.fgcz.proteomics.mspy;
 
 /**
- * @author Lucas Schmidt
- * @since 2017-09-11
+ * @deprecated isn't up to date anymore.
  */
-
 @Deprecated
 public class Peak {
     private double mz;

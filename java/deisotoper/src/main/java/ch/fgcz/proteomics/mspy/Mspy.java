@@ -11,6 +11,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * @deprecated isn't up to date anymore.
+ */
 @Deprecated
 public class Mspy {
     public static final double ISOTOPE_DISTANCE = 1.00287;
@@ -23,12 +26,124 @@ public class Mspy {
 
     public static List<Peak> deisotope(List<Peak> peaklist, int maxcharge, double mztolerance, double inttolerance,
             double isotopeshift) {
-        List<Integer> charges = new ArrayList<Integer>();
 
         for (Peak p : peaklist) {
             p.setCharge(-1); // -1 = None
             p.setIsotope(-1); // -1 = None
         }
+
+        List<Integer> charges = initializeCharges(maxcharge);
+
+        int maxindex = peaklist.size();
+
+        int x = 0;
+        for (Peak parent : peaklist) {
+            if (parent.getIsotope() != -1) {
+                continue;
+            }
+
+            goThroughPossibleCharges(charges, peaklist, parent, x, maxindex, isotopeshift, mztolerance, inttolerance);
+        }
+
+        // REMOVE EMTPY PEAKS
+        List<Peak> list = removeEmptyPeaks(peaklist);
+
+        list = sortPeaklist(list);
+
+        return list;
+    }
+
+    private static void goThroughPossibleCharges(List<Integer> charges, List<Peak> peaklist, Peak parent, int x,
+            int maxindex, double isotopeshift, double mztolerance, double inttolerance) {
+        for (int z : charges) {
+            List<Peak> cluster = collectPeaksForCluster(peaklist, parent, x, z, maxindex, isotopeshift, mztolerance);
+
+            if (cluster.size() == 1) {
+                continue;
+            }
+
+            int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
+
+            List<Double> pattern = initPattern(mass);
+
+            int lim = calculateLim(pattern);
+
+            if (cluster.size() < lim && Math.abs(z) > 1) {
+                continue;
+            }
+
+            boolean valid = true;
+            int isotope = 1;
+            int limit = Math.min(pattern.size(), cluster.size());
+
+            valid = manipulateCluster(cluster, pattern, isotope, limit, z, inttolerance, valid);
+
+            if (valid && z < 4) {
+                parent.setIsotope(0);
+                parent.setCharge(z);
+                break;
+            }
+        }
+        x++;
+    }
+
+    private static int calculateLim(List<Double> pattern) {
+        int lim = 0;
+        for (double p : pattern) {
+            if (p >= 0.33) {
+                lim++;
+            }
+        }
+        return lim;
+    }
+
+    private static boolean manipulateCluster(List<Peak> cluster, List<Double> pattern, int isotope, int limit, int z,
+            double inttolerance, boolean valid) {
+        boolean valid2 = valid;
+
+        while (isotope < limit) {
+            double inttheoretical = (cluster.get(isotope - 1).getIntensity() / pattern.get(isotope - 1))
+                    * pattern.get(isotope);
+            double interror = cluster.get(isotope).getIntensity() - inttheoretical;
+
+            if (Math.abs(interror) <= (inttheoretical * inttolerance)) {
+                cluster.get(isotope).setIsotope(isotope);
+                cluster.get(isotope).setCharge(z);
+            } else if (interror < 0 && isotope == 1) {
+                valid2 = false;
+                break;
+            } else if (interror > 0) {
+                // do nothing
+            }
+
+            isotope++;
+        }
+
+        return valid2;
+    }
+
+    private static List<Peak> collectPeaksForCluster(List<Peak> peaklist, Peak parent, int x, int z, int maxindex,
+            double isotopeshift, double mztolerance) {
+        List<Peak> cluster = new ArrayList<Peak>();
+        cluster.add(parent);
+
+        double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
+        int y = 1;
+        while (x + y < maxindex) {
+            double mzerror = (peaklist.get(x + y).getMz() - cluster.get(cluster.size() - 1).getMz() - difference);
+            if (Math.abs(mzerror) <= mztolerance) {
+                cluster.add(peaklist.get(x + y));
+            } else if (mzerror > mztolerance) {
+                break;
+            }
+            y++;
+        }
+
+        return cluster;
+    }
+
+    private static List<Integer> initializeCharges(int maxcharge) {
+        List<Integer> charges = new ArrayList<Integer>();
 
         if (maxcharge < 0) {
             for (int i = 1; i <= Math.abs(maxcharge) + 1; i++) {
@@ -41,88 +156,7 @@ public class Mspy {
         }
         Collections.reverse(charges);
 
-        int maxindex = peaklist.size();
-
-        int x = 0;
-        for (Peak parent : peaklist) {
-            if (parent.getIsotope() != -1) {
-                continue;
-            }
-
-            for (int z : charges) {
-                List<Peak> cluster = new ArrayList<Peak>();
-                cluster.add(parent);
-
-                double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
-                int y = 1;
-                while (x + y < maxindex) {
-                    double mzerror = (peaklist.get(x + y).getMz() - cluster.get(cluster.size() - 1).getMz()
-                            - difference);
-                    if (Math.abs(mzerror) <= mztolerance) {
-                        cluster.add(peaklist.get(x + y));
-                    } else if (mzerror > mztolerance) {
-                        break;
-                    }
-                    y++;
-                }
-
-                if (cluster.size() == 1) {
-                    continue;
-                }
-
-                int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
-
-                List<Double> pattern = initPattern(mass);
-
-                int lim = 0;
-
-                for (double p : pattern) {
-                    if (p >= 0.33) {
-                        lim++;
-                    }
-                }
-
-                if (cluster.size() < lim && Math.abs(z) > 1) {
-                    continue;
-                }
-
-                boolean valid = true;
-                int isotope = 1;
-                int limit = Math.min(pattern.size(), cluster.size());
-
-                while (isotope < limit) {
-                    double inttheoretical = (cluster.get(isotope - 1).getIntensity() / pattern.get(isotope - 1))
-                            * pattern.get(isotope);
-                    double interror = cluster.get(isotope).getIntensity() - inttheoretical;
-
-                    if (Math.abs(interror) <= (inttheoretical * inttolerance)) {
-                        cluster.get(isotope).setIsotope(isotope);
-                        cluster.get(isotope).setCharge(z);
-                    } else if (interror < 0 && isotope == 1) {
-                        valid = false;
-                        break;
-                    } else if (interror > 0) {
-                        // do nothing
-                    }
-
-                    isotope++;
-                }
-
-                if (valid && z < 4) {
-                    parent.setIsotope(0);
-                    parent.setCharge(z);
-                    break;
-                }
-            }
-            x++;
-        }
-
-        // REMOVE EMTPY PEAKS
-        List<Peak> list = removeEmptyPeaks(peaklist);
-
-        list = sortPeaklist(list);
-
-        return list;
+        return charges;
     }
 
     private static double calculateMass(double mass, int charge, int currentcharge) {
