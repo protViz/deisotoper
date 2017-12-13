@@ -119,7 +119,7 @@ public class IsotopicCluster {
         return false;
     }
 
-    private void manipulateWhenHasSamePeaks(IsotopicCluster isotopicCluster) {
+    public void manipulateWhenHasSamePeaks(IsotopicCluster isotopicCluster) {
         if (this.getCharge() > isotopicCluster.getCharge()) {
             this.getIsotopicCluster().removeAll(isotopicCluster.getIsotopicCluster());
         } else if (this.getCharge() < isotopicCluster.getCharge()) {
