@@ -3,13 +3,13 @@ package ch.fgcz.proteomics.fbdm;
 import java.util.List;
 
 public interface ScoringConfiguration {
-    double getH_MASS(int multiplier);
+    double getHMass(int multiplier);
 
     double getErrorTolerance();
 
-    double getNH_MASS(int charge);
+    double getNhMass(int charge);
 
-    double getCO_MASS(int charge);
+    double getCoMass(int charge);
 
     double getIsotopicPeakDistance();
 
@@ -33,7 +33,7 @@ public interface ScoringConfiguration {
 
     double getF5();
 
-    double getH2O_MASS(int charge);
+    double getH2oMass(int charge);
 
-    double getNH3_MASS(int charge);
+    double getNh3Mass(int charge);
 }

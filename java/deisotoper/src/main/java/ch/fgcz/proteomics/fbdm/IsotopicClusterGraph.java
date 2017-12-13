@@ -13,7 +13,7 @@ import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
 public class IsotopicClusterGraph {
-    private final String LINESEP = System.lineSeparator();
+    private static final String LINESEP = System.lineSeparator();
     private static final String COLOR = "[color=\"";
     private static final String LABEL = "\",label=\"";
     private static final String WEIGHT = "\",weight=\"";

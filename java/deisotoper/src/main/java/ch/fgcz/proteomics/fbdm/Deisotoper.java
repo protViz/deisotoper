@@ -16,7 +16,6 @@ import ch.fgcz.proteomics.utilities.MathUtils;
 public class Deisotoper {
     private boolean running = false;
     private PeakList peakList;
-    private PeakList mergedPeakList;
     private Configuration config;
     private List<IsotopicSet> isotopicSets = new ArrayList<IsotopicSet>();
 
@@ -40,16 +39,16 @@ public class Deisotoper {
         PeakList peakListAggregated = aggregate(bestClusters, this.config.getModus());
 
         if (this.config.isDecharge()) {
-            peakListAggregated = peakListAggregated.dechargePeaks(this.config.getH_MASS(1));
+            peakListAggregated = peakListAggregated.dechargePeaks(this.config.getHMass(1));
         }
 
-        this.mergedPeakList = this.peakList.mergePeakLists(peakListAggregated);
+        PeakList mergedPeakList = this.peakList.mergePeakLists(peakListAggregated);
         if (this.config.getNoise() != 0) {
-            this.mergedPeakList = this.mergedPeakList.filterNoisePeaks(this.config.getNoise());
+            mergedPeakList = mergedPeakList.filterNoisePeaks(this.config.getNoise());
         }
-        this.mergedPeakList = mergedPeakList.sortByMZ();
-        PeakList.checkForIntensityCorrectness(peakList, this.mergedPeakList);
-        return this.mergedPeakList;
+        mergedPeakList = mergedPeakList.sortByMZ();
+        PeakList.checkForIntensityCorrectness(peakList, mergedPeakList);
+        return mergedPeakList;
     }
 
     public boolean wasRunning() {
@@ -124,8 +123,8 @@ public class Deisotoper {
     }
 
     // New version of generateIsotopicSets.
-    static protected List<IsotopicSet> generateIsotopicSets(PeakList peakList, Configuration config) {
-        PeakList allPossiblePeaks = isoSet_collectAllPossiblePeaks(peakList, config);
+    protected static List<IsotopicSet> generateIsotopicSets(PeakList peakList, Configuration config) {
+        PeakList allPossiblePeaks = isoSetCollectAllPossiblePeaks(peakList, config);
         allPossiblePeaks = allPossiblePeaks.removeMultiplePeaks();
         allPossiblePeaks = allPossiblePeaks.sortByMZ();
         List<PeakList> allPossiblePeaksParts = splitIntoParts(allPossiblePeaks, config);
@@ -137,7 +136,7 @@ public class Deisotoper {
         PeakList peaksInSet = collectPeaksFromSets(peakList);
 
         if (this.config.isDecharge()) {
-            peaksInSet = peaksInSet.dechargePeaks(this.config.getH_MASS(1));
+            peaksInSet = peaksInSet.dechargePeaks(this.config.getHMass(1));
         }
 
         PeakList mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
@@ -223,7 +222,7 @@ public class Deisotoper {
         return correctIsotopicSets;
     }
 
-    private static PeakList isoSet_collectAllPossiblePeaks(PeakList peakList, Configuration config) {
+    private static PeakList isoSetCollectAllPossiblePeaks(PeakList peakList, Configuration config) {
         PeakList allPossiblePeaks = new PeakList();
         for (int i = 0; i < peakList.size(); i++) {
             Peak peakI = peakList.get(i);

@@ -31,7 +31,7 @@ public class IsotopicCluster {
         this.status = status;
     }
 
-    // TODO not sure if should not bemoved to isotopicSet.
+    // TODO not sure if should not moved to isotopicSet.
     static List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
         // If cluster has same peak/peaks as other cluster.
         // Remove this peak in the lowest charged cluster.
@@ -91,19 +91,11 @@ public class IsotopicCluster {
     }
 
     public boolean isNotNull() {
-        if (this.iCluster == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.iCluster != null;
     }
 
     public boolean isNull() {
-        if (this.iCluster == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.iCluster == null;
     }
 
     public double sumIntensity() {
@@ -178,20 +170,17 @@ public class IsotopicCluster {
         }
     }
 
-    // public void scoreCluster(Configuration config) {
-    // Score score = new Score(this.peakList.getPeptideMass(),
-    // this.peakList.getChargeState(), config);
-    // for (Peak peakX : this.isotopicCluster) {
-    //
-    // for (Peak peakY : peakList.getPeakList()) {
-    // double scoreResult = score.calculateAggregatedScore(peakX.getMz(),
-    // peakY.getMz(),
-    // this.getIsotopicCluster());
-    //
-    // // double scoreFiveResult = scoreFive.calculateFifthScore(connection);
-    //
-    // // scoreSum += scoreResult + scoreFiveResult;
-    // }
-    // }
-    // }
+    /*
+     * public void scoreCluster(Configuration config) { Score score = new
+     * Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(),
+     * config); for (Peak peakX : this.iCluster) {
+     * 
+     * for (Peak peakY : peakList.getPeakList()) { double scoreResult =
+     * score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
+     * this.getIsotopicCluster());
+     * 
+     * // double scoreFiveResult = scoreFive.calculateFifthScore(connection);
+     * 
+     * // scoreSum += scoreResult + scoreFiveResult; } } }
+     */
 }

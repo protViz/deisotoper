@@ -88,39 +88,39 @@ public class Configuration implements ScoringConfiguration {
     }
 
     @Override
-    public double getH_MASS(int multiplier) {
+    public double getHMass(int multiplier) {
         return H_MASS * multiplier;
     }
 
     @Override
-    public double getNH3_MASS(int charge) {
+    public double getNh3Mass(int charge) {
         return NH3_MASS / charge;
     }
 
     @Override
-    public double getH2O_MASS(int charge) {
+    public double getH2oMass(int charge) {
         return H2O_MASS / charge;
     }
 
     @Override
-    public double getNH_MASS(int charge) {
+    public double getNhMass(int charge) {
         return NH_MASS / charge;
     }
 
     @Override
-    public double getCO_MASS(int charge) {
+    public double getCoMass(int charge) {
         return CO_MASS / charge;
     }
 
-    public double getPHE_MASS() {
+    public double getPheMass() {
         return PHE_MASS;
     }
 
-    public double getASP_MASS() {
+    public double getAspMass() {
         return ASP_MASS;
     }
 
-    public double getAVE_UPDATED_MASS() {
+    public double getAveUpdatedMass() {
         return AVE_UPDATED_MASS;
     }
 

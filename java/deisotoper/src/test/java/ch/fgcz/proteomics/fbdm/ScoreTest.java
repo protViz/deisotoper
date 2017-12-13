@@ -182,26 +182,26 @@ public class ScoreTest {
 
     @Test
     public void diff2Test() {
-        assertEquals(44.5, Score.diff2(120, 150, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(171.996, Score.diff2(333, 321, new Configuration().getH_MASS(1)), 0);
-        assertEquals(-369.464, Score.diff2(130.99, 999.9, new Configuration().getH_MASS(1)), 0);
-        assertEquals(126.496, Score.diff2(199, 144, new Configuration().getH_MASS(1)), 0);
+        assertEquals(44.5, Score.diff2(120, 150, new Configuration().getHMass(1)), 0.01);
+        assertEquals(171.996, Score.diff2(333, 321, new Configuration().getHMass(1)), 0);
+        assertEquals(-369.464, Score.diff2(130.99, 999.9, new Configuration().getHMass(1)), 0);
+        assertEquals(126.496, Score.diff2(199, 144, new Configuration().getHMass(1)), 0);
     }
 
     @Test
     public void diff3Test() {
-        assertEquals(69.328, Score.diff3(120, 150, new Configuration().getH_MASS(1)), 0);
-        assertEquals(225.327, Score.diff3(333, 321, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(-202.981, Score.diff3(130.99, 999.9, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(150.328, Score.diff3(199, 144, new Configuration().getH_MASS(1)), 0);
+        assertEquals(69.328, Score.diff3(120, 150, new Configuration().getHMass(1)), 0);
+        assertEquals(225.327, Score.diff3(333, 321, new Configuration().getHMass(1)), 0.01);
+        assertEquals(-202.981, Score.diff3(130.99, 999.9, new Configuration().getHMass(1)), 0.01);
+        assertEquals(150.328, Score.diff3(199, 144, new Configuration().getHMass(1)), 0);
     }
 
     @Test
     public void diff4Test() {
-        assertEquals(19.664, Score.diff4(120, 150, new Configuration().getH_MASS(1)), 0);
-        assertEquals(118.66, Score.diff4(333, 321, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(-535.946, Score.diff4(130.99, 999.9, new Configuration().getH_MASS(1)), 0);
-        assertEquals(102.664, Score.diff4(199, 144, new Configuration().getH_MASS(1)), 0);
+        assertEquals(19.664, Score.diff4(120, 150, new Configuration().getHMass(1)), 0);
+        assertEquals(118.66, Score.diff4(333, 321, new Configuration().getHMass(1)), 0.01);
+        assertEquals(-535.946, Score.diff4(130.99, 999.9, new Configuration().getHMass(1)), 0);
+        assertEquals(102.664, Score.diff4(199, 144, new Configuration().getHMass(1)), 0);
     }
 
     @Test
@@ -214,25 +214,25 @@ public class ScoreTest {
 
     @Test
     public void sum2Test() {
-        assertEquals(195.5, Score.sum2(120, 150, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(494.004, Score.sum2(333, 321, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(631.444, Score.sum2(130.99, 999.9, new Configuration().getH_MASS(1)), 0.01);
-        assertEquals(271.504, Score.sum2(199, 144, new Configuration().getH_MASS(1)), 0.01);
+        assertEquals(195.5, Score.sum2(120, 150, new Configuration().getHMass(1)), 0.01);
+        assertEquals(494.004, Score.sum2(333, 321, new Configuration().getHMass(1)), 0.01);
+        assertEquals(631.444, Score.sum2(130.99, 999.9, new Configuration().getHMass(1)), 0.01);
+        assertEquals(271.504, Score.sum2(199, 144, new Configuration().getHMass(1)), 0.01);
     }
 
     @Test
     public void sum3Test() {
-        assertEquals(170.672, Score.sum3(120, 150, new Configuration().getH_MASS(1)), 0);
-        assertEquals(440.672, Score.sum3(333, 321, new Configuration().getH_MASS(1)), 0);
-        assertEquals(464.962, Score.sum3(130.99, 999.9, new Configuration().getH_MASS(1)), 0);
-        assertEquals(247.672, Score.sum3(199, 144, new Configuration().getH_MASS(1)), 0);
+        assertEquals(170.672, Score.sum3(120, 150, new Configuration().getHMass(1)), 0);
+        assertEquals(440.672, Score.sum3(333, 321, new Configuration().getHMass(1)), 0);
+        assertEquals(464.962, Score.sum3(130.99, 999.9, new Configuration().getHMass(1)), 0);
+        assertEquals(247.672, Score.sum3(199, 144, new Configuration().getHMass(1)), 0);
     }
 
     @Test
     public void sum4Test() {
-        assertEquals(220.336, Score.sum4(120, 150, new Configuration().getH_MASS(1)), 0);
-        assertEquals(547.336, Score.sum4(333, 321, new Configuration().getH_MASS(1)), 0);
-        assertEquals(797.926, Score.sum4(130.99, 999.9, new Configuration().getH_MASS(1)), 0);
-        assertEquals(295.336, Score.sum4(199, 144, new Configuration().getH_MASS(1)), 0);
+        assertEquals(220.336, Score.sum4(120, 150, new Configuration().getHMass(1)), 0);
+        assertEquals(547.336, Score.sum4(333, 321, new Configuration().getHMass(1)), 0);
+        assertEquals(797.926, Score.sum4(130.99, 999.9, new Configuration().getHMass(1)), 0);
+        assertEquals(295.336, Score.sum4(199, 144, new Configuration().getHMass(1)), 0);
     }
 }

@@ -18,7 +18,7 @@ public class FeaturesBasedDeisotoping {
     private MassSpectrum massSpectrum = new MassSpectrum();
     private MassSpectrum resultSpectrum = new MassSpectrum();
 
-    public void setConfiguration(double[] aaMass, double F1, double F2, double F3, double F4, double F5, double delta,
+    public void setConfiguration(double[] aaMass, double f1, double f2, double f3, double f4, double f5, double delta,
             double errortolerance, double distance, double noise, boolean decharge, String modus) {
         Configuration config;
         if (aaMass.length > 1) {
@@ -27,10 +27,10 @@ public class FeaturesBasedDeisotoping {
                 aaMassList.add(aaMass[i]);
             }
 
-            config = new Configuration(aaMassList, F1, F2, F3, F4, F5, delta, errortolerance, distance, noise, decharge,
+            config = new Configuration(aaMassList, f1, f2, f3, f4, f5, delta, errortolerance, distance, noise, decharge,
                     modus);
         } else {
-            config = new Configuration(F1, F2, F3, F4, F5, delta, errortolerance, distance, noise, decharge, modus);
+            config = new Configuration(f1, f2, f3, f4, f5, delta, errortolerance, distance, noise, decharge, modus);
         }
 
         this.deisotoper.setConfiguration(config);

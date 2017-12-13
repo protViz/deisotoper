@@ -24,7 +24,6 @@ public class IsotopicSet {
     private int setId;
 
     public IsotopicSet(PeakList peakList, List<Peak> peaksInSet, int setId, Configuration config) {
-
         this.peakList = peakList;
         rangeCheck(peaksInSet, config);
 
