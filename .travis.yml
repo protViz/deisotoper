@@ -1,6 +1,3 @@
-before_install:
-  - sudo apt-get update
-
 language: r
 cache: packages
 
