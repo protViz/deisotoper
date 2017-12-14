@@ -18,6 +18,7 @@ public class FeaturesBasedDeisotoping {
     private MassSpectrum massSpectrum = new MassSpectrum();
     private MassSpectrum resultSpectrum = new MassSpectrum();
 
+    @SuppressWarnings("squid:S1197") // TODO (LS)
     public void setConfiguration(double[] aaMass, double f1, double f2, double f3, double f4, double f5, double delta,
             double errortolerance, double distance, double noise, boolean decharge, String modus) {
         Configuration config;

@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Configuration implements ScoringConfiguration {
+    // TODO (LS) as map.
     private List<Double> aaMass = new ArrayList<Double>();
     private List<Double> aaMassDividedTwo = new ArrayList<Double>();
     private List<Double> aaMassDividedThree = new ArrayList<Double>();
