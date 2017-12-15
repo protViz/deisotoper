@@ -19,7 +19,7 @@ public class DeisotoperTest {
     // @Test
     // TODO (LS) what is this?
     public void testGenerateIsotopicSetsSyso() {
-        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
+        Configuration config = new Configuration();
         List<Double> mz = Arrays.asList(123.0, 125.0, 125.2, 126.0, 126.5, 127.0, 128.5, 129.0, 133.0, 133.2, 134.0,
                 134.2, 135.0, 136.783, 137.0, 138.0, 144.0);
         List<Double> intensity = Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
@@ -147,7 +147,7 @@ public class DeisotoperTest {
         massSpectrometryMeasurementIn.addMS(mz, intensity, peptidMass, chargeState, id);
         massSpectrometryMeasurementIn.addMS(mz2, intensity2, peptidMass2, chargeState2, id2);
 
-        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
+        Configuration config = new Configuration();
 
         DeisotoperMassSpectrumAdapter deisotoper = new DeisotoperMassSpectrumAdapter(new Deisotoper());
 
@@ -181,7 +181,7 @@ public class DeisotoperTest {
         MassSpecMeasure massSpectrometryMeasurementin = new MassSpecMeasure(source);
         massSpectrometryMeasurementin.addMS(mz, intensity, peptidMass, chargeState, id);
 
-        Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
+        Configuration config = new Configuration();
 
         DeisotoperMassSpectrumAdapter deisotoper = new DeisotoperMassSpectrumAdapter(new Deisotoper(config));
 

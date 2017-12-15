@@ -69,8 +69,18 @@ public class Configuration implements ScoringConfiguration {
     }
 
     @Override
+    public void setF1(double f1) {
+        this.f1 = f1;
+    }
+
+    @Override
     public double getF2() {
         return f2;
+    }
+
+    @Override
+    public void setF2(double f2) {
+        this.f2 = f2;
     }
 
     @Override
@@ -79,13 +89,28 @@ public class Configuration implements ScoringConfiguration {
     }
 
     @Override
+    public void setF3(double f3) {
+        this.f3 = f3;
+    }
+
+    @Override
     public double getF4() {
         return f4;
     }
 
     @Override
+    public void setF4(double f4) {
+        this.f4 = f4;
+    }
+
+    @Override
     public double getF5() {
         return f5;
+    }
+
+    @Override
+    public void setF5(double f5) {
+        this.f5 = f5;
     }
 
     @Override
@@ -151,24 +176,18 @@ public class Configuration implements ScoringConfiguration {
     }
 
     public Configuration() {
-        this(0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.00048, 0, false, "first");
+        this(0.003, 0.3, 1.00048, 0, false, "first");
     }
 
-    public Configuration(double f1, double f2, double f3, double f4, double f5, double delta, double errortolerance,
-            double distance, double noise, boolean decharge, String modus) {
+    public Configuration(double delta, double errortolerance, double distance, double noise, boolean decharge,
+            String modus) {
         this(Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146,
                 137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203, 101.04768,
-                186.07931, 163.06333, 99.06841), f1, f2, f3, f4, f5, delta, errortolerance, distance, noise, decharge,
-                modus);
+                186.07931, 163.06333, 99.06841), delta, errortolerance, distance, noise, decharge, modus);
     }
 
-    public Configuration(List<Double> aaMass, double f1, double f2, double f3, double f4, double f5, double delta,
-            double errortolerance, double distance, double noise, boolean decharge, String modus) {
-        this.f1 = f1;
-        this.f2 = f2;
-        this.f3 = f3;
-        this.f4 = f4;
-        this.f5 = f5;
+    public Configuration(List<Double> aaMass, double delta, double errortolerance, double distance, double noise,
+            boolean decharge, String modus) {
         this.delta = delta;
         this.errortolerance = errortolerance;
         this.distance = distance;

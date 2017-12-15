@@ -28,10 +28,19 @@ public class FeaturesBasedDeisotoping {
                 aaMassList.add(aaMass[i]);
             }
 
-            config = new Configuration(aaMassList, f1, f2, f3, f4, f5, delta, errortolerance, distance, noise, decharge,
-                    modus);
+            config = new Configuration(aaMassList, delta, errortolerance, distance, noise, decharge, modus);
+            config.setF1(f1);
+            config.setF2(f2);
+            config.setF3(f3);
+            config.setF4(f4);
+            config.setF5(f5);
         } else {
-            config = new Configuration(f1, f2, f3, f4, f5, delta, errortolerance, distance, noise, decharge, modus);
+            config = new Configuration(delta, errortolerance, distance, noise, decharge, modus);
+            config.setF1(f1);
+            config.setF2(f2);
+            config.setF3(f3);
+            config.setF4(f4);
+            config.setF5(f5);
         }
 
         this.deisotoper.setConfiguration(config);
