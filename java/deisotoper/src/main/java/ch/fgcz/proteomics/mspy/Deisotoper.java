@@ -36,8 +36,8 @@ public class Deisotoper {
                 intensitylist.add(outputpeaklist.get(i).getIntensity());
             }
 
-            output.addMS(ms.getTyp(), ms.getSearchEngine(), mzlist, intensitylist, ms.getPeptideMass(), ms.getRt(),
-                    ms.getChargeState(), ms.getId(), chargelist, isotopelist);
+            output.addMS(mzlist, intensitylist, ms.getPeptideMass(), ms.getChargeState(), ms.getId(), chargelist,
+                    isotopelist);
         }
 
         return output;

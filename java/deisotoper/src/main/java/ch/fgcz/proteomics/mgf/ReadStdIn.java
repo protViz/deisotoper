@@ -35,10 +35,7 @@ public class ReadStdIn {
             String line = "";
             int chargeState = 0;
             int id = 0;
-            String searchEngine = null;
-            String typ = null;
             double peptidMass = 0;
-            double rt = 0;
             List<Double> mz = new ArrayList<Double>();
             List<Double> intensity = new ArrayList<Double>();
 
@@ -49,21 +46,13 @@ public class ReadStdIn {
                 if (line.equals("BEGIN IONS")) {
                     chargeState = 0;
                     id = massSpectrometryMeasurement.getMSlist().size();
-                    searchEngine = null;
-                    typ = null;
                     peptidMass = 0;
-                    rt = 0;
                     mz = new ArrayList<Double>();
                     intensity = new ArrayList<Double>();
                 } else if (line.equals("END IONS")) {
-                    massSpectrometryMeasurement.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState,
-                            id);
+                    massSpectrometryMeasurement.addMS(mz, intensity, peptidMass, chargeState, id);
                 } else if (line.contains("CHARGE")) {
                     chargeState = Integer.parseInt(partEqual[1].substring(0, 1));
-                } else if (line.contains("TITLE")) {
-                    typ = partEqual[1];
-                } else if (line.contains("RTINSECONDS")) {
-                    rt = Double.parseDouble(partEqual[1]);
                 } else if (line.contains("PEPMASS")) {
                     String[] pepmasssplit = partEqual[1].split(" ");
                     peptidMass = Double.parseDouble(pepmasssplit[0]);

@@ -77,8 +77,6 @@ public class MassSpecMeasureSummary {
                 .append(lineSep);
         stringBuilder.append(massSpectrum.getId()).append(",precursor_mass,").append(massSpectrum.getPeptideMass())
                 .append(lineSep);
-        stringBuilder.append(massSpectrum.getId()).append(",rt_in_seconds,").append(massSpectrum.getRt())
-                .append(lineSep);
 
         return stringBuilder;
     }

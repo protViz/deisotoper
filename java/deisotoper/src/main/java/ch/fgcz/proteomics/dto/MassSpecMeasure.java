@@ -25,8 +25,7 @@ public class MassSpecMeasure {
         this.massSpectrumList = new ArrayList<MassSpectrum>();
     }
 
-    public void addMS(String typ, String searchEngine, double[] mz, double[] intensity, double peptideMass, double rt,
-            int chargeState, int id) {
+    public void addMS(double[] mz, double[] intensity, double peptideMass, int chargeState, int id) {
         List<Double> mzValues = new ArrayList<Double>();
         List<Double> intensityValues = new ArrayList<Double>();
 
@@ -35,18 +34,15 @@ public class MassSpecMeasure {
             intensityValues.add(intensity[i]);
         }
 
-        this.getMSlist()
-                .add(new MassSpectrum(typ, searchEngine, mzValues, intensityValues, peptideMass, rt, chargeState, id));
+        this.getMSlist().add(new MassSpectrum(mzValues, intensityValues, peptideMass, chargeState, id));
     }
 
-    public void addMS(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
-            double rt, int chargeState, int id) {
-        this.getMSlist().add(new MassSpectrum(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id));
+    public void addMS(List<Double> mz, List<Double> intensity, double peptidMass, int chargeState, int id) {
+        this.getMSlist().add(new MassSpectrum(mz, intensity, peptidMass, chargeState, id));
     }
 
-    public void addMS(String typ, String searchEngine, List<Double> mz, List<Double> intensity, double peptidMass,
-            double rt, int chargeState, int id, List<Integer> charge, List<Double> isotope) {
-        this.getMSlist().add(
-                new MassSpectrum(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id, charge, isotope));
+    public void addMS(List<Double> mz, List<Double> intensity, double peptidMass, int chargeState, int id,
+            List<Integer> charge, List<Double> isotope) {
+        this.getMSlist().add(new MassSpectrum(mz, intensity, peptidMass, chargeState, id, charge, isotope));
     }
 }

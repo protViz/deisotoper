@@ -15,7 +15,8 @@ public class WriteStdOut {
     private WriteStdOut() {
         throw new IllegalStateException("Writer class");
     }
-    @SuppressWarnings("squid:S1197") // TODO (LS)
+
+    // TODO (LS) @SuppressWarnings("squid:S1197")
     public static void write(MassSpecMeasure massSpectrometryMeasurement) {
         System.out.println(
                 "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
@@ -23,10 +24,8 @@ public class WriteStdOut {
         for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
             System.out.println("BEGIN IONS");
 
-            System.out.println("TITLE=" + MS.getTyp());
             System.out.println("PEPMASS=" + MS.getPeptideMass());
             System.out.println("CHARGE=" + MS.getChargeState() + "+");
-            System.out.println("RTINSECONDS=" + MS.getRt());
             int i = 0;
             for (i = 0; i < MS.getMz().size(); i++) {
                 System.out.println(MS.getMz().get(i) + " " + MS.getIntensity().get(i));

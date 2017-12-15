@@ -58,10 +58,8 @@ public class WriteMGF {
             for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
                 out.println("BEGIN IONS");
 
-                out.println("TITLE=" + MS.getTyp());
                 out.println("PEPMASS=" + MS.getPeptideMass());
                 out.println("CHARGE=" + MS.getChargeState() + "+");
-                out.println("RTINSECONDS=" + MS.getRt());
                 int i = 0;
                 for (i = 0; i < MS.getMz().size(); i++) {
                     out.println(MS.getMz().get(i) + " " + MS.getIntensity().get(i));

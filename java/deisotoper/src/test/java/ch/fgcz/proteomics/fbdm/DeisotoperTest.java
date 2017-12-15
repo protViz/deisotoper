@@ -131,27 +131,21 @@ public class DeisotoperTest {
     public void testDeisotopeMSM() {
         String source = "Unit Test Case";
 
-        String typ = "MS2";
-        String searchEngine = "mascot";
         double[] mz = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 };
         double[] intensity = { 4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0 };
         double peptidMass = 309.22;
-        double rt = 383.34;
         int chargeState = 2;
         int id = 123;
 
-        String typ2 = "MS2";
-        String searchEngine2 = "mascot";
         double[] mz2 = { 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0 };
         double[] intensity2 = { 65.0, 44.0, 23.0, 88.0, 666.0, 451.0, 44.0, 22.0, 111.0, 1000.0 };
         double peptidMass2 = 203.23;
-        double rt2 = 583.35;
         int chargeState2 = 2;
         int id2 = 124;
 
         MassSpecMeasure massSpectrometryMeasurementIn = new MassSpecMeasure(source);
-        massSpectrometryMeasurementIn.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
-        massSpectrometryMeasurementIn.addMS(typ2, searchEngine2, mz2, intensity2, peptidMass2, rt2, chargeState2, id2);
+        massSpectrometryMeasurementIn.addMS(mz, intensity, peptidMass, chargeState, id);
+        massSpectrometryMeasurementIn.addMS(mz2, intensity2, peptidMass2, chargeState2, id2);
 
         Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
 
@@ -178,17 +172,14 @@ public class DeisotoperTest {
     public void testDeisotopeMS() {
         String source = "Unit Test Case";
 
-        String typ = "MS2";
-        String searchEngine = "mascot";
         double[] mz = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 };
         double[] intensity = { 4.0, 4.0, 5.0, 6.0, 6.0, 7.0, 7.0, 7.0, 8.0, 8.0 };
         double peptidMass = 309.22;
-        double rt = 383.34;
         int chargeState = 2;
         int id = 123;
 
         MassSpecMeasure massSpectrometryMeasurementin = new MassSpecMeasure(source);
-        massSpectrometryMeasurementin.addMS(typ, searchEngine, mz, intensity, peptidMass, rt, chargeState, id);
+        massSpectrometryMeasurementin.addMS(mz, intensity, peptidMass, chargeState, id);
 
         Configuration config = new Configuration(0.8, 0.5, 0.1, 0.1, 0.1, 0.03, 0.3, 1.003, 0, false, "first");
 
