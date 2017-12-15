@@ -555,7 +555,6 @@ public class FeaturesBasedDeisotopingTest {
 
             dtoper.deisotope();
 
-            double[] mzout = dtoper.getMz();
             double[] intensityout = dtoper.getIntensity();
 
             // System.out.println("Input Peaklist (" + mz.length + "): Output Peaklist(" +

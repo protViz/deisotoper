@@ -236,10 +236,10 @@ public class Configuration implements ScoringConfiguration {
     private String print(Map<String, Double> aaMass) {
         StringBuilder stringbuilder = new StringBuilder();
 
-        stringbuilder.append("[ ");
+        stringbuilder.append("[");
 
         for (Map.Entry<String, Double> entry : aaMass.entrySet()) {
-            stringbuilder.append(entry.getKey() + " " + entry.getValue());
+            stringbuilder.append(" " + entry.getKey() + "=" + entry.getValue());
         }
 
         stringbuilder.append(" ]");
