@@ -169,10 +169,12 @@ deisotoper <- function(amino_acid_masses = list('A' = 71.03711, 'R' = 156.10111,
     stop("Modus is incorrect. Available modi: 'first' or 'highest'")
   }
   
-  tt <- .jcall(dtoper, "V", "setConfiguration", 
-         as.vector(unlist(amino_acid_masses)), F1, F2, F3, F4, F5, 
-         delta, errortolerance, distance, noise, 
-         decharge, modus)
+  tt <- .jcall(dtoper, "V", "setConfiguration",
+               names(amino_acid_masses),
+               as.vector(unlist(amino_acid_masses)), 
+               F1, F2, F3, F4, F5, 
+               delta, errortolerance, distance, noise, 
+               decharge, modus)
   
   rv <- list(javaRef = dtoper, comment = comment)
   class(rv) <- c('deisotoper', class(rv))

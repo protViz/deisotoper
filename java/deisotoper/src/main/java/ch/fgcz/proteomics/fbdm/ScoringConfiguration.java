@@ -1,6 +1,6 @@
 package ch.fgcz.proteomics.fbdm;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ScoringConfiguration {
     double getHMass(int multiplier);
@@ -17,11 +17,11 @@ public interface ScoringConfiguration {
 
     double getMax();
 
-    List<Double> getAaMass();
+    Map<String, Double> getAaMass();
 
-    List<Double> getAaMassDividedTwo();
+    Map<String, Double> getAaMassDividedTwo();
 
-    List<Double> getAaMassDividedThree();
+    Map<String, Double> getAaMassDividedThree();
 
     double getF1();
 

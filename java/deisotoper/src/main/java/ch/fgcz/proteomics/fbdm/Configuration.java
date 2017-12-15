@@ -1,20 +1,14 @@
 package ch.fgcz.proteomics.fbdm;
 
-/**
- * @author Lucas Schmidt
- * @since 2017-10-09
- */
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Configuration implements ScoringConfiguration {
     // TODO (LS) as map.
-    private List<Double> aaMass = new ArrayList<Double>();
-    private List<Double> aaMassDividedTwo = new ArrayList<Double>();
-    private List<Double> aaMassDividedThree = new ArrayList<Double>();
+    private Map<String, Double> aaMass = new HashMap<String, Double>();
+    private Map<String, Double> aaMassDividedTwo = new HashMap<String, Double>();
+    private Map<String, Double> aaMassDividedThree = new HashMap<String, Double>();
     private double minimum = 0;
     private double maximum = Double.MAX_VALUE;
     private double f1 = 0.8;
@@ -161,17 +155,17 @@ public class Configuration implements ScoringConfiguration {
     }
 
     @Override
-    public List<Double> getAaMass() {
+    public Map<String, Double> getAaMass() {
         return aaMass;
     }
 
     @Override
-    public List<Double> getAaMassDividedTwo() {
+    public Map<String, Double> getAaMassDividedTwo() {
         return aaMassDividedTwo;
     }
 
     @Override
-    public List<Double> getAaMassDividedThree() {
+    public Map<String, Double> getAaMassDividedThree() {
         return aaMassDividedThree;
     }
 
@@ -181,12 +175,36 @@ public class Configuration implements ScoringConfiguration {
 
     public Configuration(double delta, double errortolerance, double distance, double noise, boolean decharge,
             String modus) {
-        this(Arrays.asList(71.03711, 156.10111, 114.04293, 115.02694, 103.00919, 129.04259, 128.05858, 57.02146,
-                137.05891, 113.08406, 113.08406, 128.09496, 131.04049, 147.06841, 97.05276, 87.03203, 101.04768,
-                186.07931, 163.06333, 99.06841), delta, errortolerance, distance, noise, decharge, modus);
+        this(initializeStandartAminoAcidMasses(), delta, errortolerance, distance, noise, decharge, modus);
     }
 
-    public Configuration(List<Double> aaMass, double delta, double errortolerance, double distance, double noise,
+    private static Map<String, Double> initializeStandartAminoAcidMasses() {
+        Map<String, Double> aaMass = new HashMap<String, Double>();
+        aaMass.put("A", 71.03711);
+        aaMass.put("R", 156.10111);
+        aaMass.put("N", 114.04293);
+        aaMass.put("D", 115.02694);
+        aaMass.put("C", 103.00919);
+        aaMass.put("E", 129.04259);
+        aaMass.put("Q", 128.05858);
+        aaMass.put("G", 57.02146);
+        aaMass.put("H", 137.05891);
+        aaMass.put("I", 113.08406);
+        aaMass.put("L", 113.08406);
+        aaMass.put("K", 128.09496);
+        aaMass.put("M", 131.04049);
+        aaMass.put("F", 147.06841);
+        aaMass.put("P", 97.05276);
+        aaMass.put("S", 87.03203);
+        aaMass.put("T", 101.04768);
+        aaMass.put("W", 186.07931);
+        aaMass.put("Y", 163.06333);
+        aaMass.put("V", 99.06841);
+
+        return aaMass;
+    }
+
+    public Configuration(Map<String, Double> aaMass, double delta, double errortolerance, double distance, double noise,
             boolean decharge, String modus) {
         this.delta = delta;
         this.errortolerance = errortolerance;
@@ -196,13 +214,13 @@ public class Configuration implements ScoringConfiguration {
         this.aaMass = aaMass;
         this.modus = modus;
 
-        for (Double x : this.aaMass) {
-            this.aaMassDividedTwo.add(x / 2);
-            this.aaMassDividedThree.add(x / 3);
+        for (Map.Entry<String, Double> entry : aaMass.entrySet()) {
+            this.aaMassDividedTwo.put(entry.getKey(), entry.getValue() / 2);
+            this.aaMassDividedThree.put(entry.getKey(), entry.getValue() / 3);
         }
 
-        this.minimum = Collections.min(this.aaMassDividedThree);
-        this.maximum = Collections.max(this.aaMass);
+        this.minimum = Collections.min(this.aaMassDividedThree.values());
+        this.maximum = Collections.max(this.aaMass.values());
     }
 
     @Override
@@ -215,13 +233,15 @@ public class Configuration implements ScoringConfiguration {
                 + AVE_UPDATED_MASS + "\nAmino Acid Masses," + print(aaMass);
     }
 
-    private String print(List<Double> aaMass) {
+    private String print(Map<String, Double> aaMass) {
         StringBuilder stringbuilder = new StringBuilder();
 
-        stringbuilder.append("[");
-        for (Double d : aaMass) {
-            stringbuilder.append(d).append(" ");
+        stringbuilder.append("[ ");
+
+        for (Map.Entry<String, Double> entry : aaMass.entrySet()) {
+            stringbuilder.append(entry.getKey() + " " + entry.getValue());
         }
+
         stringbuilder.append(" ]");
 
         return stringbuilder.toString();

@@ -24,7 +24,7 @@ public class ScoreTest {
         config = new Configuration();
 
         x1 = new Peak(100, 10, 1);
-        x2 = new Peak(100 + config.getAaMass().get(1), 10, 2);
+        x2 = new Peak(100 + config.getAaMass().get("A"), 10, 2);
         new Score(x1.getMz() + x2.getMz(), 1, config);
     }
 
@@ -63,10 +63,10 @@ public class ScoreTest {
 
         Configuration config = new Configuration();
         Peak x1 = new Peak(100, 10, 1);
-        Peak x2 = new Peak(100 + config.getAaMass().get(1), 10, 1);
-        Peak x3 = new Peak(100 + config.getAaMass().get(1) + config.getAaMass().get(2), 10, 1);
-        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get(10), 10, 1);
-        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get(11), 10, 1);
+        Peak x2 = new Peak(100 + config.getAaMass().get("A"), 10, 1);
+        Peak x3 = new Peak(100 + config.getAaMass().get("A") + config.getAaMass().get("G"), 10, 1);
+        Peak x4 = new Peak(x3.getMz() + config.getAaMass().get("C"), 10, 1);
+        Peak x5 = new Peak(x4.getMz() + config.getAaMass().get("N"), 10, 1);
 
         PeakList peaklist = new PeakList();
         peaklist.add(x1).add(x2).add(x3).add(x4).add(x5);
@@ -80,11 +80,11 @@ public class ScoreTest {
         int score5 = score.firstAminoAcidDistanceScore(x5.getMz(), peaklist, config);
 
         // TODO : make a meaningfull test here.
-        assertEquals(4, score1);
-        assertEquals(3, score2);
-        assertEquals(8, score3);
-        assertEquals(5, score4);
-        assertEquals(7, score5);
+        assertEquals(5, score1);
+        assertEquals(5, score2);
+        assertEquals(7, score3);
+        assertEquals(2, score4);
+        assertEquals(2, score5);
 
     }
 

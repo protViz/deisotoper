@@ -1,6 +1,8 @@
 package ch.fgcz.proteomics.fbdm;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ch.fgcz.proteomics.utilities.MathUtils;
 
@@ -73,15 +75,31 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, hMass));
         double d4yx = Math.abs(diff4(y, x, hMass));
 
+        List<Double> aaMassValues = new ArrayList<Double>();
+        List<Double> aaMassValuesDividedTwo = new ArrayList<Double>();
+        List<Double> aaMassValuesDividedThree = new ArrayList<Double>();
+
+        for (Map.Entry<String, Double> entry : config.getAaMass().entrySet()) {
+            aaMassValues.add(entry.getValue());
+        }
+
+        for (Map.Entry<String, Double> entry : config.getAaMassDividedTwo().entrySet()) {
+            aaMassValuesDividedTwo.add(entry.getValue());
+        }
+
+        for (Map.Entry<String, Double> entry : config.getAaMassDividedThree().entrySet()) {
+            aaMassValuesDividedThree.add(entry.getValue());
+        }
+
         if (aminoAcidMassRange.in(d1xy) || aminoAcidMassRange.in(d2xy) || aminoAcidMassRange.in(d2yx)
                 || aminoAcidMassRange.in(d3xy) || aminoAcidMassRange.in(d3yx) || aminoAcidMassRange.in(d4xy)
                 || aminoAcidMassRange.in(d4yx)) {
 
             for (int i = 0; i < config.getAaMass().size(); i++) {
 
-                double aa = config.getAaMass().get(i);
-                double aa2 = config.getAaMassDividedTwo().get(i);
-                double aa3 = config.getAaMassDividedThree().get(i);
+                double aa = aaMassValues.get(i);
+                double aa2 = aaMassValuesDividedTwo.get(i);
+                double aa3 = aaMassValuesDividedThree.get(i);
 
                 if (MathUtils.fuzzyEqual(d1xy, aa, error) || MathUtils.fuzzyEqual(d1xy, aa2, error)
                         || MathUtils.fuzzyEqual(d1xy, aa3, error) || MathUtils.fuzzyEqual(d2xy, aa2, error)

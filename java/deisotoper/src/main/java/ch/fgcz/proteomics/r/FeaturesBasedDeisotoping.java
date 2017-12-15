@@ -6,7 +6,9 @@ package ch.fgcz.proteomics.r;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 import ch.fgcz.proteomics.fbdm.Configuration;
@@ -19,16 +21,17 @@ public class FeaturesBasedDeisotoping {
     private MassSpectrum resultSpectrum = new MassSpectrum();
 
     // TODO (LS) @SuppressWarnings("squid:S1197")
-    public void setConfiguration(double[] aaMass, double f1, double f2, double f3, double f4, double f5, double delta,
-            double errortolerance, double distance, double noise, boolean decharge, String modus) {
+    public void setConfiguration(String[] aaMassNames, double[] aaMassValues, double f1, double f2, double f3,
+            double f4, double f5, double delta, double errortolerance, double distance, double noise, boolean decharge,
+            String modus) {
         Configuration config;
-        if (aaMass.length > 1) {
-            List<Double> aaMassList = new ArrayList<Double>();
-            for (int i = 0; i < aaMass.length; i++) {
-                aaMassList.add(aaMass[i]);
+        if (aaMassValues.length > 1 && aaMassNames.length > 1 && (aaMassNames.length == aaMassValues.length)) {
+            Map<String, Double> aaMass = new HashMap<String, Double>();
+            for (int i = 0; i < aaMassNames.length; i++) {
+                aaMass.put(aaMassNames[i], aaMassValues[i]);
             }
 
-            config = new Configuration(aaMassList, delta, errortolerance, distance, noise, decharge, modus);
+            config = new Configuration(aaMass, delta, errortolerance, distance, noise, decharge, modus);
             config.setF1(f1);
             config.setF2(f2);
             config.setF3(f3);

@@ -6,8 +6,6 @@ package ch.fgcz.proteomics.fbdm;
  */
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 public class ConfigurationTest {
@@ -15,11 +13,8 @@ public class ConfigurationTest {
 
     @Test
     public void testConfigurationCreation() {
-        Configuration config = new Configuration(Arrays.asList(100.0, 1000.0), 0.0054,
-                0.3, 1.003, 0, true, "first");
+        Configuration config = new Configuration(0.0054, 0.3, 1.003, 0, true, "first");
 
-        assertEquals(Arrays.asList(100.0, 1000.0), config.getAaMass());
-        assertEquals(Arrays.asList(50.0, 500.0), config.getAaMassDividedTwo());
         assertEquals(0.8, config.getF1(), MIN);
         assertEquals(0.5, config.getF2(), MIN);
         assertEquals(0.1, config.getF3(), MIN);

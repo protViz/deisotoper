@@ -392,9 +392,10 @@ public class FeaturesBasedDeisotopingTest {
 
         FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
 
-        double[] aa = { 99.06841 };
+        String[] aaMassNames = {};
+        double[] aaMassValues = {};
 
-        dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
+        dtoper.setConfiguration(aaMassNames, aaMassValues, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
 
         dtoper.setMz(mz);
         dtoper.setIntensity(intensity);
@@ -541,9 +542,11 @@ public class FeaturesBasedDeisotopingTest {
 
             FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
 
-            double[] aa = { 99.06841 };
+            String[] aaMassNames = {};
+            double[] aaMassValues = {};
 
-            dtoper.setConfiguration(aa, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false, "first");
+            dtoper.setConfiguration(aaMassNames, aaMassValues, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.0, 0, false,
+                    "first");
 
             dtoper.setMz(mz);
             dtoper.setIntensity(intensity);
