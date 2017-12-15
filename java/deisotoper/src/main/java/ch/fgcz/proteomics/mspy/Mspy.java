@@ -54,13 +54,13 @@ public class Mspy {
         return list;
     }
 
-    private static int goThroughPossibleCharges(List<Integer> charges, List<Peak> peaklist, Peak parent, int x,
-            int maxindex, double isotopeshift, double mztolerance, double inttolerance) {
-        for (int z : charges) {
+    private static int goThroughPossibleCharges(List<Integer> charges, List<Peak> peaklist, Peak parent, int x, // NOSONAR
+            int maxindex, double isotopeshift, double mztolerance, double inttolerance) { // NOSONAR
+        for (int z : charges) { // NOSONAR
             List<Peak> cluster = collectPeaksForCluster(peaklist, parent, x, z, maxindex, isotopeshift, mztolerance);
 
             if (cluster.size() == 1) {
-                continue;
+                continue; // NOSONAR
             }
 
             int mass = Math.min(15000, (int) calculateMass(parent.getMz(), 0, z)) / 200; // NOT CLEAR
@@ -70,7 +70,7 @@ public class Mspy {
             int lim = calculateLim(pattern);
 
             if (cluster.size() < lim && Math.abs(z) > 1) {
-                continue;
+                continue; // NOSONAR
             }
 
             boolean valid = true;
@@ -82,7 +82,7 @@ public class Mspy {
             if (valid && z < 4) {
                 parent.setIsotope(0);
                 parent.setCharge(z);
-                break;
+                break; // NOSONAR
             }
         }
         x++;

@@ -21,9 +21,9 @@ public class FeaturesBasedDeisotoping {
     private MassSpectrum resultSpectrum = new MassSpectrum();
 
     // TODO (LS) @SuppressWarnings("squid:S1197")
-    public void setConfiguration(String[] aaMassNames, double[] aaMassValues, double f1, double f2, double f3,
-            double f4, double f5, double delta, double errortolerance, double distance, double noise, boolean decharge,
-            String modus) {
+    public void setConfiguration(String[] aaMassNames, double[] aaMassValues, double f1, double f2, double f3, // NOSONAR
+            double f4, double f5, double delta, double errortolerance, double distance, double noise, boolean decharge, // NOSONAR
+            String modus) { // NOSONAR
         Configuration config;
         if (aaMassValues.length > 1 && aaMassNames.length > 1 && (aaMassNames.length == aaMassValues.length)) {
             Map<String, Double> aaMass = new HashMap<String, Double>();
