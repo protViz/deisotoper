@@ -16,8 +16,8 @@ import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class DeisotoperTest {
-    // @Test
     // TODO (LS) what is this?
+    @Test
     public void testGenerateIsotopicSetsSyso() {
         Configuration config = new Configuration();
         List<Double> mz = Arrays.asList(123.0, 125.0, 125.2, 126.0, 126.5, 127.0, 128.5, 129.0, 133.0, 133.2, 134.0,

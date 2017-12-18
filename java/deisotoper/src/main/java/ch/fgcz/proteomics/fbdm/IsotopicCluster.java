@@ -11,7 +11,7 @@ import java.util.List;
 import ch.fgcz.proteomics.utilities.MathUtils;
 
 public class IsotopicCluster {
-    private List<Peak> iCluster = new ArrayList<Peak>();
+    private List<Peak> clusterPeaks = new ArrayList<Peak>();
     private int charge;
     private int clusterId;
     private String status;
@@ -20,18 +20,18 @@ public class IsotopicCluster {
     public IsotopicCluster(List<Peak> isotopicCluster, int charge, PeakList peakList, double isotopicPeakDistance,
             double delta) {
         rangeCheck(isotopicCluster, charge, isotopicPeakDistance, delta);
-        this.iCluster = isotopicCluster;
+        this.clusterPeaks = isotopicCluster;
         this.charge = charge;
         this.peakList = peakList;
     }
 
     public IsotopicCluster(String status) {
-        this.iCluster = null;
+        this.clusterPeaks = null;
         this.charge = 0;
         this.status = status;
     }
 
-    // TODO not sure if should not moved to isotopicSet.
+    // TODO (LS) not sure if should not moved to isotopicSet.
     static List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
         // If cluster has same peak/peaks as other cluster.
         // Remove this peak in the lowest charged cluster.
@@ -63,11 +63,11 @@ public class IsotopicCluster {
     }
 
     public Peak getPeak(int i) {
-        return this.iCluster.get(i);
+        return this.clusterPeaks.get(i);
     }
 
     public int size() {
-        return this.iCluster.size();
+        return this.clusterPeaks.size();
     }
 
     public int getClusterID() {
@@ -87,20 +87,20 @@ public class IsotopicCluster {
     }
 
     public List<Peak> getIsotopicCluster() {
-        return iCluster;
+        return clusterPeaks;
     }
 
     public boolean isNotNull() {
-        return this.iCluster != null;
+        return this.clusterPeaks != null;
     }
 
     public boolean isNull() {
-        return this.iCluster == null;
+        return this.clusterPeaks == null;
     }
 
     public double sumIntensity() {
         double intensitySum = 0;
-        for (Peak peak : this.iCluster) {
+        for (Peak peak : this.clusterPeaks) {
             intensitySum += peak.getIntensity();
         }
 
@@ -139,10 +139,10 @@ public class IsotopicCluster {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("(" + this.clusterId + ") [ ");
-        if (this.iCluster == null) {
+        if (this.clusterPeaks == null) {
             return this.status;
         }
-        for (Peak p : this.iCluster) {
+        for (Peak p : this.clusterPeaks) {
             stringBuilder.append(p.getMz() + " ");
         }
         stringBuilder.append("]");
@@ -155,7 +155,7 @@ public class IsotopicCluster {
     }
 
     private Peak rearrangeCluster(double intensitySum) {
-        return new Peak(this.iCluster.get(0).getMz(), intensitySum, this.charge);
+        return new Peak(this.clusterPeaks.get(0).getMz(), intensitySum, this.charge);
 
     }
 
@@ -173,7 +173,7 @@ public class IsotopicCluster {
     /*
      * public void scoreCluster(Configuration config) { Score score = new
      * Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(),
-     * config); for (Peak peakX : this.iCluster) {
+     * config); for (Peak peakX : this.clusterPeaks) {
      * 
      * for (Peak peakY : peakList.getPeakList()) { double scoreResult =
      * score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),

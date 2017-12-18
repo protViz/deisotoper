@@ -138,25 +138,25 @@ public class IsotopicSet {
         // FIRST GRAPH AND BEST PATH
         List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
 
-        IsotopicClusterGraph isotopicClusterGraphForBestPath = new IsotopicClusterGraph(
+        IsotopicSetGraph isotopicSetGraphForBestPath = new IsotopicSetGraph(
                 removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
 
-        isotopicClusterGraphForBestPath.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
+        isotopicSetGraphForBestPath.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
                 peaklist, config);
 
-        this.bestPath = isotopicClusterGraphForBestPath
-                .bestPath(isotopicClusterGraphForBestPath.getStart(), isotopicClusterGraphForBestPath.getEnd())
+        this.bestPath = isotopicSetGraphForBestPath
+                .bestPath(isotopicSetGraphForBestPath.getStart(), isotopicSetGraphForBestPath.getEnd())
                 .getVertexList();
 
         // THEN GRAPH AND DOT
         List<IsotopicCluster> isotopicClustersForDot = new ArrayList<IsotopicCluster>(isotopicClusters);
 
-        IsotopicClusterGraph isotopicClusterGraphForDot = new IsotopicClusterGraph(isotopicClustersForDot);
+        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicClustersForDot);
 
-        isotopicClusterGraphForDot.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
+        isotopicSetGraph.scoreIsotopicClusterGraph(peaklist.getPeptideMass(), peaklist.getChargeState(),
                 peaklist, config);
 
-        this.dot = isotopicClusterGraphForDot.toDOTGraph();
+        this.dot = IsotopicSetGraphToDotGraph.toDOTGraph(isotopicSetGraph.getIsotopicClusterGraph());
     }
 
     // TODO : write a few tests.

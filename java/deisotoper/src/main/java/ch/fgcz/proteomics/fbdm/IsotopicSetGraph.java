@@ -12,11 +12,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 
-public class IsotopicClusterGraph {
-    private static final String LINESEP = System.lineSeparator();
-    private static final String COLOR = "[color=\"";
-    private static final String LABEL = "\",label=\"";
-    private static final String WEIGHT = "\",weight=\"";
+public class IsotopicSetGraph {
     private static final String BLACK = "black";
     private static final String RED = "red";
     private static final String START = "start";
@@ -25,7 +21,7 @@ public class IsotopicClusterGraph {
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> iClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
             Connection.class);
 
-    public IsotopicClusterGraph(List<IsotopicCluster> isotopicSet) {
+    public IsotopicSetGraph(List<IsotopicCluster> isotopicSet) {
         List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
@@ -41,6 +37,7 @@ public class IsotopicClusterGraph {
             for (IsotopicCluster cluster2 : isotopicSet) {
                 String color = calculateConnection(cluster1, cluster2);
 
+                // TODO(LS) why do you need the if statements here?
                 // Start
                 if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
                     connectClusters(cluster1, cluster2, color);
@@ -85,73 +82,6 @@ public class IsotopicClusterGraph {
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
         return paths.get(paths.size() - 1);
-    }
-
-    public String toDOTGraph() {
-        StringBuilder stringBuilder = new StringBuilder();
-        String lineSep = System.getProperty("line.separator");
-
-        stringBuilder.append("digraph {").append(lineSep);
-        stringBuilder.append("rankdir=LR;").append(lineSep);
-        stringBuilder.append("node [shape=box];").append(lineSep);
-
-        for (Connection connection : this.iClusterGraph.edgeSet()) {
-            if (this.iClusterGraph.getEdgeSource(connection).isNotNull()
-                    && this.iClusterGraph.getEdgeTarget(connection).isNotNull()) {
-                firstIfStatement(stringBuilder, connection);
-            } else if (this.iClusterGraph.getEdgeSource(connection).isNull()
-                    && this.iClusterGraph.getEdgeTarget(connection).isNotNull()) {
-                secondIfStatement(stringBuilder, connection);
-            } else if (this.iClusterGraph.getEdgeTarget(connection).isNull()
-                    && this.iClusterGraph.getEdgeSource(connection).isNotNull()) {
-                thirdIfStatement(stringBuilder, connection);
-            }
-        }
-
-        stringBuilder.append("}");
-
-        return stringBuilder.toString();
-    }
-
-    private void firstIfStatement(StringBuilder stringBuilder, Connection connection) {
-        stringBuilder.append("\"(" + this.iClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
-        for (Peak peak : this.iClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
-            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-        }
-        stringBuilder.append("] z:" + this.iClusterGraph.getEdgeSource(connection).getCharge() + "\" -> \"("
-                + this.iClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
-        for (Peak peak : this.iClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-        }
-        stringBuilder.append("] z:" + this.iClusterGraph.getEdgeTarget(connection).getCharge() + "\"")
-                .append(COLOR + connection.getColor() + LABEL + Math.round(connection.getScore() * 10000d) / 10000d
-                        + WEIGHT + connection.getScore() + "\"];")
-                .append(LINESEP);
-    }
-
-    private void secondIfStatement(StringBuilder stringBuilder, Connection connection) {
-        stringBuilder.append(this.iClusterGraph.getEdgeSource(connection).getStatus());
-        stringBuilder.append(" -> \"(" + this.iClusterGraph.getEdgeTarget(connection).getClusterID() + ") [ ");
-        for (Peak peak : this.iClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-        }
-        stringBuilder.append("] z:" + this.iClusterGraph.getEdgeTarget(connection).getCharge() + "\"")
-                .append(COLOR + connection.getColor() + LABEL + Math.round(connection.getScore() * 10000d) / 10000d
-                        + WEIGHT + connection.getScore() + "\"];")
-                .append(LINESEP);
-    }
-
-    private void thirdIfStatement(StringBuilder stringBuilder, Connection connection) {
-        stringBuilder.append("\"(" + this.iClusterGraph.getEdgeSource(connection).getClusterID() + ") [ ");
-        for (Peak peak : this.iClusterGraph.getEdgeSource(connection).getIsotopicCluster()) {
-            stringBuilder.append(" (" + peak.getPeakID() + ") " + Math.round(peak.getMz() * 100d) / 100d + " ");
-        }
-        stringBuilder
-                .append("] z:" + this.iClusterGraph.getEdgeSource(connection).getCharge() + "\" -> "
-                        + this.iClusterGraph.getEdgeTarget(connection).getStatus())
-                .append(COLOR + connection.getColor() + LABEL + Math.round(connection.getScore() * 10000d) / 10000d
-                        + WEIGHT + connection.getScore() + "\"];")
-                .append(LINESEP);
     }
 
     public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, PeakList peakList, Configuration config) {
@@ -207,6 +137,7 @@ public class IsotopicClusterGraph {
         this.iClusterGraph.addVertex(cluster2);
 
         Connection connection = new Connection(color);
+
         this.iClusterGraph.addEdge(cluster1, cluster2, connection);
     }
 

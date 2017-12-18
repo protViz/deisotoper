@@ -23,7 +23,6 @@ public class Deisotoper {
         this(new Configuration());
     }
 
-    // TODO constructor with configuration.
     public Deisotoper(Configuration config) {
         this.config = config;
     }

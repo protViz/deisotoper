@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
-public class IsotopicClusterGraphTest {
+public class IsotopicSetGraphTest {
     @Test
     public void testIsotopicClusterGraphCreation() {
         Peak peakA = new Peak(101.0, 100, 0);
@@ -22,9 +22,9 @@ public class IsotopicClusterGraphTest {
         List<Peak> peaksInSet = Arrays.asList(peakA, peakB, peakC);
         IsotopicSet isotopicSet = new IsotopicSet(peakList, peaksInSet, 0, new Configuration());
 
-        IsotopicClusterGraph isotopicClusterGraph = new IsotopicClusterGraph(isotopicSet.getIsotopicSet());
+        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicSet.getIsotopicSet());
 
-        Set<IsotopicCluster> isotopicClusters = isotopicClusterGraph.getIsotopicClusterGraph().vertexSet();
+        Set<IsotopicCluster> isotopicClusters = isotopicSetGraph.getIsotopicClusterGraph().vertexSet();
 
         assertEquals(5, isotopicClusters.size());
 
