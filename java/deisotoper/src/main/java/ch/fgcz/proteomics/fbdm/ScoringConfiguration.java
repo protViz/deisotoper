@@ -23,6 +23,7 @@ public interface ScoringConfiguration {
 
     Map<String, Double> getAaMassDividedThree();
 
+    //TODO (LS) merge into one function - and check that they add up to 1.
     double getF1();
 
     double getF2();
@@ -42,6 +43,7 @@ public interface ScoringConfiguration {
     void setF4(double f4);
 
     void setF5(double f5);
+    //TODO (LS)
 
     double getH2oMass(int charge);
 
