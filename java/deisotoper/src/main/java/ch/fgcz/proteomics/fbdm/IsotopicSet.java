@@ -28,8 +28,8 @@ public class IsotopicSet {
         rangeCheck(peaksInSet, config);
 
         this.peaksInSet = peaksInSet;
-
-        List<IsotopicCluster> tempIsotopicSet = collectClusters(config, setId);
+        this.setId = setId;
+        List<IsotopicCluster> tempIsotopicSet = collectClusters(config, peaksInSet);
 
         this.iSet = tempIsotopicSet;
         setBestPath(peakList, tempIsotopicSet, config);
@@ -94,19 +94,14 @@ public class IsotopicSet {
         return bestClusters;
     }
 
-    private List<IsotopicCluster> collectClusters(Configuration config, int setId) {
+    private List<IsotopicCluster> collectClusters(Configuration config, List<Peak> peaksInSet) {
         List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
-
         for (int charge = 3; 0 < charge; charge--) {
-            collectClusterForEachCharge(isotopicClusters, this.peaksInSet, charge, config);
+            collectClusterForEachCharge(isotopicClusters, peaksInSet, charge, config);
         }
 
         isotopicClusters = removeMultipleIsotopicCluster(isotopicClusters);
-
         sortIsotopicSet(isotopicClusters);
-
-        this.setId = setId;
-
         setPositions(isotopicClusters);
 
         return isotopicClusters;
@@ -187,13 +182,21 @@ public class IsotopicSet {
     }
 
     private List<IsotopicCluster> collectClusterForEachCharge(List<IsotopicCluster> isotopicClusters,
-            List<Peak> isotopicSet, int charge, Configuration config) {
+            List<Peak> isotopicSet,
+                                                              int charge,
+                                                              Configuration config) {
         for (Peak a : isotopicSet) {
             for (Peak b : isotopicSet) {
                 double distanceab = b.getMz() - a.getMz();
                 for (Peak c : isotopicSet) {
 
-                    innerIfStatementsOfCollectCluster(isotopicClusters, a, b, c, charge, config, distanceab);
+                    List<Peak> ic = innerIfStatementsOfCollectCluster(isotopicClusters, a, b, c, charge, config, distanceab);
+                    if (ic.size() == 2 || ic.size() == 3) {
+                        IsotopicCluster cluster = new IsotopicCluster(ic, charge, this.peakList, config.getIsotopicPeakDistance(),
+                                config.getDelta());
+                        isotopicClusters.add(cluster);
+                    }
+
                 }
             }
         }
@@ -201,8 +204,8 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private void innerIfStatementsOfCollectCluster(List<IsotopicCluster> isotopicClusters, Peak a, Peak b, Peak c,
-            int charge, Configuration config, double distanceab) {
+    static private List<Peak> innerIfStatementsOfCollectCluster(List<IsotopicCluster> isotopicClusters, Peak a, Peak b, Peak c,
+                                                                int charge, Configuration config, double distanceab) {
         List<Peak> ic = new ArrayList<Peak>();
         double distanceac = c.getMz() - a.getMz();
         double distancebc = c.getMz() - b.getMz();
@@ -222,12 +225,7 @@ public class IsotopicSet {
             c.setCharge(charge);
             ic.add(c);
         }
-
-        if (ic.size() == 2 || ic.size() == 3) {
-            IsotopicCluster cluster = new IsotopicCluster(ic, charge, this.peakList, config.getIsotopicPeakDistance(),
-                    config.getDelta());
-            isotopicClusters.add(cluster);
-        }
+        return(ic);
     }
 
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicClusters) {

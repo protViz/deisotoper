@@ -11,6 +11,12 @@ import org.junit.Test;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicSetGraphTest {
+
+    @Test
+    public void calculateConnection(){
+        // test calculate connction.
+        assertEquals(0,1);
+    }
     @Test
     public void testIsotopicClusterGraphCreation() {
         Peak peakA = new Peak(101.0, 100, 0);

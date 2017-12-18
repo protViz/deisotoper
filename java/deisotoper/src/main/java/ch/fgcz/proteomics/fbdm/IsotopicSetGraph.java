@@ -32,6 +32,7 @@ public class IsotopicSetGraph {
         assignEnd();
     }
 
+    // TODO (LS) what does Other mean?
     private void assignStartAndOther(List<IsotopicCluster> isotopicSet) {
         for (IsotopicCluster cluster1 : isotopicSet) {
             for (IsotopicCluster cluster2 : isotopicSet) {
@@ -40,12 +41,12 @@ public class IsotopicSetGraph {
                 // TODO(LS) why do you need the if statements here?
                 // Start
                 if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color);
+                    connectClusters(cluster1, cluster2, color, 1.0);
                 }
 
                 // Other
                 if (color != null && cluster1.isNotNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color);
+                    connectClusters(cluster1, cluster2, color,1.0);
                 }
             }
         }
@@ -67,7 +68,7 @@ public class IsotopicSetGraph {
 
         IsotopicCluster endCluster = new IsotopicCluster(END);
         for (IsotopicCluster cluster : isotopicClusters) {
-            connectClusters(cluster, endCluster, BLACK);
+            connectClusters(cluster, endCluster, BLACK, 1.0);
         }
     }
 
@@ -132,21 +133,28 @@ public class IsotopicSetGraph {
         return null;
     }
 
-    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color) {
+    //
+    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color, double score ) {
         this.iClusterGraph.addVertex(cluster1);
         this.iClusterGraph.addVertex(cluster2);
 
         Connection connection = new Connection(color);
+        // TODO : Set the connection here.
+        // double score =  cluster2.getScore + Score5.score(cluster1, cluster2);
+        connection.setScore(score);
 
         this.iClusterGraph.addEdge(cluster1, cluster2, connection);
     }
 
-    private String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
+    // TODO (LS) Unit test
+    protected String calculateConnection(IsotopicCluster cluster1, IsotopicCluster cluster2) {
         if (cluster1.isNotNull() && cluster1.getPeak(0).getMz() < this.minimum) {
             this.minimum = cluster1.getPeak(0).getMz();
         }
 
-        if (cluster1.getStatus() == START && cluster2.isNotNull() && cluster1.isNull()
+        // is start or is is null?
+        // TODO (LS)
+        if ( cluster1.getStatus() == START && cluster2.isNotNull() && cluster1.isNull()
                 && cluster2.getPeak(0).getMz() == this.minimum) {
             return BLACK;
         }
@@ -162,6 +170,7 @@ public class IsotopicSetGraph {
         return calculateConnectionCompare(cluster1, cluster2);
     }
 
+    // TODO unit test.
     private String calculateConnectionCompare(IsotopicCluster cluster1, IsotopicCluster cluster2) {
         if (cluster1.getPeak(0).getMz() < cluster2.getPeak(0).getMz()) {
             if (cluster1.size() == 2) {
