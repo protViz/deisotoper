@@ -19,7 +19,7 @@ public class ScoreFive {
     }
 
     public double calculateFifthScore(Connection connection) {
-        return config.getF5() * calculateScoreBasedOnExperimentalIsotopicDistribution(connection,
+        return config.getF(5) * calculateScoreBasedOnExperimentalIsotopicDistribution(connection,
                 this.isotopicClusterGraph, this.config);
     }
 
