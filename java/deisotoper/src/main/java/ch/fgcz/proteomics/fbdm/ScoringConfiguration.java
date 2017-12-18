@@ -23,12 +23,9 @@ public interface ScoringConfiguration {
 
     Map<String, Double> getAaMassDividedThree();
 
-    // TODO (LS) merge into one function - and check that they add up to 1.
-    // LS: Check is useless.
     double getF(int f);
 
     void setF(int f, double value);
-    // TODO (LS)
 
     double getH2oMass(int charge);
 

@@ -36,11 +36,12 @@ public class IsotopicSetGraph {
     private void assignStartAndOther(List<IsotopicCluster> isotopicSet) {
         for (IsotopicCluster cluster1 : isotopicSet) {
             for (IsotopicCluster cluster2 : isotopicSet) {
+
                 String color = calculateConnection(cluster1, cluster2);
 
                 // TODO(LS) why do you need the if statements here?
                 // Start
-                if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
+                if ( color != null && cluster1.isNull() && cluster2.isNotNull()) {
                     connectClusters(cluster1, cluster2, color, 1.0);
                 }
 
@@ -85,6 +86,7 @@ public class IsotopicSetGraph {
         return paths.get(paths.size() - 1);
     }
 
+    // TODO (LS) (remove)
     public void scoreIsotopicClusterGraph(double peptidMass, int chargeState, PeakList peakList, Configuration config) {
         Score score = new Score(peptidMass, chargeState, config);
         ScoreFive scoreFive = new ScoreFive(this.iClusterGraph, config);
@@ -135,15 +137,19 @@ public class IsotopicSetGraph {
 
     //
     private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color, double score ) {
-        this.iClusterGraph.addVertex(cluster1);
-        this.iClusterGraph.addVertex(cluster2);
 
         Connection connection = new Connection(color);
         // TODO : Set the connection here.
-        // double score =  cluster2.getScore + Score5.score(cluster1, cluster2);
+        //double score =  cluster2.getScore() + Score5.score(cluster1, cluster2);
+        //Connection connection = new Connection(cluster1, cluster 2, color);
+
         connection.setScore(score);
 
+        this.iClusterGraph.addVertex(cluster1);
+        this.iClusterGraph.addVertex(cluster2);
+
         this.iClusterGraph.addEdge(cluster1, cluster2, connection);
+        this.iClusterGraph.setEdgeWeight(connection,score );
     }
 
     // TODO (LS) Unit test
@@ -154,7 +160,7 @@ public class IsotopicSetGraph {
 
         // is start or is is null?
         // TODO (LS)
-        if ( cluster1.getStatus() == START && cluster2.isNotNull() && cluster1.isNull()
+        if ( cluster1.getStatus() == START && cluster1.isNull() && cluster2.isNotNull()
                 && cluster2.getPeak(0).getMz() == this.minimum) {
             return BLACK;
         }

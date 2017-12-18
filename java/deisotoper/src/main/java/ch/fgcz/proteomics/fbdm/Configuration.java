@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Configuration implements ScoringConfiguration {
-    // TODO (LS) as map.
     private Map<String, Double> aaMass = new HashMap<String, Double>();
     private Map<String, Double> aaMassDividedTwo = new HashMap<String, Double>();
     private Map<String, Double> aaMassDividedThree = new HashMap<String, Double>();
