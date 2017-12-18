@@ -32,18 +32,18 @@ public class FeaturesBasedDeisotoping {
             }
 
             config = new Configuration(aaMass, delta, errortolerance, distance, noise, decharge, modus);
-            config.setF1(f1);
-            config.setF2(f2);
-            config.setF3(f3);
-            config.setF4(f4);
-            config.setF5(f5);
+            config.setF(1, f1);
+            config.setF(2, f2);
+            config.setF(3, f3);
+            config.setF(4, f4);
+            config.setF(5, f5);
         } else {
             config = new Configuration(delta, errortolerance, distance, noise, decharge, modus);
-            config.setF1(f1);
-            config.setF2(f2);
-            config.setF3(f3);
-            config.setF4(f4);
-            config.setF5(f5);
+            config.setF(1, f1);
+            config.setF(2, f2);
+            config.setF(3, f3);
+            config.setF(4, f4);
+            config.setF(5, f5);
         }
 
         this.deisotoper.setConfiguration(config);

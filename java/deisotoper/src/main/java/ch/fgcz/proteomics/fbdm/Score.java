@@ -232,11 +232,11 @@ public class Score {
 
     // TODO integrate 5 th score
     public double calculateAggregatedScore(double xMz, double yMz, List<Peak> isotopicClusterOfPeakX) {
-        return this.config.getF1() * firstAminoAcidDistanceScore(xMz, yMz, this.config)
-                + this.config.getF2() * secondComplementaryMassScore(xMz, yMz, this.peptidMassValue, this.chargeValue,
+        return this.config.getF(1) * firstAminoAcidDistanceScore(xMz, yMz, this.config)
+                + this.config.getF(2) * secondComplementaryMassScore(xMz, yMz, this.peptidMassValue, this.chargeValue,
                         isotopicClusterOfPeakX, this.config)
-                + this.config.getF3() * thirdSideChainLossScore(xMz, yMz, this.config)
-                + this.config.getF4() * fourthSupportiveAZIonsScore(xMz, yMz, this.config);
+                + this.config.getF(3) * thirdSideChainLossScore(xMz, yMz, this.config)
+                + this.config.getF(4) * fourthSupportiveAZIonsScore(xMz, yMz, this.config);
     }
 
     public static class Range {

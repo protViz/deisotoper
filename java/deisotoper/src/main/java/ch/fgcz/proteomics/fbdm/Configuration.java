@@ -31,6 +31,47 @@ public class Configuration implements ScoringConfiguration {
     private static final double ASP_MASS = 133.104;
     private static final double AVE_UPDATED_MASS = 111.125;
 
+    @Override
+    public double getF(int f) {
+        switch (f) {
+        case 1:
+            return this.f1;
+        case 2:
+            return this.f2;
+        case 3:
+            return this.f3;
+        case 4:
+            return this.f4;
+        case 5:
+            return this.f5;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public void setF(int f, double value) {
+        switch (f) {
+        case 1:
+            this.f1 = value;
+            break;
+        case 2:
+            this.f2 = value;
+            break;
+        case 3:
+            this.f3 = value;
+            break;
+        case 4:
+            this.f4 = value;
+            break;
+        case 5:
+            this.f5 = value;
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     public boolean isDecharge() {
         return decharge;
     }
@@ -55,56 +96,6 @@ public class Configuration implements ScoringConfiguration {
     @Override
     public double getIsotopicPeakDistance() {
         return distance;
-    }
-
-    @Override
-    public double getF1() {
-        return f1;
-    }
-
-    @Override
-    public void setF1(double f1) {
-        this.f1 = f1;
-    }
-
-    @Override
-    public double getF2() {
-        return f2;
-    }
-
-    @Override
-    public void setF2(double f2) {
-        this.f2 = f2;
-    }
-
-    @Override
-    public double getF3() {
-        return f3;
-    }
-
-    @Override
-    public void setF3(double f3) {
-        this.f3 = f3;
-    }
-
-    @Override
-    public double getF4() {
-        return f4;
-    }
-
-    @Override
-    public void setF4(double f4) {
-        this.f4 = f4;
-    }
-
-    @Override
-    public double getF5() {
-        return f5;
-    }
-
-    @Override
-    public void setF5(double f5) {
-        this.f5 = f5;
     }
 
     @Override

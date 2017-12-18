@@ -15,11 +15,11 @@ public class ConfigurationTest {
     public void testConfigurationCreation() {
         Configuration config = new Configuration(0.0054, 0.3, 1.003, 0, true, "first");
 
-        assertEquals(0.8, config.getF1(), MIN);
-        assertEquals(0.5, config.getF2(), MIN);
-        assertEquals(0.1, config.getF3(), MIN);
-        assertEquals(0.1, config.getF4(), MIN);
-        assertEquals(0.1, config.getF5(), MIN);
+        assertEquals(0.8, config.getF(1), MIN);
+        assertEquals(0.5, config.getF(2), MIN);
+        assertEquals(0.1, config.getF(3), MIN);
+        assertEquals(0.1, config.getF(4), MIN);
+        assertEquals(0.1, config.getF(5), MIN);
         assertEquals(0.0054, config.getDelta(), MIN);
         assertEquals(0.3, config.getErrorTolerance(), MIN);
         assertEquals(1.003, config.getIsotopicPeakDistance(), MIN);
