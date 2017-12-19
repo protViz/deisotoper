@@ -227,8 +227,16 @@ deisotope <- function(deisotoper, massspectrum, algorithm = "features-based") {
     stop("Peptid mass is missing!")
   }
   
+  if(!is.numeric(massspectrum$pepmass)) {
+    massspectrum$pepmass <- as.double(0)
+  }
+  
   if(!("charge" %in% names(massspectrum))) {
     stop("Charge is missing!")
+  }
+  
+  if(!is.numeric(massspectrum$charge)) {
+    massspectrum$charge <- as.double(1)
   }
   
   if(is.unsorted(massspectrum$mZ)){
@@ -236,7 +244,7 @@ deisotope <- function(deisotoper, massspectrum, algorithm = "features-based") {
     massspectrum$mZ <- massspectrum$mZ[idx]
     massspectrum$intensity <- massspectrum$intensity[idx]
   }
-  
+
   .jcall(deisotoper$javaRef, "V", "setMz", massspectrum$mZ)
   .jcall(deisotoper$javaRef, "V", "setIntensity", massspectrum$intensity)
   .jcall(deisotoper$javaRef, "V", "setPepMass", massspectrum$pepmass)
@@ -250,7 +258,6 @@ deisotope <- function(deisotoper, massspectrum, algorithm = "features-based") {
   list(title = massspectrum$title,
                rtinseconds = massspectrum$rtinseconds,
                charge = massspectrum$charge,
-               scan = massspectrum$scan,
                pepmass = massspectrum$pepmass,
                mZ = mzout, 
                intensity = intensityout,
@@ -266,8 +273,6 @@ deisotope.list <- function(deisotoper, psmset) {
   }
   return(res)
 }
-
-
 
 #' @export print.deisotoper
 #' @S3method print deisotoper
@@ -378,7 +383,6 @@ findNN <- function (q, vec) {
   idx
 }
 
-
 #' @export
 #' @author Lucas Schmidt
 config.deisotoper <- function(deisotoper) {
@@ -388,7 +392,6 @@ config.deisotoper <- function(deisotoper) {
   read.csv(con, sep=',', header = TRUE)
 }
 
-
 #' @export
 #' @author Lucas Schmidt
 dot.deisotoper <- function(deisotoper) {
@@ -396,7 +399,6 @@ dot.deisotoper <- function(deisotoper) {
   
   DOT
 }
-
 
 #' @author Lucas Schmidt
 .plotDOT <- function(dot) {
