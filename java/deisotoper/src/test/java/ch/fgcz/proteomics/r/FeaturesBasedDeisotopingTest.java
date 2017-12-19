@@ -5,6 +5,7 @@ package ch.fgcz.proteomics.r;
  * @since 2017-11-20
  */
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -13,6 +14,32 @@ import org.junit.Test;
 
 // TODO: Finish tests for FeaturesBasedDeisotoping!
 public class FeaturesBasedDeisotopingTest {
+    @Test
+    public void specialCaseTest() {
+        double[] mz = { 1211.093872, 1211.593628, 1212.094971, 1212.597778, 1213.094849, };
+        double[] intensity = { 1.0, 1.0, 1.0, 1.0, 1.0 };
+
+        FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
+
+        String[] aaMassNames = {};
+        double[] aaMassValues = {};
+
+        dtoper.setConfiguration(aaMassNames, aaMassValues, 0.8, 0.5, 0.1, 0.1, 0.1, 0.003, 0.3, 1.00048, 0, false,
+                "first");
+
+        dtoper.setMz(mz);
+        dtoper.setIntensity(intensity);
+        dtoper.setPepMass(917.9609);
+        dtoper.setCharge(4);
+
+        dtoper.deisotope();
+
+        double intensitySumBefore = sum(intensity);
+        double intensitySumAfter = sum(dtoper.getIntensity());
+
+        assertNotEquals(intensitySumBefore, intensitySumAfter);
+    }
+
     @Test
     public void test() {
         // double[] mz = { 110.071701, 111.0749207, 113.071312, 114.1415176,
@@ -382,13 +409,13 @@ public class FeaturesBasedDeisotopingTest {
         // 11.0, 12.0, 13.0, 17.0, 18.0, 19.0,
         // 21.0, 23.0, 111.0 };
 
+        // double[] mz = { 1011.0, 1012.0, 1015.0, 1016.0 };
+        // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
+
         double[] mz = { 1.0, 2.0, 2.5, 3.0 };
         double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
         double[] mz2 = { 1.01, 2.0, 2.5, 3.0 };
         double[] intensity2 = { 1.0, 1.0, 1.0, 1.0 };
-
-        // double[] mz = { 1011.0, 1012.0, 1015.0, 1016.0 };
-        // double[] intensity = { 1.0, 1.0, 1.0, 1.0 };
 
         FeaturesBasedDeisotoping dtoper = new FeaturesBasedDeisotoping();
 
@@ -446,6 +473,7 @@ public class FeaturesBasedDeisotopingTest {
             System.out.println();
         }
         System.out.println();
+
         // System.out.println("Peaks who are in input and not anymore in output:");
         // List<Double> mzlist = new ArrayList();
         // List<Double> intensitylist = new ArrayList();
@@ -557,28 +585,8 @@ public class FeaturesBasedDeisotopingTest {
 
             double[] intensityout = dtoper.getIntensity();
 
-            // System.out.println("Input Peaklist (" + mz.length + "): Output Peaklist(" +
-            // mzout.length + "):");
-            // for (int i = 0; i < mz.length || i < intensity.length; i++) {
-            // System.out.print(mz[i] + " ");
-            // System.out.print(intensity[i] + " ");
-            // if (i < mzout.length || i < intensityout.length) {
-            // System.out.print(mzout[i] + " ");
-            // System.out.print(intensityout[i]);
-            // } else {
-            // System.out.print(" ");
-            // }
-            //
-            // System.out.println();
-            // }
-            // System.out.println();
-            //
-            // System.out.println(pepMass);
-
             double before = sum(intensity);
             double after = sum(intensityout);
-
-            // System.out.println("difference: " + Math.abs(before - after));
 
             assertEquals(before, after, 0.0001);
         }
