@@ -168,32 +168,6 @@ public class Configuration implements ScoringConfiguration {
         this(initializeStandartAminoAcidMasses(), delta, errortolerance, distance, noise, decharge, modus);
     }
 
-    private static Map<String, Double> initializeStandartAminoAcidMasses() {
-        Map<String, Double> aaMass = new HashMap<String, Double>();
-        aaMass.put("A", 71.03711);
-        aaMass.put("R", 156.10111);
-        aaMass.put("N", 114.04293);
-        aaMass.put("D", 115.02694);
-        aaMass.put("C", 103.00919);
-        aaMass.put("E", 129.04259);
-        aaMass.put("Q", 128.05858);
-        aaMass.put("G", 57.02146);
-        aaMass.put("H", 137.05891);
-        aaMass.put("I", 113.08406);
-        aaMass.put("L", 113.08406);
-        aaMass.put("K", 128.09496);
-        aaMass.put("M", 131.04049);
-        aaMass.put("F", 147.06841);
-        aaMass.put("P", 97.05276);
-        aaMass.put("S", 87.03203);
-        aaMass.put("T", 101.04768);
-        aaMass.put("W", 186.07931);
-        aaMass.put("Y", 163.06333);
-        aaMass.put("V", 99.06841);
-
-        return aaMass;
-    }
-
     public Configuration(Map<String, Double> aaMass, double delta, double errortolerance, double distance, double noise,
             boolean decharge, String modus) {
         this.delta = delta;
@@ -235,5 +209,31 @@ public class Configuration implements ScoringConfiguration {
         stringbuilder.append(" ]");
 
         return stringbuilder.toString();
+    }
+
+    private static Map<String, Double> initializeStandartAminoAcidMasses() {
+        Map<String, Double> aaMass = new HashMap<String, Double>();
+        aaMass.put("A", 71.03711);
+        aaMass.put("R", 156.10111);
+        aaMass.put("N", 114.04293);
+        aaMass.put("D", 115.02694);
+        aaMass.put("C", 103.00919);
+        aaMass.put("E", 129.04259);
+        aaMass.put("Q", 128.05858);
+        aaMass.put("G", 57.02146);
+        aaMass.put("H", 137.05891);
+        aaMass.put("I", 113.08406);
+        aaMass.put("L", 113.08406);
+        aaMass.put("K", 128.09496);
+        aaMass.put("M", 131.04049);
+        aaMass.put("F", 147.06841);
+        aaMass.put("P", 97.05276);
+        aaMass.put("S", 87.03203);
+        aaMass.put("T", 101.04768);
+        aaMass.put("W", 186.07931);
+        aaMass.put("Y", 163.06333);
+        aaMass.put("V", 99.06841);
+
+        return aaMass;
     }
 }

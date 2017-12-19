@@ -8,11 +8,11 @@ package ch.fgcz.proteomics.r;
 import ch.fgcz.proteomics.utilities.FindNearestNeighbor;
 
 public class Utilities {
-    private Utilities() {
-        // Utility class
-    }
-
     public static double[] findNNR(double[] vector, double[] query) {
         return FindNearestNeighbor.findNearestNeighbor(vector, query);
+    }
+
+    private Utilities() {
+        // Utility class
     }
 }

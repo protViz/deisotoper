@@ -16,7 +16,6 @@ public class WriteStdOut {
         throw new IllegalStateException("Writer class");
     }
 
-    // TODO (LS) @SuppressWarnings("squid:S1197")
     public static void write(MassSpecMeasure massSpectrometryMeasurement) {
         System.out.print("# deisotoped by fbdm algorithm at "); // NOSONAR
         System.out.println(new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date())); // NOSONAR

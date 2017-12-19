@@ -230,7 +230,8 @@ public class Score {
         return peaklistScore;
     }
 
-    // TODO integrate 5 th score
+    // TODO integrate 5 th score. LS: is integrated see: connectClusters
+    // (isotopicSetGraph)
     public double calculateAggregatedScore(double xMz, double yMz, List<Peak> isotopicClusterOfPeakX) {
         return this.config.getF(1) * firstAminoAcidDistanceScore(xMz, yMz, this.config)
                 + this.config.getF(2) * secondComplementaryMassScore(xMz, yMz, this.peptidMassValue, this.chargeValue,

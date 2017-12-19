@@ -16,24 +16,6 @@ import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class DeisotoperTest {
-    // TODO (LS) what is this?
-    @Test
-    public void testGenerateIsotopicSetsSyso() {
-        Configuration config = new Configuration();
-        List<Double> mz = Arrays.asList(123.0, 125.0, 125.2, 126.0, 126.5, 127.0, 128.5, 129.0, 133.0, 133.2, 134.0,
-                134.2, 135.0, 136.783, 137.0, 138.0, 144.0);
-        List<Double> intensity = Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                1.0, 1.0, 1.0);
-        MassSpectrum massSpectrum = new MassSpectrum(mz, intensity);
-
-        System.out.println("INPUT: " + mz.toString());
-
-        Deisotoper.generateIsotopicSets(new PeakList(massSpectrum), config); // List<IsotopicSet> isotopicSets =
-        System.out.println(
-                "[(125.0, 1.0), (126.0, 1.0), (126.5, 1.0), (127.0, 1.0), (128.5, 1.0), (129.0, 1.0), (133.0, 1.0), (133.2, 1.0), (134.0, 1.0), (134.2, 1.0), (135.0, 1.0), (137.0, 1.0), (138.0, 1.0)]");
-        System.out.println("13");
-    }
-
     @Test
     public void generateIsotopicSets_two_clusters_Interleaved() {
         Configuration config = new Configuration();

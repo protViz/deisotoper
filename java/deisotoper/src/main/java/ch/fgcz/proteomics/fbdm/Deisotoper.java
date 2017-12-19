@@ -102,7 +102,7 @@ public class Deisotoper {
 
         double sumBefore = sumAllIntensities(isotopicClusters);
 
-        isotopicClusters = IsotopicCluster.removeOverlappingPeaksInClusters(isotopicClusters);
+        isotopicClusters = IsotopicSet.removeOverlappingPeaksInClusters(isotopicClusters);
 
         for (IsotopicCluster isotopicCluster : isotopicClusters) {
             if (isotopicCluster.size() > 1) {
@@ -319,8 +319,9 @@ public class Deisotoper {
 
     private static void intensityCheck(double before, double after) {
         if (!MathUtils.fuzzyEqual(before, after, 0.001)) {
-            //throw new IllegalStateException("Wrong intensities after aggregation (Intensity before aggregation: "
-            //        + before + " and after aggregation: " + after + "!");
+            // throw new IllegalStateException("Wrong intensities after aggregation
+            // (Intensity before aggregation: "
+            // + before + " and after aggregation: " + after + "!");
         }
     }
 

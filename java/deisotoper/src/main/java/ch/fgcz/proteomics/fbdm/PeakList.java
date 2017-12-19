@@ -169,6 +169,7 @@ public class PeakList implements MassSpectrumMetaInformation {
     public PeakList removeMultiplePeaks() {
         // TODO (LS) :
         ListIterator<Peak> peakListIterator = this.pList.listIterator();
+
         while (peakListIterator.hasNext()) {
             int index = peakListIterator.nextIndex();
             Peak currentPeak = peakListIterator.next();
@@ -179,6 +180,7 @@ public class PeakList implements MassSpectrumMetaInformation {
                 }
             }
         }
+
         return this;
     }
 
@@ -236,8 +238,9 @@ public class PeakList implements MassSpectrumMetaInformation {
         double sumAfter = peakList2.sumIntensities();
 
         if (!MathUtils.fuzzyEqual(sumBefore, sumAfter, 0.001)) {
-            //throw new IllegalStateException(
-            //        "Wrong intensities (Intensity before: " + sumBefore + " and after: " + sumAfter + "!");
+            // throw new IllegalStateException(
+            // "Wrong intensities (Intensity before: " + sumBefore + " and after: " +
+            // sumAfter + "!");
         }
     }
 

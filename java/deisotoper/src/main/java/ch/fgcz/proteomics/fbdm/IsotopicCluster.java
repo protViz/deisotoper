@@ -31,27 +31,6 @@ public class IsotopicCluster {
         this.status = status;
     }
 
-    // TODO (LS) not sure if should not moved to isotopicSet.
-    static List<IsotopicCluster> removeOverlappingPeaksInClusters(List<IsotopicCluster> isotopicClusters) {
-        // If cluster has same peak/peaks as other cluster.
-        // Remove this peak in the lowest charged cluster.
-        // Aggregate only the non removed cluster and add the remaining peaks from the
-        // overlapping cluster to the resultPeakList.
-
-        for (IsotopicCluster isotopicCluster1 : isotopicClusters) {
-            for (IsotopicCluster isotopicCluster2 : isotopicClusters) {
-                if (isotopicCluster1.equals(isotopicCluster2)) {
-                    continue;
-                }
-
-                if (isotopicCluster1.hasSamePeaks(isotopicCluster2)) {
-                    isotopicCluster1.manipulateWhenHasSamePeaks(isotopicCluster2);
-                }
-            }
-        }
-        return isotopicClusters;
-    }
-
     public Peak aggregation(String modus) {
         if (modus.equals("first")) {
             return this.aggregateFirst();
