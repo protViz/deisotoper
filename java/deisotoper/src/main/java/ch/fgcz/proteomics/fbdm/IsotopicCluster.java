@@ -16,6 +16,7 @@ public class IsotopicCluster {
     private int clusterId;
     private String status;
     private PeakList peakList;
+    private double score;
 
     public IsotopicCluster(List<Peak> isotopicCluster, int charge, PeakList peakList, double isotopicPeakDistance,
             double delta) {
@@ -39,6 +40,10 @@ public class IsotopicCluster {
         } else {
             throw new IllegalArgumentException("Modus not found (" + modus + ")");
         }
+    }
+
+    public double getScore() {
+        return score;
     }
 
     public Peak getPeak(int i) {
@@ -149,17 +154,27 @@ public class IsotopicCluster {
         }
     }
 
-    /*
-     * public void scoreCluster(Configuration config) { Score score = new
-     * Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(),
-     * config); for (Peak peakX : this.clusterPeaks) {
-     * 
-     * for (Peak peakY : peakList.getPeakList()) { double scoreResult =
-     * score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
-     * this.getIsotopicCluster());
-     * 
-     * // double scoreFiveResult = scoreFive.calculateFifthScore(connection);
-     * 
-     * // scoreSum += scoreResult + scoreFiveResult; } } }
-     */
+    // Under construction
+    public void scoreCluster(Configuration config) {
+        Score score = new Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(), config);
+        double scoreSum = 0;
+        double additionalScore = 0;
+        if (this.isNotNull()) {
+            for (Peak peakX : this.clusterPeaks) {
+                for (Peak peakY : peakList.getPeakList()) {
+                    double scoreResult = score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
+                            this.getIsotopicCluster());
+
+                    additionalScore += 0.00001;
+                    scoreSum += scoreResult;
+                }
+            }
+        }
+
+        if (scoreSum == 0) {
+            scoreSum = additionalScore;
+        }
+
+        this.score = scoreSum;
+    }
 }

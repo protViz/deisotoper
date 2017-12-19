@@ -21,16 +21,15 @@ public class IsotopicSetGraph {
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> iClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
             Connection.class);
 
-    public IsotopicSetGraph(List<IsotopicCluster> isotopicSet, PeakList peakList, double peptidMass, int chargeState,
-            Configuration config) {
+    public IsotopicSetGraph(List<IsotopicCluster> isotopicSet) {
         List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
         isotopicSet2.add(new IsotopicCluster(START));
 
-        assignStartAndOther(isotopicSet2, peakList, peptidMass, chargeState, config);
+        assignStartAndOther(isotopicSet2);
 
-        assignEnd(peakList, peptidMass, chargeState, config);
+        assignEnd();
     }
 
     public DefaultDirectedWeightedGraph<IsotopicCluster, Connection> getIsotopicClusterGraph() {
@@ -87,41 +86,14 @@ public class IsotopicSetGraph {
         return calculateConnectionCompare(cluster1, cluster2);
     }
 
-    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color, PeakList peakList,
-            double peptidMass, int chargeState, Configuration config) {
+    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color) {
         Connection connection = new Connection(color);
 
         this.iClusterGraph.addVertex(cluster1);
         this.iClusterGraph.addVertex(cluster2);
 
         this.iClusterGraph.addEdge(cluster1, cluster2, connection);
-
-        // TODO : Set the connection here. done
-        Score score = new Score(peptidMass, chargeState, config);
-        ScoreFive scoreFive = new ScoreFive(this.iClusterGraph, config);
-
-        double scoreSum = 0;
-        double additionalScore = 0;
-        if (this.iClusterGraph.getEdgeTarget(connection).isNotNull()) {
-            for (Peak peakX : this.iClusterGraph.getEdgeTarget(connection).getIsotopicCluster()) {
-                for (Peak peakY : peakList.getPeakList()) {
-                    double scoreResult = score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
-                            this.iClusterGraph.getEdgeTarget(connection).getIsotopicCluster());
-
-                    double scoreFiveResult = scoreFive.calculateFifthScore(connection);
-
-                    additionalScore += 0.00001;
-
-                    scoreSum += scoreResult + scoreFiveResult;
-                }
-            }
-        }
-
-        if (scoreSum == 0) {
-            scoreSum = additionalScore;
-        }
-
-        this.iClusterGraph.setEdgeWeight(connection, scoreSum);
+        this.iClusterGraph.setEdgeWeight(connection, cluster2.getScore());
     }
 
     // TODO unit test. See IsotopicSetGraphTest
@@ -151,8 +123,7 @@ public class IsotopicSetGraph {
 
     // TODO (LS) what does Other mean? LS: Other = all the other clusters (therefore
     // not start and end cluster)
-    private void assignStartAndOther(List<IsotopicCluster> isotopicSet, PeakList peakList, double peptidMass,
-            int chargeState, Configuration config) {
+    private void assignStartAndOther(List<IsotopicCluster> isotopicSet) {
         for (IsotopicCluster cluster1 : isotopicSet) {
             for (IsotopicCluster cluster2 : isotopicSet) {
 
@@ -163,18 +134,18 @@ public class IsotopicSetGraph {
 
                 // Start
                 if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color, peakList, peptidMass, chargeState, config);
+                    connectClusters(cluster1, cluster2, color);
                 }
 
                 // Other
                 if (color != null && cluster1.isNotNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color, peakList, peptidMass, chargeState, config);
+                    connectClusters(cluster1, cluster2, color);
                 }
             }
         }
     }
 
-    private void assignEnd(PeakList peakList, double peptidMass, int chargeState, Configuration config) {
+    private void assignEnd() {
         // End
         List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
         for (IsotopicCluster cluster1 : this.iClusterGraph.vertexSet()) {
@@ -190,7 +161,7 @@ public class IsotopicSetGraph {
 
         IsotopicCluster endCluster = new IsotopicCluster(END);
         for (IsotopicCluster cluster : isotopicClusters) {
-            connectClusters(cluster, endCluster, BLACK, peakList, peptidMass, chargeState, config); // special case
+            connectClusters(cluster, endCluster, BLACK); // special case
         }
     }
 

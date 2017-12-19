@@ -21,16 +21,12 @@ public class IsotopicSetGraphTest {
         PeakList peakList = new PeakList(peaks);
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(
-                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet(), peakList, 200, 2,
-                config);
+                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet());
 
         Set<Connection> connections = isotopicSetGraph.getIsotopicClusterGraph().edgeSet();
         Iterator<Connection> iterator = connections.iterator();
 
-        assertEquals(4.8, isotopicSetGraph.getIsotopicClusterGraph().getEdgeWeight(((Connection) iterator.next())),
-                MIN);
-
-        assertEquals(0, isotopicSetGraph.getIsotopicClusterGraph().getEdgeWeight(((Connection) iterator.next())), MIN);
+        assertEquals(4, isotopicSetGraph.getIsotopicClusterGraph().getEdgeWeight(((Connection) iterator.next())), MIN);
     }
 
     @Test
@@ -44,8 +40,7 @@ public class IsotopicSetGraphTest {
                 config.getDelta());
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(
-                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet(), peakList, 200, 2,
-                config);
+                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet());
 
         String color = isotopicSetGraph.calculateConnection(startCluster, cluster);
 
@@ -66,8 +61,7 @@ public class IsotopicSetGraphTest {
                 config.getIsotopicPeakDistance(), config.getDelta());
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(
-                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet(), peakList, 200, 2,
-                config);
+                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet());
 
         String color = isotopicSetGraph.calculateConnection(cluster1, cluster2);
 
@@ -85,8 +79,7 @@ public class IsotopicSetGraphTest {
         List<Peak> peaksInSet = Arrays.asList(peakA, peakB, peakC);
         IsotopicSet isotopicSet = new IsotopicSet(peakList, peaksInSet, 0, new Configuration());
 
-        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicSet.getIsotopicSet(), peakList, 200, 2,
-                new Configuration());
+        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicSet.getIsotopicSet());
 
         Set<IsotopicCluster> isotopicClusters = isotopicSetGraph.getIsotopicClusterGraph().vertexSet();
 
