@@ -30,6 +30,10 @@ public class IsotopicSet {
         this.setId = setId;
         List<IsotopicCluster> tempIsotopicSet = collectClusters(config, peaksInSet);
 
+        for (IsotopicCluster isotopicCluster : tempIsotopicSet) {
+            isotopicCluster.scoreCluster(config);
+        }
+
         this.iSet = tempIsotopicSet;
         setBestPath(peakList, tempIsotopicSet, config);
     }
@@ -171,8 +175,7 @@ public class IsotopicSet {
         List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
 
         IsotopicSetGraph isotopicSetGraphForBestPath = new IsotopicSetGraph(
-                removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath), peaklist, peaklist.getPeptideMass(),
-                peaklist.getChargeState(), config);
+                removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
 
         this.bestPath = isotopicSetGraphForBestPath
                 .bestPath(isotopicSetGraphForBestPath.getStart(), isotopicSetGraphForBestPath.getEnd()).getVertexList();
@@ -180,8 +183,7 @@ public class IsotopicSet {
         // THEN GRAPH AND DOT
         List<IsotopicCluster> isotopicClustersForDot = new ArrayList<IsotopicCluster>(isotopicClusters);
 
-        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicClustersForDot, peaklist,
-                peaklist.getPeptideMass(), peaklist.getChargeState(), config);
+        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicClustersForDot);
 
         this.dot = IsotopicSetGraphToDotGraph.toDOTGraph(isotopicSetGraph.getIsotopicClusterGraph());
     }
