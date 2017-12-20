@@ -144,12 +144,12 @@ public class PeakList implements MassSpectrumMetaInformation {
     public String saveAnnotatedSpectrum() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("IsotopicSet,IsotopicCluster,Peak,Charge,mZ,Intensity").append(LINESEP);
+        stringBuilder.append("IsotopicSet,Peak,Charge,mZ,Intensity").append(LINESEP);
 
         for (Peak peak : this.pList) {
-            stringBuilder.append(peak.getIsotopicSetID()).append(",").append(peak.getIsotopicClusterID()).append(",")
-                    .append(peak.getPeakID()).append(",").append(peak.getCharge()).append(",").append(peak.getMz())
-                    .append(",").append(peak.getIntensity()).append(LINESEP);
+            stringBuilder.append(peak.getIsotopicSetID()).append(",").append(peak.getPeakID()).append(",")
+                    .append(peak.getCharge()).append(",").append(peak.getMz()).append(",").append(peak.getIntensity())
+                    .append(LINESEP);
 
         }
 

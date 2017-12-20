@@ -132,46 +132,9 @@ public class Deisotoper {
     }
 
     private String createAnnotatedSpectrum(PeakList peakList) {
-        PeakList peaksInSet = collectPeaksFromSets(peakList);
+        peakList.sortByPeakID();
 
-        if (this.config.isDecharge()) {
-            peaksInSet = peaksInSet.dechargePeaks(this.config.getHMass(1));
-        }
-
-        PeakList mergedPeakListLocal = this.peakList.mergePeakLists(peaksInSet);
-
-        if (this.config.getNoise() != 0) {
-            mergedPeakListLocal = mergedPeakListLocal.filterNoisePeaks(this.config.getNoise());
-        }
-
-        mergedPeakListLocal = mergedPeakListLocal.sortByMZ();
-        mergedPeakListLocal.sortByPeakID();
-        mergedPeakListLocal.removeMultiplePeaks();
-
-        return mergedPeakListLocal.saveAnnotatedSpectrum();
-    }
-
-    private PeakList collectPeaksFromSets(PeakList peakList) {
-        this.isotopicSets = new ArrayList<IsotopicSet>();
-        generateIsotopicSets(peakList, config);
-        PeakList peaksInSet = new PeakList();
-
-        // IDs are recreated
-        int setID = 0;
-        for (IsotopicSet isotopicSet : this.isotopicSets) {
-            int clusterID = 0;
-            List<IsotopicCluster> isotopicClusters = isotopicSet.getIsotopicSet();
-            for (IsotopicCluster isotopicCluster : isotopicClusters) {
-                for (Peak peak : isotopicCluster.getIsotopicCluster()) {
-                    peaksInSet.add(new Peak(peak.getMz(), peak.getIntensity(), peak.getIsotope(), peak.getCharge(),
-                            peak.getPeakID(), clusterID, setID));
-                }
-                clusterID++;
-            }
-            setID++;
-        }
-
-        return peaksInSet.removeMultiplePeaks();
+        return peakList.saveAnnotatedSpectrum();
     }
 
     private static List<PeakList> iterateThroughParts(List<PeakList> parts, Configuration config) {
