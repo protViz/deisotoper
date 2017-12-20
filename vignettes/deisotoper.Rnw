@@ -378,6 +378,24 @@ shown below.
 toLatex(sessionInfo())
 @
 
+\section{Shiny applications}
+
+\subsection{diff psm}
+The package includes a shiny application for showing the differences between two mascot files (.dat) files.
+The usage is quite simple. First of all, you need a mascot file, which you convert to an RData file. 
+
+The Shiny application provides two input fields for two URLs, where you also can put files from your filesystem (file:///pathtofile...). 
+There are two options for sorting the data after mascot score, whether you want to sort the first URL or the second. After choosing what sort option should be used and put the URLs into the text fields, you can click on the button "LOAD \& SORT". 
+The Shiny application will show two plots over each other.
+
+With the slider "Spectrum ID" you can choose the spectrum id which should be displayed, with the slider "Tolerance" changes the fragment ion tolerance and with the slider "Zoom" you can zoom into the shown spectra. 
+
+There are also four options which you can choose. First of all the option "show mZ diff" which displays the mZ difference and the option "show intensity diff" displays the intensity difference between the two spectra. The same for the fragment ion difference. The option "show delta" shows the distance between two peaks in the same spectrum.
+
+\subsection{deisotoper}
+This shiny application is outdated and does not work anymore.
+
+
 \nocite{protViz}
 \bibliography{deisotoper}
 \end{document}
