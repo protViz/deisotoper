@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Configuration implements ScoringConfiguration {
-    private Map<String, Double> aaMass = new HashMap<String, Double>();
-    private Map<String, Double> aaMassDividedTwo = new HashMap<String, Double>();
-    private Map<String, Double> aaMassDividedThree = new HashMap<String, Double>();
+    private Map<String, Double> aaMass = new HashMap<>();
+    private Map<String, Double> aaMassDividedTwo = new HashMap<>();
+    private Map<String, Double> aaMassDividedThree = new HashMap<>();
     private double minimum = 0;
     private double maximum = Double.MAX_VALUE;
     private double f1 = 0.8;
@@ -212,7 +212,7 @@ public class Configuration implements ScoringConfiguration {
     }
 
     private static Map<String, Double> initializeStandartAminoAcidMasses() {
-        Map<String, Double> aaMass = new HashMap<String, Double>();
+        Map<String, Double> aaMass = new HashMap<>();
         aaMass.put("A", 71.03711);
         aaMass.put("R", 156.10111);
         aaMass.put("N", 114.04293);

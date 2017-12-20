@@ -25,7 +25,7 @@ public class FeaturesBasedDeisotoping {
             String modus) { // NOSONAR
         Configuration config;
         if (aaMassValues.length > 1 && aaMassNames.length > 1 && (aaMassNames.length == aaMassValues.length)) {
-            Map<String, Double> aaMass = new HashMap<String, Double>();
+            Map<String, Double> aaMass = new HashMap<>();
             for (int i = 0; i < aaMassNames.length; i++) {
                 aaMass.put(aaMassNames[i], aaMassValues[i]);
             }
@@ -53,7 +53,7 @@ public class FeaturesBasedDeisotoping {
     }
 
     public void setMz(double[] mz) {
-        List<Double> mzList = new ArrayList<Double>();
+        List<Double> mzList = new ArrayList<>();
         for (int i = 0; i < mz.length; i++) {
             mzList.add(mz[i]);
         }
@@ -62,7 +62,7 @@ public class FeaturesBasedDeisotoping {
     }
 
     public void setIntensity(double[] intensity) {
-        List<Double> intensityList = new ArrayList<Double>();
+        List<Double> intensityList = new ArrayList<>();
         for (int i = 0; i < intensity.length; i++) {
             intensityList.add(intensity[i]);
         }

@@ -32,7 +32,7 @@ public class MassSpecMeasureSummary {
 
     private static StringBuilder buildFirstPart(MassSpectrum massSpectrum, StringBuilder stringBuilder,
             String lineSep) {
-        List<Double> distance = new ArrayList<Double>();
+        List<Double> distance = new ArrayList<>();
 
         for (int i = 1; i < massSpectrum.getMz().size(); i++) {
             distance.add(massSpectrum.getMz().get(i) - massSpectrum.getMz().get(i - 1));

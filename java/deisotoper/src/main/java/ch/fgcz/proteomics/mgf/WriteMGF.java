@@ -33,28 +33,17 @@ public class WriteMGF {
     }
 
     private static void writeHeader(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
-        PrintWriter out = null;
-
-        try {
-            out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)))) {
             out.println(
                     "# deisotoped by fbdm algorithm at " + new SimpleDateFormat("yyyy-MM-dd:HH-mm").format(new Date()));
             out.println("COM=" + massSpectrometryMeasurement.getSource());
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (out != null) {
-                out.close();
-            }
         }
     }
 
     private static void writeLocal(File fileName, MassSpecMeasure massSpectrometryMeasurement) {
-        PrintWriter out = null;
-
-        try {
-            out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
-
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)))) {
             for (MassSpectrum MS : massSpectrometryMeasurement.getMSlist()) {
                 out.println("BEGIN IONS");
 
@@ -68,10 +57,6 @@ public class WriteMGF {
             }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (out != null) {
-                out.close();
-            }
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpecMeasure {
-    private List<MassSpectrum> massSpectrumList = new ArrayList<MassSpectrum>();
+    private List<MassSpectrum> massSpectrumList = new ArrayList<>();
     private String source;
 
     public String getSource() {
@@ -22,12 +22,12 @@ public class MassSpecMeasure {
 
     public MassSpecMeasure(String source) {
         this.source = source;
-        this.massSpectrumList = new ArrayList<MassSpectrum>();
+        this.massSpectrumList = new ArrayList<>();
     }
 
     public void addMS(double[] mz, double[] intensity, double peptideMass, int chargeState, int id) {
-        List<Double> mzValues = new ArrayList<Double>();
-        List<Double> intensityValues = new ArrayList<Double>();
+        List<Double> mzValues = new ArrayList<>();
+        List<Double> intensityValues = new ArrayList<>();
 
         for (int i = 0; i < mz.length || i < intensity.length; i++) {
             mzValues.add(mz[i]);

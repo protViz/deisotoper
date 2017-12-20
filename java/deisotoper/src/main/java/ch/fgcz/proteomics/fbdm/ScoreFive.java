@@ -26,7 +26,7 @@ public class ScoreFive {
             for (Peak peak : targetCluster.getIsotopicCluster()) {
                 double tMin = (peak.getMz() / config.getAspMass()) * peak.getIntensity();
                 double tMean = (peak.getMz() / config.getAveUpdatedMass()) * peak.getIntensity();
-                double tMeanOverlap = calculateTMeanOverlap(sourceCluster, targetCluster, connection, i, peak, config);
+                double tMeanOverlap = calculateTMeanOverlap(sourceCluster, i, peak, config);
 
                 double tMax = (peak.getMz() / config.getPheMass()) * peak.getIntensity();
                 if (connection.getColor() == "black"
@@ -46,8 +46,7 @@ public class ScoreFive {
         return f5;
     }
 
-    private static double calculateTMeanOverlap(IsotopicCluster sourceCluster, IsotopicCluster targetCluster,
-            Connection connection, int i, Peak peak, Configuration config) {
+    private static double calculateTMeanOverlap(IsotopicCluster sourceCluster, int i, Peak peak, Configuration config) {
         double tMeanOverlap = 0;
         if (sourceCluster.isNotNull()) {
             if (i < sourceCluster.size()) {

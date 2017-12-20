@@ -127,7 +127,7 @@ public class Mspy {
 
     private static List<Peak> collectPeaksForCluster(List<Peak> peaklist, Peak parent, int x, int z, int maxindex,
             double isotopeshift, double mztolerance) {
-        List<Peak> cluster = new ArrayList<Peak>();
+        List<Peak> cluster = new ArrayList<>();
         cluster.add(parent);
 
         double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
@@ -146,7 +146,7 @@ public class Mspy {
     }
 
     private static List<Integer> initializeCharges(int maxcharge) {
-        List<Integer> charges = new ArrayList<Integer>();
+        List<Integer> charges = new ArrayList<>();
 
         if (maxcharge < 0) {
             for (int i = 1; i <= Math.abs(maxcharge) + 1; i++) {
@@ -181,7 +181,7 @@ public class Mspy {
     }
 
     public static List<Peak> removeEmptyPeaks(List<Peak> peaklist) {
-        List<Peak> peaklistout = new ArrayList<Peak>();
+        List<Peak> peaklistout = new ArrayList<>();
 
         for (int i = 0; i < peaklist.size(); i++) {
             if (peaklist.get(i).getIsotope() != -1.0 && peaklist.get(i).getCharge() != -1) {
@@ -193,7 +193,7 @@ public class Mspy {
     }
 
     private static List<Double> initPattern(int mass) {
-        List<List<Double>> patternLookupTable = new ArrayList<List<Double>>();
+        List<List<Double>> patternLookupTable = new ArrayList<>();
 
         patternLookupTable.add(Arrays.asList(1.000, 0.059, 0.003));
         patternLookupTable.add(Arrays.asList(1.000, 0.122, 0.013));
@@ -329,8 +329,8 @@ public class Mspy {
     }
 
     public static List<Peak> deconvolute(List<Peak> peaklist) {
-        List<Peak> buff = new ArrayList<Peak>();
-        List<Peak> peaklistcopy = new ArrayList<Peak>();
+        List<Peak> buff = new ArrayList<>();
+        List<Peak> peaklistcopy = new ArrayList<>();
 
         for (Peak e : peaklist) {
             peaklistcopy.add(e);
