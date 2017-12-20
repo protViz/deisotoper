@@ -24,6 +24,7 @@ public class ScoreFive {
     }
 
     // NOT FINISHED YET
+    // TODO call it with sourceCluster and targetCluster, connection and config.
     public static int calculateScoreBasedOnExperimentalIsotopicDistribution(Connection connection,
             DefaultDirectedWeightedGraph<IsotopicCluster, Connection> isotopicClusterGraph, Configuration config) {
         int f5 = 0;

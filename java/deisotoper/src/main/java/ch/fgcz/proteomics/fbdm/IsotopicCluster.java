@@ -154,25 +154,24 @@ public class IsotopicCluster {
         }
     }
 
-    // Under construction
     public void scoreCluster(Configuration config) {
         Score score = new Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(), config);
         double scoreSum = 0;
-        double additionalScore = 0;
         if (this.isNotNull()) {
             for (Peak peakX : this.clusterPeaks) {
                 for (Peak peakY : peakList.getPeakList()) {
-                    double scoreResult = score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
-                            this.getIsotopicCluster());
-
-                    additionalScore += 0.00001;
-                    scoreSum += scoreResult;
+                    if(!peakX.equals(peakY)) {
+                        double scoreResult = score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
+                                this.getIsotopicCluster());
+                        scoreSum += scoreResult;
+                    }
                 }
             }
         }
 
+        // Clusters need to have weight so that there is a beth path in the Graph.
         if (scoreSum == 0) {
-            scoreSum = additionalScore;
+            scoreSum = this.clusterPeaks.size() * peakList.getPeakList().size() * 0.000001;
         }
 
         this.score = scoreSum;
