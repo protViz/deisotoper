@@ -16,7 +16,13 @@
 \maketitle
 
 \begin{abstract}
-bla bla
+In mass spectrometry it is important to have a minimum of noise and other confounders, therefore there are methods like deisotoping to get improve the results of a measurement.  
+In this report, the acknowledgment from the practical semester will be shown and likewise, the overcome project will be displayed.
+The content of the practical semester was, in short, to develop an R package for deisotoping using R and Java combined together. R was used as the low-level interface to connect it with the high-level Java algorithm. 
+R was used as the low-level interface to connect it with the high-level Java algorithm. The difficulties were that R and Java don’t share the same data types and also the algorithm, which was from the research paper Features-Based Deisotoping Method for Tandem Mass Spectra, wasn’t easy to implement on the Java side. We tried to implement the algorithm exactly as described in the paper, but in some places, it was not exactly clear, what the research team from the paper wanted to explain.
+For our approach, we used the algorithm from the paper and reimplemented it in Java.
+The results were compared to the Proteome Discoverer 2.1 about XXX percent better. But it depends very much on the configuration of our deisotoper.
+The research team from the paper stated, that the results were better than the results from YADA and MsDeconv. Our implementation of the algorithm from the paper was also better than YADA, MsDeconv and the Proteome Discoverer 2.1.
 \end{abstract}
 
 \newpage
