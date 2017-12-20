@@ -9,11 +9,9 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import ch.fgcz.proteomics.dto.MassSpectrum;;
+import ch.fgcz.proteomics.dto.MassSpectrum;
 
 public class IsotopicSetGraphTest {
-    private static final double MIN = Double.MIN_VALUE;
-
     @Test
     public void connectConnectionTest() {
         List<Peak> peaks = Arrays.asList(new Peak(101.0, 50.0, 0), new Peak(102.0, 5.0, 1));
@@ -21,12 +19,13 @@ public class IsotopicSetGraphTest {
         PeakList peakList = new PeakList(peaks);
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(
-                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet());
+                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet(), config);
 
         Set<Connection> connections = isotopicSetGraph.getIsotopicClusterGraph().edgeSet();
         Iterator<Connection> iterator = connections.iterator();
 
-        assertEquals(4, isotopicSetGraph.getIsotopicClusterGraph().getEdgeWeight(((Connection) iterator.next())), MIN);
+        assertEquals(3.4, isotopicSetGraph.getIsotopicClusterGraph().getEdgeWeight(((Connection) iterator.next())),
+                0.000001);
     }
 
     @Test
@@ -40,7 +39,7 @@ public class IsotopicSetGraphTest {
                 config.getDelta());
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(
-                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet());
+                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet(), config);
 
         String color = isotopicSetGraph.calculateConnection(startCluster, cluster);
 
@@ -61,7 +60,7 @@ public class IsotopicSetGraphTest {
                 config.getIsotopicPeakDistance(), config.getDelta());
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(
-                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet());
+                new IsotopicSet(peakList, peakList.getPeakList(), 1, config).getIsotopicSet(), config);
 
         String color = isotopicSetGraph.calculateConnection(cluster1, cluster2);
 
@@ -79,7 +78,7 @@ public class IsotopicSetGraphTest {
         List<Peak> peaksInSet = Arrays.asList(peakA, peakB, peakC);
         IsotopicSet isotopicSet = new IsotopicSet(peakList, peaksInSet, 0, new Configuration());
 
-        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicSet.getIsotopicSet());
+        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicSet.getIsotopicSet(), new Configuration());
 
         Set<IsotopicCluster> isotopicClusters = isotopicSetGraph.getIsotopicClusterGraph().vertexSet();
 

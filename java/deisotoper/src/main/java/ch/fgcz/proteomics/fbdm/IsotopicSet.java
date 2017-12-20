@@ -175,7 +175,7 @@ public class IsotopicSet {
         List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
 
         IsotopicSetGraph isotopicSetGraphForBestPath = new IsotopicSetGraph(
-                removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath));
+                removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath), config);
 
         this.bestPath = isotopicSetGraphForBestPath
                 .bestPath(isotopicSetGraphForBestPath.getStart(), isotopicSetGraphForBestPath.getEnd()).getVertexList();
@@ -183,7 +183,7 @@ public class IsotopicSet {
         // THEN GRAPH AND DOT
         List<IsotopicCluster> isotopicClustersForDot = new ArrayList<IsotopicCluster>(isotopicClusters);
 
-        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicClustersForDot);
+        IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicClustersForDot, config);
 
         this.dot = IsotopicSetGraphToDotGraph.toDOTGraph(isotopicSetGraph.getIsotopicClusterGraph());
     }

@@ -155,13 +155,13 @@ public class IsotopicCluster {
     }
 
     public void scoreCluster(Configuration config) {
-        Score score = new Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(), config);
+        Score sObj = new Score(this.peakList.getPeptideMass(), this.peakList.getChargeState(), config);
         double scoreSum = 0;
         if (this.isNotNull()) {
             for (Peak peakX : this.clusterPeaks) {
                 for (Peak peakY : peakList.getPeakList()) {
-                    if(!peakX.equals(peakY)) {
-                        double scoreResult = score.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
+                    if (!peakX.equalsPeak(peakY)) {
+                        double scoreResult = sObj.calculateAggregatedScore(peakX.getMz(), peakY.getMz(),
                                 this.getIsotopicCluster());
                         scoreSum += scoreResult;
                     }

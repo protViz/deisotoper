@@ -21,15 +21,15 @@ public class IsotopicSetGraph {
     private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> iClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
             Connection.class);
 
-    public IsotopicSetGraph(List<IsotopicCluster> isotopicSet) {
+    public IsotopicSetGraph(List<IsotopicCluster> isotopicSet, Configuration config) {
         List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
         isotopicSet2.add(new IsotopicCluster(START));
 
-        assignStartAndOther(isotopicSet2);
+        assignStartAndOther(isotopicSet2, config);
 
-        assignEnd();
+        assignEnd(config);
     }
 
     public DefaultDirectedWeightedGraph<IsotopicCluster, Connection> getIsotopicClusterGraph() {
@@ -86,14 +86,17 @@ public class IsotopicSetGraph {
         return calculateConnectionCompare(cluster1, cluster2);
     }
 
-    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color) {
+    private void connectClusters(IsotopicCluster cluster1, IsotopicCluster cluster2, String color,
+            Configuration config) {
         Connection connection = new Connection(color);
 
         this.iClusterGraph.addVertex(cluster1);
         this.iClusterGraph.addVertex(cluster2);
 
         this.iClusterGraph.addEdge(cluster1, cluster2, connection);
-        this.iClusterGraph.setEdgeWeight(connection, cluster2.getScore());
+
+        this.iClusterGraph.setEdgeWeight(connection,
+                cluster2.getScore() + new ScoreFive(config).calculateFifthScore(connection, cluster1, cluster2));
     }
 
     // TODO unit test. See IsotopicSetGraphTest
@@ -123,7 +126,7 @@ public class IsotopicSetGraph {
 
     // TODO (LS) what does Other mean? LS: Other = all the other clusters (therefore
     // not start and end cluster)
-    private void assignStartAndOther(List<IsotopicCluster> isotopicSet) {
+    private void assignStartAndOther(List<IsotopicCluster> isotopicSet, Configuration config) {
         for (IsotopicCluster cluster1 : isotopicSet) {
             for (IsotopicCluster cluster2 : isotopicSet) {
 
@@ -134,18 +137,18 @@ public class IsotopicSetGraph {
 
                 // Start
                 if (color != null && cluster1.isNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color);
+                    connectClusters(cluster1, cluster2, color, config);
                 }
 
                 // Other
                 if (color != null && cluster1.isNotNull() && cluster2.isNotNull()) {
-                    connectClusters(cluster1, cluster2, color);
+                    connectClusters(cluster1, cluster2, color, config);
                 }
             }
         }
     }
 
-    private void assignEnd() {
+    private void assignEnd(Configuration config) {
         // End
         List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
         for (IsotopicCluster cluster1 : this.iClusterGraph.vertexSet()) {
@@ -161,7 +164,7 @@ public class IsotopicSetGraph {
 
         IsotopicCluster endCluster = new IsotopicCluster(END);
         for (IsotopicCluster cluster : isotopicClusters) {
-            connectClusters(cluster, endCluster, BLACK); // special case
+            connectClusters(cluster, endCluster, BLACK, config);
         }
     }
 
