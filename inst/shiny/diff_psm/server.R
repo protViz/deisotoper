@@ -1,3 +1,5 @@
+#R
+
 shinyServer(function(input, output, session) {
   button <- eventReactive(input$load1, {
     url1 <- get(load(con <- url(input$text1)))
