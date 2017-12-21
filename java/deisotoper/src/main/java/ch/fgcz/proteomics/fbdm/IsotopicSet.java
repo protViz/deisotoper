@@ -24,6 +24,7 @@ public class IsotopicSet {
 
     public IsotopicSet(PeakList peakList, List<Peak> peaksInSet, int setId, Configuration config) {
         this.peakList = peakList;
+
         rangeCheck(peaksInSet, config);
 
         this.peaksInSet = peaksInSet;
@@ -160,7 +161,7 @@ public class IsotopicSet {
                 int position = 1;
                 for (Peak peak : isotopicCluster.getIsotopicCluster()) {
                     peak.setIsotopicSetID(setId);
-                    // peak.setIsotopicClusterID(isotopicCluster.getClusterID());
+                    peak.setIsotopicClusterID(isotopicCluster.getClusterID());
                     peak.setIsotope(position);
                     position++;
                 }

@@ -45,6 +45,7 @@ public class Deisotoper {
         if (this.config.getNoise() != 0) {
             mergedPeakList = mergedPeakList.filterNoisePeaks(this.config.getNoise());
         }
+
         mergedPeakList = mergedPeakList.sortByMZ();
         PeakList.checkForIntensityCorrectness(peakList, mergedPeakList);
         return mergedPeakList;

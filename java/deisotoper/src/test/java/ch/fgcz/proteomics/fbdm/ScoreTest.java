@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ScoreTest {
-    private static final double MIN = Double.MIN_VALUE;
+    private static final double MIN = 0.00000000000000001;
     private Configuration config;
     private Peak x1;
     private Peak x2;
