@@ -18,11 +18,11 @@ public class IsotopicSetGraph {
     private static final String START = "start";
     private static final String END = "end";
     private double minimum = Double.MAX_VALUE;
-    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> iClusterGraph = new DefaultDirectedWeightedGraph<IsotopicCluster, Connection>(
+    private DefaultDirectedWeightedGraph<IsotopicCluster, Connection> iClusterGraph = new DefaultDirectedWeightedGraph<>(
             Connection.class);
 
     public IsotopicSetGraph(List<IsotopicCluster> isotopicSet, Configuration config) {
-        List<IsotopicCluster> isotopicSet2 = new ArrayList<IsotopicCluster>(isotopicSet);
+        List<IsotopicCluster> isotopicSet2 = new ArrayList<>(isotopicSet);
 
         this.minimum = Double.MAX_VALUE;
         isotopicSet2.add(new IsotopicCluster(START));
@@ -37,8 +37,7 @@ public class IsotopicSetGraph {
     }
 
     public GraphPath<IsotopicCluster, Connection> bestPath(IsotopicCluster startCluster, IsotopicCluster endCluster) {
-        KShortestPaths<IsotopicCluster, Connection> kPaths = new KShortestPaths<IsotopicCluster, Connection>(
-                this.iClusterGraph, 999999);
+        KShortestPaths<IsotopicCluster, Connection> kPaths = new KShortestPaths<>(this.iClusterGraph, 999999);
 
         List<GraphPath<IsotopicCluster, Connection>> paths = kPaths.getPaths(startCluster, endCluster);
 
@@ -150,7 +149,7 @@ public class IsotopicSetGraph {
 
     private void assignEnd(Configuration config) {
         // End
-        List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
+        List<IsotopicCluster> isotopicClusters = new ArrayList<>();
         for (IsotopicCluster cluster1 : this.iClusterGraph.vertexSet()) {
             int edgeCount = 0;
             for (IsotopicCluster cluster2 : this.iClusterGraph.vertexSet()) {

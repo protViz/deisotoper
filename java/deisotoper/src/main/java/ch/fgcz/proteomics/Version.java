@@ -6,11 +6,11 @@ package ch.fgcz.proteomics;
  */
 
 public class Version {
-    private static final String DTO = "Java Package: DTO, Date: 2017-12-15, Author: Lucas Schmidt";
-    private static final String FBDM = "Java Package: FBDM, Date: 2017-12-19, Author: Lucas Schmidt";
+    private static final String DTO = "Java Package: DTO, Date: 2017-12-20, Author: Lucas Schmidt";
+    private static final String FBDM = "Java Package: FBDM, Date: 2017-12-20, Author: Lucas Schmidt";
     private static final String MSPY = "Java Package: MSPY (Deprecated), Date: 2017-12-14, Author: Lucas Schmidt";
-    private static final String MGF = "Java Package: MGF, Date: 2017-12-15, Author: Lucas Schmidt";
-    private static final String R = "Java Package: RAdapter, Date: 2017-12-19, Author: Lucas Schmidt";
+    private static final String MGF = "Java Package: MGF, Date: 2017-12-20, Author: Lucas Schmidt";
+    private static final String R = "Java Package: RAdapter, Date: 2017-12-20, Author: Lucas Schmidt";
     private static final String UTILITIES = "Java Package: Utilities, Date: 2017-11-22, Author: Lucas Schmidt";
     private static final String JAVA = "Java Version: " + System.getProperty("java.version");
 

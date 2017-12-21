@@ -6,7 +6,6 @@ package ch.fgcz.proteomics.mspy;
  */
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,27 +27,15 @@ public class Convert {
     }
 
     public static Peaklist msdToPeaklist(String file) {
-        List<Double> mz = new ArrayList<Double>();
-        List<Double> intensity = new ArrayList<Double>();
-        List<Integer> charge = new ArrayList<Integer>();
-        List<Double> isotope = new ArrayList<Double>();
+        List<Double> mz = new ArrayList<>();
+        List<Double> intensity = new ArrayList<>();
+        List<Integer> charge = new ArrayList<>();
+        List<Double> isotope = new ArrayList<>();
 
-        BufferedReader bufferedReader = null;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             msdToPeaklistHelper(bufferedReader, mz, intensity, charge, isotope);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, e.toString(), e);
-                }
-            }
         }
 
         return new Peaklist(mz, intensity, charge, isotope);
@@ -61,8 +48,6 @@ public class Convert {
             while ((line = bufferedReader.readLine()) != null) {
                 msdToPeaklistHelperWhile(line, mz, intensity, charge, isotope);
             }
-        } catch (NumberFormatException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
@@ -110,14 +95,10 @@ public class Convert {
      * ...
      */
     public static Peaklist mgfToPeaklist(String file) {
-        List<Double> mz = new ArrayList<Double>();
-        List<Double> intensity = new ArrayList<Double>();
+        List<Double> mz = new ArrayList<>();
+        List<Double> intensity = new ArrayList<>();
 
-        BufferedReader bufferedReader = null;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(" ");
@@ -129,18 +110,8 @@ public class Convert {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, e.toString(), e);
-                }
-            }
         }
 
         return new ch.fgcz.proteomics.mspy.Peaklist(mz, intensity);

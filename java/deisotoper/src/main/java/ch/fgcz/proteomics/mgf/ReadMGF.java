@@ -34,15 +34,13 @@ public class ReadMGF {
 
         MassSpecMeasure massSpectrometryMeasurement = new MassSpecMeasure(source);
 
-        massSpectrometryMeasurement = readLocal(fileName, massSpectrometryMeasurement);
+        readLocal(fileName, massSpectrometryMeasurement);
 
         return massSpectrometryMeasurement;
     }
 
     private static String readHeader(String fileName) {
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(fileName));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String line = "";
             String[] partEqual = line.split("=");
 
@@ -58,30 +56,19 @@ public class ReadMGF {
             LOGGER.log(Level.SEVERE, e1.toString(), e1);
         } catch (IOException e2) {
             LOGGER.log(Level.SEVERE, e2.toString(), e2);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    // Should already catched!
-                }
-            }
         }
 
         return null;
     }
 
     private static MassSpecMeasure readLocal(String fileName, MassSpecMeasure massSpectrometryMeasurement) {
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(fileName));
-
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String line = "";
             int chargeState = 0;
             int id = 0;
             double peptidMass = 0;
-            List<Double> mz = new ArrayList<Double>();
-            List<Double> intensity = new ArrayList<Double>();
+            List<Double> mz = new ArrayList<>();
+            List<Double> intensity = new ArrayList<>();
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] partEqual = line.split("=");
@@ -91,8 +78,8 @@ public class ReadMGF {
                     chargeState = 0;
                     id = massSpectrometryMeasurement.getMSlist().size();
                     peptidMass = 0;
-                    mz = new ArrayList<Double>();
-                    intensity = new ArrayList<Double>();
+                    mz = new ArrayList<>();
+                    intensity = new ArrayList<>();
                 } else if (line.equals("END IONS")) {
                     massSpectrometryMeasurement.addMS(mz, intensity, peptidMass, chargeState, id);
                 } else if (line.contains("CHARGE")) {
@@ -105,18 +92,8 @@ public class ReadMGF {
                     intensity.add(Double.parseDouble(partSpace[1]));
                 }
             }
-        } catch (FileNotFoundException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    // Should already catched!
-                }
-            }
         }
 
         return massSpectrometryMeasurement;

@@ -6,14 +6,13 @@ package ch.fgcz.proteomics.mgf;
  */
 
 import java.io.BufferedReader;
-import java.util.logging.Level;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ch.fgcz.proteomics.dto.MassSpecMeasure;
 import ch.fgcz.proteomics.dto.MassSpecMeasureSerializer;
@@ -30,14 +29,13 @@ public class ReadStdIn {
 
         MassSpecMeasure massSpectrometryMeasurement = new MassSpecMeasure(null);
 
-        BufferedReader bufferedreader = new BufferedReader(inputStreamReader);
-        try {
+        try (BufferedReader bufferedreader = new BufferedReader(inputStreamReader)) {
             String line = "";
             int chargeState = 0;
             int id = 0;
             double peptidMass = 0;
-            List<Double> mz = new ArrayList<Double>();
-            List<Double> intensity = new ArrayList<Double>();
+            List<Double> mz = new ArrayList<>();
+            List<Double> intensity = new ArrayList<>();
 
             while ((line = bufferedreader.readLine()) != null) {
                 String[] partEqual = line.split("=");
@@ -47,8 +45,8 @@ public class ReadStdIn {
                     chargeState = 0;
                     id = massSpectrometryMeasurement.getMSlist().size();
                     peptidMass = 0;
-                    mz = new ArrayList<Double>();
-                    intensity = new ArrayList<Double>();
+                    mz = new ArrayList<>();
+                    intensity = new ArrayList<>();
                 } else if (line.equals("END IONS")) {
                     massSpectrometryMeasurement.addMS(mz, intensity, peptidMass, chargeState, id);
                 } else if (line.contains("CHARGE")) {
@@ -61,8 +59,6 @@ public class ReadStdIn {
                     intensity.add(Double.parseDouble(partSpace[1]));
                 }
             }
-        } catch (FileNotFoundException e1) {
-            LOGGER.log(Level.SEVERE, e1.toString(), e1);
         } catch (IOException e2) {
             LOGGER.log(Level.SEVERE, e2.toString(), e2);
         }

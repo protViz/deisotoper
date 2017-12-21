@@ -11,7 +11,7 @@ import java.util.List;
 import ch.fgcz.proteomics.utilities.MathUtils;
 
 public class IsotopicCluster {
-    private List<Peak> clusterPeaks = new ArrayList<Peak>();
+    private List<Peak> clusterPeaks = new ArrayList<>();
     private int charge;
     private int clusterId;
     private String status;

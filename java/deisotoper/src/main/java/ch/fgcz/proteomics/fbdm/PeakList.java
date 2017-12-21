@@ -20,7 +20,7 @@ public class PeakList implements MassSpectrumMetaInformation {
     private double peptideMass;
     private int chargeState;
 
-    private List<Peak> pList = new ArrayList<Peak>();
+    private List<Peak> pList = new ArrayList<>();
 
     public boolean isEmpty() {
         return pList.isEmpty();
@@ -37,14 +37,14 @@ public class PeakList implements MassSpectrumMetaInformation {
     public PeakList() {
         chargeState = 0;
         peptideMass = 0.;
-        this.pList = new ArrayList<Peak>();
+        this.pList = new ArrayList<>();
     }
 
     public PeakList(MassSpectrum massSpectrum) {
         this.peptideMass = massSpectrum.getPeptideMass();
         this.chargeState = massSpectrum.getChargeState();
 
-        List<Peak> plist = new ArrayList<Peak>();
+        List<Peak> plist = new ArrayList<>();
 
         for (int i = 0; i < massSpectrum.getMz().size() || i < massSpectrum.getIntensity().size(); i++) {
             plist.add(new Peak(massSpectrum.getMz().get(i), massSpectrum.getIntensity().get(i), i));
@@ -124,7 +124,7 @@ public class PeakList implements MassSpectrumMetaInformation {
     }
 
     public PeakList filterNoisePeaks(double noise) {
-        List<Double> intensity = new ArrayList<Double>();
+        List<Double> intensity = new ArrayList<>();
         for (Peak peak : pList) {
             intensity.add(peak.getIntensity());
         }

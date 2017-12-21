@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class ConfigurationTest {
-    private static final double MIN = Double.MIN_VALUE;
+    private static final double MIN = 0.00000000000000001;
 
     @Test
     public void testConfigurationCreation() {

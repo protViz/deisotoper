@@ -75,9 +75,9 @@ public class Score {
         double d4xy = Math.abs(diff4(x, y, hMass));
         double d4yx = Math.abs(diff4(y, x, hMass));
 
-        List<Double> aaMassValues = new ArrayList<Double>();
-        List<Double> aaMassValuesDividedTwo = new ArrayList<Double>();
-        List<Double> aaMassValuesDividedThree = new ArrayList<Double>();
+        List<Double> aaMassValues = new ArrayList<>();
+        List<Double> aaMassValuesDividedTwo = new ArrayList<>();
+        List<Double> aaMassValuesDividedThree = new ArrayList<>();
 
         for (Map.Entry<String, Double> entry : config.getAaMass().entrySet()) {
             aaMassValues.add(entry.getValue());

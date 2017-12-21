@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MassSpectrum implements MassSpectrumMetaInformation {
-    private List<Double> mz = new ArrayList<Double>();
-    private List<Double> intensity = new ArrayList<Double>();
-    private List<Integer> charge = new ArrayList<Integer>();
-    private List<Double> isotope = new ArrayList<Double>();
+    private List<Double> mz = new ArrayList<>();
+    private List<Double> intensity = new ArrayList<>();
+    private List<Integer> charge = new ArrayList<>();
+    private List<Double> isotope = new ArrayList<>();
     private double peptideMass;
     private int chargeState;
     private int id;

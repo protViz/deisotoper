@@ -25,10 +25,10 @@ public class DeisotoperMassSpectrumAdapter {
     }
 
     public MassSpectrum makeResultSpectrum(MassSpectrum massSpectrum, PeakList peakList) {
-        List<Double> mz = new ArrayList<Double>();
-        List<Double> intensity = new ArrayList<Double>();
-        List<Double> isotope = new ArrayList<Double>();
-        List<Integer> charge = new ArrayList<Integer>();
+        List<Double> mz = new ArrayList<>();
+        List<Double> intensity = new ArrayList<>();
+        List<Double> isotope = new ArrayList<>();
+        List<Integer> charge = new ArrayList<>();
         for (int i = 0; i < peakList.size(); i++) {
             mz.add(peakList.get(i).getMz());
             intensity.add(peakList.get(i).getIntensity());

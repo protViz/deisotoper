@@ -449,6 +449,8 @@ public class FeaturesBasedDeisotopingTest {
         }
         System.out.println();
 
+        System.out.println(dtoper.getAnnotatedSpectrum());
+
         dtoper.setMz(mz2);
         dtoper.setIntensity(intensity2);
         dtoper.setPepMass(600);
@@ -473,6 +475,8 @@ public class FeaturesBasedDeisotopingTest {
             System.out.println();
         }
         System.out.println();
+
+        System.out.println(dtoper.getAnnotatedSpectrum());
 
         // System.out.println("Peaks who are in input and not anymore in output:");
         // List<Double> mzlist = new ArrayList();

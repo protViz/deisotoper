@@ -24,6 +24,7 @@ public class IsotopicSet {
 
     public IsotopicSet(PeakList peakList, List<Peak> peaksInSet, int setId, Configuration config) {
         this.peakList = peakList;
+
         rangeCheck(peaksInSet, config);
 
         this.peaksInSet = peaksInSet;
@@ -86,7 +87,7 @@ public class IsotopicSet {
     }
 
     public List<IsotopicCluster> getBestPath() {
-        List<IsotopicCluster> bestClusters = new ArrayList<IsotopicCluster>();
+        List<IsotopicCluster> bestClusters = new ArrayList<>();
         for (IsotopicCluster isotopicCluster : bestPath) {
             if (isotopicCluster.isNotNull()) {
                 bestClusters.add(isotopicCluster);
@@ -120,7 +121,7 @@ public class IsotopicSet {
     // TODO : write a few tests.
     protected static List<IsotopicCluster> removeDoubleClusterLeaveTripleCluster(
             List<IsotopicCluster> isotopicClusters) {
-        List<IsotopicCluster> isotopicClusters2 = new ArrayList<IsotopicCluster>();
+        List<IsotopicCluster> isotopicClusters2 = new ArrayList<>();
 
         for (IsotopicCluster cluster1 : isotopicClusters) {
             for (IsotopicCluster cluster2 : isotopicClusters) {
@@ -135,7 +136,7 @@ public class IsotopicSet {
 
     private List<IsotopicCluster> collectClusters(Configuration config, List<Peak> peaksInSet) {
 
-        List<IsotopicCluster> isotopicClusters = new ArrayList<IsotopicCluster>();
+        List<IsotopicCluster> isotopicClusters = new ArrayList<>();
         for (int charge = 3; 0 < charge; charge--) {
             collectClusterForEachCharge(isotopicClusters, peaksInSet, charge, config);
         }
@@ -160,7 +161,7 @@ public class IsotopicSet {
                 int position = 1;
                 for (Peak peak : isotopicCluster.getIsotopicCluster()) {
                     peak.setIsotopicSetID(setId);
-                    // peak.setIsotopicClusterID(isotopicCluster.getClusterID());
+                    peak.setIsotopicClusterID(isotopicCluster.getClusterID());
                     peak.setIsotope(position);
                     position++;
                 }
@@ -172,7 +173,7 @@ public class IsotopicSet {
 
     private void setBestPath(PeakList peaklist, List<IsotopicCluster> isotopicClusters, Configuration config) {
         // FIRST GRAPH AND BEST PATH
-        List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<IsotopicCluster>(isotopicClusters);
+        List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<>(isotopicClusters);
 
         IsotopicSetGraph isotopicSetGraphForBestPath = new IsotopicSetGraph(
                 removeDoubleClusterLeaveTripleCluster(isotopicClustersForBestPath), config);
@@ -181,7 +182,7 @@ public class IsotopicSet {
                 .bestPath(isotopicSetGraphForBestPath.getStart(), isotopicSetGraphForBestPath.getEnd()).getVertexList();
 
         // THEN GRAPH AND DOT
-        List<IsotopicCluster> isotopicClustersForDot = new ArrayList<IsotopicCluster>(isotopicClusters);
+        List<IsotopicCluster> isotopicClustersForDot = new ArrayList<>(isotopicClusters);
 
         IsotopicSetGraph isotopicSetGraph = new IsotopicSetGraph(isotopicClustersForDot, config);
 
@@ -222,7 +223,7 @@ public class IsotopicSet {
 
     private static List<Peak> innerIfStatementsOfCollectCluster(Peak a, Peak b, Peak c, int charge,
             Configuration config, double distanceab) {
-        List<Peak> ic = new ArrayList<Peak>();
+        List<Peak> ic = new ArrayList<>();
         double distanceac = c.getMz() - a.getMz();
         double distancebc = c.getMz() - b.getMz();
 
@@ -245,8 +246,8 @@ public class IsotopicSet {
     }
 
     private static List<IsotopicCluster> removeMultipleIsotopicCluster(List<IsotopicCluster> isotopicClusters) {
-        List<IsotopicCluster> result = new ArrayList<IsotopicCluster>();
-        Set<List<Peak>> set = new HashSet<List<Peak>>();
+        List<IsotopicCluster> result = new ArrayList<>();
+        Set<List<Peak>> set = new HashSet<>();
 
         for (IsotopicCluster cluster : isotopicClusters) {
             if (set.add(cluster.getIsotopicCluster())) {

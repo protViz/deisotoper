@@ -24,10 +24,8 @@ public class MassSpecMeasureSerializer {
         Gson gson = new Gson();
 
         String data = gson.toJson(massSpectrometryMeasurement);
-        try {
-            PrintWriter out = new PrintWriter(fileName);
+        try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(data);
-            out.close();
         } catch (FileNotFoundException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
@@ -40,10 +38,7 @@ public class MassSpecMeasureSerializer {
 
         String data = null;
 
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(fileName));
-
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             StringBuilder stringbBuilder = new StringBuilder();
             String line = bufferedReader.readLine();
 
@@ -53,19 +48,8 @@ public class MassSpecMeasureSerializer {
                 line = bufferedReader.readLine();
             }
             data = stringbBuilder.toString();
-
-        } catch (FileNotFoundException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    LOGGER.log(Level.SEVERE, ex.toString(), ex);
-                }
-            }
         }
 
         java.lang.reflect.Type type = new TypeToken<MassSpecMeasure>() {

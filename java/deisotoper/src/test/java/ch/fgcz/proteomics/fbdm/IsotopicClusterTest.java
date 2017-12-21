@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class IsotopicClusterTest {
-    private static final double MIN = Double.MIN_VALUE;
+    private static final double MIN = 0.00000000000000001;
 
     @Test
     public void aggregation() throws Exception {
