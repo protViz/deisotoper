@@ -21,7 +21,7 @@ Suggests: DiagrammeR,
   testthat,
   knitr,
   rmarkdown
-SystemRequirements: Java JDK 1.8 or higher, GNU make
+SystemRequirements: Java (>= 8.0)
 Description: Provides a low-level interface for a deisotoper container 
   implemented in the 'Java' programming language and means of S3 helper 
   functions for plotting and debugging isotopes of mass spectrometric data. 
