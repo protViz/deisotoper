@@ -8,7 +8,7 @@
 ^.*vignettes/.*.Rmd$
 ^.*inst/doc/.*.tex$
 ^.*travis.*
-^.*inst/shiny.*$
+^.*inst/shiny/de.*$
 ^.*inst/extdata.*$
 ^.*R/mzXML.*$
 ^.*R/mgf.*$
