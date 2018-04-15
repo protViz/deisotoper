@@ -1,7 +1,7 @@
 package ch.fgcz.proteomics.dto;
 
-/**
- * @author Lucas Schmidt
+/*
+  @author Lucas Schmidt
  * @since 2017-08-22
  */
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MassSpecMeasure {
-    private List<MassSpectrum> massSpectrumList = new ArrayList<>();
+    private List<MassSpectrum> massSpectrumList;
     private String source;
 
     public String getSource() {
@@ -34,15 +34,15 @@ public class MassSpecMeasure {
             intensityValues.add(intensity[i]);
         }
 
-        this.getMSlist().add(new MassSpectrum(mzValues, intensityValues, peptideMass, chargeState, id));
+        massSpectrumList.add(new MassSpectrum(mzValues, intensityValues, peptideMass, chargeState, id));
     }
 
     public void addMS(List<Double> mz, List<Double> intensity, double peptidMass, int chargeState, int id) {
-        this.getMSlist().add(new MassSpectrum(mz, intensity, peptidMass, chargeState, id));
+        massSpectrumList.add(new MassSpectrum(mz, intensity, peptidMass, chargeState, id));
     }
 
     public void addMS(List<Double> mz, List<Double> intensity, double peptidMass, int chargeState, int id,
             List<Integer> charge, List<Double> isotope) {
-        this.getMSlist().add(new MassSpectrum(mz, intensity, peptidMass, chargeState, id, charge, isotope));
+        massSpectrumList.add(new MassSpectrum(mz, intensity, peptidMass, chargeState, id, charge, isotope));
     }
 }

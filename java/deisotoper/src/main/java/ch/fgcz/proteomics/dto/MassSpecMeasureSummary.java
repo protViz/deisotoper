@@ -1,26 +1,20 @@
 package ch.fgcz.proteomics.dto;
 
-/**
- * @author Lucas Schmidt
- * @since 2017-08-25
- */
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MassSpecMeasureSummary {
+class MassSpecMeasureSummary {
     private MassSpecMeasureSummary() {
         throw new IllegalStateException("Summary class");
     }
 
-    public static String summarize(MassSpecMeasure massSpectrometryMeasurement) {
+    static String summarize(MassSpecMeasure massSpectrometryMeasurement) {
         StringBuilder stringBuilder = new StringBuilder();
         String lineSep = System.getProperty("line.separator");
         stringBuilder.append("SpectrumID,Attribute,Value").append(lineSep);
 
-        List<MassSpectrum> massSpectrumList = massSpectrometryMeasurement.getMSlist();
-        for (MassSpectrum massSpectrum : massSpectrumList) {
+        for (MassSpectrum massSpectrum : massSpectrometryMeasurement.getMSlist()) {
 
             buildFirstPart(massSpectrum, stringBuilder, lineSep);
 
