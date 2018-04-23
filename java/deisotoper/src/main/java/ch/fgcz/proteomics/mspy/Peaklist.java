@@ -21,8 +21,8 @@ public class Peaklist {
         return pList;
     }
 
-    public void setPeaklist(List<Peak> peaklist) {
-        this.pList = peaklist;
+    public void setPeaklist(List<Peak> peakList) {
+        this.pList = peakList;
     }
 
     public Peaklist(MassSpectrum ms) {

@@ -222,9 +222,9 @@ public class Score {
         return f4;
     }
 
-    public int firstAminoAcidDistanceScore(double x, PeakList peaklist, ScoringConfiguration config) {
+    public int firstAminoAcidDistanceScore(double x, PeakList peakList, ScoringConfiguration config) {
         int peaklistScore = 0;
-        for (Peak y : peaklist.getPeakList()) {
+        for (Peak y : peakList.getPeakList()) {
             peaklistScore += firstAminoAcidDistanceScore(x, y.getMz(), config);
         }
         return peaklistScore;

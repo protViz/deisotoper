@@ -24,40 +24,40 @@ public class Mspy {
         throw new IllegalStateException("This is an algorithm");
     }
 
-    public static List<Peak> deisotope(List<Peak> peaklist, int maxcharge, double mztolerance, double inttolerance,
+    public static List<Peak> deisotope(List<Peak> peakList, int maxcharge, double mztolerance, double inttolerance,
             double isotopeshift) {
 
-        for (Peak p : peaklist) {
+        for (Peak p : peakList) {
             p.setCharge(-1); // -1 = None
             p.setIsotope(-1); // -1 = None
         }
 
         List<Integer> charges = initializeCharges(maxcharge);
 
-        int maxindex = peaklist.size();
+        int maxindex = peakList.size();
 
         int x = 0;
-        for (Peak parent : peaklist) {
+        for (Peak parent : peakList) {
             if (parent.getIsotope() != -1) {
                 continue;
             }
 
-            x = goThroughPossibleCharges(charges, peaklist, parent, x, maxindex, isotopeshift, mztolerance,
+            x = goThroughPossibleCharges(charges, peakList, parent, x, maxindex, isotopeshift, mztolerance,
                     inttolerance);
         }
 
         // REMOVE EMTPY PEAKS
-        List<Peak> list = removeEmptyPeaks(peaklist);
+        List<Peak> list = removeEmptyPeaks(peakList);
 
         sortPeaklist(list);
 
         return list;
     }
 
-    private static int goThroughPossibleCharges(List<Integer> charges, List<Peak> peaklist, Peak parent, int x, // NOSONAR
+    private static int goThroughPossibleCharges(List<Integer> charges, List<Peak> peakList, Peak parent, int x, // NOSONAR
             int maxindex, double isotopeshift, double mztolerance, double inttolerance) { // NOSONAR
         for (int z : charges) { // NOSONAR
-            List<Peak> cluster = collectPeaksForCluster(peaklist, parent, x, z, maxindex, isotopeshift, mztolerance);
+            List<Peak> cluster = collectPeaksForCluster(peakList, parent, x, z, maxindex, isotopeshift, mztolerance);
 
             if (cluster.size() == 1) {
                 continue; // NOSONAR
@@ -125,7 +125,7 @@ public class Mspy {
         return valid2;
     }
 
-    private static List<Peak> collectPeaksForCluster(List<Peak> peaklist, Peak parent, int x, int z, int maxindex,
+    private static List<Peak> collectPeaksForCluster(List<Peak> peakList, Peak parent, int x, int z, int maxindex,
             double isotopeshift, double mztolerance) {
         List<Peak> cluster = new ArrayList<>();
         cluster.add(parent);
@@ -133,9 +133,9 @@ public class Mspy {
         double difference = (ISOTOPE_DISTANCE + isotopeshift) / Math.abs(z);
         int y = 1;
         while (x + y < maxindex) {
-            double mzerror = (peaklist.get(x + y).getMz() - cluster.get(cluster.size() - 1).getMz() - difference);
+            double mzerror = (peakList.get(x + y).getMz() - cluster.get(cluster.size() - 1).getMz() - difference);
             if (Math.abs(mzerror) <= mztolerance) {
-                cluster.add(peaklist.get(x + y));
+                cluster.add(peakList.get(x + y));
             } else if (mzerror > mztolerance) {
                 break;
             }
@@ -180,12 +180,12 @@ public class Mspy {
         return (mass + agentmass * agentcount2) / Math.abs(charge);
     }
 
-    public static List<Peak> removeEmptyPeaks(List<Peak> peaklist) {
+    public static List<Peak> removeEmptyPeaks(List<Peak> peakList) {
         List<Peak> peaklistout = new ArrayList<>();
 
-        for (int i = 0; i < peaklist.size(); i++) {
-            if (peaklist.get(i).getIsotope() != -1.0 && peaklist.get(i).getCharge() != -1) {
-                peaklistout.add(peaklist.get(i));
+        for (int i = 0; i < peakList.size(); i++) {
+            if (peakList.get(i).getIsotope() != -1.0 && peakList.get(i).getCharge() != -1) {
+                peaklistout.add(peakList.get(i));
             }
         }
 
@@ -328,11 +328,11 @@ public class Mspy {
         return patternLookupTable.get(mass);
     }
 
-    public static List<Peak> deconvolute(List<Peak> peaklist) {
+    public static List<Peak> deconvolute(List<Peak> peakList) {
         List<Peak> buff = new ArrayList<>();
         List<Peak> peaklistcopy = new ArrayList<>();
 
-        for (Peak e : peaklist) {
+        for (Peak e : peakList) {
             peaklistcopy.add(e);
         }
 
@@ -359,11 +359,11 @@ public class Mspy {
             }
         }
 
-        peaklist = buff;
+        peakList = buff;
 
-        peaklist = sortPeaklist(peaklist);
+        peakList = sortPeaklist(peakList);
 
-        return peaklist;
+        return peakList;
     }
 
     private static List<Peak> sortPeaklist(List<Peak> list) {

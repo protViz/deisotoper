@@ -171,7 +171,7 @@ public class IsotopicSet {
         return isotopicClusters;
     }
 
-    private void setBestPath(PeakList peaklist, List<IsotopicCluster> isotopicClusters, Configuration config) {
+    private void setBestPath(PeakList peakList, List<IsotopicCluster> isotopicClusters, Configuration config) {
         // FIRST GRAPH AND BEST PATH
         List<IsotopicCluster> isotopicClustersForBestPath = new ArrayList<>(isotopicClusters);
 
