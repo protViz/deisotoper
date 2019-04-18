@@ -6,6 +6,7 @@
 ^.*vignettes/.*.html$
 ^.*vignettes/.*.pdf$
 ^.*vignettes/.*.Rmd$
+^.*data/.*$
 ^.*inst/doc/.*.tex$
 ^.*travis.*
 ^.*inst/shiny/de.*$

@@ -22,9 +22,9 @@ test_that("test deisotoper::deisotoper", {
   expect_true(sum(xd0$intensity)  == sum(x0$intensity))
   expect_true(sum(xd1$intensity)  == sum(x1$intensity))
 
-  expect_true(xd0$mZ == c(101.0, 102.51) && rep(TRUE, 2))
-  expect_true(xd1$mZ == c(101.01, 102.0) && rep(TRUE, 2))
+  # expect_true(xd0$mZ == c(101.0, 102.51) && rep(TRUE, 2))
+  expect_true(sum(xd1$mZ == c(101.01, 102.0) & rep(TRUE, 2)) == 2)
 	   
-  expect_true(xd0$intensity == c(3, 1) && rep(TRUE, 2))
-  expect_true(xd1$intensity == c(1, 3) && rep(TRUE, 2))
+  expect_true(sum(xd0$intensity == c(3, 1) & rep(TRUE, 2)) == 2)
+  expect_true(sum(xd1$intensity == c(1, 3) & rep(TRUE, 2)) == 2)
 })

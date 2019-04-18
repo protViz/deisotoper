@@ -1,22 +1,19 @@
 Package: deisotoper
 Type: Package
 Title: Detection of Isotope Pattern of a Mass Spectrometric Measurement
-Version: 0.0.5
+Version: 0.0.7
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch",
 	role = c("cre", "aut"), comment = c(ORCID = "0000-0003-1975-3064")),
 	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com",
 	role = c("ctb", "aut"), comment = c(ORCID = "0000-0003-4496-0487")),
 	person("Witold E.", "Wolski", role = c("ctb", "aut"), comment=c(ORCID = "0000-0002-6468-120X")))
-Author: Christian Panse [cre, aut] (0000-0003-1975-3064),
-	Lucas Schmidt [ctb, aut] (0000-0003-4496-0487),
-	Witold E. Wolski [ctb, aut] (0000-0002-6468-120X)
-Maintainer: Witold Wolski <wewolski@gmail.com>
-Depends: R (>= 3.0),
+Maintainer: Christian Panse <cp@fgcz.ethz.ch>
+Depends: R (>= 3.5),
 	rJava (>= 0.9)
 Suggests: DiagrammeR,
   lattice, 
   roxygen2,
-  protViz (>= 0.2.45),
+  protViz (>= 0.4.0),
   shiny,
   testthat,
   knitr,
