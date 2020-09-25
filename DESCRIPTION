@@ -5,7 +5,7 @@ Version: 0.0.7
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch",
 	role = c("cre", "aut"), comment = c(ORCID = "0000-0003-1975-3064")),
 	person("Lucas", "Schmidt", email = "Lucas.Schmidt@gmail.com",
-	role = c("ctb", "aut"), comment = c(ORCID = "0000-0003-4496-0487")),
+	role = c("ctb", "aut"), comment = c(ORCID = "0000-0003-1900-3060")),
 	person("Witold E.", "Wolski", role = c("ctb", "aut"), comment=c(ORCID = "0000-0002-6468-120X")))
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.5),
